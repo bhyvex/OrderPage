@@ -1,0 +1,47 @@
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="Atomia.Web.Base.MultilanguageEditor" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head id="Head1" runat="server">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-COMPATIBLE" content="IE=8" />
+        <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+        <!-- Add CSS -->
+	    <% Html.RenderPartial("CssIncludes"); %>
+    	
+	    <!-- Add Javascript -->
+	    <% Html.RenderPartial("JsIncludes"); %>
+    </head>
+    <body>
+        <%= Html.UntraslatedResources()%>
+        <div class="container">
+	        <div id="header" class="span-24">
+				<a href="http://www.atomia.com/">
+					<img height="44" width="168" src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "Atomia.png"))%>" alt="Atomia."/>
+				</a>
+		        <h1><%= Html.Resource("Common, Header") %></h1>
+	        </div>
+            <div id="header_settings" class="span-24">
+		        <ul>
+			        <li><a href="help.html"><%= Html.Resource("Common, Help") %></a></li>
+		        </ul>
+            </div>
+	        <div class="span-8" id="sidebar">
+		        <div class="submenu">
+		        </div>
+	        </div>
+	        <div class="span-16 last" id="homecontent">			
+		        <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server" />  
+		        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+	        </div>
+	        <div id="footer" class="span-24">
+		        <p>Atomia &copy;<%= DateTime.Now.Year.ToString() %></p>
+	        </div>
+	    </div>
+	    <div id="partials">
+            <% Html.RenderPartial("PartialsContainer"); %>
+        </div>
+	    <% Html.RenderPartial("WideLayout"); %> <!-- ATOMIA WIDE LAYOUT -->
+    </body>
+</html>

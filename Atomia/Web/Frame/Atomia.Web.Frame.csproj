@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{30F886E5-ED4C-49B0-86E1-68954CA67E47}</ProjectGuid>
+    <ProjectTypeGuids>{F85E285D-A4E0-4152-9332-AB1D724D3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Atomia.Web.Frame</RootNamespace>
+    <AssemblyName>Atomia.Web.Frame</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Atomia.Web.Base, Version=2.0.1.123, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Atomia.Web.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.DomainSearch, Version=2.0.1.127, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Atomia.Web.Plugin.DomainSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.OrderServiceReferences, Version=1.1.1.38, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Atomia.Web.Plugin.OrderServiceReferences.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Solution\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\LocaleModel.cs" />
+    <Compile Include="Models\LocalePickerFormData.cs" />
+    <Compile Include="Models\LanguageModel.cs" />
+    <Compile Include="Models\LanguagePickerFormData.cs" />
+    <Compile Include="Views\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Scripts\MicrosoftMvcJQueryValidation.js" />
+    <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginForm.ascx" />
+    <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateCCPayment.ascx" />
+    <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreatePayWithInvoice.ascx" />
+    <Content Include="Views\Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\Shared\Site.Master" />
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Plugins\PublicOrder\Atomia.Web.Plugin.PublicOrder.csproj">
+      <Project>{D55DE931-4AD0-47DD-B544-4093F6ADD1D3}</Project>
+      <Name>Atomia.Web.Plugin.PublicOrder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\BreadCrumbItems.resx">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Original Files\Web.config" />
+    <Content Include="App_Data\Original Files\atomiaRegularExpressionConfig.config" />
+    <Content Include="App_Data\atomiaRegularExpressionConfig.config" />
+    <None Include="PostPublish.bat" />
+    <Content Include="Themes\Default\Views\Web.config" />
+    <Content Include="Themes\Default\Site.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Common.resx">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\ValidationErrors.resx">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Content\css\ie.css" />
+    <Content Include="Themes\Default\Content\css\screen.css" />
+    <Content Include="Themes\Default\Content\css\style.css" />
+    <Content Include="Themes\Default\Content\css\vtip.css" />
+    <Content Include="Themes\Default\Content\img\Atomia.png" />
+    <Content Include="Themes\Default\Content\img\atomia\Atomia.png" />
+    <Content Include="Themes\Default\Content\img\atomia\favicon.ico" />
+    <Content Include="Themes\Default\Content\img\atomia\favicon.png" />
+    <Content Include="Themes\Default\Content\img\atomia\preview.png" />
+    <Content Include="Themes\Default\Content\img\gui\bg_6c0_fade.png" />
+    <Content Include="Themes\Default\Content\img\gui\bg_999_fade.png" />
+    <Content Include="Themes\Default\Content\img\gui\bg_f30_fade.png" />
+    <Content Include="Themes\Default\Content\img\gui\bg_f90_fade.png" />
+    <Content Include="Themes\Default\Content\img\gui\btn-minus.png" />
+    <Content Include="Themes\Default\Content\img\gui\btn-plus.png" />
+    <Content Include="Themes\Default\Content\img\gui\global_search.png" />
+    <Content Include="Themes\Default\Content\img\gui\horibar_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\horibar_scale.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_action_submenu_r_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_action_submenu_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_add_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_button_menu_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_close_button_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_current.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_current_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_fancy_menu_dropdown.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_header_submenu_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_less_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_more_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_next_button_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_prev_button_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_processing_blue.gif" />
+    <Content Include="Themes\Default\Content\img\gui\icn_processing_gray.gif" />
+    <Content Include="Themes\Default\Content\img\gui\icn_remove_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\overlay-button.png" />
+    <Content Include="Themes\Default\Content\img\gui\passmeter\bad.png" />
+    <Content Include="Themes\Default\Content\img\gui\passmeter\good.png" />
+    <Content Include="Themes\Default\Content\img\gui\passmeter\short.png" />
+    <Content Include="Themes\Default\Content\img\gui\passmeter\strong.png" />
+    <Content Include="Themes\Default\Content\img\gui\submenu_active_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\submenu_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_current_above.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_current_above2.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_current_below.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_current_below2.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_nav-first.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_nav-last.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_nav-next.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_nav-prev.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_paginate_active_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_paginate_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_sort_asc.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_sort_both.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_sort_desc.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_td_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\table_th_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\application.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\code.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\css.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\db.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\directory.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\doc.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\file.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\film.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\flash.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\folder_open.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\html.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\java.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\linux.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\music.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\pdf.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\php.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\picture.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\ppt.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\psd.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\ruby.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\script.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\spinner.gif" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\txt.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\xls.png" />
+    <Content Include="Themes\Default\Content\img\gui\treeview\zip.png" />
+    <Content Include="Themes\Default\Content\img\gui\vtip_arrow.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_activate.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_calculate.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_cancel.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_change_password.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_change_status.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_close.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_credit.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_deactivate.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_deactivate_d.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_delete.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_edit.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_move.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_open_list.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_options.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_pay.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_print.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_process.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_reset.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_send.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_start.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_stop.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_suspend.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_terminate.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_unsuspend.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_upgrade.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_verify.png" />
+    <Content Include="Themes\Default\Content\img\icons\act_view.png" />
+    <Content Include="Themes\Default\Content\img\icons\crd_credit.png" />
+    <Content Include="Themes\Default\Content\img\icons\crd_details.png" />
+    <Content Include="Themes\Default\Content\img\icons\crd_invoices.png" />
+    <Content Include="Themes\Default\Content\img\icons\crd_status.png" />
+    <Content Include="Themes\Default\Content\img\icons\crd_subscriptions.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_advweb_virt_dir.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dbs_mssql.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dbs_mysql.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dmn_atc.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dmn_dmn_subs.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dmn_dns.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dmn_nms.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_dmn_tst.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_eml_accs.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_eml_dflt.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_eml_fwds.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_eml_lists.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_fls_ftp.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_fls_ssh.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_web_err_pgs.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_web_pass_prot.png" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_web_stats.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_404.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_maintenance.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_not_auth.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_parking.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_resource_not_found.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_suspended.png" />
+    <Content Include="Themes\Default\Content\img\icons\err_unknown_error.png" />
+    <Content Include="Themes\Default\Content\img\icons\flg_en.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_customer.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_customer_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_info.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_info_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_less_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_more_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_processing_transparent.gif" />
+    <Content Include="Themes\Default\Content\img\icons\icn_reseller.png" />
+    <Content Include="Themes\Default\Content\img\icons\icn_reseller_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_adjust_payment.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_canceled.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_closed.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_credited.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_inactive.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_inProgress.gif" />
+    <Content Include="Themes\Default\Content\img\icons\sts_manual_review.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_manual_review_ok.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_new.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_not_a_reseller.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_ok.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_overpaid.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_pending.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_placement_failed.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_placement_failed_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_placement_ok.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_renew.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_renew_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_sent.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_suspended.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_timed_out.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_underpaid.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_unmatched.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_unsuspended.png" />
+    <Content Include="Themes\Default\Content\img\icons\sts_warning.png" />
+    <Content Include="Themes\Default\Content\img\layout\actions-bg.png" />
+    <Content Include="Themes\Default\Content\img\layout\actions-bg_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\actions-bg_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\actions-bg_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_breadcrumb.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_bottom.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_bottom_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_bottom_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_bottom_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_top2.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_top2_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_top2_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_col630_top2_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_footer.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_footer_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_main.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_sidebar_bottom.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_sidebar_top.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_sidebar_top_history.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_sidebar_top_tasks.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_top.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_topmenu.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_topmenu_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_top_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\breadcrumb.png" />
+    <Content Include="Themes\Default\Content\img\layout\breadcrumb_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\breadcrumb_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\breadcrumb_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_btm.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_btm_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_btm_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_btm_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_mid.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_mid_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_mid_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_mid_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_top.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_top_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_top_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\preview_top_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\progress.png" />
+    <Content Include="Themes\Default\Content\img\layout\progress_current.png" />
+    <Content Include="Themes\Default\Content\img\layout\progress_nos_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\progress_w.png" />
+    <Content Include="Themes\Default\Content\img\layout\tasks_bg.png" />
+    <Content Include="Themes\Default\Scripts\AtomiaBase.js" />
+    <Content Include="Themes\Default\Scripts\jquery-1.3.2.min.js" />
+    <Content Include="Themes\Default\Scripts\jquery-ui-1.7.2.custom.min.js" />
+    <Content Include="Themes\Default\Scripts\jquery.validate.js" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.en-GB.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.en-US.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.en-GB.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.en-US.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\Home\Help.aspx" />
+    <Content Include="Themes\Default\Views\Home\Index.aspx" />
+    <Content Include="Themes\Default\Views\Home\LoremIpsum.aspx" />
+    <Content Include="Themes\Default\Views\Home\Secret.aspx" />
+    <Content Include="Themes\Default\Views\Home\UnderConstruction.aspx" />
+    <Content Include="Themes\Default\Views\Shared\CssIncludes.ascx" />
+    <Content Include="Themes\Default\Views\Shared\Error.aspx" />
+    <Content Include="Themes\Default\Views\Shared\Footer.ascx" />
+    <Content Include="Themes\Default\Views\Shared\Header.ascx" />
+    <Content Include="Themes\Default\Views\Shared\JsIncludes.ascx" />
+    <Content Include="Themes\Default\Views\Shared\PartialsContainer.ascx" />
+    <Content Include="Themes\Default\Views\Shared\WideLayout.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\DefaultCommon.resx">
+    </Content>
+    <Content Include="DirtyPackageChecker.exe" />
+    <Content Include="Themes\Default\Content\img\icons\flg_pl.png" />
+    <Content Include="Themes\Default\Content\img\icons\flg_sv.png" />
+    <Content Include="Themes\Default\Scripts\json2.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.sv-SE.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.en-US.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.resx" />
+    <Content Include="Themes\Default\Views\Shared\LocalePicker.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Themes\Default\Views\Shared\LanguagePicker.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.sv-SE.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.en-US.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\BreadCrumbItems.sv.resx">
+    </Content>
+    <Content Include="App_GlobalResources\Common.sv.resx">
+    </Content>
+    <Content Include="App_GlobalResources\DefaultCommon.sv.resx">
+    </Content>
+    <Content Include="App_GlobalResources\ValidationErrors.sv.resx">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\elmah_logs\" />
+    <Folder Include="App_Data\Transformation Files\" />
+    <Folder Include="Themes\Default\Content\pluginCss\" />
+    <Folder Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\" />
+    <Folder Include="Transformation Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.en-US.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.sv-SE.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  <Target Name="BeforeBuild">
+    <Message Text="##############Before build##################" Importance="high" />
+    <RemoveDir Directories="publish" ContinueOnError="true" />
+  </Target>
+  <Target Condition="'$(Configuration)' == 'Release'" Name="AfterBuild">
+    <Message Text="##############After build##################$(OutputFolder)" Importance="high" />
+    <MSBuild Projects="$(ProjectName).csproj" Targets="_CopyWebApplication" Properties="WebProjectOutputDir=publish\files\;OutDir=publish\files\bin\" />
+    <Exec Command="PostPublish.bat $(Configuration)" ContinueOnError="true" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>52143</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://order.int.atomia.com</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(SolutionDir)..\Lib\*.dll" "$(SolutionDir)..\Frame\bin"
+copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.HostingProducts.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.HostingProducts.dll.config"
+copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.DomainSearch.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.DomainSearch.dll.config"
+copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.Cart.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.Cart.dll.config"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

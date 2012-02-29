@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D55DE931-4AD0-47DD-B544-4093F6ADD1D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Atomia.Web.Plugin.PublicOrder</RootNamespace>
+    <AssemblyName>Atomia.Web.Plugin.PublicOrder</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Atomia.Billing.Core.Common, Version=1.0.10.1363, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.Billing.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Common, Version=1.0.12.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Base, Version=2.0.1.123, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.Web.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.Cart">
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.Cart.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.DomainSearch">
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.DomainSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.HostingProducts">
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.HostingProducts.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.OrderServiceReferences, Version=1.0.1.37, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.OrderServiceReferences.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.PaymentForm">
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.PaymentForm.dll</HintPath>
+    </Reference>
+    <Reference Include="Atomia.Web.Plugin.ServiceReferences, Version=2.0.1.236, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.ServiceReferences.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="idnlib, Version=1.0.2.0, Culture=neutral, PublicKeyToken=3eacd9f3dbc38099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\idnlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Solution\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Configurations\PublicOrderConfigurationSection.csd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PublicOrderConfigurationSection.csd</DependentUpon>
+    </Compile>
+    <Compile Include="Configurations\PublicOrderConfigurationSection.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\PublicOrderPartialsController.cs" />
+    <Compile Include="Filters\LocalizationDataLoader.cs" />
+    <Compile Include="Filters\UrlManagerAttribute.cs" />
+    <Compile Include="GeneralItems\GlobalEventsHandler.cs" />
+    <Compile Include="GeneralItems\InternationalizationProvider.cs" />
+    <Compile Include="Helpers\ActionTrail\OrderPageLogger.cs" />
+    <Compile Include="Helpers\CountriesHelper.cs" />
+    <Compile Include="Helpers\GeneralHelper.cs" />
+    <Compile Include="Helpers\IndexHelper.cs" />
+    <Compile Include="Helpers\LocalConfigurationHelper.cs" />
+    <Compile Include="Helpers\MasterPageLocationProviderImplementer.cs" />
+    <Compile Include="Helpers\PartialsProviderImplementer.cs" />
+    <Compile Include="Helpers\PaymentHelper.cs" />
+    <Compile Include="Helpers\PluginFileLoaderImplementer.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Models\IndexForm.cs" />
+    <Compile Include="Models\PaymentFormData.cs" />
+    <Compile Include="Models\SubmitForm.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\PublicOrderController.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\PublicOrder\PublicOrder\PaymentFailed.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrder\Thankyou.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrder\Select.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrder\Index.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Configurations\PublicOrderConfigurationSection.csd">
+      <Generator>CsdFileGenerator</Generator>
+      <LastGenOutput>PublicOrderConfigurationSection.csd.cs</LastGenOutput>
+    </None>
+    <None Include="Configurations\PublicOrderConfigurationSection.csd.config">
+      <DependentUpon>PublicOrderConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="Configurations\PublicOrderConfigurationSection.csd.xsd">
+      <DependentUpon>PublicOrderConfigurationSection.csd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\PublicOrder\atomia.ids.generator.js" />
+    <Content Include="Scripts\PublicOrder\AtomiaBillingCart.js" />
+    <Content Include="Scripts\PublicOrder\Index.js" />
+    <Content Include="Scripts\PublicOrder\jquery.numberformatter.js" />
+    <Content Include="Scripts\PublicOrder\jquery.timers.js" />
+    <Content Include="Scripts\PublicOrder\json2.js" />
+    <Content Include="Scripts\PublicOrder\jsvat.js" />
+    <Content Include="Scripts\PublicOrder\Select.js" />
+    <Content Include="Scripts\PublicOrder\vtip.js" />
+    <Content Include="Scripts\PublicOrder\zNotification.js" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.resx" />
+    <Content Include="Views\PublicOrder\Error\NotEnoughPrivileges.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\Error\NotFound.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\Error\ResourceNotFound.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\Error\Unknown.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrderPartials\Cart.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrderPartials\DomainSearch.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrder\Tos.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.en-US.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.en-US.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.en-US.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.en-US.resx" />
+    <Content Include="Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.resx">
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.resx">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.sv.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.resx" />
+    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.sv.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\css\" />
+    <Folder Include="Content\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>md "$(SolutionDir)..\Frame\Themes\Default"
+if errorlevel 4 goto skipError
+if errorlevel 0 goto skipError
+:skipError
+md "$(SolutionDir)..\Frame\Themes\Default\Content"
+if errorlevel 4 goto skipError1
+if errorlevel 0 goto skipError1
+:skipError1
+md "$(SolutionDir)..\Frame\Themes\Default\Scripts\PluginScripts\PublicOrder"
+if errorlevel 4 goto skipError2
+if errorlevel 0 goto skipError2
+:skipError2
+md "$(SolutionDir)..\Frame\Themes\Default\Views"
+if errorlevel 4 goto skipError3
+if errorlevel 0 goto skipError3
+:skipError3
+xcopy /s /e /y "$(ProjectDir)Views" "$(SolutionDir)..\Frame\Themes\Default\Views"
+xcopy /s /e /y "$(ProjectDir)bin\$(Configuration)" "$(SolutionDir)..\Frame\bin"
+xcopy /s /e /y "$(ProjectDir)Scripts" "$(ProjectDir)..\..\Frame\Themes\Default\Scripts\PluginScripts\PublicOrder"</PostBuildEvent>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

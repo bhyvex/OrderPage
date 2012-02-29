@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="*" Name="Atomia Public Order Page" Language="1033" Version="$(var.Version)" Manufacturer="Atomia AB" UpgradeCode="{F5C8D62F-E29F-44AB-AF65-F76D78EFE3B0}">
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <CustomActionRef Id="ShowIniUI"/>
+    <CustomActionRef Id="RunTransform"/>
+    <CustomActionRef Id="Backup"/>
+
+    <MajorUpgrade DowngradeErrorMessage="Higher Version already installed." Schedule="afterInstallInitialize" AllowSameVersionUpgrades="no" />
+    
+    <WixVariable Id="Host" Value="[ORDERHOST]"/>
+
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="GENERALLOCATION" Name="Atomia">
+        <Directory Id="FProduct" Name="PublicOrderPage">
+          <Component Id="CSetPriviliges" Guid="{30230999-E47E-4931-B042-F96F4453E724}">
+            <CreateFolder>
+              <util:PermissionEx GenericAll="yes" User="[GENERALUSER]" />
+            </CreateFolder>
+          </Component>
+          <Component Id="CMakeConfig" Guid="{213BF805-0E56-4351-A7E2-07CC81255877}">
+            <CreateFolder/>
+            <Shortcut Id="MakeConfig" Target="[XMLTRANS]" Arguments="&quot;[FProduct]\&quot; &quot;[INIFILE]&quot;" Name="Recreate config files" Description="Recreates the config files using the Atomia Transformation Engine"/>
+          </Component>
+          <Component Id="CRegister" Guid="{0B0E44DF-3F83-4A2A-AD90-957D270249A0}">
+            <RegistryKey Action="create" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Atomia.Web.Plugin.PublicOrder.dll">
+              <RegistryValue Type="string" Value="[FProduct]bin\Atomia.Web.Plugin.PublicOrder.dll"/>
+              <RegistryValue Type="string" Value="[FProduct]" Name="Path" />
+            </RegistryKey>
+          </Component>
+          <Component Id="CWebsite" Guid="">
+            <CreateFolder/>
+            <iis:WebSite Id="Website" Description="[ORDERHOST]" StartOnInstall="yes" Directory="FProduct" ConfigureIfExists="no" AutoStart="yes">
+              <iis:WebAddress Id="WebAddressS" Header="[ORDERHOST]" Secure="yes" Port="443"/>
+              <iis:WebApplication Id="WebApp" Name="[ORDERHOST]" WebAppPool="AppPoolI"/>
+            </iis:WebSite>
+            <iis:WebSite Id="WebsiteRedir" Description="redirect.[ORDERHOST]" StartOnInstall="yes" Directory="FRedirect" ConfigureIfExists="no" AutoStart="yes">
+              <iis:WebAddress Id="WebAddress" Header="[ORDERHOST]" Port="80"/>
+              <iis:WebApplication Id="WebAppRedirect" Name="redirect.[ORDERHOST]" WebAppPool="AppPoolI"/>
+            </iis:WebSite>
+          </Component>
+
+          <Directory Name="redirection" Id="FRedirect">
+            <Directory Name="Original Files" Id="FOrigRedir">
+              <Component Id="COrgWeb" Guid="{7AAED51B-F293-4495-8403-640539BD1E85}">
+                <File Id="OrgWeb" Source="web.config"/>
+              </Component>
+            </Directory>
+            <Directory Name="Transformation Files" Id="FTransRedir">
+              <Component Id="CTransFolder" Guid="{D67661C0-397D-4CAA-8493-7EA969F87656}">
+                <CreateFolder/>
+              </Component>
+            </Directory>
+            <Component Id="CWeb" Guid="{BE41C29D-76F8-477D-902A-6BAD1A2927FD}">
+              <File Id="Web" Source="web.config"/>
+            </Component>
+          </Directory>
+
+          <Component Id="CStartStop" Guid="{9676945A-4A70-40DF-9835-E2A106A10AF6}">
+            <CreateFolder/>
+            <ServiceControl Id="W3SVC" Name="W3SVC" Start="both" Stop="both"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id="GENERALLOGFOLDER">
+        <Directory Id="FElmah" Name="Elmah">
+            <Directory Id="FPublicOrderPageLog" Name="PublicOrderPage">
+                <Component Guid="cf373985-b333-462b-beb9-71386ab273aa" Id="CPublicOrderPageLog">
+                    <CreateFolder />
+                </Component>
+            </Directory>
+        </Directory>
+    </DirectoryRef>
+
+    <Feature Id="ProductFeature" Title="Atomia.PublicOrder.Setup" Level="1">
+      <ComponentRef Id="CWebsite" />
+      <ComponentRef Id="CSetPriviliges" />
+      <ComponentRef Id="CRegister" />
+      <ComponentGroupRef Id="PHOP" />
+      <ComponentRef Id="CAppPoolI"/>
+      <ComponentRef Id="CLogFolder"/>
+      <ComponentRef Id="CStartStop"/>
+      <ComponentRef Id="CMakeConfig"/>
+	    <ComponentRef Id="CRegisterGuiApp"/>
+      <ComponentRef Id="COrgWeb"/>
+      <ComponentRef Id="CWeb"/>
+      <ComponentRef Id="CTransFolder"/>
+        <ComponentRef Id="CPublicOrderPageLog"/>
+    </Feature>
+
+  </Product>
+</Wix>

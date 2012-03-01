@@ -249,6 +249,18 @@
 
 	            <div class="formrow">
 		            <h5>
+                      <label class="required" for="contact_country"><span>*</span><%= Html.Resource("Country")%>:</label>
+                    </h5>
+		            <div class="col2row">
+                        <% var selectCountryList = new SelectList((List<SelectListItem>)ViewData["CountryList"], "Value", "Text", Model.CountryCode); %>
+                        <%= Html.DropDownList("CountryCode", selectCountryList)%>
+                        <%= Html.ValidationMessage("CountryCode")%>
+		            </div>
+		            <br class="clear" />
+	            </div>
+
+	            <div class="formrow">
+		            <h5>
 		              <label class="required" for="contact_phone"><span>*</span><%= Html.Resource("Telephone")%>:</label>
 		            </h5>
 		            <div class="col2row">
@@ -398,6 +410,18 @@
 			            </div>
 			            <br class="clear" />
 		            </div>
+
+	                <div class="formrow">
+		                <h5>
+                          <label class="required" for="invoice_country"><span>*</span><%= Html.Resource("Country")%>:</label>
+                        </h5>
+		                <div class="col2row">
+                            <%  selectCountryList = new SelectList((List<SelectListItem>)ViewData["CountryList"], "Value", "Text", Model.InvoiceCountryCode); %>
+                            <%= Html.DropDownList("InvoiceCountryCode", selectCountryList)%>
+                            <%= Html.ValidationMessage("InvoiceCountryCode")%>
+		                </div>
+		                <br class="clear" />
+	                </div>
 
 		            <div class="formrow">
 			            <h5>
@@ -551,8 +575,6 @@
 				<%= Html.Hidden("InvoiceFaxProcessed")%>
 		        <%= Html.Hidden("MobileProcessed")%>
                 <%= Html.Hidden("InvoiceMobileProcessed")%>
-		        <%= Html.Hidden("CountryCode", (string)ViewData["defaultCountry"])%>
-				<%= Html.Hidden("InvoiceCountryCode", (string)ViewData["defaultCountry"])%>
 		        <%= Html.Hidden("SearchDomains", Model.SearchDomains)%>
 		        <%= Html.Hidden("OwnDomain", ViewData["OwnDomain"])%>
 		        <%= Html.Hidden("FirstOption", (bool)ViewData["firstOption"])%>
@@ -637,6 +659,7 @@
 
 		    companyKeyUpBind();
 //            orgNumberKeyUpBind();
+            countryChangeBind(params);
 
             params = {};
             params.CheckEmailAction = '<%= Url.Action("CheckEmail", new { controller = "PublicOrder", area = "PublicOrder" }) %>';

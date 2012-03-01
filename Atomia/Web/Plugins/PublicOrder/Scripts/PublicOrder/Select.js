@@ -71,6 +71,15 @@ var companyKeyUpBind = function() {
     });
 };
 
+var countryChangeBind = function (params) {
+    $("#CountryCode").change(function () {
+        globalCounter++;
+        $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
+
+        $("#submit_form").validate();
+    });
+};
+
 //var orgNumberKeyUpBind = function () {
 //    $('#SubmitForm_OrgNumber').unbind().keyup(function (event) {
 //        if ($('#SubmitForm_OrgNumber').val() != '') {

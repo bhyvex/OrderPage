@@ -402,4 +402,7 @@
   <data name="VATValidationResultNotValidated" xml:space="preserve">
     <value>VAT-nummer kan inte valideras för tillfället pa grund av tekniska problem. Moms som visas pa fakturan kommer att debiteras om du beställer nu. Vänligen kontakta support eller försök igen senare.</value>
   </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
 </root>

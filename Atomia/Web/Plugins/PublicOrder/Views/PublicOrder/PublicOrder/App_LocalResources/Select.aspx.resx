@@ -402,4 +402,7 @@
   <data name="VATValidationResultNotValidated" xml:space="preserve">
     <value>VAT number cannot be validated at this moment due to technical problems. Tax shown on invoice will be charged if you order now. You can also contact customer service or try to order later.</value>
   </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
 </root>

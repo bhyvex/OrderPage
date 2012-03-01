@@ -6,7 +6,7 @@
 </asp:Content>
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="settingsbox">
-       <h3></h3>
+       <h3><%= Html.Resource("PageTitle")%></h3>
        <div class="settingsboxinner">
 	        <%= Html.ResourceNotEncoded(ViewData["TOSResource"].ToString())%>
 	        <br class="clear" />

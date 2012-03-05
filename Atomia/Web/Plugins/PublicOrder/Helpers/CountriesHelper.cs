@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+
 using Atomia.Web.Plugin.PublicOrder.Configurations;
 
 namespace Atomia.Web.Plugin.PublicOrder.Helpers
@@ -60,14 +60,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// </summary>
         /// <param name="countries">The countries.</param>
         /// <returns>Collection of countries.</returns>
-        public static List<SelectListItem> GetSupportedCountriesSelectList(List<Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.Country> countries)
+        public static List<SelectListItem> GetSupportedCountriesSelectList(List<OrderServiceReferences.AtomiaBillingPublicService.Country> countries)
         {
-            List<SelectListItem> countryList = new List<SelectListItem>();
-
-            foreach (Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.Country country in countries)
-            {
-                countryList.Add(new SelectListItem { Value = country.Code, Text = country.Name });
-            }
+            List<SelectListItem> countryList = countries.Select(country => new SelectListItem { Value = country.Code, Text = country.Name }).ToList();
 
             countryList.Sort((a, b) => a.Text.CompareTo(b.Text));
 
@@ -79,19 +74,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// </summary>
         /// <param name="countries">The countries.</param>
         /// <returns>Collection of country codes.</returns>
-        public static List<string> GetEUCountryCodes(List<Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.Country> countries)
+        public static List<string> GetEUCountryCodes(List<OrderServiceReferences.AtomiaBillingPublicService.Country> countries)
         {
-            List<string> countryList = new List<string>();
-
-            foreach (Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.Country country in countries)
-            {
-                if (country.Tag == "EU")
-                {
-                    countryList.Add(country.Code);
-                }
-            }
-
-            return countryList;
+            return (from country in countries where country.Tag == "EU" select country.Code).ToList();
         }
     }
 }

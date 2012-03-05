@@ -160,6 +160,7 @@
     <Compile Include="Helpers\PaymentHelper.cs" />
     <Compile Include="Helpers\PluginFileLoaderImplementer.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Helpers\ResellerHelper.cs" />
     <Compile Include="Models\IndexForm.cs" />
     <Compile Include="Models\PaymentFormData.cs" />
     <Compile Include="Models\SubmitForm.cs" />

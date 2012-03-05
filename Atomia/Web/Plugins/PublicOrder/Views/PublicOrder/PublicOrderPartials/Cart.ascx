@@ -8,7 +8,8 @@
            
 <script type="text/javascript">
 var switchedId;
-
+var showCommission = ('<%= Session["resellerAccountData"] != null %>').toLowerCase() == 'true';
+var footerColspan = '<%= Session["resellerAccountData"] != null ? 5 : 4 %>';
 $('#product_list').AtomiaShoppingCart(
     {
         OrderSubAmount: { display: true, tfoot: [ { "displayText" : "<%= Html.ResourceNotEncoded("Sum")%>", attr : { "colspan":"4", "style":"padding: 5px 10px;" } }, { attr : { "style":"padding: 5px 10px;" } }, { attr: { "style":"padding: 5px 10px;" } } ] },
@@ -20,8 +21,12 @@ $('#product_list').AtomiaShoppingCart(
         ProductPeriod: { display: true, change: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Period")%>" }, tbody: { attr: { "class":"right", style:"padding: 10px;"}, css: { } } },
         ProductPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Price") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
         ProductDiscount: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Discount") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
+        ProductCommission: { display: showCommission, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductTotalPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Amount") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
         ProductNumberOfItems: { display: false, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "Items" }, tbody: { attr: { "class":"right", style:"padding: 10px;"}, css: { } } },
+        OrderSubAmount: { display: true, tfoot: [{ displayText: "Subtotal", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderTaxes: { display: true, tfoot: [{ displayText: "VAT", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderTotal: { display: true, tfoot: [{ displayText: "Amount to pay", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
         PricesIncludingVAT: true,
         AddOrderAddressData: true,
 		vtipImagePath: "<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"])) %>",

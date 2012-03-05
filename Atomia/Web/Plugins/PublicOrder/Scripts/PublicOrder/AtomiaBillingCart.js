@@ -25,6 +25,7 @@ $.postJSON = function(url, data, callback) {
             ProductFullPrice: { display: false, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Full Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductDiscount: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Discount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
+            ProductCommission: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductTotalPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Amount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductAction: { display: false, thead: { attr: { 'scope': 'col', "class": "center" }, css: {}, displayText: " " }, tbody: { attr: { "class": "center" }, css: {}, displayText: "Del"} },
             OrderSubAmount: { display: true, tfoot: [{ displayText: "Subtotal", attr: { colspan: "4", style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
@@ -79,6 +80,7 @@ $.postJSON = function(url, data, callback) {
         ProductFullPrice: { display: false, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Full Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductDiscount: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Discount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
+        ProductCommission: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductTotalPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Amount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductAction: { display: false, thead: { attr: { 'scope': 'col', "class": "center" }, css: {}, displayText: " " }, tbody: { attr: { "class": "center" }, css: {}, displayText: "Del"} },
         OrderSubAmount: { display: true, tfoot: [{ displayText: "Subtotal", attr: { colspan: "4", style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
@@ -326,6 +328,9 @@ $.postJSON = function(url, data, callback) {
                     if ($.fn.AtomiaShoppingCart.options.ProductDiscount.display) {
                         theadArray[theadArray.length] = $.fn.AtomiaShoppingCart.options.ProductDiscount;
                     }
+                    if ($.fn.AtomiaShoppingCart.options.ProductCommission.display) {
+                        theadArray[theadArray.length] = $.fn.AtomiaShoppingCart.options.ProductCommission;
+                    }
                     if ($.fn.AtomiaShoppingCart.options.ProductTotalPrice.display) {
                         theadArray[theadArray.length] = $.fn.AtomiaShoppingCart.options.ProductTotalPrice;
                     }
@@ -428,6 +433,7 @@ $.postJSON = function(url, data, callback) {
                     $.fn.AtomiaShoppingCart.options.TermsOfServicesRenderFunction(data.ItemsTermsResName, data.ItemsTermsResValue);
 
                 }
+
                 triggerShortening($.fn.AtomiaShoppingCart.options.vtipImagePath);
 
                 // storing cart total
@@ -524,6 +530,9 @@ function CreateTBodyElement(tbodyElement, data) {
                         case "ProductDiscount":
                             $(tbodyTD).html(itemVal.ProductDiscount + ' <span class="currency">' + data.ShoppingCartCurrency + '</span>');
                             break;
+                        case "ProductCommission":
+                            $(tbodyTD).html(itemVal.ProductResellerCommission + ' <span class="currency">' + data.ShoppingCartCurrency + '</span>');
+                            break;
                         case "ProductTotalPrice":
                             $(tbodyTD).html(itemVal.ProductTotal + ' <span class="currency">' + data.ShoppingCartCurrency + '</span>');
                             $(tbodyTD).attr('id', GenerateCartPriceID(itemVal.ProductName));
@@ -552,7 +561,6 @@ function CreateTBodyElement(tbodyElement, data) {
         cartArray = new Array();
     }
 }
-
 function CreateTFootElement(elementName, elementFromJSON, tfootElement, data) {
     if (elementFromJSON.display) {
 

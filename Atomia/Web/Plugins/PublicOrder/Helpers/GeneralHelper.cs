@@ -5,8 +5,10 @@
 // <author> Ilija Nikolic </author>
 //-----------------------------------------------------------------------
 
+#region Using namespaces
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,14 +20,12 @@ using Atomia.Web.Base.Configs;
 using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Plugin.Cart.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
-using Elmah;
-using System.Configuration;
-using Atomia.Web.Plugin.ServiceReferences;
+using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
+
+#endregion Using namespaces
 
 namespace Atomia.Web.Plugin.PublicOrder.Helpers
 {
-    using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
-
     /// <summary>
     /// Helper class.
     /// </summary>
@@ -447,7 +447,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <returns></returns>
         public static bool TaxAreShownForReseller(Controller controller)
         {
-
             bool result = true;
             try
             {
@@ -468,8 +467,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             {
                OrderPageLogger.LogOrderPageException(ex);
             }
+
             return result;
         }
-
     }
 }

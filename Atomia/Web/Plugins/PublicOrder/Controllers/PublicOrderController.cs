@@ -5,6 +5,7 @@
 // <author> Ilija Nikolic </author>
 //-----------------------------------------------------------------------
 
+#region Using namespaces
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -31,6 +32,7 @@ using Atomia.Web.Plugin.PublicOrder.Models;
 using Elmah;
 using DomainDataFromXML = Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml;
 
+#endregion Using namespaces
 namespace Atomia.Web.Plugin.PublicOrder.Controllers
 {
     using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
@@ -53,6 +55,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Index()
         {
+            if (this.RouteData.Values.ContainsKey("resellerHash"))
+            {
+                ResellerHelper.LoadResellerIntoSession((string)this.RouteData.Values["resellerHash"]);
+            }
+
             ViewData["WasAnError"] = 0;
             if (Session["WasAnErrorFromQuery"] != null)
             {
@@ -83,7 +90,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                tldBasedRegexes = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
+                tldBasedRegexes = DomainSearchHelper.GetTLDBasedRegexes();
             }
             catch (Exception ex)
             {
@@ -129,8 +136,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
-                string countryCode = CountriesHelper.GetDefaultCountryCodeFromConfig();
-                string currencyCode = CountriesHelper.GetDefaultCurrencyCodeFromConfig(countryCode);
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+                string currencyCode = ResellerHelper.GetResellerCurrencyCode();
 
                 DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, currencyCode, countryCode);
             }
@@ -338,7 +345,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         public ActionResult Select()
         {
             // supported countries
-            string countryCode = CountriesHelper.GetDefaultCountryCodeFromConfig();
+            string countryCode = ResellerHelper.GetResellerCountryCode();
+
             // Check if there is locale setting for country in cookie ad set if there is)
             if (System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"] != null && !String.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"].Value))
             {
@@ -346,7 +354,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             ViewData["defaultCountry"] = countryCode;
-            string currencyCode = CountriesHelper.GetDefaultCurrencyCodeFromConfig(countryCode);
+            string currencyCode = ResellerHelper.GetResellerCurrencyCode();
 
             // Show or hide Personal number field
             bool showPersonalNumber = true;
@@ -434,6 +442,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 InvoiceCountryCode = countryCode
             };
 
+            if (this.Session["resellerAccountData"] != null)
+            {
+                submitForm.RadioBillingContact = "reseller";
+                submitForm.RadioTechContact = "reseller";
+            }
+
             if (orderByEmailEnabled && opcs.InvoiceByEmail.Default)
             {
                 submitForm.RadioPaymentMethod = "email";
@@ -487,7 +501,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["WasAnError"] = 0;
 
             // enabled payment method?
-            PublicOrderConfigurationSection opcs = Atomia.Web.Plugin.PublicOrder.Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+            PublicOrderConfigurationSection opcs = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
 
             bool paymentEnabled = Boolean.Parse(opcs.OnlinePayment.Enabled);
             bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
@@ -601,10 +615,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     if (!currentCart.Any(item => item.productID != setupFeeId && item.productID != selectedPackage.productID))
                     {
                         // There is only package (and setup fee) in the cart, raise ex that domain is needed as well
-
                         throw new AtomiaServerSideValidationException("ArrayOfProducts", this.GlobalResource("ValidationErrors, ErrorNoDomain"), SubmitForm);
                     }
-
                 }
             }
             catch (AtomiaServerSideValidationException ex)
@@ -619,13 +631,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 // call Billing to Submit form
                 try
                 {
-                    Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PublicOrder newOrder;
+                    OrderServiceReferences.AtomiaBillingPublicService.PublicOrder newOrder;
 
                     using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
                     {
                         service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
-                        Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PublicOrder myOrder = new Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PublicOrder();
+                        OrderServiceReferences.AtomiaBillingPublicService.PublicOrder myOrder = new OrderServiceReferences.AtomiaBillingPublicService.PublicOrder();
 
                         countryList = service.GetCountries().ToList();
 
@@ -665,7 +677,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         myOrder.Country = GeneralHelper.PrepareForSubmit(SubmitForm.CountryCode);
 
                         myOrder.Currency = "SEK";
-                        if (this.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string) this.Session["OrderCurrencyCode"]))
+                        if (this.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string)this.Session["OrderCurrencyCode"]))
                         {
                             myOrder.Currency = this.Session["OrderCurrencyCode"].ToString();
                         }
@@ -688,7 +700,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         foreach (ProductDescription tmpProduct in currentCart)
                         {
-                            //if it's setup fee, continue (it will be added with package product if needed)
+                            // if it's setup fee, continue (it will be added with package product if needed)
                             if (tmpProduct.productID == setupFeeId)
                             {
                                 continue;
@@ -706,12 +718,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             if (tmpProduct.productID != selectedPackage.productID)
                             {
                                 // it's domain
-
                                 List<PublicOrderItemProperty> arrayOfCustoms = new List<PublicOrderItemProperty>();
                                 if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
                                 {
                                     // if the selected package in the cart is free
-
                                     string domainValue = SubmitForm.FirstOption ? tmpProduct.productDesc : (SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain);
 
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = domainValue });
@@ -731,14 +741,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 else
                                 {
                                     // if the selected package in the cart is not free
-                                    
                                     if (SubmitForm.FirstOption)
                                     {
-                                        //check if the current product is main domain
-
+                                        // check if the current product is main domain
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
 
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = (tmpProduct.productDesc == SubmitForm.MainDomainSelect ? "CsLinuxWebsite" : "CsDomainParking") });
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = tmpProduct.productDesc == SubmitForm.MainDomainSelect ? "CsLinuxWebsite" : "CsDomainParking" });
                                     }
                                     else
                                     {
@@ -761,10 +769,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             }
                             else
                             {
-                                //it's package
+                                // it's package
                                 if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
                                 {
-                                    //if it's free package, just add it
+                                    // if it's free package, just add it
                                     PublicOrderItem tmpItem = new PublicOrderItem
                                                                   {
                                                                       ItemId = Guid.Empty, 
@@ -777,7 +785,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 else
                                 {
                                     // if it's not a free package 
-
                                     PublicOrderItem tmpItem = new PublicOrderItem
                                     {
                                         ItemId = Guid.Empty,
@@ -826,6 +833,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             orderCustomData.Add(new PublicOrderCustomData { Name = "VATValidationMessage", Value = SubmitForm.VATValidationMessage });
                         }
 
+                        if (!string.IsNullOrEmpty(SubmitForm.RadioBillingContact))
+                        {
+                            orderCustomData.Add(new PublicOrderCustomData { Name = "BillingContact", Value = SubmitForm.RadioBillingContact });
+                        }
+
+                        if (!string.IsNullOrEmpty(SubmitForm.RadioTechContact))
+                        {
+                            orderCustomData.Add(new PublicOrderCustomData { Name = "TechContact", Value = SubmitForm.RadioTechContact });
+                        }
+
                         // Add CustommData posted with submit, client added
                         if (!String.IsNullOrEmpty(SubmitForm.OrderCustomData))
                         {
@@ -863,12 +880,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = String.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
                         }
 
-                        
-
                         myOrder.CustomData = orderCustomData.ToArray();
                         myOrder.OrderItems = myOrderItems.ToArray();
 
-                        myOrder.ResellerId = new Guid(OrderModel.FetchResellerGuidFromXml());
+                        myOrder.ResellerId = ResellerHelper.GetResellerId();
 
                         myOrder.Phone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.TelephoneProcessed, SubmitForm.CountryCode));
 
@@ -922,20 +937,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             if ((bool)Session["firstOption"])
             {
                 ViewData["multiDomains"] = this.Session["multiDomains"];
-
                 ViewData["firstOption"] = (bool)Session["firstOption"];
-
                 ViewData["domainsForCheck"] = SubmitForm.SearchDomains;
-
                 ViewData["OwnDomain"] = string.Empty;
             }
             else
             {
                 DomainDataFromXML singleDomain = (DomainDataFromXML)Session["singleDomain"];
-
                 ViewData["Domain"] = singleDomain;
                 ViewData["firstOption"] = (bool)Session["firstOption"];
-
                 ViewData["OwnDomain"] = singleDomain.ProductName;
             }
 
@@ -1007,7 +1017,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["AllowedDomainLength"] = allowedDomainLength;
             ViewData["NumberOfDomainsAllowed"] = numberOfDomainsAllowed;
 
-            string countryCode = CountriesHelper.GetDefaultCountryCodeFromConfig();
+            string countryCode = ResellerHelper.GetResellerCountryCode();
 
             // Check if there is locale setting for country in cookie ad set if there is
             if (System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"] != null && !String.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"].Value))
@@ -1378,9 +1388,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ShoppingCart result;
 
             string currencyFromCookie = null;
-            if (System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string) System.Web.HttpContext.Current.Session["OrderCurrencyCode"]))
+            if (System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["OrderCurrencyCode"]))
             {
-                currencyFromCookie = (string) System.Web.HttpContext.Current.Session["OrderCurrencyCode"];
+                currencyFromCookie = (string)System.Web.HttpContext.Current.Session["OrderCurrencyCode"];
             }
 
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
@@ -1406,12 +1416,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     service,
                     Guid.Empty,
                     currencyFromCookie,
-                    Guid.Empty,
+                    ResellerHelper.GetResellerId(),
                     null,
                     campaignCode,
                     pricesIncludingVAT,
                     orderCustomAttributes,
-                    orderAddress, 
+                    orderAddress,
                     null);
             }
 
@@ -1444,7 +1454,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ValidateVatNumber(string sEcho, string countryCode, string VATNumber)
         {
-
             JsonResult result;
 
             try
@@ -1460,29 +1469,24 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                     var dataToReturn =
                         new { sEcho, validationResult = valResult.ToString().ToLower(), error = "", success = true };
-
                     result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
                 }
 
             }
             catch (Exception ex)
             {
-
                OrderPageLogger.LogOrderPageException(ex);
                 var dataToReturn = new
                 {
                     sEcho,
-                    validationResult = "",
-                    error = this.LocalResource("Select", "VATValidationResultNotValidated"), //ex.Message,
+                    validationResult = string.Empty,
+                    error = this.LocalResource("Select", "VATValidationResultNotValidated"), // ex.Message,
                     success = false
                 };
                 result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
-
             }
 
             return result;
-
         }
-
     }
 }

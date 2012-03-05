@@ -33,6 +33,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         public string RadioPaymentMethod { get; set; }
 
         /// <summary>
+        /// Gets or sets the radio billing contact.
+        /// </summary>
+        /// <value>The radio billing contact.</value>
+        public string RadioBillingContact { get; set; }
+
+        /// <summary>
+        /// Gets or sets the radio technical contact.
+        /// </summary>
+        /// <value>The radio technical contact.</value>
+        public string RadioTechContact { get; set; }
+
+        /// <summary>
         /// Gets or sets the org number.
         /// </summary>
         /// <value>The org number.</value>

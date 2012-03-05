@@ -2,6 +2,7 @@
 <%@ Assembly Name="Atomia.Web.Plugin.DomainSearch" %>
 <%@ Assembly Name="Atomia.Web.Plugin.Cart" %>
 <%@ Import Namespace="Atomia.Web.Plugin.Cart.Models" %>
+<%@ Import Namespace="Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService" %>
 <%@ Import Namespace="Atomia.Web.Plugin.PublicOrder.Models"%>
 <%@ Import Namespace="System.Collections.Generic"%>
 <%@ Import Namespace="System.Web.Mvc" %>
@@ -462,6 +463,38 @@
 			            <br class="clear" />
 		            </div>
                 </div>
+                <% if (this.Session["resellerAccountData"] != null)
+                {	
+                %>
+                <div id="ContactsDiv">
+		            <h2><%= Html.Resource("ContactsSettings")%></h2>		                
+                    <h5><%= Html.Resource("BillingContact")%></h5>
+		            <div class="formrow">
+		                <label for="BillingContactReseller">
+		                    <%= Html.RadioButton("RadioBillingContact", "reseller", Model.RadioBillingContact == "reseller", new Dictionary<string, object> { { "id", "BillingContactReseller" } })%> 
+                            <%= ((AccountData)this.Session["resellerAccountData"]).Name%>
+			            </label>
+                        <br class="clear" />
+		                <label for="BillingContactCustomer">
+		                    <%= Html.RadioButton("RadioBillingContact", "customer", Model.RadioBillingContact == "customer", new Dictionary<string, object> { { "id", "BillingContactCustomer" } })%> 
+                            <span id="BillingContactCustomerText"><%= Html.Resource("CustomerRadio")%></span>
+			            </label>
+                    </div>
+		            <h5><%= Html.Resource("TechnicalContact")%></h5>
+                    <div class="formrow">
+		                <label for="TechContactReseller">
+		                    <%= Html.RadioButton("RadioTechContact", "reseller", Model.RadioTechContact == "reseller", new Dictionary<string, object> { { "id", "TechContactReseller" } })%> 
+                            <%= ((AccountData)this.Session["resellerAccountData"]).Name%>
+			            </label>
+                        <br class="clear" />
+		                <label for="TechContactCustomer">
+		                    <%= Html.RadioButton("RadioTechContact", "customer", Model.RadioTechContact == "customer", new Dictionary<string, object> { { "id", "TechContactCustomer" } })%> 
+                            <span id="TechContactCustomerText"><%= Html.Resource("CustomerRadio")%></span>
+			            </label>
+                    </div>
+	            </div>
+                <% 
+                } %>
 
                 <%  var paymentEnabled = (bool)ViewData["PaymentEnabled"];
                     var orderByEmailEnabled = (bool)ViewData["OrderByEmailEnabled"];
@@ -616,12 +649,13 @@
 		initializeDecimalParser(decimalParserParams);
 
 		$(document).ready(function() {
-		    
             var validator = $("#submit_form").validate();
 
             AddValidationRules();
             AddValidationMethods();            
             bindSecondAddressCheckBoxClick();
+            addBillingCustomerDataBlur('<%= Html.Resource("CustomerRadio")%>');
+            addTechCustomerDataBlur('<%= Html.Resource("CustomerRadio")%>');
 
 		    $('#notification').notification({
 		        showTimeout: 1000,

@@ -8,11 +8,14 @@
 using System;
 using System.Globalization;
 using System.Threading;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
+
 using Atomia.Common;
 using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Base.Interfaces;
-using System.Web.Mvc;
+using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 
 namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
 {
@@ -27,7 +30,7 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
         /// Fetches the culture info.
         /// </summary>
         /// <returns>Culture info.</returns>
-        public System.Globalization.CultureInfo FetchCultureInfo()
+        public CultureInfo FetchCultureInfo()
         {
             CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
             CultureInfo currentLocale = CultureInfo.GetCultureInfo(currentCulture.Name);
@@ -37,20 +40,29 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
             }
 
             // Set OrderCurrencyLocaleName and then in LocalizationDataLoader load resource into session
-            string orderCurrencyResource = LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency" + currentLocale.Name, System.Web.HttpContext.Current.Session["Theme"]))
-                                            ?? LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency", System.Web.HttpContext.Current.Session["Theme"]));
-            System.Web.HttpContext.Current.Session["OrderCurrencyResource"] = orderCurrencyResource;
+            string orderCurrencyResource;
             string orderCurrencyCode = "SEK";
 
-            if (System.Web.HttpContext.Current.Application["CurrencyCode" + currentLocale.Name] != null &&
-                !String.IsNullOrEmpty(
-                    (string)System.Web.HttpContext.Current.Application["CurrencyCode" + currentLocale.Name]))
+            if (HttpContext.Current.Session["resellerAccountData"] == null)
             {
-                orderCurrencyCode =
-                    (string)System.Web.HttpContext.Current.Application["CurrencyCode" + currentLocale.Name];
+                orderCurrencyResource = LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency" + currentLocale.Name, HttpContext.Current.Session["Theme"]))
+                                    ?? LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency", HttpContext.Current.Session["Theme"]));
+
+                if (HttpContext.Current.Application["CurrencyCode" + currentLocale.Name] != null &&
+                    !String.IsNullOrEmpty((string)HttpContext.Current.Application["CurrencyCode" + currentLocale.Name]))
+                {
+                    orderCurrencyCode = (string)HttpContext.Current.Application["CurrencyCode" + currentLocale.Name];
+                }
+            }
+            else
+            {
+                orderCurrencyResource =
+                    orderCurrencyCode =
+                    ((AccountData)HttpContext.Current.Session["resellerAccountData"]).DefaultCurrencyCode;
             }
 
-            System.Web.HttpContext.Current.Session["OrderCurrencyCode"] = orderCurrencyCode;
+            HttpContext.Current.Session["OrderCurrencyResource"] = orderCurrencyResource;
+            HttpContext.Current.Session["OrderCurrencyCode"] = orderCurrencyCode;
 
             // Check if there is locale settings in cookie and set if there is
             if (System.Web.HttpContext.Current.Request != null && 

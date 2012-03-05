@@ -27,9 +27,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <param name="viewDataDomains">The view data_domains.</param>
         /// <param name="domainData">The domain data.</param>
         /// <param name="indexFormDomains">The index form_ domains.</param>
-        public static void FirstOptionSelected(Controller controller, out string[] viewDataDomains, out List<Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml> domainData, string indexFormDomains)
+        public static void FirstOptionSelected(Controller controller, out string[] viewDataDomains, out List<DomainDataFromXml> domainData, string indexFormDomains)
         {
-            string[] domainsSubmitted = indexFormDomains.Split(new[] { "\r", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] domainsSubmitted = indexFormDomains.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             string domainsArray = string.Empty; // format for StartSearch
             for (int i = 0; i < domainsSubmitted.Length; i++)
@@ -52,8 +52,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             {
                 service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
                 
-                string countryCode = CountriesHelper.GetDefaultCountryCodeFromConfig();
-                string currencyCode = CountriesHelper.GetDefaultCurrencyCodeFromConfig(countryCode);
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+                string currencyCode = ResellerHelper.GetResellerCurrencyCode();
                 
                 unavailableDomains = DomainSearch.Helpers.DomainSearchHelper.MarkDomainsAsUnavailable(
                     GeneralHelper.GetUnavailableDomainsHelper(controller, domains.ToArray()),

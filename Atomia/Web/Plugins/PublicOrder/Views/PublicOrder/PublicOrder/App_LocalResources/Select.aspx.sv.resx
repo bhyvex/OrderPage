@@ -405,4 +405,19 @@
   <data name="Country" xml:space="preserve">
     <value>Land</value>
   </data>
+  <data name="BillingContact" xml:space="preserve">
+    <value>Billing contact:</value>
+  </data>
+  <data name="ContactsSettings" xml:space="preserve">
+    <value>Contacts settings</value>
+  </data>
+  <data name="CustomerRadio" xml:space="preserve">
+    <value>customer</value>
+  </data>
+  <data name="ResellerRadio" xml:space="preserve">
+    <value>reseller</value>
+  </data>
+  <data name="TechnicalContact" xml:space="preserve">
+    <value>Technical contact:</value>
+  </data>
 </root>

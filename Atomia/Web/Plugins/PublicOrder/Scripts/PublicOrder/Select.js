@@ -731,3 +731,52 @@ bindSecondAddressCheckBoxClick = function () {
         AddRequiredValidationRulesForInvoiceFields();
     });
 }
+
+addBillingCustomerDataBlur = function(defaultString) {
+	$("#ContactName,#ContactLastName,#Company,#InvoiceContactName,#InvoiceContactLastName,#InvoiceCompany").blur(function() {
+        if( $("#secondAddressFalse:checked").length == 1)
+        {
+            if($("#Company").val() != "")
+            {
+                $("#BillingContactCustomerText").text($("#Company").val());
+            }
+            else if($("#ContactName").val() != "" && $("#ContactLastName").val() != "")
+            {
+                $("#BillingContactCustomerText").text($("#ContactName").val() + " " + $("#ContactLastName").val());
+            }
+            else
+            {
+                $("#BillingContactCustomerText").text(defaultString);
+            }
+        }
+        else
+        {
+            if($("#InvoiceCompany").val() != "")
+            {
+                $("#BillingContactCustomerText").text($("#InvoiceCompany").val());
+            }
+            else if($("#InvoiceContactName").val() != "" && $("#InvoiceContactLastName").val() != "")
+            {
+                $("#BillingContactCustomerText").text($("#InvoiceContactName").val() + " " + $("#InvoiceContactLastName").val());
+            }
+            else
+            {
+                $("#BillingContactCustomerText").text(defaultString);
+            }
+        }
+    });
+};
+
+addTechCustomerDataBlur = function(defaultString) {
+	$("#ContactName,#ContactLastName,#Company").blur(function() {
+	    if ($("#Company").val() != "") {
+	        $("#TechContactCustomerText").text($("#Company").val());
+	    }
+	    else if ($("#ContactName").val() != "" && $("#ContactLastName").val() != "") {
+	        $("#TechContactCustomerText").text($("#ContactName").val() + " " + $("#ContactLastName").val());
+	    }
+	    else {
+	        $("#TechContactCustomerText").text(defaultString);
+	    }
+    });
+};

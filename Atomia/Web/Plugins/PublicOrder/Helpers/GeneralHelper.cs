@@ -453,19 +453,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             {
                 
                 Guid resellerId = new Guid(OrderModel.FetchResellerGuidFromXml());
-                
-                //now we have changed way to find ShowTax parameter
-                //no more from config file, now we call public order service for it
-                Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService orderService = new AtomiaBillingPublicService();
-                
-                bool resellerShowTaxBool = orderService.ShowTaxForReseller(resellerId);
-                result = resellerShowTaxBool;
 
-                //string resellerShowTax = OrderModel.FetchResellerShowTaxFromXml();
-                //if (resellerShowTax.ToLower() == "false")
-                //{
-                //    result = false;
-                //}
+                using (Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService orderService = new AtomiaBillingPublicService())
+                {
+                    orderService.Url = controller.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+
+                    bool resellerShowTaxBool = orderService.ShowTaxForReseller(resellerId);
+                    result = resellerShowTaxBool;
+                }
+
+
             }
             catch (Exception ex)
             {

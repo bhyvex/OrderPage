@@ -592,6 +592,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
                 {
+                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+
                     List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, null, null);
                     ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
                     string setupFeeId = OrderModel.FetchSetupFeeIdFromXml(service, Guid.Empty, null, null);
@@ -1432,27 +1434,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                
-                //ServiceReferences.AtomiaBillingApi.IAtomiaBillingApi billingApi = ServiceReferences.AtomiaServiceChannelManager.GetBilingService();
-                //ServiceReferences.AtomiaBillingApi.VatNumberValidationResultType valResult = billingApi.ValidateVatNumber(countryCode, VATNumber);
 
-                Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService();
-                VatNumberValidationResultType valResult = publicOrderService.ValidateVatNumber(countryCode, VATNumber);
-                
-                //validationResult = VatNumberValidationResultType.ValidationError.ToString().ToLower(), //valResult.ToString().ToLower(),
+                using (Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
+                {
 
-                var dataToReturn =
-                    new
-                    {
-                        sEcho,
-                        validationResult = valResult.ToString().ToLower(),
-                        error = "",
-                        success = true
-                    };
+                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();                                    
 
-                //validationResult = VatNumberValidationResultType.ValidationError.ToString().ToLower(), // valResult.ToString().ToLower(),
+                    VatNumberValidationResultType valResult = publicOrderService.ValidateVatNumber(
+                        countryCode, VATNumber);
 
-                result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
+                    var dataToReturn =
+                        new { sEcho, validationResult = valResult.ToString().ToLower(), error = "", success = true };
+
+                    result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
+                }
 
             }
             catch (Exception ex)

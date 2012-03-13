@@ -190,7 +190,6 @@ namespace Atomia.Web.Frame.Controllers
                             }
 
                             this.HttpContext.Session["OrderCurrencyCode"] = orderCurrencyCode;
-                            HttpContext.Application["order_ProductsList"] = null;
                             Plugin.DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, orderCurrencyCode, culture);
                         }
                     }

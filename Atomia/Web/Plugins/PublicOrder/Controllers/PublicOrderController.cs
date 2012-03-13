@@ -1296,11 +1296,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
+                string currencyCode = null;
+                if (System.Web.HttpContext.Current.Session != null &&
+                    System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null)
+                {
+                    currencyCode = System.Web.HttpContext.Current.Session["OrderCurrencyCode"] as string;
+                }
+
                 result = DomainSearchHelper.StartSearch(
                     domainsArray,
                     service,
                     Guid.Empty,
-                    System.Web.HttpContext.Current.Session["OrderCurrencyCode"].ToString(),
+                    currencyCode,
                     null);
             }
 
@@ -1321,11 +1328,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
+                string currencyCode = null;
+                if (System.Web.HttpContext.Current.Session != null && 
+                    System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null)
+                {
+                    currencyCode = System.Web.HttpContext.Current.Session["OrderCurrencyCode"] as string;
+                }
+
                 status = DomainSearchHelper.GetAvailabilityStatus(
                     sTransactionId,
                     service,
                     Guid.Empty,
-                    null,
+                    currencyCode,
                     null);
             }
 

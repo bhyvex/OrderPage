@@ -589,9 +589,7 @@
     </div>
 	<script type="text/javascript">
 
-        var showPersonalNumber = '<%= ViewData["ShowPersonalNumber"]%>';            
-
-	    var initializeParams = {};
+        var initializeParams = {};
         initializeParams.ResourcePersonalNumber = '<%= Html.ResourceNotEncoded("PersonalNumber")%>';
         initializeParams.ResourceCompanyNumber = '<%= Html.ResourceNotEncoded("CompanyNumber")%>';
         var initializedObj = initializeAdditionalThemeMethods(initializeParams);
@@ -649,6 +647,7 @@
             params.ImgShowInfo = '<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "butt_showinfo.gif"))%>';
             params.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
             params.InitializedObj = initializedObj;
+            params.EUCountries = "<%= ViewData["EUCountries"] %>";
 		    initializeAdditionalThemeMethodsDocReady(params);
 
 		    setNotificationMessage(notificationParams);
@@ -711,7 +710,7 @@
 
         function AddValidationMethods() {
         
-            if (showPersonalNumber != 'False')
+            if ($('#OrgNumber').length > 0)
             {
                 jQuery.validator.addMethod(
                     "ValidateOrgNumberEx", function(value, element, params) {
@@ -795,37 +794,9 @@
 
         function AddValidationRules() {
 
-            if (showPersonalNumber != 'False')
-            {
-                $('#OrgNumber').rules("add", {
-                    ValidateOrgNumberEx: true,
-                    messages: {
-                        ValidateOrgNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidOrgNumber") %>'
-                    }
-                });
+            AddOrgNumberValidationRules();
 
-                $('#OrgNumber').rules("add", {
-                    ValidateOrgNumberCheckSum: true,
-                    messages: {
-                        ValidateOrgNumberCheckSum: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorOrgNumberCheckSum") %>'
-                    }
-                });
-
-                $('#OrgNumber').rules("add", {
-                    ValidateVATNumberOnExistence: true,
-                    messages: {
-                        ValidateVATNumberOnExistence: '<%= Html.ResourceNotEncoded("VATValidationResultFalseMessage") %>'
-                    }
-                });
-            }
-            $('#VATNumber').rules("add", {
-                ValidateVATNumberEx: { 
-                    EUCountries: "<%= ViewData["EUCountries"] %>" 
-                },
-                messages: {
-                    ValidateVATNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidVATNumber") %>'
-                }
-            });
+            AddVATNumberValidationRules();
 
              $('#PostNumber').rules("add", {
                 ValidatePostNumberEx: { 
@@ -896,6 +867,45 @@
             
             AddRequiredValidationRulesForInvoiceFields();
 
+        }
+
+        function AddOrgNumberValidationRules(){
+
+			if ($('#OrgNumber').length > 0)            
+            {
+                $('#OrgNumber').rules("add", {
+                    ValidateOrgNumberEx: true,
+                    messages: {
+                        ValidateOrgNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidOrgNumber") %>'
+                    }
+                });
+
+                $('#OrgNumber').rules("add", {
+                    ValidateOrgNumberCheckSum: true,
+                    messages: {
+                        ValidateOrgNumberCheckSum: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorOrgNumberCheckSum") %>'
+                    }
+                });
+
+                $('#OrgNumber').rules("add", {
+                    ValidateVATNumberOnExistence: true,
+                    messages: {
+                        ValidateVATNumberOnExistence: '<%= Html.ResourceNotEncoded("VATValidationResultFalseMessage") %>'
+                    }
+                });
+            }
+
+        }
+
+        function AddVATNumberValidationRules(){
+            $('#VATNumber').rules("add", {
+                ValidateVATNumberEx: { 
+                    EUCountries: "<%= ViewData["EUCountries"] %>" 
+                },
+                messages: {
+                    ValidateVATNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidVATNumber") %>'
+                }
+            });
         }
 
         function AddRequiredValidationRulesForInvoiceFields() { 

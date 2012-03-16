@@ -1411,7 +1411,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     campaignCode,
                     pricesIncludingVAT,
                     orderCustomAttributes,
-                    orderAddress);
+                    orderAddress, 
+                    null);
             }
 
             return Json(result);

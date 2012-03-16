@@ -63,10 +63,12 @@ var initializeVtip = function(img_url) {
     vtip(img_url);
 };
 
-var companyKeyUpBind = function() {
-    $('#Company').blur(function(event) {
-        if ($('#OrgNumber').val() != '') {
-            $("#submit_form").validate().element($('#OrgNumber'));
+var companyKeyUpBind = function () {
+    $('#Company').blur(function (event) {
+        if ($('#OrgNumber').length > 0) {
+            if ($('#OrgNumber').val() != '') {
+                $("#submit_form").validate().element($('#OrgNumber'));
+            }
         }
     });
 };

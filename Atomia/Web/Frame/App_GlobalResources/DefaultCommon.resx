@@ -123,6 +123,9 @@
   <data name="defaultTOS" xml:space="preserve">
     <value>Our Terms of Conditions, &lt;a onclick="JavaScript: open('Tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read&lt;/a&gt;</value>
   </data>
+  <data name="resellerDefaultTOS" xml:space="preserve">
+    <value>I verify that customer agrees to the Terms of Conditions, &lt;a onclick="JavaScript: open('Tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read&lt;/a&gt;</value>
+  </data>
   <data name="DnsPackageDesc" xml:space="preserve">
     <value>(DNS-management and redirects are included - 0 SEK/month)</value>
   </data>

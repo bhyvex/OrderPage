@@ -1397,6 +1397,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
+                bool resellerTos = Session != null && Session["resellerAccountData"] != null;
                 result = CartHelper.RecalculateCart(
                     this,
                     arrayOfProducts,
@@ -1422,7 +1423,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     pricesIncludingVAT,
                     orderCustomAttributes,
                     orderAddress,
-                    null);
+                    null,
+                    resellerTos);
             }
 
             return Json(result);

@@ -123,6 +123,9 @@
   <data name="defaultTOS" xml:space="preserve">
     <value>Våra allmänna avtalsvillkor, &lt;a onclick="JavaScript: open('tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;klicka här för att läsa&lt;/a&gt;</value>
   </data>
+  <data name="resellerDefaultTOS" xml:space="preserve">
+    <value>Jag kontrollerar att kunden förbinder sig att de avtalsvillkor man, &lt;a onclick="JavaScript: open('tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;klicka här för att läsa&lt;/a&gt;</value>
+  </data>
   <data name="DnsPackageDesc" xml:space="preserve">
     <value>(DNS-hantering och vidarebefordring ingår - 0 kr/mån)</value>
   </data>

@@ -147,6 +147,9 @@
   <data name="TOS_core" xml:space="preserve">
     <value>I have read and accept &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's Terms of Conditions&lt;/a&gt;.*</value>
   </data>
+  <data name="resellerTOS_core" xml:space="preserve">
+    <value>I verify that customer agrees to the &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's Terms of Conditions&lt;/a&gt;.*</value>
+  </data>
   <data name="TOS_se" xml:space="preserve">
     <value>Accept Terms of Conditions for .SE domain names: &lt;a onclick="JavaScript: open('Tos?rName=TOS_se' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read more&lt;/a&gt;</value>
   </data>

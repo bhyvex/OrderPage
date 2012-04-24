@@ -173,20 +173,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\PublicOrder\PublicOrder\PaymentFailed.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrder\Thankyou.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrder\Select.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrder\Index.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
@@ -207,76 +193,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\PublicOrder\atomia.ids.generator.js" />
-    <Content Include="Scripts\PublicOrder\AtomiaBillingCart.js" />
-    <Content Include="Scripts\PublicOrder\Index.js" />
-    <Content Include="Scripts\PublicOrder\jquery.numberformatter.js" />
-    <Content Include="Scripts\PublicOrder\jquery.timers.js" />
-    <Content Include="Scripts\PublicOrder\json2.js" />
-    <Content Include="Scripts\PublicOrder\jsvat.js" />
-    <Content Include="Scripts\PublicOrder\Select.js" />
-    <Content Include="Scripts\PublicOrder\vtip.js" />
-    <Content Include="Scripts\PublicOrder\zNotification.js" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.resx" />
-    <Content Include="Views\PublicOrder\Error\NotEnoughPrivileges.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\Error\NotFound.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\Error\ResourceNotFound.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\Error\Unknown.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrderPartials\Cart.ascx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrderPartials\DomainSearch.ascx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrder\Tos.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.en-US.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.en-US.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.en-US.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.en-US.resx" />
-    <Content Include="Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.resx">
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.resx">
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.resx">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.sv.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.resx" />
-    <Content Include="Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.sv.resx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />

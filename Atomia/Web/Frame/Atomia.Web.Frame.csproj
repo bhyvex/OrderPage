@@ -107,9 +107,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Scripts\MicrosoftMvcJQueryValidation.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\atomia.ids.generator.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\AtomiaBillingCart.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\Index.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\jquery.numberformatter.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\jquery.timers.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\json2.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\jsvat.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\Select.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\vtip.js" />
+    <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\zNotification.js" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginForm.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateCCPayment.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreatePayWithInvoice.ascx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\NotEnoughPrivileges.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\NotFound.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\ResourceNotFound.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\Unknown.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\Cart.ascx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\DomainSearch.ascx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Index.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\PaymentFailed.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Select.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Thankyou.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Tos.aspx" />
     <Content Include="Views\Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -440,13 +461,40 @@
     <Folder Include="App_Data\elmah_logs\" />
     <Folder Include="App_Data\Transformation Files\" />
     <Folder Include="Themes\Default\Content\pluginCss\" />
-    <Folder Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\" />
     <Folder Include="Transformation Files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.en-US.resx" />
     <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.resx" />
     <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.sv-SE.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.en-US.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.en-US.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.en-US.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.en-US.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.sv.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.sv.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

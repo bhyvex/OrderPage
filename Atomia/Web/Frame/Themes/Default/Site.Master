@@ -1,4 +1,4 @@
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <%@ Import Namespace="Atomia.Web.Base.MultilanguageEditor" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -14,7 +14,6 @@
 	    <% Html.RenderPartial("JsIncludes"); %>
     </head>
     <body>
-        <%= Html.UntraslatedResources()%>
         <div class="container">
 	        <div id="header" class="span-24">
 				<a href="http://www.atomia.com/">
@@ -43,5 +42,6 @@
             <% Html.RenderPartial("PartialsContainer"); %>
         </div>
 	    <% Html.RenderPartial("WideLayout"); %> <!-- ATOMIA WIDE LAYOUT -->
+        <%= Html.UntraslatedResources()%>
     </body>
 </html>

@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Address2" xml:space="preserve">
+    <value>Address 2</value>
+  </data>
+  <data name="Alternative" xml:space="preserve">
+    <value>Domain alternative</value>
+  </data>
+  <data name="AltInfo" xml:space="preserve">
+    <value>Transfer existing domain</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="DomainInfo" xml:space="preserve">
+    <value>example-domain.com</value>
+  </data>
+  <data name="DomainName" xml:space="preserve">
+    <value>Domain name</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail address</value>
+  </data>
+  <data name="Endast" xml:space="preserve">
+    <value>Register domain name only</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Fill in the form below to order Atomia Webhosting or Atomia DNS.&lt;br /&gt;Note that fields marked with asterisks (*) are mandatory.</value>
+  </data>
+  <data name="InputDomain" xml:space="preserve">
+    <value>Fins more domain names</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="PersonalNum" xml:space="preserve">
+    <value>Org/civic registration number</value>
+  </data>
+  <data name="PostNum" xml:space="preserve">
+    <value>Zip code</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PriceUp" xml:space="preserve">
+    <value>Annual fee</value>
+  </data>
+  <data name="Separate" xml:space="preserve">
+    <value>Separate invoice address</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax are included in all prices (total *0* SEK).</value>
+  </data>
+  <data name="Telephone" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Order webhosting and DNS</value>
+  </data>
+  <data name="xxxx" xml:space="preserve">
+    <value>(xxxxxx-xxxx)</value>
+  </data>
+  <data name="Conclusion" xml:space="preserve">
+    <value>Conclusion</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Contact details</value>
+  </data>
+  <data name="InvoiceAddress" xml:space="preserve">
+    <value>Invoice address</value>
+  </data>
+  <data name="SecondFalse" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="SecondTrue" xml:space="preserve">
+    <value>Yes, send invoices to the following address</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>Terms</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Package" xml:space="preserve">
+    <value>Package</value>
+  </data>
+  <data name="TotalSum" xml:space="preserve">
+    <value>Total sum</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="MainDomainDesc" xml:space="preserve">
+    <value>&lt;li&gt;Please select your main domain name. The primary domain name will have a website set up during the creation of your account and all other domain names will be parked. You can easily change the setting of all your domain names inside the control panel.&lt;/li&gt;</value>
+  </data>
+  <data name="MainDomainTitle" xml:space="preserve">
+    <value>Main domain name</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Atomia</value>
+  </data>
+  <data name="CustomerAlreadyExists" xml:space="preserve">
+    <value>The customer already exists</value>
+  </data>
+  <data name="ErrorInvalidEmail" xml:space="preserve">
+    <value>Invalid E-mail address</value>
+  </data>
+  <data name="AnotherDomain" xml:space="preserve">
+    <value>Find more domain names</value>
+  </data>
+  <data name="BillingAddress" xml:space="preserve">
+    <value>Billing address</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="SameAs" xml:space="preserve">
+    <value>Same as contact information</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="AvalablePackages" xml:space="preserve">
+    <value>Available packages</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Agree" xml:space="preserve">
+    <value>I agree with the terms and I wish to order.</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total ammount</value>
+  </data>
+  <data name="IHaveRead" xml:space="preserve">
+    <value>I have read and agree with the</value>
+  </data>
+  <data name="IWish" xml:space="preserve">
+    <value>and I wish to order.</value>
+  </data>
+  <data name="TermsDiv" xml:space="preserve">
+    <value>Please, read the Terms and Conditions carefully.</value>
+  </data>
+  <data name="NotificationHeader" xml:space="preserve">
+    <value>We are sorry, your order could not be processed.</value>
+  </data>
+  <data name="NotificationText" xml:space="preserve">
+    <value>Please try again.</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="Activation" xml:space="preserve">
+    <value>Account activation</value>
+  </data>
+  <data name="Billing" xml:space="preserve">
+    <value>Billing</value>
+  </data>
+  <data name="ClickOrder" xml:space="preserve">
+    <value>This will happen when you click order</value>
+  </data>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Credit card payment</value>
+  </data>
+  <data name="Credit_card" xml:space="preserve">
+    <value>Pay with credit card</value>
+  </data>
+  <data name="E_invoice" xml:space="preserve">
+    <value>Invoice by e-mail</value>
+  </data>
+  <data name="NotificationTextPayment" xml:space="preserve">
+    <value>The payment transaction failed. Please try again or choose a different payment option.</value>
+  </data>
+  <data name="OnCCActivation" xml:space="preserve">
+    <value>Direct</value>
+  </data>
+  <data name="OnCCBilling" xml:space="preserve">
+    <value>Charged by given credit card</value>
+  </data>
+  <data name="OnEmailActivation" xml:space="preserve">
+    <value>Direct, domain will be registerd after payment has been verified</value>
+  </data>
+  <data name="OnEmailBilling" xml:space="preserve">
+    <value>Invoice by e-mail</value>
+  </data>
+  <data name="OnPostActivation" xml:space="preserve">
+    <value>Direct, domain will be registered when payment has been verified</value>
+  </data>
+  <data name="OnPostBilling" xml:space="preserve">
+    <value>Invoice by mail</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Payment method</value>
+  </data>
+  <data name="PaymentSmall1" xml:space="preserve">
+    <value>(free of charge)</value>
+  </data>
+  <data name="PaymentSmall2" xml:space="preserve">
+    <value>($19.85 will be added to your first invoice)</value>
+  </data>
+  <data name="PaymentSmall3" xml:space="preserve">
+    <value>(free of charge, get going with your services immediately</value>
+  </data>
+  <data name="Post_invoice" xml:space="preserve">
+    <value>Invoice by mail</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Taken" xml:space="preserve">
+    <value>Taken</value>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>Unavailable</value>
+  </data>
+  <data name="PhoneInfo" xml:space="preserve">
+    <value>Start with a zero (0) for swedish telephone numbers. Start with a plus (+) or two zeroes foreign telephone numbers.</value>
+  </data>
+  <data name="NotAllowedDomain" xml:space="preserve">
+    <value>One or more of the entered domain names have 4 or less charachters. These are consideres as premium domain names by some registrars and can't be registered through Atomia.</value>
+  </data>
+  <data name="Organisation" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="OrgNum" xml:space="preserve">
+    <value>Org. number</value>
+  </data>
+  <data name="CompanyNumber" xml:space="preserve">
+    <value>Company number</value>
+  </data>
+  <data name="PersonalNumber" xml:space="preserve">
+    <value>Civic registration number</value>
+  </data>
+  <data name="VATValidationResultFalseMessage" xml:space="preserve">
+    <value>VAT id number is not valid.</value>
+  </data>
+  <data name="VATValidationResultNotValidated" xml:space="preserve">
+    <value>VAT number cannot be validated at this moment due to technical problems. Tax shown on invoice will be charged if you order now. You can also contact customer service or try to order later.</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="BillingContact" xml:space="preserve">
+    <value>Billing contact:</value>
+  </data>
+  <data name="ContactsSettings" xml:space="preserve">
+    <value>Contacts settings</value>
+  </data>
+  <data name="CustomerRadio" xml:space="preserve">
+    <value>customer</value>
+  </data>
+  <data name="ResellerRadio" xml:space="preserve">
+    <value>reseller</value>
+  </data>
+  <data name="TechnicalContact" xml:space="preserve">
+    <value>Technical contact:</value>
+  </data>
+</root>

@@ -308,25 +308,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>md "$(SolutionDir)..\Frame\Themes\Default"
-if errorlevel 4 goto skipError
-if errorlevel 0 goto skipError
-:skipError
-md "$(SolutionDir)..\Frame\Themes\Default\Content"
-if errorlevel 4 goto skipError1
-if errorlevel 0 goto skipError1
-:skipError1
-md "$(SolutionDir)..\Frame\Themes\Default\Scripts\PluginScripts\PublicOrder"
-if errorlevel 4 goto skipError2
-if errorlevel 0 goto skipError2
-:skipError2
-md "$(SolutionDir)..\Frame\Themes\Default\Views"
-if errorlevel 4 goto skipError3
-if errorlevel 0 goto skipError3
-:skipError3
-xcopy /s /e /y "$(ProjectDir)Views" "$(SolutionDir)..\Frame\Themes\Default\Views"
-xcopy /s /e /y "$(ProjectDir)bin\$(Configuration)" "$(SolutionDir)..\Frame\bin"
-xcopy /s /e /y "$(ProjectDir)Scripts" "$(ProjectDir)..\..\Frame\Themes\Default\Scripts\PluginScripts\PublicOrder"</PostBuildEvent>
+    <PostBuildEvent>xcopy /s /e /y "$(ProjectDir)bin\$(Configuration)" "$(SolutionDir)..\Frame\bin"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

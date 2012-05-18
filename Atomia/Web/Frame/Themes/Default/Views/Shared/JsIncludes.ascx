@@ -6,8 +6,8 @@
 <% 
 if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
 {
-    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-1.3.2.min.js", Session["Theme"]));
-    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.7.2.custom.min.js", Session["Theme"]));
+    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-1.7.2.min.js", Session["Theme"]));
+    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.8.20.custom.min.js", Session["Theme"]));
 	Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery.validate.js", Session["Theme"]));
     Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/json2.js", Session["Theme"]));
     Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/MicrosoftMvcJQueryValidation.js", Session["Theme"]));
@@ -15,8 +15,8 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
 else
 {
 %>
-    <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery-1.3.2.min.js", Session["Theme"])) %>" type="text/javascript"></script>
-    <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.7.2.custom.min.js", Session["Theme"])) %>" type="text/javascript"></script>
+    <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery-1.7.2.min.js", Session["Theme"])) %>" type="text/javascript"></script>
+    <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.8.20.custom.min.js", Session["Theme"])) %>" type="text/javascript"></script>
 	<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery.validate.js", Session["Theme"])) %>" type="text/javascript"></script>
 	<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/json2.js", Session["Theme"])) %>" type="text/javascript"></script>
     <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/MicrosoftMvcJQueryValidation.js", Session["Theme"])) %>" type="text/javascript"></script>

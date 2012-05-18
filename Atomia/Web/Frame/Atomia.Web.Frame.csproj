@@ -106,6 +106,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Themes\Default\Scripts\jquery-1.7.2.min.js" />
+    <Content Include="Themes\Default\Scripts\jquery-ui-1.8.20.custom.min.js" />
     <Content Include="Themes\Default\Scripts\MicrosoftMvcJQueryValidation.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\atomia.ids.generator.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\AtomiaBillingCart.js" />

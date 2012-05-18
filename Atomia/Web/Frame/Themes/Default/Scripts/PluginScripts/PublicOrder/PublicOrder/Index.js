@@ -149,7 +149,7 @@ var ValidateNumOfDomains = function(value, element, params) {
 var setIndexFormDomainsRules = function(requiredMessage) {
     $("#Domains").rules("add", {
         required: function(element) {
-            return $('#first').attr('checked');
+            return $('#first').is(':checked');
         },
         messages: {
             required: requiredMessage
@@ -160,7 +160,7 @@ var setIndexFormDomainsRules = function(requiredMessage) {
 var setIndexFormDomainRules = function(message) {
     $("#Domain").rules("add", {
         required: function(element) {
-            return $('#second').attr('checked');
+            return $('#second').is(':checked');
         },
         messages: {
             required: message

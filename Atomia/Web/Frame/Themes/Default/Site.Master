@@ -41,6 +41,9 @@
 	    <div id="partials">
             <% Html.RenderPartial("PartialsContainer"); %>
         </div>
+		<script type="text/javascript">
+			jQuery.ajaxSettings.traditional = true;
+		</script>
 	    <% Html.RenderPartial("WideLayout"); %> <!-- ATOMIA WIDE LAYOUT -->
         <%= Html.UntraslatedResources()%>
     </body>

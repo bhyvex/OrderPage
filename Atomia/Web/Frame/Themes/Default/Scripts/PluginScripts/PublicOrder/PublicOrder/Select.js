@@ -193,7 +193,7 @@ var emailBlurBind = function(params) {
 var invoiceEmailBlurBind = function () {
     $("#InvoiceEmail").blur(function (e) {
         $(this).val($(this).val().toLowerCase());
-        if ($('#secondAddressTrue').attr('checked')) {
+        if ($('#secondAddressTrue').is(':checked')) {
             $("#submit_form").validate().element($("#InvoiceEmail"));
         }
     });

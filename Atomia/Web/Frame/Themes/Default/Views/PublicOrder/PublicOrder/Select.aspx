@@ -779,7 +779,7 @@
 
             jQuery.validator.addMethod(
                 "ValidateInvoicePostNumberEx", function(value, element, params) {
-                    return !$('#secondAddressTrue').attr('checked') || ValidateInvoicePostNumberEx(value, element, params); 
+                    return !$('#secondAddressTrue').is(':checked') || ValidateInvoicePostNumberEx(value, element, params); 
                 }
             );
 
@@ -791,7 +791,7 @@
 
             jQuery.validator.addMethod(
                 "ValidateInvoiceTelephoneEx", function(value, element, params) {
-                    return !$('#secondAddressTrue').attr('checked') || ValidateInvoiceTelephoneEx(value, element, params); 
+                    return !$('#secondAddressTrue').is(':checked') || ValidateInvoiceTelephoneEx(value, element, params); 
                 }
             );
 
@@ -803,7 +803,7 @@
 
             jQuery.validator.addMethod(
                 "ValidateInvoiceMobileEx", function(value, element, params) {
-                    return this.optional(element) || !$('#secondAddressTrue').attr('checked') || ValidateInvoiceMobileEx(value, element, params); 
+                    return this.optional(element) || !$('#secondAddressTrue').is(':checked') || ValidateInvoiceMobileEx(value, element, params); 
                 }
             );
 
@@ -815,7 +815,7 @@
 
             jQuery.validator.addMethod(
                 "ValidateInvoiceFax", function(value, element, params) {
-                    return this.optional(element) || !$('#secondAddressTrue').attr('checked') || ValidateInvoiceFax(value, element, params); 
+                    return this.optional(element) || !$('#secondAddressTrue').is(':checked') || ValidateInvoiceFax(value, element, params); 
                 }
             );
 
@@ -946,7 +946,7 @@
 
             $("#InvoiceContactName").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
@@ -956,7 +956,7 @@
   
             $("#InvoiceContactLastName").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
@@ -965,7 +965,7 @@
   
             $("#InvoiceAddress").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
@@ -974,7 +974,7 @@
 
             $("#InvoicePostNumber").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
@@ -983,7 +983,7 @@
             
             $("#InvoiceCity").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
@@ -992,7 +992,7 @@
 
             $("#InvoiceTelephone").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
@@ -1001,7 +1001,7 @@
 
             $("#InvoiceEmail").rules("add", {
                 required: function(element) {
-                    return $('#secondAddressTrue').attr('checked');
+                    return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'

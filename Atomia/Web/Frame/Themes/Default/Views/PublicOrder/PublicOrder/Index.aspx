@@ -98,13 +98,7 @@
             
             setNotificationMessage(notificationParams);
             
-            var validator = $("#submit_form").validate({
-                onfocusout: function(element) {
-                    if ($(element).attr('id') != 'IndexForm_Domain') {
-                        $(element).valid();
-                    }
-                }
-            });
+            var validator = $("#submit_form").validate();
             $("#protected1").show();
             $("#protected2").hide();
 			
@@ -212,6 +206,13 @@
          var IndexFormDomainsRequiredMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
          var ErrorEmptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
          $(document).ready(function() {
+		 
+			$("#submit_form").validate().settings.onfocusout = function(element) {
+				if ($(element).attr('id') != 'IndexForm_Domain') {
+					$(element).valid();
+				}
+			}
+		 
              setIndexFormDomainsRules(IndexFormDomainsRequiredMessage);
              setIndexFormDomainRules(ErrorEmptyFieldMessage);
          });

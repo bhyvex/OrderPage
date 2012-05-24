@@ -43,7 +43,7 @@ var setNotificationMessage = function(notificationParams) {
 
 // Validation methods
 var ValidateDomainsLength = function(value, element, params) {
-    if ($('#first').attr('checked')) {
+    if ($('#first').is(':checked')) {
         var data = $('#Domains').val();
         var pom = data.split("\n");
         var i = 0;
@@ -61,7 +61,7 @@ var ValidateDomainsLength = function(value, element, params) {
 };
 
 var ValidateGroupOfDomains = function(value, element, params) {
-    if ($('#first').attr('checked')) {
+    if ($('#first').is(':checked')) {
         var data = $('#Domains').val();
         var pom = data.split("\n");
         var i = 0;
@@ -83,7 +83,7 @@ var ValidateGroupOfDomains = function(value, element, params) {
 
 var ValidateOwnDomainBasedOnTLD = function(value, element, params) {
     var returnData = false;
-    if ($('#second').attr('checked')) {
+    if ($('#second').is(':checked')) {
         $.ajax({
             async: false,
             type: 'POST',
@@ -106,7 +106,7 @@ var ValidateOwnDomainBasedOnTLD = function(value, element, params) {
 
 var ValidateOwnDomainExistanceInSystem = function(value, element, params) {
     var returnData = false;
-    if ($('#second').attr('checked')) {
+    if ($('#second').is(':checked')) {
         $.ajax({
             async: false,
             type: 'POST',
@@ -128,7 +128,7 @@ var ValidateOwnDomainExistanceInSystem = function(value, element, params) {
 };
 
 var ValidateNumOfDomains = function(value, element, params) {
-    if ($('#first').attr('checked')) {
+    if ($('#first').is(':checked')) {
         var data = $('#Domains').val();
         var pom = data.split("\n");
         var i = 0;

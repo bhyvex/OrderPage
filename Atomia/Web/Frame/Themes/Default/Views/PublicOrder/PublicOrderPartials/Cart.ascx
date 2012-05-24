@@ -168,7 +168,7 @@ function firstRenderCart(cartData) {
 function ValidateTerm(value, element, params) {
     var exit = false;
     $('.js_termCheck').each(function() {
-        if(!$(this).attr('checked'))
+        if(!$(this).is(':checked'))
         {   
             exit = true;
         }

@@ -8,8 +8,8 @@
     var suffixCount;
     var setExpiresYearValidation;
 
-	bindExpireDateCCValidation = function (currentSuffix) {
-        var suffix = currentSuffix;
+    bindExpireDateCCValidation = function (currentSuffix) {
+        var suffix = currentSuffix; 
         $("#expires_month" + suffix).unbind().bind('change', function () {
             var ccExpire = '';
             if (($("#expires_month" + suffix).val() != '') && ($("#expires_year" + suffix).val() != '')) {
@@ -28,66 +28,70 @@
         });
     }
 
-    $(document).ready(function () {
-        
-        if (typeof (setValidation) != 'function') {
-            setValidation = function () {
-                if (typeof (setSuffices) != 'function') {
-                    setSuffices = function () {
-                        suffixCount = 0;
-                        suffices = {};
-                        $("div [id^='suffixContainer']").each(function (i) {
-                            var currentID = $(this).attr("id");
-                            var content = $(this).html();
-                            if (('' !== content && -1 < currentID.indexOf(content)) || '' === content) {
-                                suffices[i] = content;
-                                suffixCount++;
-                            }
-                        });
-                    };
-                }
-                setSuffices();
 
-                if (typeof (addNonEmptyRule) != 'function') {
-                    addNonEmptyRule = function (selector, pluginSuffix) {
-                        $(selector).rules("add", {
-                            required: function (element) {
-                                return $("#cc-box" + pluginSuffix).is(':visible');
-                            },
-                            messages: {
-                                required: '<%= Html.ResourceNotEncoded("ErrorEmptyField") %>'
-                            }
-                        });
+        $(document).ready(function () {
+
+            if (typeof (setValidation) != 'function') {
+                setValidation = function () {
+                    if (typeof (setSuffices) != 'function') {
+                        setSuffices = function () {
+                            suffixCount = 0;
+                            suffices = {};
+                            $("div [id^='suffixContainer']").each(function (i) {
+                                var currentID = $(this).attr("id");
+                                var content = $(this).html();
+                                if (('' !== content && -1 < currentID.indexOf(content)) || '' === content) {
+                                    suffices[i] = content;
+                                    suffixCount++;
+                                }
+                            });
+                        };
                     }
-                }
+                    setSuffices();
 
-                if (typeof (setExpiresYearValidation) != 'function') {
-                    setExpiresYearValidation = function (selector, current_suffix) {
-                        $(selector).rules("add", {
-                            required: function (element) {
-								return $("#cc-box" + current_suffix).is(':visible');
-                            },
-                            messages: {
-                                required: '<%= Html.ResourceNotEncoded("ErrorEmptyField") %>'
-                            }
-                        });
-                    };
-                }
-
-                if (0 < suffixCount) {
-                    for (var counter = 0; counter < suffixCount; counter++) {
-                        var currentSuffix = suffices[counter];
-                        addNonEmptyRule("#cc_number" + currentSuffix, currentSuffix);
-                        addNonEmptyRule("#ccv" + currentSuffix, currentSuffix);
-                        addNonEmptyRule("#cc_name" + currentSuffix, currentSuffix);
-						setExpiresYearValidation("#validate_expire" + currentSuffix, currentSuffix);
-						bindExpireDateCCValidation(currentSuffix);
+                    if (typeof (addNonEmptyRule) != 'function') {
+                        addNonEmptyRule = function (selector, pluginSuffix) {
+                            $(selector).rules("add", {
+                                required: function (element) {                                    
+                                    return $("#cc-box" + pluginSuffix).is(':visible');
+                                },
+                                messages: {
+                                    required: '<%= Html.ResourceNotEncoded("ErrorEmptyField") %>'
+                                }
+                            });
+                        }
                     }
-                }
-            };
-        }
-        setValidation();
-    });
+
+                    if (typeof (setExpiresYearValidation) != 'function') {
+                        setExpiresYearValidation = function (selector, current_suffix) {                            
+                            $(selector).rules("add", {
+                                required: function (element) {    
+                                    return $("#cc-box" + current_suffix).is(':visible');
+                                },
+                                messages: {
+                                    required: '<%= Html.ResourceNotEncoded("ErrorEmptyField") %>'
+                                }
+                            });
+                        };
+                    }
+
+                    if (0 < suffixCount) {
+                        for (var counter = 0; counter < suffixCount; counter++) {
+                            var currentSuffix = suffices[counter];
+                            addNonEmptyRule("#cc_number" + currentSuffix, currentSuffix);
+                            addNonEmptyRule("#ccv" + currentSuffix, currentSuffix);
+                            addNonEmptyRule("#cc_name" + currentSuffix, currentSuffix);
+                            setExpiresYearValidation("#validate_expire" + currentSuffix, currentSuffix);
+
+                            bindExpireDateCCValidation(currentSuffix);                            
+
+                        }
+                    }
+
+                };
+            }
+            setValidation();
+        });
 </script>
 <%
     var suffix = (null != ViewData["suffix"] && !String.IsNullOrEmpty(ViewData["suffix"].ToString())) ? ViewData["suffix"].ToString() : String.Empty;
@@ -152,8 +156,8 @@
                 } 
 		        %>
 			</select> 
-			<input type="hidden" id="validate_expire<%=suffix %>" name="validate_expire<%=suffix %>" value=""/>
-			<% if (Html.ValidationMessage("validate_expire" + suffix) != null)
+			<input type="hidden" id="validate_expire<%=suffix %>" name="validate_expire<%=suffix %>" value=""/>			
+            <% if (Html.ValidationMessage("validate_expire" + suffix) != null)
 		       { %>
 		            <p class="errorinfo"><%= Html.ValidationMessage("validate_expire" + suffix)%></p>
 		    <% } %>

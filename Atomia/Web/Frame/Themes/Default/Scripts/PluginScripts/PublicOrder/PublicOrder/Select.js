@@ -296,7 +296,7 @@ var onSubmit = function(params) {
 
     // From cart partial .js, contains info about products in cart
     for (var i = 0; i < cartArray.length; i++) {
-        ids += cartArray[i].id + '|' + cartArray[i].display + '|';
+        ids += cartArray[i].id + '|' + cartArray[i].display + '|' + cartArray[i].renewalPeriod + '|';
         productsCounter++;
     }
 

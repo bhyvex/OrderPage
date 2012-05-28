@@ -96,18 +96,26 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 List<RadioRow> list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, null, null);
 
-                ViewData["switchedId"] = list[0].productId + "|" + list[0].productNameDesc;
+                string switchedId = list[0].productId + "|" + list[0].productNameDesc + "|" + list[0].RenewalPeriodId;
+                if (list[0].SetupFee != null)
+                {
+                    switchedId += "|" + list[0].SetupFee.productID + "|" + list[0].SetupFee.productDesc + "|" +
+                                  list[0].SetupFee.RenewalPeriodId;
+                }
+
+                ViewData["switchedId"] = switchedId;
 
                 string setupFeeId = OrderModel.FetchSetupFeeIdFromXml(service, Guid.Empty, null, null);
                 if (setupFeeId != String.Empty)
                 {
                     ProductDescription setupFee = OrderModel.FetchSetupFeePackageFromXml(service, Guid.Empty, null, null);
 
-                    ViewData["CartProducts"] = list[0].productId + '|' + list[0].productNameDesc + '|' + setupFee.productID + '|' + setupFee.productDesc;
+                    ViewData["CartProducts"] = list[0].productId + '|' + list[0].productNameDesc + '|' + list[0].RenewalPeriodId + '|' + true + '|' +
+                        setupFee.productID + '|' + setupFee.productDesc + '|' + setupFee.RenewalPeriodId + '|' + false;
                 }
                 else
                 {
-                    ViewData["CartProducts"] = list[0].productId + '|' + list[0].productNameDesc;
+                    ViewData["CartProducts"] = list[0].productId + '|' + list[0].productNameDesc + '|' + list[0].RenewalPeriodId + '|' + true;
                 }
 
                 PublicOrderConfigurationSection opcs = LocalConfigurationHelper.GetLocalConfigurationSection();

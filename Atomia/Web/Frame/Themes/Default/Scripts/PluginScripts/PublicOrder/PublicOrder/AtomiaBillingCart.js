@@ -36,8 +36,8 @@ $.postJSON = function(url, data, callback) {
             PricesIncludingVAT: false,
             OrderCustomAttributes: [],
             AddOrderAddressData: false,
-            ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, newProductID, newProductDesc, newProductQuantity) {
-                $.fn.AtomiaShoppingCart.SwitchItem(oldproductID, oldProductDesc, oldProductQuantity, newProductID, newProductDesc, newProductQuantity, true);
+            ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId)  {
+                $.fn.AtomiaShoppingCart.SwitchItem(oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage, true);
             },
             DeleteButtonFunction: function(htmlElement, productID, productDisplayName, productQuantity) {
                 $.fn.AtomiaShoppingCart.RemoveItem(productID, productDisplayName, productQuantity, true);
@@ -91,8 +91,8 @@ $.postJSON = function(url, data, callback) {
         PricesIncludingVAT: false,
         OrderCustomAttributes: [],
         AddOrderAddressData: false,
-        ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, newProductID, newProductDesc, newProductQuantity) {
-            $.fn.AtomiaShoppingCart.SwitchItem(oldproductID, oldProductDesc, oldProductQuantity, newProductID, newProductDesc, newProductQuantity, true);
+        ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId) {
+            $.fn.AtomiaShoppingCart.SwitchItem(oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage, true);
         },
         DeleteButtonFunction: function(htmlElement, productID, productDisplayName, productQuantity) {
             $.fn.AtomiaShoppingCart.RemoveItem(productID, productDisplayName, productQuantity, true);
@@ -225,9 +225,17 @@ $.postJSON = function(url, data, callback) {
     $.fn.AtomiaShoppingCart.GetCustomAttributesAsJson = function() {
         return '[' + $.fn.AtomiaShoppingCart.options.OrderCustomAttributes + ']';
     };
-    $.fn.AtomiaShoppingCart.AddItem = function(item, itemdisplay, itemquantity, doRecalculation) {
+    $.fn.AtomiaShoppingCart.AddItem = function(item, itemdisplay, itemquantity, doRecalculation, renewalPeriod, isPackage, addToTheBeginning) {
+        if (typeof renewalPeriod == 'undefined' || renewalPeriod == '')
+        {
+            renewalPeriod = '00000000-0000-0000-0000-000000000000';
+        }
 
-        cartArray[cartArray.length] = { id: item, display: itemdisplay, quantity: itemquantity };
+        if (typeof addToTheBeginning != 'undefined' && addToTheBeginning) {
+            cartArray.splice(0, 0, { id: item, display: itemdisplay, quantity: itemquantity, renewalPeriod: renewalPeriod, isPackage: isPackage });
+        } else {
+            cartArray[cartArray.length] = { id: item, display: itemdisplay, quantity: itemquantity, renewalPeriod: renewalPeriod, isPackage: isPackage };
+        }        
 
         if (typeof doRecalculation != 'undefined' && doRecalculation) {
             globalCounter++;
@@ -246,10 +254,10 @@ $.postJSON = function(url, data, callback) {
             $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
         }
     };
-    $.fn.AtomiaShoppingCart.SwitchItem = function(oldId, olddisplay, oldquantity, newId, newdisplay, newquantity, doRecalculation) {
+    $.fn.AtomiaShoppingCart.SwitchItem = function(oldId, olddisplay, oldquantity, oldRenewalPeriod, oldIsPackage, newId, newdisplay, newquantity, newRenewalPeriod, newIsPackage, doRecalculation) {
         for (var i = 0; i < cartArray.length; i++) {
-            if (cartArray[i].id == oldId && cartArray[i].display == olddisplay && cartArray[i].quantity == oldquantity) {
-                cartArray.splice(i, 1, { id: newId, display: newdisplay, quantity: newquantity });
+            if (cartArray[i].id == oldId && cartArray[i].display == olddisplay && cartArray[i].quantity == oldquantity && cartArray[i].renewalPeriod == oldRenewalPeriod) {
+                cartArray.splice(i, 1, { id: newId, display: newdisplay, quantity: newquantity, renewalPeriod: newRenewalPeriod, isPackage: newIsPackage });
             }
         }
         if (typeof doRecalculation != 'undefined' && doRecalculation) {
@@ -268,11 +276,18 @@ $.postJSON = function(url, data, callback) {
         var productIds = '';
         var productdisplayNames = '';
         var productQuantities = '';
+        var renewalPeriods = '';
 
         for (var i = 0; i < cartArray.length; i++) {
             productIds += cartArray[i].id + "|";
             productdisplayNames += cartArray[i].display + "|";
             productQuantities += cartArray[i].quantity + "|";
+            if (typeof cartArray[i].renewalPeriod == 'undefined' || cartArray[i].renewalPeriod == '') {
+                renewalPeriods += "00000000-0000-0000-0000-000000000000|";
+            }
+            else {
+                renewalPeriods += cartArray[i].renewalPeriod + "|";
+            }            
         }
 
         var htmlElement = $.fn.AtomiaShoppingCart.options.htmlElement;
@@ -284,6 +299,7 @@ $.postJSON = function(url, data, callback) {
                 arrayOfProducts: productIds,
                 arrayOfProductNames: productdisplayNames,
                 arrayOfProductQuantities: productQuantities,
+                arrayOfRenewalPeriods: renewalPeriods,
                 displayProductName: $.fn.AtomiaShoppingCart.options.ProductName.display,
                 displayProductPeriod: $.fn.AtomiaShoppingCart.options.ProductPeriod.display,
                 displayProductNumberOfItems: $.fn.AtomiaShoppingCart.options.ProductNumberOfItems.display,
@@ -345,7 +361,6 @@ $.postJSON = function(url, data, callback) {
                     $(theadElement).append($(theadtr));
 
                     var tbodyElement = $(document.createElement('tbody'));
-
                     CreateTBodyElement(tbodyElement, data);
 
                     var tfootElement = $(document.createElement('tfoot'));
@@ -425,7 +440,7 @@ $.postJSON = function(url, data, callback) {
                         $('#' + table_id + ' select').change(
                             function() {
                                 var trIndex = $(this).parent().parent()[0].rowIndex;
-                                $.fn.AtomiaShoppingCart.options.ChangePeriodFunction($(this), cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, $(this).val(), cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity);
+                                $.fn.AtomiaShoppingCart.options.ChangePeriodFunction($(this), cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, cartArray[trIndex - 1].renewalPeriod, cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, $(this).val());
                             }
                           );
                     }
@@ -499,7 +514,7 @@ function CreateTBodyElement(tbodyElement, data) {
 
                                     jQuery.each(itemVal.AvailablePeriodList, function(optionIndex, optionValue) {
                                         var selectListOptionHTML = $(document.createElement('option'));
-                                        selectListOptionHTML.val(optionValue.OptionID);
+                                        selectListOptionHTML.val(optionValue.RenewalPeriodId);
                                         selectListOptionHTML.html(optionValue.OptionText);
                                         if (optionValue.OptionSelected) {
                                             selectListOptionHTML.attr('selected', 'selected');

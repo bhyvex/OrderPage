@@ -111,7 +111,11 @@
                             <%
                             }      
                             %>
-                            <input type="hidden" value="<%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %>" />
+                            <input type="hidden" name="RadioProductsName" value="<%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %>" />
+                            <input type="hidden" name="RadioProductsRenewalPeriod" value="<%= list[i].RenewalPeriodId %>" />
+                            <input type="hidden" name="RadioProductsSetupFeeId" value="<%= list[i].SetupFee != null ? list[i].SetupFee.productID : string.Empty  %>" />
+                            <input type="hidden" name="RadioProductsSetupFeeDescription" value="<%= list[i].SetupFee != null ? Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].SetupFee.productDesc)) : string.Empty  %>" />
+                            <input type="hidden" name="RadioProductsSetupFeeRenewalPeriodId" value="<%= list[i].SetupFee != null ? list[i].SetupFee.RenewalPeriodId : string.Empty  %>" />
                         </p>
                         <p class="package-description">
                             <%= Html.Resource("Description")%>:<br class="clear" />

@@ -59,7 +59,10 @@ if ((bool)Session["firstOption"])
                                 <td>
                                     <img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "icn_processing_transparent.gif"))%>" height="24" width="24" title="<%=Html.Resource("Loading")%>" alt="<%=Html.Resource("Loading")%>" />
                                 </td>
-	                            <td class="right loading"><%=domains[i].ProductPrice%> <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span></td>
+	                            <td class="right loading">
+                                    <%=domains[i].ProductPrice%> <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span>
+                                    <input type="hidden" name="renewalPeriod" value="<%=domains[i].RenewalPeriodId %>" />
+                                </td>
                                 <td class="right loading">&nbsp;</td>
 	                    <%
         }
@@ -70,7 +73,10 @@ if ((bool)Session["firstOption"])
                                 <td>
                                     <img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" height="24" width="24" title="<%=Html.Resource("Taken")%>" alt="<%=Html.Resource("Taken")%>" />
                                 </td>
-	                            <td class="right loading"><%=domains[i].ProductPrice%> <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span></td>
+	                            <td class="right loading">
+                                    <%=domains[i].ProductPrice%> <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span>
+                                    <input type="hidden" name="renewalPeriod" value="<%=domains[i].RenewalPeriodId %>" />
+                                </td>
                                 <td class="right">&nbsp;</td>
 	                    <%
         }
@@ -174,7 +180,7 @@ if ((bool)Session["firstOption"])
 									    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
 									    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_ok.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Available")%>" alt="<%=Html.ResourceNotEncoded("Available")%>" />');
 									    $(this).find('td').eq(1).attr({'id': dsStatusID});
-									    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+									    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
 									    $(this).find('td').eq(2).attr({'id': dsPriceID});
 									    $(this).find('td').eq(2).removeClass('loading');
 								    }
@@ -186,7 +192,7 @@ if ((bool)Session["firstOption"])
 									    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
 									    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_ok.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Available")%>" alt="<%=Html.ResourceNotEncoded("Available")%>" />');
 									    $(this).find('td').eq(1).attr({'id': dsStatusID});
-									    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+									    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
 									    $(this).find('td').eq(2).attr({'id': dsPriceID});
 									    $(this).find('td').eq(2).removeClass('loading');
 								    }
@@ -201,7 +207,7 @@ if ((bool)Session["firstOption"])
 								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
 								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Taken")%>" alt="<%=Html.ResourceNotEncoded("Taken")%>" />');
 								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
 								    $(this).find('td').eq(2).attr({'id': dsPriceID});
 								    $(this).find('td').eq(2).removeClass('loading');
     								
@@ -215,7 +221,7 @@ if ((bool)Session["firstOption"])
 								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
 								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_warning.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("NotAllowedDomain")%>" alt="<%=Html.ResourceNotEncoded("NotAllowedDomain")%>" />');
 								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
 								    $(this).find('td').eq(2).attr({'id': dsPriceID});
 								    $(this).find('td').eq(2).removeClass('loading');
     								
@@ -229,7 +235,7 @@ if ((bool)Session["firstOption"])
 								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
 								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_warning.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("ErrorProcessing")%>" alt="<%=Html.ResourceNotEncoded("ErrorProcessing")%>" />');
 								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
 								    $(this).find('td').eq(2).attr({'id': dsPriceID});
 								    $(this).find('td').eq(2).removeClass('loading');
     								
@@ -243,7 +249,7 @@ if ((bool)Session["firstOption"])
 								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
 								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Unavailable")%>" alt="<%=Html.ResourceNotEncoded("Unavailable")%>" />');
 								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
 								    $(this).find('td').eq(2).attr({'id': dsPriceID});
 								    $(this).find('td').eq(2).removeClass('loading');
     								
@@ -260,11 +266,11 @@ if ((bool)Session["firstOption"])
 								    $(this).attr({ rel: "remove" });
 								    $(this).text("<%=Html.ResourceNotEncoded("Del")%>").removeClass("green").addClass("red");
     								
-								    var id = $(this).parent().parent().attr('id');
-    								
+								    var id = $(this).parent().parent().attr('id');    								
 								    var domain = $(this).parent().parent().find('.vtip').attr('title');
+                                    var renewalPeriod = $(this).parent().parent().find('input[name="renewalPeriod"]').val();
     								
-								    $.fn.AtomiaShoppingCart.AddItem(id, domain, 1, true);
+								    $.fn.AtomiaShoppingCart.AddItem(id, domain, 1, true, renewalPeriod, false);
     								
 								    $('#MainDomainSelect').append('<option value="'+domain+'">'+domain+'</option>');
 								    if($('#MainDomainSelect').children().length > 1) 

@@ -156,7 +156,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Original Files\Web.config" />
+    <Content Include="Original Files\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Original Files\atomiaRegularExpressionConfig.config" />
     <Content Include="App_Data\atomiaRegularExpressionConfig.config" />
     <None Include="PostPublish.bat" />

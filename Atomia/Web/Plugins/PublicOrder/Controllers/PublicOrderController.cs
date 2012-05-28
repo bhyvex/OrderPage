@@ -10,11 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+
 using Atomia.Common;
 using Atomia.Web.Base.ActionFilters;
 using Atomia.Web.Base.Helpers.General;
@@ -28,15 +28,15 @@ using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 using Atomia.Web.Plugin.PublicOrder.Configurations;
 using Atomia.Web.Plugin.PublicOrder.Filters;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
+using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 using Atomia.Web.Plugin.PublicOrder.Models;
-using Elmah;
+
 using DomainDataFromXML = Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml;
 
 #endregion Using namespaces
+
 namespace Atomia.Web.Plugin.PublicOrder.Controllers
 {
-    using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
-
     /// <summary>
     /// Order Controller class
     /// </summary>
@@ -237,7 +237,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             List<string> tldBasedRegexes;
             try
             {
-                tldBasedRegexes = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
+                tldBasedRegexes = DomainSearchHelper.GetTLDBasedRegexes();
             }
             catch (ConfigurationErrorsException ex)
             {
@@ -277,7 +277,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             List<DomainDataFromXML> domainData;
 
             // Validate domains because they come from URL
-            string[] domainsSubmitted = domain.Split(new[] { " " }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] domainsSubmitted = domain.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
             Regex regexFront = new Regex(RegularExpression.GetRegularExpression("DomainFront"));
             Regex regexFull = new Regex(RegularExpression.GetRegularExpression("Domain"));
@@ -550,9 +550,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 currentCart = new List<ProductDescription>();
 
-                for (int i = 0; i < currentArrayOfProducts.Count; i += 2)
+                for (int i = 0; i < currentArrayOfProducts.Count; i += 3)
                 {
-                    currentCart.Add(new ProductDescription { productID = currentArrayOfProducts[i], productDesc = currentArrayOfProducts[i + 1] });
+                    currentCart.Add(
+                        new ProductDescription
+                        {
+                            productID = currentArrayOfProducts[i], 
+                            productDesc = currentArrayOfProducts[i + 1],
+                            RenewalPeriodId = currentArrayOfProducts[i + 2]
+                        });
                 }
 
                 if (!SubmitForm.FirstOption)
@@ -715,6 +721,19 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 }
                             }
 
+                            // Get renewal period id for current cart product
+                            Guid renewalPeriodId = Guid.Empty;
+                            if (!string.IsNullOrEmpty(tmpProduct.RenewalPeriodId))
+                            {
+                                try
+                                {
+                                    renewalPeriodId = new Guid(tmpProduct.RenewalPeriodId);
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+
                             if (tmpProduct.productID != selectedPackage.productID)
                             {
                                 // it's domain
@@ -733,6 +752,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         ItemId = Guid.Empty,
                                         ItemNumber = tmpProduct.productID,
                                         Quantity = 1,
+                                        RenewalPeriodId = renewalPeriodId,
                                         CustomData = arrayOfCustoms.ToArray()
                                     };
 
@@ -760,11 +780,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         ItemId = Guid.Empty,
                                         ItemNumber = tmpProduct.productID,
                                         Quantity = 1,
+                                        RenewalPeriodId = renewalPeriodId,
                                         CustomData = arrayOfCustoms.ToArray()
                                     };
 
                                     myOrderItems.Add(tmpItem);
-
                                 }
                             }
                             else
@@ -777,6 +797,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                                                   {
                                                                       ItemId = Guid.Empty, 
                                                                       ItemNumber = tmpProduct.productID, 
+                                                                      RenewalPeriodId = renewalPeriodId,
                                                                       Quantity = 1
                                                                   };
 
@@ -789,12 +810,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     {
                                         ItemId = Guid.Empty,
                                         ItemNumber = tmpProduct.productID,
+                                        RenewalPeriodId = renewalPeriodId,
                                         Quantity = 1
                                     };
 
                                     myOrderItems.Add(tmpItem);
-
-
                                     
                                     // check if there's setup fee to be added
                                     if (!String.IsNullOrEmpty(setupFeeId))
@@ -859,7 +879,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         }
 
                         // Add IP address of the customer as the custom order attribute
-
                         string ip = this.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
                         if (!string.IsNullOrEmpty(ip))
                         {
@@ -902,7 +921,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(SubmitForm.Mobile);
                         }
 
-                        myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card" ? Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard : Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice;
+                        myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card"
+                                                    ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard
+                                                    : OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice;
 
                         newOrder = service.CreateOrder(myOrder);
 
@@ -949,26 +970,35 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["OwnDomain"] = singleDomain.ProductName;
             }
 
-            string toSend = string.Empty;
+            string cartProducts = string.Empty;
             for (int i = 0; i < currentCart.Count; i++)
             {
+                bool package = list.Where(listItem => listItem.productId == currentCart[i].productID).Count() > 0;
+
                 if (i < currentCart.Count - 1)
                 {
-                    toSend += currentCart[i].productID + "|" + currentCart[i].productDesc + "|";
+                    cartProducts += currentCart[i].productID + "|" + currentCart[i].productDesc + "|" + currentCart[i].RenewalPeriodId + "|" + package + "|";
                 }
                 else
                 {
-                    toSend += currentCart[i].productID + "|" + currentCart[i].productDesc;
+                    cartProducts += currentCart[i].productID + "|" + currentCart[i].productDesc + "|" + currentCart[i].RenewalPeriodId + "|" + package;
                 }
             }
 
             // Needed for Cart partial
-            ViewData["CartProducts"] = toSend;
+            ViewData["CartProducts"] = cartProducts;
 
             ViewData["radioList"] = list;
 
             // Needed for Cart partial
-            ViewData["switchedId"] = list[0].productId + "|" + list[0].productNameDesc;
+            string switchedId = list[0].productId + "|" + list[0].productNameDesc + "|" + list[0].RenewalPeriodId;
+            if (list[0].SetupFee != null)
+            {
+                switchedId += "|" + list[0].SetupFee.productID + "|" + list[0].SetupFee.productDesc + "|" +
+                              list[0].SetupFee.RenewalPeriodId;
+            }
+
+            ViewData["switchedId"] = switchedId;
 
             if (paymentMethodCc)
             {
@@ -1153,14 +1183,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-               string emailDomain = (email.Split('@'))[1];
+               string emailDomain = email.Split('@')[1];
                SimpleDnsPlus.IDNLib.Encode(emailDomain);
                emailDomainValid = true;
             }
             catch (Exception)
             {
                 emailDomainValid = false;
-               
             }
 
             return Json(emailDomainValid);
@@ -1222,7 +1251,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             try
             {
                 string finalDomainName = SimpleDnsPlus.IDNLib.Encode(domainName);
-                validated = Regex.IsMatch(finalDomainName, Atomia.Common.RegularExpression.GetRegularExpression("EncodedDomain"));
+                validated = Regex.IsMatch(finalDomainName, RegularExpression.GetRegularExpression("EncodedDomain"));
             }
             catch (Exception ex)
             {
@@ -1367,6 +1396,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="arrayOfProducts">The array of products.</param>
         /// <param name="arrayOfProductNames">The array of product names.</param>
         /// <param name="arrayOfProductQuantities">The array of product quantities.</param>
+        /// <param name="arrayOfRenewalPeriods">The array of product renewal periods.</param>
         /// <param name="displayProductName">if set to <c>true</c> [display product name].</param>
         /// <param name="displayProductPeriod">if set to <c>true</c> [display product period].</param>
         /// <param name="displayProductNumberOfItems">if set to <c>true</c> [display product number of items].</param>
@@ -1383,7 +1413,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="orderCustomAttributes">The order custom attributes.</param>
         /// <param name="orderAddress">The order address.</param>
         /// <returns>Json Object.</returns>
-        public ActionResult RecalculateCart(string arrayOfProducts, string arrayOfProductNames, string arrayOfProductQuantities, bool displayProductName, bool displayProductPeriod, bool displayProductNumberOfItems, bool displayProductPrice, bool displayProductDiscount, bool displayProductTotalPrice, bool displayOrderSubAmount, bool displayOrderTaxes, bool displayOrderTotal, string chosenCountry, int globalCounter, string campaignCode, bool pricesIncludingVAT, string orderCustomAttributes, string orderAddress)
+        public ActionResult RecalculateCart(string arrayOfProducts, string arrayOfProductNames, string arrayOfProductQuantities, string arrayOfRenewalPeriods, bool displayProductName, bool displayProductPeriod, bool displayProductNumberOfItems, bool displayProductPrice, bool displayProductDiscount, bool displayProductTotalPrice, bool displayOrderSubAmount, bool displayOrderTaxes, bool displayOrderTotal, string chosenCountry, int globalCounter, string campaignCode, bool pricesIncludingVAT, string orderCustomAttributes, string orderAddress)
         {
             ShoppingCart result;
 
@@ -1403,6 +1433,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     arrayOfProducts,
                     arrayOfProductNames,
                     arrayOfProductQuantities,
+                    arrayOfRenewalPeriods,
                     displayProductName,
                     displayProductPeriod,
                     displayProductNumberOfItems,
@@ -1437,7 +1468,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="order">The order.</param>
         /// <param name="paidAmount">The paid amount.</param>
         /// <returns>Creation of transaction success</returns>
-        private string CreatePaymentTransaction(Controller controller, Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount)
+        private string CreatePaymentTransaction(Controller controller, OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount)
         {
             PublicPaymentTransaction transaction = PaymentHelper.FillPaymentTransactionForOrder(order, Request, paidAmount);
 
@@ -1460,20 +1491,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-
-                using (Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
+                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
                 {
-
                     publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();                                    
 
                     VatNumberValidationResultType valResult = publicOrderService.ValidateVatNumber(
                         countryCode, VATNumber);
 
-                    var dataToReturn =
-                        new { sEcho, validationResult = valResult.ToString().ToLower(), error = "", success = true };
+                    var dataToReturn = new { sEcho, validationResult = valResult.ToString().ToLower(), error = string.Empty, success = true };
                     result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
                 }
-
             }
             catch (Exception ex)
             {

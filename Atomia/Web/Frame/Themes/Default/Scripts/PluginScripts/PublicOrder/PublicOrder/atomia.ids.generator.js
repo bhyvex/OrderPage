@@ -46,7 +46,7 @@ function SetCartID(product) {
     else {
         $("input[name=RadioProducts]").each(
             function(i) {
-                var productName = $(this).parent().find('input[type=hidden]').val(); 
+                var productName = $(this).parent().find('input[name=RadioProductsName]').val(); 
                 if (productName == product) {
                     result = $(this).attr('id');
                 }

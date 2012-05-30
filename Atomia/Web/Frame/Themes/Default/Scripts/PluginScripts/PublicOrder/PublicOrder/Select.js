@@ -246,8 +246,27 @@ var paymentMethodPostBind = function(params) {
 
 var paymentMethodCarBind = function(params) {
 	$("#PaymentMethodCard").click(function() {
+		$('#paymentPluginList').hide();
+		$('#paymentPluginPayPal').hide();
+		$('input[name="pluginSelector"][value="CCPayment"]').attr('checked','checked');
+		$('#paymentPluginCCPayment').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').text(params.BillingTextCC);
+		$('#ActivationText').text(params.ActivationTextCC);
+		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
+		$.fn.AtomiaShoppingCart.RemoveOrderCustomAttribute('PayByInvoice', 'true');
+		globalCounter++;
+		$.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
+	});
+};
+var paymentMethodPayPalBind = function(params) {
+	$("#PaymentMethodPayPal").click(function() {
+		$('#paymentPluginList').hide();
+		$('#paymentPluginCCPayment').hide();
+		$('input[name="pluginSelector"][value="PayPal"]').attr('checked','checked');
+		$('#paymentPluginPayPal').show();
+		$("#cc_paymentDiv").show();
+		$('#BillingText').text(params.BillingTextPayPal);
 		$('#ActivationText').text(params.ActivationTextCC);
 		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
 		$.fn.AtomiaShoppingCart.RemoveOrderCustomAttribute('PayByInvoice', 'true');

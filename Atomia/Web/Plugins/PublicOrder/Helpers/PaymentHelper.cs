@@ -82,8 +82,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 }
             }
 
-            transaction.ReturnUrl = appUrl + '/' + returnUrl;
-
+            transaction.ReturnUrl = appUrl.TrimEnd(new[] { '/' }) + '/' + returnUrl.TrimStart(new[] { '/' });
+            
             PublicPaymentTransaction returnedTransaction;
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
@@ -101,7 +101,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             {
                 return String.Empty;
             }
-
+            
+            return transaction.ReturnUrl;
             // if status is not ok throw an exception
             throw new Exception("Error creating payment transaction");
         }

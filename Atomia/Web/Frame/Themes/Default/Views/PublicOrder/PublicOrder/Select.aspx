@@ -7,6 +7,7 @@
 <%@ Import Namespace="System.Collections.Generic"%>
 <%@ Import Namespace="System.Web.Mvc" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
+<%@ Import Namespace="Atomia.Billing.Core.Common.PaymentPlugins" %>
 
 <asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
   <%= Html.Resource("PageTitle")%>
@@ -503,11 +504,19 @@
                 <%  var paymentEnabled = (bool)ViewData["PaymentEnabled"];
                     var orderByEmailEnabled = (bool)ViewData["OrderByEmailEnabled"];
                     var orderByPostEnabled = (bool)ViewData["OrderByPostEnabled"];
-                    var onlyOneOption = false;
-                    if (paymentEnabled == false && orderByEmailEnabled == false || paymentEnabled == false && orderByPostEnabled == false || orderByEmailEnabled == false && orderByPostEnabled == false)
+					var payPalEnabled = (bool)ViewData["PayPalEnabled"];
+					
+					int optionCounter = 0;
+                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled })
                     {
-                        onlyOneOption = true;
+                        if (item)
+                        {
+                            optionCounter++;
+                        }                   
                     }
+
+                    var onlyOneOption = (optionCounter < 2);
+                    
                 %>
                 <div id="PaymentDiv">
                     <div <%= onlyOneOption ? "style='display: none;'" : String.Empty %>>
@@ -542,16 +551,39 @@
 		                        </label>
 		                        <br class="clear" />
 		                        <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+								<br class="clear" />
+			                <% 
+                            } 
+							if (payPalEnabled)
+                            { %>
+		                        <label for="PaymentMethodPayPal">
+			                        <%= Html.RadioButton("RadioPaymentMethod", "paypal", Model.RadioPaymentMethod == "paypal", new Dictionary<string, object> { { "id", "PaymentMethodPayPal" } })%> <%= Html.Resource("Pay_pal")%>
+		                        </label>
+		                        <br class="clear" />
+		                        <div class="smalltext"><%= Html.Resource("PaymentSmall4")%></div>
 			                <% 
                             } %>
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled)
-                { %>
+	            <%if (paymentEnabled || payPalEnabled)
+                { 
+				
+				List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
+				if (paymentEnabled)
+				{
+					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("CCPayment", "Credit card payment"));
+				}
+				
+				if (payPalEnabled)
+				{
+					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayPal", "PayPal payment"));
+				}
+				
+				
+				%>
                 <div id="cc_paymentDiv" style="display: none;">
-			        <h2><%= Html.Resource("CreditCardPayment")%></h2>
-			        <% Html.RenderAction("Index", "PaymentForm", new { area = "PaymentForm", listOfPlugins = new[]{ new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("CCPayment", "Credit card payment") } }); %>
+			        <% Html.RenderAction("Index", "PaymentForm", new { area = "PaymentForm", listOfPlugins = plugins.ToArray() }); %>
 		        </div>
 		        <% 
                 } %>
@@ -572,6 +604,11 @@
                      %>
 			            <%= Html.Resource("OnCCBilling")%>
 			        <% 
+                    }else if(payPalEnabled)
+                    {
+                     %>
+			            <%= Html.Resource("OnPayPalBilling")%>
+			        <% 
                     } %>
 		        </div>
 		        <h4><%= Html.Resource("Activation")%></h4>
@@ -589,7 +626,13 @@
                      %>
 			            <%= Html.Resource("OnCCActivation")%>
 			        <% 
-                    } %>
+                    }
+					else if(payPalEnabled)
+                    {
+                     %>
+			            <%= Html.Resource("OnCCActivation")%>
+			        <% 
+                    }					%>
 		        </div>
                 <div id="termsDiv">
                     <h2><%= Html.Resource("TermsDiv")%></h2>
@@ -716,9 +759,11 @@
 		    params.ActivationTextPost = '<%= Html.ResourceNotEncoded("OnPostActivation")%>';
 		    paymentMethodPostBind(params);
 
-		    params.BillingTextCC = '<%= Html.ResourceNotEncoded("OnCCBilling")%>';
+		    params.BillingTextPayPal = '<%= Html.ResourceNotEncoded("OnPayPalBilling")%>';
 		    params.ActivationTextCC = '<%= Html.ResourceNotEncoded("OnCCActivation")%>';
 		    paymentMethodCarBind(params);
+			
+			paymentMethodPayPalBind(params);
 
 		    fillPaymentMethod('<%= Model.RadioPaymentMethod%>');
 

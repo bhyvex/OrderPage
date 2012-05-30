@@ -420,4 +420,16 @@
   <data name="TechnicalContact" xml:space="preserve">
     <value>Technical contact:</value>
   </data>
+  <data name="OnPayPalBilling" xml:space="preserve">
+    <value>Charged by given paypal account</value>
+  </data>
+  <data name="PaymentSmall4" xml:space="preserve">
+    <value>(free of charge, get going with your services immediately</value>
+  </data>
+  <data name="PayPalPayment" xml:space="preserve">
+    <value>Paypal payment</value>
+  </data>
+  <data name="Pay_pal" xml:space="preserve">
+    <value>Pay with your paypal account</value>
+  </data>
 </root>

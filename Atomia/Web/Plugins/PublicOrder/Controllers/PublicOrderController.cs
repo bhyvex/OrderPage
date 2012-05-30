@@ -32,6 +32,7 @@ using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 using Atomia.Web.Plugin.PublicOrder.Models;
 
 using DomainDataFromXML = Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml;
+using System.Globalization;
 
 #endregion Using namespaces
 
@@ -405,12 +406,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool paymentEnabled = Boolean.Parse(opcs.OnlinePayment.Enabled);
             bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
             bool orderByEmailEnabled = Boolean.Parse(opcs.InvoiceByEmail.Enabled);
+            bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
 
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
                 ViewData["PaymentEnabled"] = paymentEnabled;
+                ViewData["PayPalEnabled"] = payPalEnabled;
 
                 ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, null, null) : string.Empty;
                 ViewData["OrderByPostEnabled"] = orderByPostEnabled;
@@ -460,6 +463,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 submitForm.RadioPaymentMethod = "card";
             }
+            else if (payPalEnabled && opcs.PayPal.Default)
+            {
+                submitForm.RadioPaymentMethod = "paypal";
+            }
+
 
             ViewData["RegDomainFront"] = RegularExpression.GetRegularExpression("DomainFront");
             ViewData["RegDomain"] = RegularExpression.GetRegularExpression("Domain");
@@ -506,6 +514,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool paymentEnabled = Boolean.Parse(opcs.OnlinePayment.Enabled);
             bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
             bool orderByEmailEnabled = Boolean.Parse(opcs.InvoiceByEmail.Enabled);
+            bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
+
             string orderByPostId = string.Empty;
             List<string> currentArrayOfProducts;
             List<RadioRow> list;
@@ -514,14 +524,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                if (paymentEnabled)
-                {
-                    ViewData["PaymentEnabled"] = true;
-                }
-                else
-                {
-                    ViewData["PaymentEnabled"] = false;
-                }
+                
+                ViewData["PaymentEnabled"] = paymentEnabled;
+
+                ViewData["PayPalEnabled"] = payPalEnabled;
 
                 if (orderByPostEnabled)
                 {
@@ -935,11 +941,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         this.Session["CreatedOrder"] = newOrder;
                     }
 
-                    if (SubmitForm.RadioPaymentMethod == "card")
+                    if (SubmitForm.RadioPaymentMethod == "card" || SubmitForm.RadioPaymentMethod == "paypal")
                     {
-                        paymentMethodCc = true;
+                        paymentMethodCc = (SubmitForm.RadioPaymentMethod == "card");
 
-                        string result = this.CreatePaymentTransaction(this, newOrder, newOrder.Total);
+                        string result = this.CreatePaymentTransaction(this, newOrder, newOrder.Total, SubmitForm.RadioPaymentMethod);
 
                         if (!String.IsNullOrEmpty(result))
                         {
@@ -1461,6 +1467,124 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             return Json(result);
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult PayPalConfirm()
+        {
+            string token = this.Request.Params["token"];
+            string PayerID = this.Request.Params["PayerID"];
+
+            // get transaction bu id
+
+            PublicPaymentTransaction transaction = GetTransationById(token);
+            if (transaction == null)
+            {
+                throw new ArgumentException("Invalid token");
+            }
+
+            var amount = transaction.Amount;
+            ViewData["PayAmount"] = amount.ToString(".00");
+
+            ViewData["ReferenceNumber"] = token;
+            ViewData["PayerId"] = PayerID;
+
+            ViewData["currencyFormat"] = CultureHelper.CURRENCY_FORMAT;
+            ViewData["numberFormat"] = CultureHelper.NUMBER_FORMAT;
+
+            ViewData["Currency"] = transaction.CurrencyCode;
+
+            string cancelUrl;
+            if (!transaction.Attributes.Any(item => item.Name == "CancelUrl"))
+            {
+                cancelUrl = Url.Action("Index", new { controller = "PublicOrder" });
+            }
+            else
+            {
+                cancelUrl = transaction.Attributes.First(item => item.Name == "CancelUrl").Value;
+            }
+
+            ViewData["CancelUrl"] = cancelUrl;
+
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult PayPalConfirm(string token, string PayerID)
+        {
+            PublicPaymentTransaction transaction = GetTransationById(token);
+            if (transaction == null)
+            {
+                // error: transaction does not exist
+                throw new ArgumentException("Token is invalid");
+            }
+
+            string errorMessage = string.Empty;
+            var amount = transaction.Amount;
+
+            List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+            if (!attributeDatas.Any(item => item.Name == "token"))
+            {
+                attributeDatas.Add(new AttributeData { Name = "token", Value = token });
+            }
+            else
+            {
+                attributeDatas.First(item => item.Name == "token").Value = token;
+            }
+
+            if (!attributeDatas.Any(item => item.Name == "payerid"))
+            {
+                attributeDatas.Add(new AttributeData { Name = "payerid", Value = PayerID });
+            }
+            else
+            {
+                attributeDatas.First(item => item.Name == "payerid").Value = PayerID;
+            }
+
+            List<NameValue> nameValues = new List<NameValue>();
+
+            foreach (var item in attributeDatas)
+            {
+                nameValues.Add(new NameValue { Name = item.Name, Value = item.Value });
+            }
+
+            PublicPaymentTransaction finishedTransaction = null;
+
+            try
+            {
+                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
+                {
+                    publicOrderService.UpdatePaymentTransactionData(token, transaction.Status, transaction.StatusCode, transaction.StatusCodeDescription, nameValues.ToArray());
+                    finishedTransaction = publicOrderService.FinishPayment(transaction.TransactionId);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+            }
+
+            if (finishedTransaction == null)
+            {
+                // error: transaction does not exist
+                throw new ArgumentException("Transcation could not be finished.");
+            }
+
+            CultureInfo locale = CultureInfo.CreateSpecificCulture("en-US");
+
+            // we send it as a string to avoid culture issues
+            string amountStr = transaction.Amount.ToString(locale);
+
+            return RedirectToAction(
+                "Payment",
+                "PublicOrder",
+                new
+                {
+                    amount = amountStr,
+                    transactionReference = finishedTransaction.TransactionReference,
+                    transactionReferenceType = 0,
+                    status = finishedTransaction.Status
+                });
+        }
+
         /// <summary>
         /// Creates the payment transaction.
         /// </summary>
@@ -1468,11 +1592,30 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="order">The order.</param>
         /// <param name="paidAmount">The paid amount.</param>
         /// <returns>Creation of transaction success</returns>
-        private string CreatePaymentTransaction(Controller controller, OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount)
+        private string CreatePaymentTransaction(Controller controller, OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount, string paymentMethod)
         {
             PublicPaymentTransaction transaction = PaymentHelper.FillPaymentTransactionForOrder(order, Request, paidAmount);
 
-            string action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+            string action = null;
+
+            if (paymentMethod == "card")
+            {
+                action = controller.Url.Action("Payment", new { controller = "PublicOrder" });    
+            }
+            else if (paymentMethod == "paypal")
+            {
+                action = controller.Url.Action("PayPalConfirm", new { controller = "PublicOrder" });
+
+                List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                {
+                    attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                }
+                else
+                {
+                    attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
+                }
+            }
 
             return PaymentHelper.CreatePaymentTransaction(controller, order, paidAmount, action, transaction);
         }
@@ -1516,6 +1659,23 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             return result;
+        }
+
+        private PublicPaymentTransaction GetTransationById(string transactionId)
+        {
+            
+            try
+            {
+                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
+                {
+                    return publicOrderService.GetPaymentTransactionById(transactionId);
+                }
+            }
+            catch (Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+                return null;
+            }
         }
     }
 }

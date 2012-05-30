@@ -1552,6 +1552,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
                 {
+                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
                     publicOrderService.UpdatePaymentTransactionData(token, transaction.Status, transaction.StatusCode, transaction.StatusCodeDescription, nameValues.ToArray());
                     finishedTransaction = publicOrderService.FinishPayment(transaction.TransactionId);
                 }
@@ -1668,6 +1669,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
                 {
+                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
                     return publicOrderService.GetPaymentTransactionById(transactionId);
                 }
             }

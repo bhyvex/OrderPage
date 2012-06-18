@@ -611,6 +611,7 @@
 			        <% 
                     } %>
 		        </div>
+                <div id="paymentNeededNotification" class="notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></div>
 		        <h4><%= Html.Resource("Activation")%></h4>
 		        <div id="ActivationText" class="formrow">
 		            <%if(orderByEmailEnabled)

@@ -420,4 +420,7 @@
   <data name="TechnicalContact" xml:space="preserve">
     <value>Technical contact:</value>
   </data>
+  <data name="PaymentNeededNotification" xml:space="preserve">
+    <value>Betalning ska vara avslutad innan ett eller flera artiklar kan användas.</value>
+  </data>
 </root>

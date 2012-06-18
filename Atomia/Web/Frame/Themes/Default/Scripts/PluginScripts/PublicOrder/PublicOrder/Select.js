@@ -246,6 +246,7 @@ var paymentMethodPostBind = function(params) {
 
 var paymentMethodCarBind = function(params) {
 	$("#PaymentMethodCard").click(function() {
+		$('#paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
 		$('input[name="pluginSelector"][value="CCPayment"]').attr('checked','checked');
@@ -261,6 +262,7 @@ var paymentMethodCarBind = function(params) {
 };
 var paymentMethodPayPalBind = function(params) {
 	$("#PaymentMethodPayPal").click(function() {
+		$('#paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginCCPayment').hide();
 		$('input[name="pluginSelector"][value="PayPal"]').attr('checked','checked');

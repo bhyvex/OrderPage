@@ -25,7 +25,7 @@ $.postJSON = function(url, data, callback) {
             ProductFullPrice: { display: false, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Full Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductDiscount: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Discount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
-            ProductCommission: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
+            ProductCommission: { display: false, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductTotalPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Amount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
             ProductAction: { display: false, thead: { attr: { 'scope': 'col', "class": "center" }, css: {}, displayText: " " }, tbody: { attr: { "class": "center" }, css: {}, displayText: "Del"} },
             OrderSubAmount: { display: true, tfoot: [{ displayText: "Subtotal", attr: { colspan: "4", style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
@@ -36,7 +36,7 @@ $.postJSON = function(url, data, callback) {
             PricesIncludingVAT: false,
             OrderCustomAttributes: [],
             AddOrderAddressData: false,
-            ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId)  {
+            ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage)  {
                 $.fn.AtomiaShoppingCart.SwitchItem(oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage, true);
             },
             DeleteButtonFunction: function(htmlElement, productID, productDisplayName, productQuantity) {
@@ -80,7 +80,7 @@ $.postJSON = function(url, data, callback) {
         ProductFullPrice: { display: false, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Full Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Price" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductDiscount: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Discount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
-        ProductCommission: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
+        ProductCommission: { display: false, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductTotalPrice: { display: true, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Amount" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductAction: { display: false, thead: { attr: { 'scope': 'col', "class": "center" }, css: {}, displayText: " " }, tbody: { attr: { "class": "center" }, css: {}, displayText: "Del"} },
         OrderSubAmount: { display: true, tfoot: [{ displayText: "Subtotal", attr: { colspan: "4", style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
@@ -91,7 +91,7 @@ $.postJSON = function(url, data, callback) {
         PricesIncludingVAT: false,
         OrderCustomAttributes: [],
         AddOrderAddressData: false,
-        ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId) {
+        ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage)  {
             $.fn.AtomiaShoppingCart.SwitchItem(oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage, true);
         },
         DeleteButtonFunction: function(htmlElement, productID, productDisplayName, productQuantity) {
@@ -287,7 +287,7 @@ $.postJSON = function(url, data, callback) {
             }
             else {
                 renewalPeriods += cartArray[i].renewalPeriod + "|";
-            }            
+            }
         }
 
         var htmlElement = $.fn.AtomiaShoppingCart.options.htmlElement;
@@ -361,6 +361,7 @@ $.postJSON = function(url, data, callback) {
                     $(theadElement).append($(theadtr));
 
                     var tbodyElement = $(document.createElement('tbody'));
+
                     CreateTBodyElement(tbodyElement, data);
 
                     var tfootElement = $(document.createElement('tfoot'));
@@ -440,7 +441,7 @@ $.postJSON = function(url, data, callback) {
                         $('#' + table_id + ' select').change(
                             function() {
                                 var trIndex = $(this).parent().parent()[0].rowIndex;
-                                $.fn.AtomiaShoppingCart.options.ChangePeriodFunction($(this), cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, cartArray[trIndex - 1].renewalPeriod, cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, $(this).val());
+                                $.fn.AtomiaShoppingCart.options.ChangePeriodFunction($(this), cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, cartArray[trIndex - 1].renewalPeriod, cartArray[trIndex - 1].isPackage, cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, $(this).val(), cartArray[trIndex - 1].isPackage);
                             }
                           );
                     }

@@ -432,4 +432,7 @@
   <data name="Pay_pal" xml:space="preserve">
     <value>Pay with your paypal account</value>
   </data>
+  <data name="PaymentNeededNotification" xml:space="preserve">
+    <value>Payment must be completed before one or more items can be used.</value>
+  </data>
 </root>

@@ -37,7 +37,7 @@ $('#product_list').AtomiaShoppingCart(
 			var productID = cartArray[trIndex-1].id;
             var productDisplayName = cartArray[trIndex-1].display;
 		   
-		   $('#MainDomainSelect option[value='+productDisplayName+']').remove();
+		   $('#MainDomainSelect option[value="'+productDisplayName+'"]').remove();
 			if($('#MainDomainSelect').children().length > 1) 
 			{
 				$('#MainDomainHeader').show();
@@ -108,6 +108,25 @@ $('#product_list').AtomiaShoppingCart(
 			}
 			
 			$('#totalPrice').html(data.ShoppingCartTotal + ' <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
+			
+			$('#paymentNeededNotification').hide();
+			
+			if ($('#PaymentMethodEmail').is(':checked') || $('#PaymentMethodPost').is(':checked')) {
+				 if (typeof(data.ShoppingCartItems) != 'undefined' && data.ShoppingCartItems != null && data.ShoppingCartItems.length > 0) {
+					var found = false;
+					for (var i=0; i<data.ShoppingCartItems.length; i++) {
+						if (data.ShoppingCartItems[i] != null && typeof(data.ShoppingCartItems[i].ProvisioningAllowedType) != 'undefined' && data.ShoppingCartItems[i].ProvisioningAllowedType != null && data.ShoppingCartItems[i].ProvisioningAllowedType == 1) {
+							found = true;
+							break;
+						}
+					}
+					
+					if (found) {
+						$('#paymentNeededNotification').show();
+					}
+				 }
+			}
+			
 		},
         TermsOfServicesRenderFunction: function(resName, resValue) {
             $('#termsList').html('');

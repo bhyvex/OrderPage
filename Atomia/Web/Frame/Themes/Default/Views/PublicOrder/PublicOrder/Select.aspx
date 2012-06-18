@@ -593,11 +593,13 @@
 		        <div id="BillingText" class="formrow">
 		            <%if(orderByEmailEnabled)
                     { %>
-                        <%= Html.Resource("OnEmailBilling")%>
+                        <p><%= Html.Resource("OnEmailBilling")%></p>
+                        <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
                     <%
                     }else if(orderByPostEnabled)
                     { %>
-			            <%= Html.Resource("OnPostBilling")%>
+			            <p><%= Html.Resource("OnPostBilling")%></p>
+                        <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
 			        <%
                     }else if(paymentEnabled)
                     {
@@ -611,7 +613,6 @@
 			        <% 
                     } %>
 		        </div>
-                <div id="paymentNeededNotification" class="notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></div>
 		        <h4><%= Html.Resource("Activation")%></h4>
 		        <div id="ActivationText" class="formrow">
 		            <%if(orderByEmailEnabled)
@@ -665,6 +666,16 @@
 		        <%= Html.Hidden("formater", "")%>
                 <%= Html.Hidden("VATValidationMessage", "")%>
 	        <% Html.EndForm(); %>
+            <div id="BillingTextEmailContainer" style="display:none;">
+                <p><%= Html.ResourceNotEncoded("OnEmailBilling")%></p>
+                <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
+            </div>
+            <div id="BillingTextPostContainer" style="display:none;">
+                <p><%= Html.ResourceNotEncoded("OnPostBilling")%></p>
+                <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
+            </div>
+            <div id="BillingTextCCContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnCCBilling")%></div>
+            <div id="BillingTextPayPalContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnPayPalBilling")%></div>
 	    </div>
         <%= Html.Hidden("dontShowTaxesForThisResellerHidden", Session["dontShowTaxesForThisResellerHidden"])%>
     </div>
@@ -752,15 +763,12 @@
 		    secondAddressRadioBind();
 
 		    params = {};
-		    params.BillingTextMail = '<%= Html.ResourceNotEncoded("OnEmailBilling")%>';
 		    params.ActivationTextMail = '<%= Html.ResourceNotEncoded("OnEmailActivation")%>';
 		    paymentMethodEmailBind(params);
 
-		    params.BillingTextPost = '<%= Html.ResourceNotEncoded("OnPostBilling")%>';
 		    params.ActivationTextPost = '<%= Html.ResourceNotEncoded("OnPostActivation")%>';
 		    paymentMethodPostBind(params);
 
-		    params.BillingTextPayPal = '<%= Html.ResourceNotEncoded("OnPayPalBilling")%>';
 		    params.ActivationTextCC = '<%= Html.ResourceNotEncoded("OnCCActivation")%>';
 		    paymentMethodCarBind(params);
 			

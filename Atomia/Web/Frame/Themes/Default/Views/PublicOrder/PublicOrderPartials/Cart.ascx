@@ -109,7 +109,7 @@ $('#product_list').AtomiaShoppingCart(
 			
 			$('#totalPrice').html(data.ShoppingCartTotal + ' <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span>');
 			
-			$('#paymentNeededNotification').hide();
+			$('p.paymentNeededNotification').hide();
 			
 			if ($('#PaymentMethodEmail').is(':checked') || $('#PaymentMethodPost').is(':checked')) {
 				 if (typeof(data.ShoppingCartItems) != 'undefined' && data.ShoppingCartItems != null && data.ShoppingCartItems.length > 0) {
@@ -122,7 +122,7 @@ $('#product_list').AtomiaShoppingCart(
 					}
 					
 					if (found) {
-						$('#paymentNeededNotification').show();
+						$('p.paymentNeededNotification').show();
 					}
 				 }
 			}

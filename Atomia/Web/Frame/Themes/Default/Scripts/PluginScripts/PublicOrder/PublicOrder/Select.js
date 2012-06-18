@@ -221,7 +221,7 @@ var secondAddressRadioBind = function() {
 var paymentMethodEmailBind = function(params) {
     $('#PaymentMethodEmail').bind('click', function(event, preventRecalculation) {
         $("#cc_paymentDiv").hide();
-        $('#BillingText').text(params.BillingTextMail);
+        $('#BillingText').html($('#BillingTextEmailContainer').html());
         $('#ActivationText').text(params.ActivationTextMail);
         $.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
         $.fn.AtomiaShoppingCart.AddOrderCustomAttribute('PayByInvoice', 'true');
@@ -235,7 +235,7 @@ var paymentMethodEmailBind = function(params) {
 var paymentMethodPostBind = function(params) {
 	$("#PaymentMethodPost").click(function() {
 		$("#cc_paymentDiv").hide();
-		$('#BillingText').text(params.BillingTextPost);
+		$('#BillingText').html($('#BillingTextPostContainer').html());
 		$('#ActivationText').text(params.ActivationTextPost);
 		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
 		$.fn.AtomiaShoppingCart.AddOrderCustomAttribute('PayByInvoice', 'true');
@@ -246,13 +246,13 @@ var paymentMethodPostBind = function(params) {
 
 var paymentMethodCarBind = function(params) {
 	$("#PaymentMethodCard").click(function() {
-		$('#paymentNeededNotification').hide();
+		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
 		$('input[name="pluginSelector"][value="CCPayment"]').attr('checked','checked');
 		$('#paymentPluginCCPayment').show();
 		$("#cc_paymentDiv").show();
-		$('#BillingText').text(params.BillingTextCC);
+		$('#BillingText').html($('#BillingTextCCContainer').html());
 		$('#ActivationText').text(params.ActivationTextCC);
 		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
 		$.fn.AtomiaShoppingCart.RemoveOrderCustomAttribute('PayByInvoice', 'true');
@@ -262,13 +262,13 @@ var paymentMethodCarBind = function(params) {
 };
 var paymentMethodPayPalBind = function(params) {
 	$("#PaymentMethodPayPal").click(function() {
-		$('#paymentNeededNotification').hide();
+		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginCCPayment').hide();
 		$('input[name="pluginSelector"][value="PayPal"]').attr('checked','checked');
 		$('#paymentPluginPayPal').show();
 		$("#cc_paymentDiv").show();
-		$('#BillingText').text(params.BillingTextPayPal);
+		$('#BillingText').html($('#BillingTextPayPalContainer').html());
 		$('#ActivationText').text(params.ActivationTextCC);
 		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
 		$.fn.AtomiaShoppingCart.RemoveOrderCustomAttribute('PayByInvoice', 'true');

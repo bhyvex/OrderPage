@@ -48,6 +48,11 @@
             <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/PayPal" />
           </type>
         </elementProperty>
+        <elementProperty name="PayexRedirect" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="payexRedirect" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/PayexRedirect" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElementCollection name="QueryStringList" namespace="Atomia.Web.Plugin.PublicOrder.Configurations" xmlItemName="queryString" codeGenOptions="Indexer, AddMethod, RemoveMethod">
@@ -160,6 +165,20 @@
       </attributeProperties>
     </configurationElement>
     <configurationElement name="PayPal">
+      <attributeProperties>
+        <attributeProperty name="Enabled" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="enabled" isReadOnly="true">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="Default" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="default" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/Boolean" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElement name="PayexRedirect">
       <attributeProperties>
         <attributeProperty name="Enabled" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="enabled" isReadOnly="true">
           <type>

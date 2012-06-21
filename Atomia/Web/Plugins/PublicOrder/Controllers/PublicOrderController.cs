@@ -407,18 +407,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
             bool orderByEmailEnabled = Boolean.Parse(opcs.InvoiceByEmail.Enabled);
             bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
+            bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
+
+            ViewData["PaymentEnabled"] = paymentEnabled;
+            ViewData["PayPalEnabled"] = payPalEnabled;
+            ViewData["OrderByPostEnabled"] = orderByPostEnabled;
+            ViewData["OrderByEmailEnabled"] = orderByEmailEnabled;
+            ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
 
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                ViewData["PaymentEnabled"] = paymentEnabled;
-                ViewData["PayPalEnabled"] = payPalEnabled;
-
                 ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, null, null) : string.Empty;
-                ViewData["OrderByPostEnabled"] = orderByPostEnabled;
-
-                ViewData["OrderByEmailEnabled"] = orderByEmailEnabled;
 
                 // enabled payment method end
                 ViewData["WasAnError"] = 0;
@@ -459,7 +459,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 submitForm.RadioPaymentMethod = "post";
             }
-            else if (paymentEnabled && opcs.OnlinePayment.Default)
+            else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default))
             {
                 submitForm.RadioPaymentMethod = "card";
             }
@@ -1586,6 +1586,68 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 });
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult PayExConfirmRedirect()
+        {
+            string orderRef = this.Request.Params["orderRef"];
+
+            PublicPaymentTransaction transaction = GetTransationById(orderRef);
+            if (transaction == null)
+            {
+                // error: transaction does not exist
+                throw new ArgumentException("Token is invalid");
+            }
+
+            List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+            if (!attributeDatas.Any(item => item.Name == "orderRef"))
+            {
+                attributeDatas.Add(new AttributeData { Name = "orderRef", Value = orderRef });
+            }
+            else
+            {
+                attributeDatas.First(item => item.Name == "orderRef").Value = orderRef;
+            }
+
+            PublicPaymentTransaction finishedTransaction = null;
+
+            try
+            {
+                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
+                {
+                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                    publicOrderService.UpdatePaymentTransactionData(orderRef, transaction.Status, transaction.StatusCode, transaction.StatusCodeDescription, attributeDatas.Select(item => new NameValue { Name = item.Name, Value = item.Value }).ToArray());
+                    finishedTransaction = publicOrderService.FinishPayment(transaction.TransactionId);
+                }
+            }
+            catch (Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+            }
+
+            if (finishedTransaction == null)
+            {
+                // error: transaction does not exist
+                throw new ArgumentException("Transcation could not be finished.");
+            }
+
+
+            CultureInfo locale = CultureInfo.CreateSpecificCulture("en-US");
+
+            // we send it as a string to avoid culture issues
+            string amountStr = transaction.Amount.ToString(locale);
+
+            return RedirectToAction(
+               "Payment",
+               "PublicOrder",
+               new
+               {
+                   amount = amountStr,
+                   transactionReference = finishedTransaction.TransactionReference,
+                   transactionReferenceType = 0,
+                   status = finishedTransaction.Status
+               });
+        }
+
         /// <summary>
         /// Creates the payment transaction.
         /// </summary>
@@ -1601,7 +1663,25 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             if (paymentMethod == "card")
             {
-                action = controller.Url.Action("Payment", new { controller = "PublicOrder" });    
+                PublicOrderConfigurationSection opcs = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+                if (Boolean.Parse(opcs.OnlinePayment.Enabled))
+                {
+                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+                }
+                else if (Boolean.Parse(opcs.PayexRedirect.Enabled))
+                {
+                    action = controller.Url.Action("PayExConfirmRedirect", new { controller = "PublicOrder" });
+
+                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                    {
+                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                    }
+                    else
+                    {
+                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
+                    }
+                }
             }
             else if (paymentMethod == "paypal")
             {

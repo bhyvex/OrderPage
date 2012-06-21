@@ -249,8 +249,8 @@ var paymentMethodCarBind = function(params) {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
-		$('input[name="pluginSelector"][value="CCPayment"]').attr('checked','checked');
-		$('#paymentPluginCCPayment').show();
+		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"]').attr('checked', 'checked');
+		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').html($('#BillingTextCCContainer').html());
 		$('#ActivationText').text(params.ActivationTextCC);
@@ -264,7 +264,7 @@ var paymentMethodPayPalBind = function(params) {
 	$("#PaymentMethodPayPal").click(function() {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
-		$('#paymentPluginCCPayment').hide();
+		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').hide();
 		$('input[name="pluginSelector"][value="PayPal"]').attr('checked','checked');
 		$('#paymentPluginPayPal').show();
 		$("#cc_paymentDiv").show();

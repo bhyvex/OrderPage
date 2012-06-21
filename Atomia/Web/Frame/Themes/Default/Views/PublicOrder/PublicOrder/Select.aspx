@@ -505,9 +505,10 @@
                     var orderByEmailEnabled = (bool)ViewData["OrderByEmailEnabled"];
                     var orderByPostEnabled = (bool)ViewData["OrderByPostEnabled"];
 					var payPalEnabled = (bool)ViewData["PayPalEnabled"];
+					var payexRedirectEnabled = (bool)ViewData["PayexRedirectEnabled"];
 					
 					int optionCounter = 0;
-                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled })
+                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled })
                     {
                         if (item)
                         {
@@ -544,7 +545,7 @@
 			                    <br class="clear" />
 			                <%
                             }
-                            if (paymentEnabled)
+                            if (paymentEnabled || payexRedirectEnabled)
                             { %>
 		                        <label for="PaymentMethodCard">
 			                        <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
@@ -566,13 +567,17 @@
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled || payPalEnabled)
+	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled)
                 { 
 				
 				List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
 				if (paymentEnabled)
 				{
 					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("CCPayment", "Credit card payment"));
+				} 
+                else if (payexRedirectEnabled)
+				{
+                    plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayExRedirect", "PayEx redirect payment"));
 				}
 				
 				if (payPalEnabled)
@@ -601,7 +606,7 @@
 			            <p><%= Html.Resource("OnPostBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
 			        <%
-                    }else if(paymentEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled)
                     {
                      %>
 			            <%= Html.Resource("OnCCBilling")%>
@@ -623,7 +628,7 @@
                     { %>
 			            <%= Html.Resource("OnPostActivation")%>
 			        <%
-                    }else if(paymentEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled)
                     {
                      %>
 			            <%= Html.Resource("OnCCActivation")%>

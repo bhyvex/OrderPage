@@ -156,4 +156,7 @@
   <data name="PayPal" xml:space="preserve">
     <value>PayPal payment</value>
   </data>
+  <data name="PayExRedirect" xml:space="preserve">
+    <value>Credit card payment</value>
+  </data>
 </root>

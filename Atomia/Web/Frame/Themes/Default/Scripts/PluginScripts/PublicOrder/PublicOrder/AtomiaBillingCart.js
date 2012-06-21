@@ -441,7 +441,8 @@ $.postJSON = function(url, data, callback) {
                         $('#' + table_id + ' select').change(
                             function() {
                                 var trIndex = $(this).parent().parent()[0].rowIndex;
-                                $.fn.AtomiaShoppingCart.options.ChangePeriodFunction($(this), cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, cartArray[trIndex - 1].renewalPeriod, cartArray[trIndex - 1].isPackage, cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, $(this).val(), cartArray[trIndex - 1].isPackage);
+                                var selectedOptionData = $(this).val().split('|');
+                                $.fn.AtomiaShoppingCart.options.ChangePeriodFunction($(this), cartArray[trIndex - 1].id, cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, cartArray[trIndex - 1].renewalPeriod, cartArray[trIndex - 1].isPackage, selectedOptionData[0], cartArray[trIndex - 1].display, cartArray[trIndex - 1].quantity, selectedOptionData[1], cartArray[trIndex - 1].isPackage);
                             }
                           );
                     }
@@ -515,7 +516,7 @@ function CreateTBodyElement(tbodyElement, data) {
 
                                     jQuery.each(itemVal.AvailablePeriodList, function(optionIndex, optionValue) {
                                         var selectListOptionHTML = $(document.createElement('option'));
-                                        selectListOptionHTML.val(optionValue.RenewalPeriodId);
+                                        selectListOptionHTML.val(optionValue.OptionID + '|' + optionValue.RenewalPeriodId);
                                         selectListOptionHTML.html(optionValue.OptionText);
                                         if (optionValue.OptionSelected) {
                                             selectListOptionHTML.attr('selected', 'selected');

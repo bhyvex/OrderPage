@@ -61,34 +61,33 @@ $('#product_list').AtomiaShoppingCart(
             
             $.fn.AtomiaShoppingCart.RemoveItem(productID, productDisplayName, 1, true); 
         },
-		ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId) 
+		ChangePeriodFunction: function(htmlElement, oldproductID, oldProductDesc, oldProductQuantity, oldProductRenewalPeriodId, oldProductIsPackage, newProductID, newProductDesc, newProductQuantity, newProductRenewalPeriodId, newProductIsPackage) 
 		{
 			var trIndex = $(htmlElement).parent().parent()[0].rowIndex;
 			var oldProductID = cartArray[trIndex-1].id;
             var oldProductDisplayName = cartArray[trIndex-1].display;
-			var newProductId = cartArray[trIndex-1].id;
             var isPackage = false;
 			
             if (typeof cartArray[trIndex-1].isPackage != 'undefined' && cartArray[trIndex-1].isPackage) {
                 isPackage = true;
 
                 var switched = switchedId.split('|');
-                switchedId = newProductId + '|' + oldProductDisplayName + '|' + newProductRenewalPeriodId;
+                switchedId = newProductID + '|' + oldProductDisplayName + '|' + newProductRenewalPeriodId;
 
                 for (var i = 3; i < switched.length; i += 3) {
                     switchedId += '|' + switched[i] + '|' + switched[i + 1] + '|' + switched[i + 2];
                 }
             }			
 			
-			$.fn.AtomiaShoppingCart.SwitchItem(oldProductID, oldProductDisplayName, 1, oldProductRenewalPeriodId, isPackage, newProductId, oldProductDisplayName, 1, newProductRenewalPeriodId, isPackage, true); 
+			$.fn.AtomiaShoppingCart.SwitchItem(oldProductID, oldProductDisplayName, 1, oldProductRenewalPeriodId, isPackage, newProductID, oldProductDisplayName, 1, newProductRenewalPeriodId, isPackage, true); 
 			
-			$(htmlElement).parent().parent().attr({ "id": newProductId });
+			$(htmlElement).parent().parent().attr({ "id": newProductID });
 			 
 			$('#domainsDiv table tbody tr[id]').each(function() {
 				var tr = $(this);
 				if (tr.find('.vtip').attr('title') == oldProductDisplayName) 
 				{
-					tr.attr({ "id": newProductId });
+					tr.attr({ "id": newProductID });
 				} 
 			});
 		},

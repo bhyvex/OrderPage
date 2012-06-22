@@ -142,7 +142,7 @@
     <value>Platinum Package</value>
   </data>
   <data name="SetupFeeTitleDesc" xml:space="preserve">
-    <value>Startup fee</value>
+    <value>Setup fee</value>
   </data>
   <data name="TOS_core" xml:space="preserve">
     <value>I have read and accept &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's Terms of Conditions&lt;/a&gt;.*</value>

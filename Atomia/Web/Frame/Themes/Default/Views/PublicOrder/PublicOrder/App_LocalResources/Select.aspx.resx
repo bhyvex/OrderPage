@@ -316,10 +316,10 @@
     <value>Credit card payment</value>
   </data>
   <data name="Credit_card" xml:space="preserve">
-    <value>Pay with credit card</value>
+    <value>Pay with credit card and be up and running immediately</value>
   </data>
   <data name="E_invoice" xml:space="preserve">
-    <value>Invoice by e-mail</value>
+    <value>Send me an invoice by e-mail</value>
   </data>
   <data name="NotificationTextPayment" xml:space="preserve">
     <value>The payment transaction failed. Please try again or choose a different payment option.</value>
@@ -334,13 +334,13 @@
     <value>Direct, domain will be registerd after payment has been verified</value>
   </data>
   <data name="OnEmailBilling" xml:space="preserve">
-    <value>Invoice by e-mail</value>
+    <value>Send me an invoice by e-mail</value>
   </data>
   <data name="OnPostActivation" xml:space="preserve">
     <value>Direct, domain will be registered when payment has been verified</value>
   </data>
   <data name="OnPostBilling" xml:space="preserve">
-    <value>Invoice by mail</value>
+    <value>Send me an invoice by regular mail</value>
   </data>
   <data name="Payment" xml:space="preserve">
     <value>Payment</value>
@@ -349,16 +349,16 @@
     <value>Payment method</value>
   </data>
   <data name="PaymentSmall1" xml:space="preserve">
-    <value>(free of charge)</value>
+    <value></value>
   </data>
   <data name="PaymentSmall2" xml:space="preserve">
-    <value>($19.85 will be added to your first invoice)</value>
+    <value>($5.77 postal fee will be included)</value>
   </data>
   <data name="PaymentSmall3" xml:space="preserve">
-    <value>(free of charge, get going with your services immediately</value>
+    <value></value>
   </data>
   <data name="Post_invoice" xml:space="preserve">
-    <value>Invoice by mail</value>
+    <value>Send me an invoice by regular mail</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>

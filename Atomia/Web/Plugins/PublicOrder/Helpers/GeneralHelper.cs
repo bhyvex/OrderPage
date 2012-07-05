@@ -271,6 +271,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
 
             string phoneCode = string.Empty;
             string phoneNum = string.Empty;
+
+            if (!CountryPhoneCode.Any(item => item.CountryCode == countryCode))
+            {
+                throw new Exception("Could not find the country " + countryCode + " in the list of CountryPhoneCode list.");
+            }
+
             string invdefaultPhoneCode = CountryPhoneCode.FirstOrDefault(c => c.CountryCode == countryCode).PhoneCode;
             phoneNumber = phoneNumber.Replace("-", string.Empty).Replace(".", string.Empty).Replace(",", string.Empty).Replace("/", string.Empty).Replace("(", string.Empty).Replace(")", string.Empty).Replace(" ", string.Empty);
             if (phoneNumber.Contains('|'))

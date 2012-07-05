@@ -1261,7 +1261,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             catch (Exception ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(new Exception("IDNLIB could not encode the following domain: " + domainName));
+                OrderPageLogger.LogOrderPageException(ex);
                 validated = false;
             }
 

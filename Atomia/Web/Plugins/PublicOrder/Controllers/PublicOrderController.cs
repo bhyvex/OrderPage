@@ -660,6 +660,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         if (SubmitForm.SecondAddress)
                         {
+                            myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactName);
+                            myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactLastName);
+                            myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCompany);
+
                             myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress);
                             myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress2);
                             myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCity);
@@ -916,6 +920,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         if (!SubmitForm.SecondAddress)
                         {
+                            myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
+                            myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
+                            myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.Company);
                             myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.Address);
                             myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.Address2);
                             myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.City);

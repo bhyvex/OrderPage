@@ -51,7 +51,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Filters
                             cookieLanguage = js.Deserialize<AtomiaCultureInfo>(languageCookie.CookieValue);
                         }
                     }
-                    catch (Exception e)
+                    catch
                     {
                     }
 

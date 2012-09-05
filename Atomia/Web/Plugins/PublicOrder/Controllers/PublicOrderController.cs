@@ -515,6 +515,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
             bool orderByEmailEnabled = Boolean.Parse(opcs.InvoiceByEmail.Enabled);
             bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
+            bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
+            ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
 
             string orderByPostId = string.Empty;
             List<string> currentArrayOfProducts;

@@ -120,6 +120,7 @@
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\Select.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\vtip.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\zNotification.js" />
+    <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateWorldPayRedirect.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginForm.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateCCPayment.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreatePayexRedirect.ascx" />
@@ -472,9 +473,15 @@
     <Folder Include="Transformation Files\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.en-US.resx" />
-    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.resx" />
-    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.sv-SE.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.en-US.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.sv-SE.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.en-US.resx" />
@@ -505,8 +512,12 @@
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.sv.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.es.resx" />
-    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.pl-PL.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.es.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.pl-PL.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.en-US.resx" />
@@ -516,7 +527,9 @@
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.sv-SE.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.de.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.de.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

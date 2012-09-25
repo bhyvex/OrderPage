@@ -51,6 +51,11 @@
 					<xs:documentation>The PayexRedirect.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="0" name="worldPay" type="tns:Atomia.Web.Plugin.PublicOrder.Configurations.WorldPayCT">
+				<xs:annotation>
+					<xs:documentation>The WorldPay.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.QueryStringListCT">
@@ -185,6 +190,20 @@
 		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.PayexRedirectCT">
+		<xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="enabled" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Enabled.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="default" use="optional" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>The Default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.WorldPayCT">
 		<xs:sequence>
 		</xs:sequence>
 		<xs:attribute name="enabled" use="required" type="xs:string">

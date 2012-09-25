@@ -249,7 +249,7 @@ var paymentMethodCarBind = function(params) {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
-		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"]').attr('checked', 'checked');
+		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"]').attr('checked', 'checked');
 		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').html($('#BillingTextCCContainer').html());

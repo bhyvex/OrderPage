@@ -281,6 +281,32 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             }
         }
         #endregion
+        
+        #region WorldPay Property
+        /// <summary>
+        /// The XML name of the <see cref="WorldPay"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        internal const string WorldPayPropertyName = "worldPay";
+        
+        /// <summary>
+        /// Gets or sets the WorldPay.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The WorldPay.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.WorldPayPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay WorldPay
+        {
+            get
+            {
+                return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.WorldPayPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.WorldPayPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace Atomia.Web.Plugin.PublicOrder.Configurations
@@ -1260,6 +1286,80 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             set
             {
                 base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PayexRedirect.DefaultPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace Atomia.Web.Plugin.PublicOrder.Configurations
+{
+    
+    
+    /// <summary>
+    /// The WorldPay Configuration Element.
+    /// </summary>
+    public partial class WorldPay : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region Enabled Property
+        /// <summary>
+        /// The XML name of the <see cref="Enabled"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        internal const string EnabledPropertyName = "enabled";
+        
+        /// <summary>
+        /// Gets or sets the Enabled.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The Enabled.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.EnabledPropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
+        public string Enabled
+        {
+            get
+            {
+                return ((string)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.EnabledPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.EnabledPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region Default Property
+        /// <summary>
+        /// The XML name of the <see cref="Default"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        internal const string DefaultPropertyName = "default";
+        
+        /// <summary>
+        /// Gets or sets the Default.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The Default.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.DefaultPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public bool Default
+        {
+            get
+            {
+                return ((bool)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.DefaultPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.DefaultPropertyName] = value;
             }
         }
         #endregion

@@ -53,6 +53,11 @@
             <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/PayexRedirect" />
           </type>
         </elementProperty>
+        <elementProperty name="WorldPay" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="worldPay" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/WorldPay" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElementCollection name="QueryStringList" namespace="Atomia.Web.Plugin.PublicOrder.Configurations" xmlItemName="queryString" codeGenOptions="Indexer, AddMethod, RemoveMethod">
@@ -181,6 +186,20 @@
     <configurationElement name="PayexRedirect">
       <attributeProperties>
         <attributeProperty name="Enabled" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="enabled" isReadOnly="true">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="Default" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="default" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/Boolean" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElement name="WorldPay">
+      <attributeProperties>
+        <attributeProperty name="Enabled" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="enabled" isReadOnly="false">
           <type>
             <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
           </type>

@@ -506,9 +506,10 @@
                     var orderByPostEnabled = (bool)ViewData["OrderByPostEnabled"];
 					var payPalEnabled = (bool)ViewData["PayPalEnabled"];
 					var payexRedirectEnabled = (bool)ViewData["PayexRedirectEnabled"];
+                    var worldPayRedirectEnabled = (bool)ViewData["WorldPayRedirectEnabled"];
 					
 					int optionCounter = 0;
-                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled })
+                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled })
                     {
                         if (item)
                         {
@@ -545,7 +546,7 @@
 			                    <br class="clear" />
 			                <%
                             }
-                            if (paymentEnabled || payexRedirectEnabled)
+                            if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
                             { %>
 		                        <label for="PaymentMethodCard">
 			                        <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
@@ -563,11 +564,12 @@
 		                        <br class="clear" />
 		                        <div class="smalltext"><%= Html.Resource("PaymentSmall4")%></div>
 			                <% 
-                            } %>
+                            }
+							%>
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled)
+	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
                 { 
 				
 				List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
@@ -583,6 +585,11 @@
 				if (payPalEnabled)
 				{
 					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayPal", "PayPal payment"));
+				}
+
+                if (worldPayRedirectEnabled)
+				{
+					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("WorldPayRedirect", "WorldPay payment"));
 				}
 				
 				
@@ -606,7 +613,7 @@
 			            <p><%= Html.Resource("OnPostBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
 			        <%
-                    }else if(paymentEnabled || payexRedirectEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
                     {
                      %>
 			            <%= Html.Resource("OnCCBilling")%>
@@ -628,7 +635,7 @@
                     { %>
 			            <%= Html.Resource("OnPostActivation")%>
 			        <%
-                    }else if(paymentEnabled || payexRedirectEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
                     {
                      %>
 			            <%= Html.Resource("OnCCActivation")%>

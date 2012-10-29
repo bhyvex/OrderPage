@@ -507,9 +507,10 @@
 					var payPalEnabled = (bool)ViewData["PayPalEnabled"];
 					var payexRedirectEnabled = (bool)ViewData["PayexRedirectEnabled"];
                     var worldPayRedirectEnabled = (bool)ViewData["WorldPayRedirectEnabled"];
+                    var dibsFlexwinEnabled = (bool)ViewData["dibsFlexwinEnabled"];
 					
 					int optionCounter = 0;
-                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled })
+                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled, dibsFlexwinEnabled })
                     {
                         if (item)
                         {
@@ -546,7 +547,7 @@
 			                    <br class="clear" />
 			                <%
                             }
-                            if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
+                                if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                             { %>
 		                        <label for="PaymentMethodCard">
 			                        <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
@@ -569,27 +570,32 @@
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
+	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                 { 
 				
 				List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
 				if (paymentEnabled)
 				{
-					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("CCPayment", "Credit card payment"));
+					plugins.Add(new GuiPaymentPluginData("CCPayment", "Credit card payment"));
 				} 
                 else if (payexRedirectEnabled)
 				{
-                    plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayExRedirect", "PayEx redirect payment"));
+                    plugins.Add(new GuiPaymentPluginData("PayExRedirect", "PayEx redirect payment"));
 				}
 				
 				if (payPalEnabled)
 				{
-					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayPal", "PayPal payment"));
+					plugins.Add(new GuiPaymentPluginData("PayPal", "PayPal payment"));
 				}
 
                 if (worldPayRedirectEnabled)
 				{
-					plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("WorldPayRedirect", "WorldPay payment"));
+					plugins.Add(new GuiPaymentPluginData("WorldPayRedirect", "WorldPay payment"));
+				}
+
+                if (dibsFlexwinEnabled)
+				{
+                    plugins.Add(new GuiPaymentPluginData("DibsFlexwin", "Dibs payment"));
 				}
 				
 				
@@ -613,7 +619,7 @@
 			            <p><%= Html.Resource("OnPostBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
 			        <%
-                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                     {
                      %>
 			            <%= Html.Resource("OnCCBilling")%>
@@ -635,7 +641,7 @@
                     { %>
 			            <%= Html.Resource("OnPostActivation")%>
 			        <%
-                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                     {
                      %>
 			            <%= Html.Resource("OnCCActivation")%>

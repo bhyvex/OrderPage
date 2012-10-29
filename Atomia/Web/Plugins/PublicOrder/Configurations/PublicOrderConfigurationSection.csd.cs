@@ -307,6 +307,32 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             }
         }
         #endregion
+        
+        #region DibsFlexwin Property
+        /// <summary>
+        /// The XML name of the <see cref="DibsFlexwin"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        internal const string DibsFlexwinPropertyName = "dibsFlexwin";
+        
+        /// <summary>
+        /// Gets or sets the DibsFlexwin.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The DibsFlexwin.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.DibsFlexwinPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin DibsFlexwin
+        {
+            get
+            {
+                return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.DibsFlexwinPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.DibsFlexwinPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace Atomia.Web.Plugin.PublicOrder.Configurations
@@ -1360,6 +1386,77 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             set
             {
                 base[global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPay.DefaultPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace Atomia.Web.Plugin.PublicOrder.Configurations
+{
+    
+    
+    /// <summary>
+    /// The DibsFlexwin Configuration Element.
+    /// </summary>
+    public partial class DibsFlexwin : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region Enabled Property
+        /// <summary>
+        /// The XML name of the <see cref="Enabled"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        internal const string EnabledPropertyName = "enabled";
+        
+        /// <summary>
+        /// Gets the Enabled.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The Enabled.")]
+        [global::System.ComponentModel.ReadOnlyAttribute(true)]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin.EnabledPropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
+        public string Enabled
+        {
+            get
+            {
+                return ((string)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin.EnabledPropertyName]));
+            }
+        }
+        #endregion
+        
+        #region Default Property
+        /// <summary>
+        /// The XML name of the <see cref="Default"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        internal const string DefaultPropertyName = "default";
+        
+        /// <summary>
+        /// Gets or sets the Default.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The Default.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin.DefaultPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public bool Default
+        {
+            get
+            {
+                return ((bool)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin.DefaultPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwin.DefaultPropertyName] = value;
             }
         }
         #endregion

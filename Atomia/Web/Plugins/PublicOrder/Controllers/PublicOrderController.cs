@@ -409,6 +409,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
             bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
             bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
+            bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
 
             ViewData["PaymentEnabled"] = paymentEnabled;
             ViewData["PayPalEnabled"] = payPalEnabled;
@@ -416,6 +417,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["OrderByEmailEnabled"] = orderByEmailEnabled;
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
+            ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
 
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
@@ -461,8 +463,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 submitForm.RadioPaymentMethod = "post";
             }
-            else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default) 
-                || (worldPayRedirectEnabled && opcs.WorldPay.Default))
+            else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default)
+                || (worldPayRedirectEnabled && opcs.WorldPay.Default) || (dibsFlexwinEnabled && opcs.DibsFlexwin.Default))
             {
                 submitForm.RadioPaymentMethod = "card";
             }
@@ -520,8 +522,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
             bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
             bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
+            bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
+            ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
 
             string orderByPostId = string.Empty;
             List<string> currentArrayOfProducts;
@@ -1698,6 +1702,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     }
                 }
                 else if (Boolean.Parse(opcs.WorldPay.Enabled))
+                {
+                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+
+                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                    {
+                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                    }
+                    else
+                    {
+                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
+                    }
+                }
+                else if (Boolean.Parse(opcs.DibsFlexwin.Enabled))
                 {
                     action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
 

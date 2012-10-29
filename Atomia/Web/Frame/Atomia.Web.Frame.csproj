@@ -120,6 +120,7 @@
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\Select.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\vtip.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\zNotification.js" />
+    <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateDibsFlexwin.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateWorldPayRedirect.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginForm.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateCCPayment.ascx" />

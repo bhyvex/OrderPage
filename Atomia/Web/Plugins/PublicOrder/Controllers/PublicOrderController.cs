@@ -455,25 +455,30 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 submitForm.RadioTechContact = "reseller";
             }
 
+            string defaultPaymentPlugin = string.Empty;
             if (orderByEmailEnabled && opcs.InvoiceByEmail.Default)
             {
                 submitForm.RadioPaymentMethod = "email";
+                defaultPaymentPlugin = "PayWithInvoice";
             }
             else if (orderByPostEnabled && opcs.InvoiceByPost.Default)
             {
                 submitForm.RadioPaymentMethod = "post";
+                defaultPaymentPlugin = "PayWithInvoice";
             }
             else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default)
                 || (worldPayRedirectEnabled && opcs.WorldPay.Default) || (dibsFlexwinEnabled && opcs.DibsFlexwin.Default))
             {
                 submitForm.RadioPaymentMethod = "card";
+                defaultPaymentPlugin = payExRedirectEnabled && opcs.PayexRedirect.Default ? "PayexRedirect" : "CCPayment";
             }
             else if (payPalEnabled && opcs.PayPal.Default)
             {
                 submitForm.RadioPaymentMethod = "paypal";
+                defaultPaymentPlugin = "PayPal";
             }
 
-
+            this.ControllerContext.HttpContext.Application["DefaultPaymentPlugin"] = defaultPaymentPlugin;
             ViewData["RegDomainFront"] = RegularExpression.GetRegularExpression("DomainFront");
             ViewData["RegDomain"] = RegularExpression.GetRegularExpression("Domain");
 

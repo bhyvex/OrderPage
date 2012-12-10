@@ -574,6 +574,10 @@
                 { 
 				
 				List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
+                if (orderByEmailEnabled || orderByPostEnabled)
+                {
+                    plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayWithInvoice", "Pay with invoice"));
+                }
 				if (paymentEnabled)
 				{
 					plugins.Add(new GuiPaymentPluginData("CCPayment", "Credit card payment"));

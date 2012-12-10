@@ -5,11 +5,12 @@
   <%= Html.Resource("Title")%>
 </asp:Content>
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-       <h2><%= Html.Resource("Info1")%></h2>
-       <p>
-           <%= Html.ResourceNotEncoded("Info2")%>
-       </p>
-       <p>
-           <a href="<%= Application["OrderApplicationRawURL"]%>"><%= Html.Resource("TryAgain")%></a>
-       </p>
+    <div class="settingsbox">
+        <h3><%= Html.Resource("Info1")%></h3>
+        <div class="settingsboxinner">
+            <p><%= Html.ResourceNotEncoded("Info2")%></p>
+            <p><a href="<%= Application["OrderApplicationRawURL"]%>"><%= Html.Resource("TryAgain")%></a></p>
+            <br class="clear" />
+       </div>
+    </div>
 </asp:Content>

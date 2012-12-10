@@ -159,4 +159,40 @@
   <data name="PayExRedirect" xml:space="preserve">
     <value>Credit card payment</value>
   </data>
+  <data name="AtomiaCredit" xml:space="preserve">
+    <value>Pay with Atomia credit</value>
+  </data>
+  <data name="AtomiaCreditDescription" xml:space="preserve">
+    <value>Payment must be made in full. If you don't have enough Atomia credits to complete transaction, you can buy more credits.</value>
+  </data>
+  <data name="AtomiaCreditTitle" xml:space="preserve">
+    <value>Atomia credits</value>
+  </data>
+  <data name="Autopay" xml:space="preserve">
+    <value>Pay invoices on expiration day automatically</value>
+  </data>
+  <data name="BuyCredits" xml:space="preserve">
+    <value>Buy credits</value>
+  </data>
+  <data name="CreditCardToUse" xml:space="preserve">
+    <value>Credit card to use:</value>
+  </data>
+  <data name="ErrorEmptyProfile" xml:space="preserve">
+    <value>Credit card is not selected</value>
+  </data>
+  <data name="Existing" xml:space="preserve">
+    <value>Existing</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="SaveCCInfo" xml:space="preserve">
+    <value>Save my credit card information</value>
+  </data>
+  <data name="SelectCard" xml:space="preserve">
+    <value>Select card...</value>
+  </data>
+  <data name="TermsAndConditions" xml:space="preserve">
+    <value>Terms and conditions</value>
+  </data>
 </root>

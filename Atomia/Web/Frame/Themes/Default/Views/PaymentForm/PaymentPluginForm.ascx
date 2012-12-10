@@ -2,6 +2,7 @@
 <%@ Import Namespace="System.Web.Mvc" %>
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
+<%@ Import Namespace="Atomia.Web.Plugin.PaymentForm.Helpers" %>
 
 <%
     var pluginsToLoad = ViewData["paymentPluginsToLoad"] as List<Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData>;
@@ -124,15 +125,18 @@
 %>
         <input type="hidden" id="payment_select_validate<%=suffix %>" name="payment_select_validate<%=suffix %>" value=""/>
 <%
-        var visibility = "";
-        //if (pluginsToLoad.Count > 1)
-        //{
-        //    visibility = "display:none";
-        //}
-        
         foreach (var plugin in pluginsToLoad)
         {
-            visibility = (plugin.Name == defaultPluginName || pluginsToLoad.Count == 1) ? "" : "display:none";
+            string visibility = (plugin.Name == defaultPluginName || pluginsToLoad.Count == 1) ? string.Empty : "display:none";
+            bool showPaymentProfileOptions = false;
+            bool showPaymentProfileTerms = false;
+            Boolean.TryParse((string)LocalConfigurationHelper.FetchPluginSetting(plugin.Name, "ShowPaymentProfileOptions"), out showPaymentProfileOptions);
+            Boolean.TryParse((string)LocalConfigurationHelper.FetchPluginSetting(plugin.Name, "ShowPaymentProfileTerms"), out showPaymentProfileTerms);
+            ViewData["ShowPaymentProfileOptions"] = showPaymentProfileOptions;
+            ViewData["ShowPaymentProfileTerms"] = showPaymentProfileTerms;
+            ViewData["PaymentProfileTermsUrl"] = (string)LocalConfigurationHelper.FetchPluginSetting(plugin.Name, "PaymentProfileTermsURL");
+            ViewData["paymentPluginMode"] = plugin.Mode;
+            ViewData["GuiPluginName"] = plugin.Name;
 %>
             <div name="paymentPluginCommonName<%=suffix %>" id="paymentPlugin<%=plugin.Name %><%=suffix %>" style="<%= visibility %>">
             <%

@@ -309,7 +309,7 @@ $.postJSON = function(url, data, callback) {
                 displayOrderSubAmount: $.fn.AtomiaShoppingCart.options.OrderSubAmount.display,
                 displayOrderTaxes: $.fn.AtomiaShoppingCart.options.OrderTaxes.display,
                 displayOrderTotal: $.fn.AtomiaShoppingCart.options.OrderTotal.display,
-                chosenCountry: ($.fn.AtomiaShoppingCart.options.ChosenCountryId.length > 0) ? $('#' + $.fn.AtomiaShoppingCart.options.ChosenCountryId).val() : '',
+                chosenCountry: ($.fn.AtomiaShoppingCart.options.ChosenCountryId.length > 0) ? $('#' + $.fn.AtomiaShoppingCart.options.ChosenCountryId).val() : $('#CountryCode').val(),
                 globalCounter: counter,
                 campaignCode: ($.fn.AtomiaShoppingCart.options.CampaignCodeRender() && $('#' + $.fn.AtomiaShoppingCart.options.CampaignCodeFieldId).length > 0) ? $('#' + $.fn.AtomiaShoppingCart.options.CampaignCodeFieldId).val() : '',
                 pricesIncludingVAT: $.fn.AtomiaShoppingCart.options.PricesIncludingVAT,

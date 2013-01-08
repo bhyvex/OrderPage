@@ -83,6 +83,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 throw new ConfigurationErrorsException("Missing AllowedDomainLength or NumberOfDomainsAllowed in configuration");
             }
 
+            // if set to true, add option to add subdomains to some predefined domain
+            if (!string.IsNullOrEmpty((string)this.HttpContext.Application["AllowAddSubdomain"]))
+            {
+                ViewData["AllowAddingSubdomains"] = this.HttpContext.Application["AllowAddSubdomain"];
+            }
+
             ViewData["AllowedDomainLength"] = allowedDomainLength;
             ViewData["NumberOfDomainsAllowed"] = numberOfDomainsAllowed;
 
@@ -112,6 +118,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             ViewData["RegDomainTLDBased"] = tldBasedRegexesSplited;
+            ViewData["AddingSubdomain"] = false;
+            Session["subdomain"] = null;
 
             Session["SpecialPID"] = Request.QueryString["PID"];
 
@@ -166,39 +174,51 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     throw new AtomiaServerSideValidationException(errors);
                 }
 
-                if (IndexForm.Selected == "first")
+                string[] viewDataDomains;
+                if (IndexForm.Selected == "first" && !string.IsNullOrEmpty(IndexForm.Domains))
                 {
-                    if (string.IsNullOrEmpty(IndexForm.Domains))
-                    {
-                        return View();
-                    }
-
-                    string[] viewData_domains;
                     List<DomainDataFromXML> domainData;
 
                     // Get ViewData
-                    IndexHelper.FirstOptionSelected(this, out viewData_domains, out domainData, IndexForm.Domains.Trim());
+                    IndexHelper.FirstOptionSelected(this, out viewDataDomains, out domainData, IndexForm.Domains.Trim());
 
                     Session["firstOption"] = true;
-                    Session["domains"] = viewData_domains;
+                    Session["domains"] = viewDataDomains;
                     Session["multiDomains"] = domainData;
                 }
                 else if (IndexForm.Selected == "second" && !string.IsNullOrEmpty(IndexForm.Domain))
                 {
-                    if (IndexForm.Domain == string.Empty)
-                    {
-                        return View();
-                    }
-
-                    string[] viewData_domains;
                     DomainDataFromXML domainData;
 
                     // Get ViewData
-                    IndexHelper.SecondOptionSelected(out viewData_domains, out domainData, IndexForm.Domain.Trim(new[] { '.', ' ' }).Trim());
+                    IndexHelper.SecondOptionSelected(out viewDataDomains, out domainData, IndexForm.Domain.Trim(new[] { '.', ' ' }).Trim());
 
                     Session["firstOption"] = false;
-                    Session["domains"] = viewData_domains;
+                    Session["domains"] = viewDataDomains;
                     Session["singleDomain"] = domainData;
+                }
+                else if (IndexForm.Selected == "subdomain" && !string.IsNullOrEmpty(IndexForm.SubDomain))
+                {
+                    //// should this be the same as 'second' option ?
+                    string mainDomain = (string)this.HttpContext.Application["AllowAddSubdomain"];
+                    if (string.IsNullOrEmpty(mainDomain))
+                    {
+                        new AtomiaServerSideValidationException("MainDomain", "Adding subdomains is not allowed. Reason: main domain not set.");
+                    }
+
+                    DomainDataFromXML domainData;
+
+                    // Get ViewData
+                    IndexHelper.SecondOptionSelected(out viewDataDomains, out domainData, IndexForm.SubDomain.Trim(new[] { '.', ' ' }).Trim() + "." + mainDomain);
+
+                    Session["firstOption"] = false;
+                    Session["domains"] = viewDataDomains;
+                    Session["singleDomain"] = domainData;
+                    Session["subdomain"] = true;
+                }
+                else
+                {
+                    return this.View();
                 }
             }
             catch (AtomiaServerSideValidationException ex)
@@ -419,6 +439,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
             ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
 
+            ViewData["firstOption"] = (bool)Session["firstOption"];
+
+            ViewData["AddingSubdomain"] = false;
+            if (this.Session["subdomain"] != null)
+            {
+                ViewData["AddingSubdomain"] = (bool)this.Session["subdomain"];
+            }
+
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
@@ -426,7 +454,36 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 // enabled payment method end
                 ViewData["WasAnError"] = 0;
-                ViewData["radioList"] = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, currencyCode, countryCode);
+                List<RadioRow> packages = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, currencyCode, countryCode);
+
+                // filter packages if adding subdomain
+                if ((bool)ViewData["AddingSubdomain"])
+                {
+                    // get all packages from the config
+                    List<ProductItem> packageProducts = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
+                    packages = packages.Where(rr =>
+                                                  {
+                                                      ProductItem item = packageProducts.FirstOrDefault(p => p.ArticalNumber == rr.productId);
+                                                      if (item == null)
+                                                      {
+                                                          return false;
+                                                      }
+
+                                                      object value;
+                                                      if (item.AllProperties.TryGetValue("addsubdomain", out value))
+                                                      {
+                                                          if (value.ToString().ToLowerInvariant() == "true")
+                                                          {
+                                                              return true;
+                                                          }
+                                                      }
+
+                                                      return false;
+                                                  }).ToList();
+                }
+
+
+                ViewData["radioList"] = packages;
             }
 
             this.ViewData["OwnDomain"] = string.Empty;
@@ -437,8 +494,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 this.ViewData["Domain"] = singleDomain;
                 this.ViewData["OwnDomain"] = singleDomain.ProductName;
             }
-
-            ViewData["firstOption"] = (bool)Session["firstOption"];
 
             // default values
             SubmitForm submitForm = new SubmitForm

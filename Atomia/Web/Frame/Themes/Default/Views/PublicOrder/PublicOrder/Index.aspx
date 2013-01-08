@@ -14,70 +14,84 @@
             <%= Html.NotificationDialog("", "", ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui/{1}", Session["Theme"], "icn_close_button_s.png")), ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png")))%>
             <% Html.EnableClientValidation(); %>
             <% Html.BeginForm("Index", "PublicOrder", new { area }, FormMethod.Post, new { @id = "submit_form", @class="autocomplete_off" }); %>
-		        <% Html.EditorForModel(); %>
+                <% Html.EditorForModel(); %>
                 <p>
-		            <%= Html.ResourceNotEncoded("Info")%>
-		        </p>
-		        <div class="formrow">
-		            <h5>
-		                <label class="required">
-		                    <span>*</span><%= Html.Resource("Alternative")%>:
-		                </label>
-		            </h5>
-			        <div class="col2row">
+                    <%= Html.ResourceNotEncoded("Info")%>
+                </p>
+                <div class="formrow">
+                    <h5>
+                        <label class="required">
+                            <span>*</span><%= Html.Resource("Alternative")%>:
+                        </label>
+                    </h5>
+                    <div class="col2row">
                          <%= Html.RadioButton("Selected", "first", new { @id = "first", @checked = "checked" })%><label for="first"><%= Html.Resource("First")%></label><br  />
                          <%= Html.RadioButton("Selected", "second", new { @id = "second" })%><label for="second"><%= Html.Resource("Second")%></label><br  />
-		            </div>
-			       <br class="clear" />
-		        </div>
-    			
-		        <div class="formrow" id="protected1" style="display: block;">
-			        <h5>
-			            <label class="required">
-			                <span>*</span><%= Html.Resource("DomainName")%>:
-			            </label>
-			        </h5>
-			        <div class="col2row">
-			            <%= Html.TextArea("Domains", new { cols = "40", rows = "5", style = "width: 290px; height: 75px;" })%>
-			            <%= Html.ValidationMessage("Domains")%>
-			        </div>
-			        <br class="clear" />
-		        </div>
-    			
-		        <div class="formrow" id="protected2" style="display: block;">
-		            <h5>
-			            <label class="required">
-			                <span>*</span><%= Html.Resource("DomainName")%>:
-			            </label>
-			        </h5>
-			        <div class="col2row">
-				        <%= Html.TextBox("Domain")%>
-				        <%= Html.ValidationMessage("Domain")%>
-			        </div>
-			        <br class="clear" />
-		        </div>
-		        <p class="actions"><a class="b_b_create" id="orderbutton" href="javascript:void(0);"><%= Html.Resource("Continue")%></a></p>
+
+                         <% if (ViewData["AllowAddingSubdomains"] != null)
+                            {%>
+                                <%= Html.RadioButton("Selected", "subdomain", new { @id = "subdomain" })%><label for="subdomain"><%= Html.Resource("Third")%></label><br  />
+                          <%}%>
+                    </div>
+                   <br class="clear" />
+                </div>
+                
+                <div class="formrow" id="protected1" style="display: block;">
+                    <h5>
+                        <label class="required">
+                            <span>*</span><%= Html.Resource("DomainName")%>:
+                        </label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextArea("Domains", new { cols = "40", rows = "5", style = "width: 290px; height: 75px;" })%>
+                        <%= Html.ValidationMessage("Domains")%>
+                    </div>
+                    <br class="clear" />
+                </div>
+                
+                <div class="formrow" id="protected2" style="display: block;">
+                    <h5>
+                        <label class="required">
+                            <span>*</span><%= Html.Resource("DomainName")%>:
+                        </label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Domain")%>
+                        <%= Html.ValidationMessage("Domain")%>
+                    </div>
+                    <br class="clear" />
+                </div>
+
+                <div class="formrow" id="protected3" style="display: block;">
+                    <h5>
+                        <label class="required">
+                            <span>*</span><%= Html.Resource("DomainName")%>:
+                        </label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("SubDomain")%> <em class="quiet">.<%= (string)ViewData["AllowAddingSubdomains"] %></em> <br />
+                        <%= Html.ValidationMessage("SubDomain")%>
+                    </div>
+                    <br class="clear" />
+                </div>
+
+                <p class="actions"><a class="b_b_create" id="orderbutton" href="javascript:void(0);"><%= Html.Resource("Continue")%></a></p>
 
             <% Html.EndForm(); %>            
-		</div>
-	</div>
+        </div>
+    </div>
     <script type="text/javascript">
-		var notificationParams = {};
-		notificationParams.wasAnError = "<%= ViewData["WasAnError"] %>";
-		notificationParams.NotificationText = "<%= Html.ResourceNotEncoded("NotificationText") %>";
-		notificationParams.ValidationErrorsErrorNumDomains = "<%= Html.ResourceNotEncoded("ValidationErrors, ErrorNumDomains") %>";
-		notificationParams.NotificationTextInvalidDomain = "<%= Html.ResourceNotEncoded("NotificationTextInvalidDomain") %>";
-		notificationParams.title = "<%= Html.Resource("NotificationHeader") %>";
+        var notificationParams = {};
+        notificationParams.wasAnError = "<%= ViewData["WasAnError"] %>";
+        notificationParams.NotificationText = "<%= Html.ResourceNotEncoded("NotificationText") %>";
+        notificationParams.ValidationErrorsErrorNumDomains = "<%= Html.ResourceNotEncoded("ValidationErrors, ErrorNumDomains") %>";
+        notificationParams.NotificationTextInvalidDomain = "<%= Html.ResourceNotEncoded("NotificationTextInvalidDomain") %>";
+        notificationParams.title = "<%= Html.Resource("NotificationHeader") %>";
 
-//        var validationParams = {};
-//        validationParams.validateDomainUrl = '<%= Url.Action("ValidateDomain", new { controller = "PublicOrder" }) %>';
-//        validationParams.domainExistsInTheSystemUrl = '<%= Url.Action("DomainExistsInTheSystem", new { controller = "PublicOrder" }) %>';
+        var allowSubdomainAdd = <%= ViewData["AllowAddingSubdomains"] != null ? "true" : "false" %>;
+        var subdomain = '<%= ViewData["AllowAddingSubdomains"] ?? "" %>';
 
         $(document).ready(function() {
-//            var action = "<%=Url.Action("LoadProductsIntoSession", new { controller = "PublicOrder", area = "PublicOrder" })%>";
-//            $.postJSON(action, function() { });            
-			//Remove sidebar
-
             AddValidationRules();
             AddValidationMethods();
 
@@ -101,9 +115,20 @@
             var validator = $("#submit_form").validate();
             $("#protected1").show();
             $("#protected2").hide();
-			
-			bindFirstClick();
-			bindSecondClick();
+            $("#protected3").hide();
+
+            var protectedContainers = ["protected1","protected2","protected3"];
+            var inputFieldContainers = ["Domain","Domains"];
+            
+            // bindFirstClick();
+            // bindSecondClick();
+
+            bindSelectClick("first", protectedContainers, inputFieldContainers, 0);
+            bindSelectClick("second", protectedContainers, inputFieldContainers, 1);
+            if (allowSubdomainAdd) {
+                bindSelectClick("subdomain", protectedContainers, inputFieldContainers, 2);
+            }
+
             bindOrderbuttonClick();
             
             $("#first").click();
@@ -131,17 +156,73 @@
 
             jQuery.validator.addMethod(
                 "ValidateOwnDomainBasedOnTLD", function(value, element, params) {
-                    return ValidateOwnDomainBasedOnTLD(value, element, params); 
+                    var returnData = false;
+                    if ($('#' + params.ParentContainer).is(':checked') && (typeof value !== 'undefined') && (value.length > 0)) {
+                        var values = { domainName: value };
+                        returnData = ValidateValueServerSide(values, element, params.Url, 'POST');
+                    }
+                    else {
+                        returnData = true;
+                    }
+
+                    return returnData;
                 }
             );
 
             jQuery.validator.addMethod(
                 "ValidateOwnDomainExistanceInSystem", function(value, element, params) {
-                    return ValidateOwnDomainExistanceInSystem(value, element, params); 
+                    var returnData = false;
+                    if ($('#' + params.ParentContainer).is(':checked') && (typeof value !== 'undefined') && (value.length > 0)) {
+                        var values = { domainName: value };
+                        returnData = !ValidateValueServerSide(values, element, params.Url, 'POST');
+                    }
+                    else {
+                        returnData = true;
+                    }
+
+                    return returnData; 
                 }
             );
             
-            
+            jQuery.validator.addMethod(
+                "ValidateSubDomainExistanceInSystem", function(value, element, params) {
+                    var returnData = false;
+                    if ($('#' + params.ParentContainer).is(':checked') && (typeof value !== 'undefined') && (value.length > 0)) {
+                        var values = { domainName: value + "." + subdomain };
+                        returnData = !ValidateValueServerSide(values, element, params.Url, 'POST');
+                    }
+                    else {
+                        returnData = true;
+                    }
+
+                    return returnData;
+                }
+            );
+
+            jQuery.validator.addMethod(
+                "ValidateSubDomain", function(value, element, params) {
+                    var returnData = false;
+                    if ($('#' + params.ParentContainer).is(':checked') && (typeof value !== 'undefined') && (value.length > 0)) {
+                        var values = { domainName: value + "." + subdomain };
+                        returnData = ValidateValueServerSide(values, element, params.Url, 'POST');
+                    }
+                    else {
+                        returnData = true;
+                    }
+
+                    return returnData;
+                }
+            );
+
+            jQuery.validator.addMethod(
+                "ValidateSubDomainIsSingleLevel", function(value, element, params) {
+                    if (value.indexOf('.') != -1) {
+                        return false;
+                    }
+
+                    return true;
+                }
+            );
         }
 
         function AddValidationRules() {
@@ -176,7 +257,8 @@
 
             $('#Domain').rules("add", {
                 ValidateOwnDomainBasedOnTLD: {
-                    Url: '<%= Url.Action("ValidateDomain", new { controller = "PublicOrder" }) %>'
+                    Url: '<%= Url.Action("ValidateDomain", new { controller = "PublicOrder" }) %>',
+                    ParentContainer: 'second'
                 },
                 messages: {
                     ValidateOwnDomainBasedOnTLD: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidDomains") %>'
@@ -185,34 +267,56 @@
 
             $('#Domain').rules("add", {
                 ValidateOwnDomainExistanceInSystem: {
-                    Url: '<%= Url.Action("DomainExistsInTheSystem", new { controller = "PublicOrder" }) %>'
+                    Url: '<%= Url.Action("DomainExistsInTheSystem", new { controller = "PublicOrder" }) %>',
+                    ParentContainer: 'second'
                 },
                 messages: {
                     ValidateOwnDomainExistanceInSystem: '<%= Html.ResourceNotEncoded("ValidationErrors, DomainExists") %>'
                 }
             });
 
+            $('#SubDomain').rules("add", {
+                ValidateSubDomainIsSingleLevel: {
+                    ParentContainer: 'subdomain'
+                },
+                messages: {
+                    ValidateSubDomainIsSingleLevel: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorMultiLevelSubdomain") %>'
+                }
+            });
+
+            $('#SubDomain').rules("add", {
+                ValidateSubDomain: {
+                    Url: '<%= Url.Action("ValidateDomain", new { controller = "PublicOrder" }) %>',
+                    ParentContainer: 'subdomain'
+                },
+                messages: {
+                    ValidateSubDomain: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidSubdomain") %>'
+                }
+            });
+
+            $('#SubDomain').rules("add", {
+                ValidateSubDomainExistanceInSystem: {
+                    Url: '<%= Url.Action("DomainExistsInTheSystem", new { controller = "PublicOrder" }) %>',
+                    ParentContainer: 'subdomain'
+                },
+                messages: {
+                    ValidateSubDomainExistanceInSystem: '<%= Html.ResourceNotEncoded("ValidationErrors, DomainExists") %>'
+                }
+            });
         }
 
     </script>
-    <%--<%= Html.ClientSideValidation<IndexForm>("IndexForm")
-        --.AddRule("Domains", new CustomRule("ValidateNumOfDomains", new { NumberOfDomainsAllowed = ViewData["NumberOfDomainsAllowed"].ToString() }, Html.ResourceNotEncoded("ValidationErrors, ErrorNumDomains")))
-        --.AddRule("Domains", new CustomRule("ValidateGroupOfDomains", new { RegDomainFront = ViewData["RegDomainFront"].ToString(), RegDomain = ViewData["RegDomain"].ToString()}, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidDomains")))
-        --.AddRule("Domains", new CustomRule("ValidateDomainsLength", new { AllowedDomainLength = ViewData["AllowedDomainLength"] }, Html.ResourceNotEncoded("ValidationErrors, ErrorStringLength")))
-        --.AddRule("Domain", new CustomRule("ValidateOwnDomainBasedOnTLD", new { Url = Url.Action("ValidateDomain", new { controller = "PublicOrder" }) }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidDomains")))
-        --.AddRule("Domain", new CustomRule("ValidateOwnDomainExistanceInSystem", new { Url = Url.Action("DomainExistsInTheSystem", new { controller = "PublicOrder" }) }, Html.ResourceNotEncoded("ValidationErrors, DomainExists")))%>
-        --%>    
      <script type="text/javascript">
          var IndexFormDomainsRequiredMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
          var ErrorEmptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
          $(document).ready(function() {
-		 
-			$("#submit_form").validate().settings.onfocusout = function(element) {
-				if ($(element).attr('id') != 'IndexForm_Domain') {
-					$(element).valid();
-				}
-			}
-		 
+         
+            $("#submit_form").validate().settings.onfocusout = function(element) {
+                if ($(element).attr('id') != 'IndexForm_Domain') {
+                    $(element).valid();
+                }
+            }
+         
              setIndexFormDomainsRules(IndexFormDomainsRequiredMessage);
              setIndexFormDomainRules(ErrorEmptyFieldMessage);
          });

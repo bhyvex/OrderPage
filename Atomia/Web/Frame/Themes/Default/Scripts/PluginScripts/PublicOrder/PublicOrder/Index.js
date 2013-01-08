@@ -1,18 +1,17 @@
-﻿var bindFirstClick = function() {
-    $("#first").click(function() {
-        $("#protected1").show();
-        $("#protected2").hide();
-        $('#Domains').val('');
-        $('#Domain').val('');
-    });
-};
+﻿var bindSelectClick = function (radioBtnCnt, protectedContainers, inputFieldContainers, pContainerToShow) {
+    $("#" + radioBtnCnt).click(function () {
 
-var bindSecondClick = function() {
-    $("#second").click(function() {
-        $("#protected1").hide();
-        $("#protected2").show();
-        $('#Domain').val('');
-        $('#Domains').val('');
+        for (var i = 0; i < protectedContainers.length; i++) {
+            if (i == pContainerToShow) {
+                $("#" + protectedContainers[i]).show();
+            } else {
+                $("#" + protectedContainers[i]).hide();
+            }
+        }
+
+        for (var i = 0; i < inputFieldContainers.length; i++) {
+            $("#" + inputFieldContainers[i]).val('');
+        }
     });
 };
 
@@ -41,7 +40,31 @@ var setNotificationMessage = function(notificationParams) {
     }
 };
 
-// Validation methods
+// Validation method
+
+// generic method for server side validation
+var ValidateValueServerSide = function (values, element, url, httpMethod) {
+    var returnData = false;
+    
+    $.ajax({
+        async: false,
+        type: httpMethod,
+        url: url,
+        data: (values),
+        success: function (responseData) {
+            returnData = responseData;
+        },
+
+        error: function () {
+            returnData = false;
+        },
+
+        dataType: 'json'
+    });
+
+    return returnData;
+}
+
 var ValidateDomainsLength = function(value, element, params) {
     if ($('#first').is(':checked')) {
         var data = $('#Domains').val();
@@ -81,51 +104,99 @@ var ValidateGroupOfDomains = function(value, element, params) {
     return true;
 };
 
-var ValidateOwnDomainBasedOnTLD = function(value, element, params) {
-    var returnData = false;
-    if ($('#second').is(':checked')) {
-        $.ajax({
-            async: false,
-            type: 'POST',
-            url: params.Url,
-            data: ({ domainName: $('#Domain').val() }),
-            success: function(responseData) {
-                returnData = responseData;
-            },
-            error: function() {
-                returnData = false;
-            },
-            dataType: 'json'
-        });
-    }
-    else {
-        returnData = true;
-    }
-    return returnData;
-};
+//var ValidateOwnDomainBasedOnTLD = function(value, element, params) {
+//    var returnData = false;
+//    if ($('#second').is(':checked')) {
+//        $.ajax({
+//            async: false,
+//            type: 'POST',
+//            url: params.Url,
+//            data: ({ domainName: $('#Domain').val() }),
+//            success: function(responseData) {
+//                returnData = responseData;
+//            },
+//            error: function() {
+//                returnData = false;
+//            },
+//            dataType: 'json'
+//        });
+//    }
+//    else {
+//        returnData = true;
+//    }
+//    return returnData;
+//};
 
-var ValidateOwnDomainExistanceInSystem = function(value, element, params) {
-    var returnData = false;
-    if ($('#second').is(':checked')) {
-        $.ajax({
-            async: false,
-            type: 'POST',
-            url: params.Url,
-            data: ({ domainName: $('#Domain').val() }),
-            success: function(responseData) {
-                returnData = !responseData;
-            },
-            error: function() {
-                returnData = false;
-            },
-            dataType: 'json'
-        });
-    }
-    else {
-        returnData = true;
-    }
-    return returnData;
-};
+//var ValidateOwnDomainExistanceInSystem = function(value, element, params) {
+//    var returnData = false;
+//    if ($('#second').is(':checked')) {
+//        $.ajax({
+//            async: false,
+//            type: 'POST',
+//            url: params.Url,
+//            data: ({ domainName: $('#Domain').val() }),
+//            success: function(responseData) {
+//                returnData = !responseData;
+//            },
+//            error: function() {
+//                returnData = false;
+//            },
+//            dataType: 'json'
+//        });
+//    }
+//    else {
+//        returnData = true;
+//    }
+//    return returnData;
+//};
+
+//// same issue as method below
+//var ValidateSubDomainBasedOnTLD = function (value, element, params) {
+//    var returnData = false;
+//    if ($('#subdomain').is(':checked')) {
+//        $.ajax({
+//            async: false,
+//            type: 'POST',
+//            url: params.Url,
+//            data: ({ domainName: $('#SubDomain').val() }),
+//            success: function (responseData) {
+//                returnData = responseData;
+//            },
+//            error: function () {
+//                returnData = false;
+//            },
+//            dataType: 'json'
+//        });
+//    }
+//    else {
+//        returnData = true;
+//    }
+//    return returnData;
+//};
+
+//// check if subdomain already exists (can this method be merged with ValidateOwnDomainExistanceInSystem?)
+//var ValidateSubDomainExistanceInSystem = function (value, element, params) {
+//    var returnData = false;
+//    if ($('#subdomain').is(':checked')) {
+//        $.ajax({
+//            async: false,
+//            type: 'POST',
+//            url: params.Url,
+//            data: ({ domainName: $('#SubDomain').val() }),
+//            success: function (responseData) {
+//                returnData = !responseData;
+//            },
+//            error: function () {
+//                returnData = false;
+//            },
+//            dataType: 'json'
+//        });
+//    }
+//    else {
+//        returnData = true;
+//    }
+//    return returnData;
+//};
 
 var ValidateNumOfDomains = function(value, element, params) {
     if ($('#first').is(':checked')) {

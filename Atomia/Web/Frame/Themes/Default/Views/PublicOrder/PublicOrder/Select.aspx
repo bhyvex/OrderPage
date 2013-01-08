@@ -34,41 +34,57 @@
         <div class="settingsboxinner">
             <%= Html.NotificationDialog("", "", ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui/{1}", Session["Theme"], "icn_close_button_s.png")), ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png")))%>
             
-	        <p>
-		        <%= Html.ResourceNotEncoded("Info")%>
-	        </p>
+            <p>
+                <%= Html.ResourceNotEncoded("Info")%>
+            </p>
             <h2>
                 <%= Html.Resource("DomainName")%>   
             </h2>
-	        <%
+            <%
             if (!(bool)ViewData["firstOption"])
             {
                 Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml domain = (Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml)Session["singleDomain"];
                 string domainName = domain.ProductName;
                 string productId = domain.ProductID;
-	        %>
-	            <div class="formrow">
-		            <h4><%= Html.Resource("Alternative")%>:</h4>
-		            <div class="col2row">
-			            <p>
-				            <%= Html.Resource("AltInfo")%>
-			            </p>
+            %>
+            <% if ((bool)ViewData["AddingSubdomain"])
+                {%>
+                    <div class="formrow">
+                        <h4><%= Html.Resource("SubdomainAlternative")%>:</h4>
+                        <div class="col2row">
+                            <p>
+                                <%= Html.Resource("SubdomainAltInfo")%>
+                            </p>
 
-		            </div>
-		            <br class="clear" />
-	            </div>
-	            <div class="formrow">
-		            <label class="required">
-		                <span>*</span><%= Html.Resource("DomainName")%>:
-		            </label>
-		            <div class="col2row">
-			            <p id="singleDomain" rel="<%= Html.Encode(productId)%>">
-				            <%= Html.Encode(domainName)%>
-			            </p>
+                        </div>
+                        <br class="clear" />
+                    </div>
+            <%  }
+                else
+                {%>
+                   <div class="formrow">
+                        <h4><%= Html.Resource("Alternative")%>:</h4>
+                        <div class="col2row">
+                            <p>
+                                <%= Html.Resource("AltInfo")%>
+                            </p>
 
-		            </div>
-		            <br class="clear" />
-	            </div>
+                        </div>
+                        <br class="clear" />
+                    </div>
+                <%}%>
+                <div class="formrow">
+                    <label class="required">
+                        <span>*</span><%= Html.Resource("DomainName")%>:
+                    </label>
+                    <div class="col2row">
+                        <p id="singleDomain" rel="<%= Html.Encode(productId)%>">
+                            <%= Html.Encode(domainName)%>
+                        </p>
+
+                    </div>
+                    <br class="clear" />
+                </div>
             <%
             }
             else
@@ -81,11 +97,11 @@
             %>
             <% Html.EnableClientValidation(); %>
             <% Html.BeginForm("Select", "PublicOrder", new { area }, FormMethod.Post, new { @id = "submit_form", autocomplete = "off" }); %>
-		        <% Html.EditorForModel(); %>
+                <% Html.EditorForModel(); %>
                 <h2>
-		            <%= Html.Resource("Package")%>
-		        </h2>
-			
+                    <%= Html.Resource("Package")%>
+                </h2>
+            
                 <div class="formrow" style="margin-top: 8px;">
                     <h5>
                         <label class="required"><span>*</span> <%= Html.Resource("AvalablePackages")%>:</label>
@@ -102,8 +118,8 @@
                             if(i == 0)
                             {
                             %>
-  				                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />
-  				            <% 
+                                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />
+                            <% 
                             }
                             else
                             {
@@ -129,196 +145,196 @@
                     </div>
                     <br class="clear" />
                 </div>
-			    <div id="MainDomainWrapperOuter">  
-		            <h2 id="MainDomainHeader" style="display:none;">
-		                <%= Html.Resource("MainDomainTitle")%>
-		            </h2>
-    			
-		            <div class="formrow" id="MainDomainWrapper" style="display:none;">
-			            <h5>
-			              <label class="required" for="main_domain"><span>*</span><%= Html.Resource("MainDomainTitle")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <select name="MainDomainSelect" id="MainDomainSelect" style="width: 175px;"></select>
-				            <%= Html.ValidationMessage("MainDomainSelect")%>
-			            </div>
-			           <br class="clear" />
-		            </div>
-		        </div>
-		        <div id="invoiceDivWrapper">
-			        <h2><%= Html.Resource("Invoice")%></h2>
-			        <div class="formrow" id="invoiceDiv">
-					    <div id="CartContainer">
-					        <table class="invoicespec list" id="product_list"></table>
-					    </div>
-		            </div>                    
+                <div id="MainDomainWrapperOuter">  
+                    <h2 id="MainDomainHeader" style="display:none;">
+                        <%= Html.Resource("MainDomainTitle")%>
+                    </h2>
+                
+                    <div class="formrow" id="MainDomainWrapper" style="display:none;">
+                        <h5>
+                          <label class="required" for="main_domain"><span>*</span><%= Html.Resource("MainDomainTitle")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <select name="MainDomainSelect" id="MainDomainSelect" style="width: 175px;"></select>
+                            <%= Html.ValidationMessage("MainDomainSelect")%>
+                        </div>
+                       <br class="clear" />
+                    </div>
+                </div>
+                <div id="invoiceDivWrapper">
+                    <h2><%= Html.Resource("Invoice")%></h2>
+                    <div class="formrow" id="invoiceDiv">
+                        <div id="CartContainer">
+                            <table class="invoicespec list" id="product_list"></table>
+                        </div>
+                    </div>                    
                     <p id="vatValidationInfo" style="font-style:italic"></p>
-	            </div>
+                </div>
                 <%= Html.Hidden("ArrayOfProducts")%>
                 <%= Html.ValidationMessage("ArrayOfProducts")%>
                 
-	            <h2><%= Html.Resource("ContactInformation")%></h2>
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_name"><span>*</span><%= Html.Resource("FirstName")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("ContactName")%>
-			            <%= Html.ValidationMessage("ContactName")%>
-		            </div>
-		           <br class="clear" />
-	            </div>
-			    
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_name"><span>*</span><%= Html.Resource("LastName")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("ContactLastName")%>
-			            <%= Html.ValidationMessage("ContactLastName")%>
-		            </div>
-		           <br class="clear" />
-	            </div>
-			    
-	            <div class="formrow">
-		            <h5>
-		              <label for="contact_company"><%= Html.Resource("Company")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Company")%>
-			            <%= Html.ValidationMessage("Company")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <h2><%= Html.Resource("ContactInformation")%></h2>
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_name"><span>*</span><%= Html.Resource("FirstName")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("ContactName")%>
+                        <%= Html.ValidationMessage("ContactName")%>
+                    </div>
+                   <br class="clear" />
+                </div>
+                
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_name"><span>*</span><%= Html.Resource("LastName")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("ContactLastName")%>
+                        <%= Html.ValidationMessage("ContactLastName")%>
+                    </div>
+                   <br class="clear" />
+                </div>
+                
+                <div class="formrow">
+                    <h5>
+                      <label for="contact_company"><%= Html.Resource("Company")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Company")%>
+                        <%= Html.ValidationMessage("Company")%>
+                    </div>
+                    <br class="clear" />
+                </div>
     
                 <% 
                     if ((bool)ViewData["ShowPersonalNumber"])
                     {
                 %>
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_numb"><span>*</span><%=Html.Resource("PersonalNum")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%=Html.TextBox("OrgNumber")%> <span class="f_example"><%=Html.Resource("xxxx")%></span>			            
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_numb"><span>*</span><%=Html.Resource("PersonalNum")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%=Html.TextBox("OrgNumber")%> <span class="f_example"><%=Html.Resource("xxxx")%></span>			            
                         <%=Html.ValidationMessage("OrgNumber")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                    </div>
+                    <br class="clear" />
+                </div>
                 <%
                     }
                 %>
                 
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_address"><span>*</span><%= Html.Resource("Address")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Address")%>
-			            <%= Html.ValidationMessage("Address")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_address"><span>*</span><%= Html.Resource("Address")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Address")%>
+                        <%= Html.ValidationMessage("Address")%>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
-		              <label for="contact_address2"><%= Html.Resource("Address2")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Address2")%>
-			            <%= Html.ValidationMessage("Address2")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <div class="formrow">
+                    <h5>
+                      <label for="contact_address2"><%= Html.Resource("Address2")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Address2")%>
+                        <%= Html.ValidationMessage("Address2")%>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_postnummer"><span>*</span><%= Html.Resource("PostNum")%>:</label>
-		            </h5>
-		            <div class="col2row">
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_postnummer"><span>*</span><%= Html.Resource("PostNum")%>:</label>
+                    </h5>
+                    <div class="col2row">
                         <%= Html.TextBox("PostNumber")%>
                         <%= Html.ValidationMessage("PostNumber")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_city"><span>*</span><%= Html.Resource("City")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("City")%>
-			            <%= Html.ValidationMessage("City")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_city"><span>*</span><%= Html.Resource("City")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("City")%>
+                        <%= Html.ValidationMessage("City")%>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
+                <div class="formrow">
+                    <h5>
                       <label class="required" for="contact_country"><span>*</span><%= Html.Resource("Country")%>:</label>
                     </h5>
-		            <div class="col2row">
+                    <div class="col2row">
                         <% var selectCountryList = new SelectList((List<SelectListItem>)ViewData["CountryList"], "Value", "Text", Model.CountryCode); %>
                         <%= Html.DropDownList("CountryCode", selectCountryList)%>
                         <%= Html.ValidationMessage("CountryCode")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_phone"><span>*</span><%= Html.Resource("Telephone")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Telephone")%>
-			            <p id="infotipTelephone" class="infotip" style="display: none;">
-		                    <%= Html.Resource("PhoneInfo")%>
-		                </p>
-			            <%= Html.ValidationMessage("Telephone")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
-	            
-	            <div class="formrow">
-		            <h5>
-		              <label for="contact_mobile"><%= Html.Resource("Mobile")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Mobile")%>
-			            <p id="infotipMobile" class="infotip" style="display: none;">
-		                    <%= Html.Resource("PhoneInfo")%>
-		                </p>
-			            <%= Html.ValidationMessage("Mobile")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_phone"><span>*</span><%= Html.Resource("Telephone")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Telephone")%>
+                        <p id="infotipTelephone" class="infotip" style="display: none;">
+                            <%= Html.Resource("PhoneInfo")%>
+                        </p>
+                        <%= Html.ValidationMessage("Telephone")%>
+                    </div>
+                    <br class="clear" />
+                </div>
+                
+                <div class="formrow">
+                    <h5>
+                      <label for="contact_mobile"><%= Html.Resource("Mobile")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Mobile")%>
+                        <p id="infotipMobile" class="infotip" style="display: none;">
+                            <%= Html.Resource("PhoneInfo")%>
+                        </p>
+                        <%= Html.ValidationMessage("Mobile")%>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
-		              <label for="contact_fax"><%= Html.Resource("Fax")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Fax")%>
-			            <p id="infotipFax" class="infotip" style="display: none;">
-		                    <%= Html.Resource("PhoneInfo")%>
-		                </p>
-			            <%= Html.ValidationMessage("Fax")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <div class="formrow">
+                    <h5>
+                      <label for="contact_fax"><%= Html.Resource("Fax")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Fax")%>
+                        <p id="infotipFax" class="infotip" style="display: none;">
+                            <%= Html.Resource("PhoneInfo")%>
+                        </p>
+                        <%= Html.ValidationMessage("Fax")%>
+                    </div>
+                    <br class="clear" />
+                </div>
 
-	            <div class="formrow">
-		            <h5>
-		              <label class="required" for="contact_email"><span>*</span><%= Html.Resource("Email")%>:</label>
-		            </h5>
-		            <div class="col2row">
-			            <%= Html.TextBox("Email")%> <img id="email_check_loading" src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "icn_processing_transparent.gif")) %>" height="24" width="24" title="<%= Html.Resource("Loading")%>" alt="<%= Html.Resource("Loading")%>" style="display:none;" />
-			            <p class="errorinfo" id="email_error" style="display:none"><%= Html.Resource("CustomerAlreadyExists")%></p>
-			            <p class="errorinfo" id="email_domain_error" style="display:none"><%= Html.Resource("ErrorInvalidEmail")%></p>
-			            <%= Html.ValidationMessage("Email")%>
-		            </div>
-		            <br class="clear" />
-	            </div>
+                <div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_email"><span>*</span><%= Html.Resource("Email")%>:</label>
+                    </h5>
+                    <div class="col2row">
+                        <%= Html.TextBox("Email")%> <img id="email_check_loading" src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "icn_processing_transparent.gif")) %>" height="24" width="24" title="<%= Html.Resource("Loading")%>" alt="<%= Html.Resource("Loading")%>" style="display:none;" />
+                        <p class="errorinfo" id="email_error" style="display:none"><%= Html.Resource("CustomerAlreadyExists")%></p>
+                        <p class="errorinfo" id="email_domain_error" style="display:none"><%= Html.Resource("ErrorInvalidEmail")%></p>
+                        <%= Html.ValidationMessage("Email")%>
+                    </div>
+                    <br class="clear" />
+                </div>
                 
                 <div class="formrow">
                     <h5>
@@ -337,167 +353,167 @@
                     </div>
                 </div>
                 <%= Html.ValidationMessage("SecondAddress")%>
-		        <br class="clear" />
+                <br class="clear" />
 
-	            <div id="secondAddress" <% if(!Model.SecondAddress) { %> style="display: none;" <% } %>>
-		            <div class="formrow">
-			            <h5>
-				            <label class="required" for="invoice_name"><span>*</span><%= Html.Resource("FirstName")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceContactName")%>
-				            <%= Html.ValidationMessage("InvoiceContactName")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
-				    
-		            <div class="formrow">
-			            <h5>
-				            <label class="required" for="invoice_lastname"><span>*</span><%= Html.Resource("LastName")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceContactLastName")%>
-				            <%= Html.ValidationMessage("InvoiceContactLastName")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                <div id="secondAddress" <% if(!Model.SecondAddress) { %> style="display: none;" <% } %>>
+                    <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_name"><span>*</span><%= Html.Resource("FirstName")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceContactName")%>
+                            <%= Html.ValidationMessage("InvoiceContactName")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
+                    
+                    <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_lastname"><span>*</span><%= Html.Resource("LastName")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceContactLastName")%>
+                            <%= Html.ValidationMessage("InvoiceContactLastName")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-				            <label for="invoice_company"><%= Html.Resource("Company")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceCompany")%>
-				            <%= Html.ValidationMessage("InvoiceCompany")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                            <label for="invoice_company"><%= Html.Resource("Company")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceCompany")%>
+                            <%= Html.ValidationMessage("InvoiceCompany")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-			              <label class="required" for="invoice_address"><span>*</span><%= Html.Resource("Address")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceAddress")%>
-				            <%= Html.ValidationMessage("InvoiceAddress")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                          <label class="required" for="invoice_address"><span>*</span><%= Html.Resource("Address")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceAddress")%>
+                            <%= Html.ValidationMessage("InvoiceAddress")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-				            <label for="invoice_address2"><%= Html.Resource("Address2")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceAddress2")%>
-				            <%= Html.ValidationMessage("InvoiceAddress2")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                            <label for="invoice_address2"><%= Html.Resource("Address2")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceAddress2")%>
+                            <%= Html.ValidationMessage("InvoiceAddress2")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-				            <label class="required" for="invoice_postnummer"><span>*</span><%= Html.Resource("PostNum")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoicePostNumber")%>
-				            <%= Html.ValidationMessage("InvoicePostNumber")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_postnummer"><span>*</span><%= Html.Resource("PostNum")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoicePostNumber")%>
+                            <%= Html.ValidationMessage("InvoicePostNumber")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-				            <label class="required" for="invoice_city"><span>*</span><%= Html.Resource("City")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceCity")%>
-				            <%= Html.ValidationMessage("InvoiceCity")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_city"><span>*</span><%= Html.Resource("City")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceCity")%>
+                            <%= Html.ValidationMessage("InvoiceCity")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-	                <div class="formrow">
-		                <h5>
+                    <div class="formrow">
+                        <h5>
                           <label class="required" for="invoice_country"><span>*</span><%= Html.Resource("Country")%>:</label>
                         </h5>
-		                <div class="col2row">
+                        <div class="col2row">
                             <%  selectCountryList = new SelectList((List<SelectListItem>)ViewData["CountryList"], "Value", "Text", Model.InvoiceCountryCode); %>
                             <%= Html.DropDownList("InvoiceCountryCode", selectCountryList)%>
                             <%= Html.ValidationMessage("InvoiceCountryCode")%>
-		                </div>
-		                <br class="clear" />
-	                </div>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-				            <label class="required" for="invoice_phone"><span>*</span><%= Html.Resource("Telephone")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceTelephone")%>
-				            <p id="infotipInvoiceTelephone" class="infotip" style="display: none;">
-			                    <%= Html.Resource("PhoneInfo")%>
-			                </p>
-				            <%= Html.ValidationMessage("InvoiceTelephone")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
-		            
-		            <div class="formrow">
-			            <h5>
-				            <label for="invoice_mobile"><%= Html.Resource("Mobile")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceMobile")%>
-				            <p id="infotipInvoiceMobile" class="infotip" style="display: none;">
-			                    <%= Html.Resource("PhoneInfo")%>
-			                </p>
-				            <%= Html.ValidationMessage("InvoiceMobile")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_phone"><span>*</span><%= Html.Resource("Telephone")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceTelephone")%>
+                            <p id="infotipInvoiceTelephone" class="infotip" style="display: none;">
+                                <%= Html.Resource("PhoneInfo")%>
+                            </p>
+                            <%= Html.ValidationMessage("InvoiceTelephone")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
+                    
+                    <div class="formrow">
+                        <h5>
+                            <label for="invoice_mobile"><%= Html.Resource("Mobile")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceMobile")%>
+                            <p id="infotipInvoiceMobile" class="infotip" style="display: none;">
+                                <%= Html.Resource("PhoneInfo")%>
+                            </p>
+                            <%= Html.ValidationMessage("InvoiceMobile")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
 
-		            <div class="formrow">
-			            <h5>
-				            <label class="required" for="invoice_email"><span>*</span><%= Html.Resource("Email")%>:</label>
-			            </h5>
-			            <div class="col2row">
-				            <%= Html.TextBox("InvoiceEmail")%>
-				            <%= Html.ValidationMessage("InvoiceEmail")%>
-			            </div>
-			            <br class="clear" />
-		            </div>
+                    <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_email"><span>*</span><%= Html.Resource("Email")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("InvoiceEmail")%>
+                            <%= Html.ValidationMessage("InvoiceEmail")%>
+                        </div>
+                        <br class="clear" />
+                    </div>
                 </div>
                 <% if (this.Session["resellerAccountData"] != null)
                 {	
                 %>
                 <div id="ContactsDiv">
-		            <h2><%= Html.Resource("ContactsSettings")%></h2>		                
+                    <h2><%= Html.Resource("ContactsSettings")%></h2>		                
                     <h5><%= Html.Resource("BillingContact")%></h5>
-		            <div class="formrow">
-		                <label for="BillingContactReseller">
-		                    <%= Html.RadioButton("RadioBillingContact", "reseller", Model.RadioBillingContact == "reseller", new Dictionary<string, object> { { "id", "BillingContactReseller" } })%> 
-                            <%= ((AccountData)this.Session["resellerAccountData"]).Name%>
-			            </label>
-                        <br class="clear" />
-		                <label for="BillingContactCustomer">
-		                    <%= Html.RadioButton("RadioBillingContact", "customer", Model.RadioBillingContact == "customer", new Dictionary<string, object> { { "id", "BillingContactCustomer" } })%> 
-                            <span id="BillingContactCustomerText"><%= Html.Resource("CustomerRadio")%></span>
-			            </label>
-                    </div>
-		            <h5><%= Html.Resource("TechnicalContact")%></h5>
                     <div class="formrow">
-		                <label for="TechContactReseller">
-		                    <%= Html.RadioButton("RadioTechContact", "reseller", Model.RadioTechContact == "reseller", new Dictionary<string, object> { { "id", "TechContactReseller" } })%> 
+                        <label for="BillingContactReseller">
+                            <%= Html.RadioButton("RadioBillingContact", "reseller", Model.RadioBillingContact == "reseller", new Dictionary<string, object> { { "id", "BillingContactReseller" } })%> 
                             <%= ((AccountData)this.Session["resellerAccountData"]).Name%>
-			            </label>
+                        </label>
                         <br class="clear" />
-		                <label for="TechContactCustomer">
-		                    <%= Html.RadioButton("RadioTechContact", "customer", Model.RadioTechContact == "customer", new Dictionary<string, object> { { "id", "TechContactCustomer" } })%> 
-                            <span id="TechContactCustomerText"><%= Html.Resource("CustomerRadio")%></span>
-			            </label>
+                        <label for="BillingContactCustomer">
+                            <%= Html.RadioButton("RadioBillingContact", "customer", Model.RadioBillingContact == "customer", new Dictionary<string, object> { { "id", "BillingContactCustomer" } })%> 
+                            <span id="BillingContactCustomerText"><%= Html.Resource("CustomerRadio")%></span>
+                        </label>
                     </div>
-	            </div>
+                    <h5><%= Html.Resource("TechnicalContact")%></h5>
+                    <div class="formrow">
+                        <label for="TechContactReseller">
+                            <%= Html.RadioButton("RadioTechContact", "reseller", Model.RadioTechContact == "reseller", new Dictionary<string, object> { { "id", "TechContactReseller" } })%> 
+                            <%= ((AccountData)this.Session["resellerAccountData"]).Name%>
+                        </label>
+                        <br class="clear" />
+                        <label for="TechContactCustomer">
+                            <%= Html.RadioButton("RadioTechContact", "customer", Model.RadioTechContact == "customer", new Dictionary<string, object> { { "id", "TechContactCustomer" } })%> 
+                            <span id="TechContactCustomerText"><%= Html.Resource("CustomerRadio")%></span>
+                        </label>
+                    </div>
+                </div>
                 <% 
                 } %>
 
@@ -523,48 +539,48 @@
                 %>
                 <div id="PaymentDiv">
                     <div <%= onlyOneOption ? "style='display: none;'" : String.Empty %>>
-		                <h2><%= Html.Resource("Payment")%></h2>
-		                <h4><%= Html.Resource("PaymentMethod")%></h4>
-		                <div class="formrow">
-		                    <%if (orderByEmailEnabled)
+                        <h2><%= Html.Resource("Payment")%></h2>
+                        <h4><%= Html.Resource("PaymentMethod")%></h4>
+                        <div class="formrow">
+                            <%if (orderByEmailEnabled)
                             {
                             %>
-			                    <label for="PaymentMethodEmail">
-		                            <%= Html.RadioButton("RadioPaymentMethod", "email", Model.RadioPaymentMethod == "email", new Dictionary<string, object> { { "id", "PaymentMethodEmail" } })%> <%= Html.Resource("E_invoice")%>
-			                    </label>
-			                    <br class="clear" />
-			                    <div class="smalltext"><%= Html.Resource("PaymentSmall1")%></div>
-			                    <br class="clear" />
-			                <%
+                                <label for="PaymentMethodEmail">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "email", Model.RadioPaymentMethod == "email", new Dictionary<string, object> { { "id", "PaymentMethodEmail" } })%> <%= Html.Resource("E_invoice")%>
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall1")%></div>
+                                <br class="clear" />
+                            <%
                             }
                             if (orderByPostEnabled)
                             { %>
-			                    <label for="PaymentMethodPost">
-				                    <%= Html.RadioButton("RadioPaymentMethod", "post", Model.RadioPaymentMethod == "post", new Dictionary<string, object> { { "id", "PaymentMethodPost" } })%> <%= Html.Resource("Post_invoice")%>
-			                    </label>
-			                    <br class="clear" />
-			                    <div class="smalltext"><%= Html.Resource("PaymentSmall2")%></div>
-			                    <br class="clear" />
-			                <%
+                                <label for="PaymentMethodPost">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "post", Model.RadioPaymentMethod == "post", new Dictionary<string, object> { { "id", "PaymentMethodPost" } })%> <%= Html.Resource("Post_invoice")%>
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall2")%></div>
+                                <br class="clear" />
+                            <%
                             }
                                 if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                             { %>
-		                        <label for="PaymentMethodCard">
-			                        <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
-		                        </label>
-		                        <br class="clear" />
-		                        <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
-								<br class="clear" />
-			                <% 
+                                <label for="PaymentMethodCard">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+                                <br class="clear" />
+                            <% 
                             } 
-							if (payPalEnabled)
+                            if (payPalEnabled)
                             { %>
-		                        <label for="PaymentMethodPayPal">
-			                        <%= Html.RadioButton("RadioPaymentMethod", "paypal", Model.RadioPaymentMethod == "paypal", new Dictionary<string, object> { { "id", "PaymentMethodPayPal" } })%> <%= Html.Resource("Pay_pal")%>
-		                        </label>
-		                        <br class="clear" />
-		                        <div class="smalltext"><%= Html.Resource("PaymentSmall4")%></div>
-			                <% 
+                                <label for="PaymentMethodPayPal">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "paypal", Model.RadioPaymentMethod == "paypal", new Dictionary<string, object> { { "id", "PaymentMethodPayPal" } })%> <%= Html.Resource("Pay_pal")%>
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall4")%></div>
+                            <% 
                             }
 							%>
 		                </div>
@@ -583,7 +599,7 @@
 					plugins.Add(new GuiPaymentPluginData("CCPayment", "Credit card payment"));
 				} 
                 else if (payexRedirectEnabled)
-				{
+                {
                     plugins.Add(new GuiPaymentPluginData("PayExRedirect", "PayEx redirect payment"));
 				}
 				
@@ -605,59 +621,59 @@
 				
 				%>
                 <div id="cc_paymentDiv" style="display: none;">
-			        <% Html.RenderAction("Index", "PaymentForm", new { area = "PaymentForm", listOfPlugins = plugins.ToArray() }); %>
-		        </div>
-		        <% 
+                    <% Html.RenderAction("Index", "PaymentForm", new { area = "PaymentForm", listOfPlugins = plugins.ToArray() }); %>
+                </div>
+                <% 
                 } %>
             
-		        <h2><%= Html.Resource("ClickOrder")%></h2>
-		        <h4><%= Html.Resource("Billing")%></h4>
-		        <div id="BillingText" class="formrow">
-		            <%if(orderByEmailEnabled)
+                <h2><%= Html.Resource("ClickOrder")%></h2>
+                <h4><%= Html.Resource("Billing")%></h4>
+                <div id="BillingText" class="formrow">
+                    <%if(orderByEmailEnabled)
                     { %>
                         <p><%= Html.Resource("OnEmailBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
                     <%
                     }else if(orderByPostEnabled)
                     { %>
-			            <p><%= Html.Resource("OnPostBilling")%></p>
+                        <p><%= Html.Resource("OnPostBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
-			        <%
+                    <%
                     }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                     {
                      %>
-			            <%= Html.Resource("OnCCBilling")%>
-			        <% 
+                        <%= Html.Resource("OnCCBilling")%>
+                    <% 
                     }else if(payPalEnabled)
                     {
                      %>
-			            <%= Html.Resource("OnPayPalBilling")%>
-			        <% 
+                        <%= Html.Resource("OnPayPalBilling")%>
+                    <% 
                     } %>
-		        </div>
-		        <h4><%= Html.Resource("Activation")%></h4>
-		        <div id="ActivationText" class="formrow">
-		            <%if(orderByEmailEnabled)
+                </div>
+                <h4><%= Html.Resource("Activation")%></h4>
+                <div id="ActivationText" class="formrow">
+                    <%if(orderByEmailEnabled)
                     { %>
                         <%= Html.Resource("OnEmailActivation")%>
                     <%
                     }else if(orderByPostEnabled)
                     { %>
-			            <%= Html.Resource("OnPostActivation")%>
-			        <%
+                        <%= Html.Resource("OnPostActivation")%>
+                    <%
                     }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
                     {
                      %>
-			            <%= Html.Resource("OnCCActivation")%>
-			        <% 
+                        <%= Html.Resource("OnCCActivation")%>
+                    <% 
                     }
-					else if(payPalEnabled)
+                    else if(payPalEnabled)
                     {
                      %>
-			            <%= Html.Resource("OnCCActivation")%>
-			        <% 
+                        <%= Html.Resource("OnCCActivation")%>
+                    <% 
                     }					%>
-		        </div>
+                </div>
                 <div id="termsDiv">
                     <h2><%= Html.Resource("TermsDiv")%></h2>
                     <div id="termsList">
@@ -667,27 +683,27 @@
                     <%= Html.ValidationMessage("errorTerm")%>
                     <%= Html.Hidden("errorTerm", "asdasd")%>
                     <br class="clear" />
-    	        </div>
-	            <h2>
-		            <%= Html.Resource("TotalAmount")%>: <span id="totalPrice">0,0  <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span></span>
-	            </h2>
-		        <br class="clear" />
-	            <p class="actions"><a href="javascript:void(0);" class="b_b_create" id="orderbutton" style="display: inline;"><%= Html.Resource("Order")%></a></p>
-		        <%= Html.Hidden("TelephoneProcessed")%>
-		        <%= Html.Hidden("InvoiceTelephoneProcessed")%>
-		        <%= Html.Hidden("FaxProcessed")%>
-				<%= Html.Hidden("InvoiceFaxProcessed")%>
-		        <%= Html.Hidden("MobileProcessed")%>
+                </div>
+                <h2>
+                    <%= Html.Resource("TotalAmount")%>: <span id="totalPrice">0,0  <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span></span>
+                </h2>
+                <br class="clear" />
+                <p class="actions"><a href="javascript:void(0);" class="b_b_create" id="orderbutton" style="display: inline;"><%= Html.Resource("Order")%></a></p>
+                <%= Html.Hidden("TelephoneProcessed")%>
+                <%= Html.Hidden("InvoiceTelephoneProcessed")%>
+                <%= Html.Hidden("FaxProcessed")%>
+                <%= Html.Hidden("InvoiceFaxProcessed")%>
+                <%= Html.Hidden("MobileProcessed")%>
                 <%= Html.Hidden("InvoiceMobileProcessed")%>
-		        <%= Html.Hidden("SearchDomains", Model.SearchDomains)%>
-		        <%= Html.Hidden("OwnDomain", ViewData["OwnDomain"])%>
-		        <%= Html.Hidden("FirstOption", (bool)ViewData["firstOption"])%>
-		        <%= Html.Hidden("VATNumber", "")%>
-		        <%= Html.Hidden("InvoiceFax", "")%>
-	        	<%= Html.Hidden("OrderCustomData", "")%>
-		        <%= Html.Hidden("formater", "")%>
+                <%= Html.Hidden("SearchDomains", Model.SearchDomains)%>
+                <%= Html.Hidden("OwnDomain", ViewData["OwnDomain"])%>
+                <%= Html.Hidden("FirstOption", (bool)ViewData["firstOption"])%>
+                <%= Html.Hidden("VATNumber", "")%>
+                <%= Html.Hidden("InvoiceFax", "")%>
+                <%= Html.Hidden("OrderCustomData", "")%>
+                <%= Html.Hidden("formater", "")%>
                 <%= Html.Hidden("VATValidationMessage", "")%>
-	        <% Html.EndForm(); %>
+            <% Html.EndForm(); %>
             <div id="BillingTextEmailContainer" style="display:none;">
                 <p><%= Html.ResourceNotEncoded("OnEmailBilling")%></p>
                 <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
@@ -698,38 +714,38 @@
             </div>
             <div id="BillingTextCCContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnCCBilling")%></div>
             <div id="BillingTextPayPalContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnPayPalBilling")%></div>
-	    </div>
+        </div>
         <%= Html.Hidden("dontShowTaxesForThisResellerHidden", Session["dontShowTaxesForThisResellerHidden"])%>
     </div>
-	<script type="text/javascript">
+    <script type="text/javascript">
 
         var initializeParams = {};
         initializeParams.ResourcePersonalNumber = '<%= Html.ResourceNotEncoded("PersonalNumber")%>';
         initializeParams.ResourceCompanyNumber = '<%= Html.ResourceNotEncoded("CompanyNumber")%>';
         var initializedObj = initializeAdditionalThemeMethods(initializeParams);
-	    
-	    var notificationParams = {};
-		notificationParams.wasAnError = '<%= ViewData["WasAnError"] %>';
-		notificationParams.NotificationText = '<%= Html.ResourceNotEncoded("NotificationText") %>';
-		notificationParams.NotificationTextPayment = '<%= Html.ResourceNotEncoded("NotificationTextPayment") %>';
-		notificationParams.title = '<%= Html.Resource("NotificationHeader") %>';
-	    
+        
+        var notificationParams = {};
+        notificationParams.wasAnError = '<%= ViewData["WasAnError"] %>';
+        notificationParams.NotificationText = '<%= Html.ResourceNotEncoded("NotificationText") %>';
+        notificationParams.NotificationTextPayment = '<%= Html.ResourceNotEncoded("NotificationTextPayment") %>';
+        notificationParams.title = '<%= Html.Resource("NotificationHeader") %>';
+        
         var validateVATNumberParams = {};
         validateVATNumberParams.ValidateVATNumberUrl = '<%= Url.Action("ValidateVatNumber", new { controller = "PublicOrder", area = "PublicOrder" }) %>';        
         validateVATNumberParams.ValidationResultFalseMessage = '<%= Html.Resource("VATValidationResultFalseMessage") %>';
         validateVATNumberParams.ValidationResultNotValidated = '<%= Html.Resource("VATValidationResultNotValidated") %>';
 
-		var OrderByPostSelected = false;
-		var canSubmit = true;
-		var decimalDigits = 2;
+        var OrderByPostSelected = false;
+        var canSubmit = true;
+        var decimalDigits = 2;
 
-		var decimalParserParams = {};
-		decimalParserParams.DecimalSeparator = '<%= ViewData["decimalSeparator"] %>';
-		decimalParserParams.GroupSeparator = '<%= ViewData["groupSeparator"] %>';
-		decimalParserParams.Locale = 'se';
-		initializeDecimalParser(decimalParserParams);
+        var decimalParserParams = {};
+        decimalParserParams.DecimalSeparator = '<%= ViewData["decimalSeparator"] %>';
+        decimalParserParams.GroupSeparator = '<%= ViewData["groupSeparator"] %>';
+        decimalParserParams.Locale = 'se';
+        initializeDecimalParser(decimalParserParams);
 
-		$(document).ready(function() {
+        $(document).ready(function() {
             var validator = $("#submit_form").validate();
 
             AddValidationRules();
@@ -738,15 +754,15 @@
             addBillingCustomerDataBlur('<%= Html.Resource("CustomerRadio")%>');
             addTechCustomerDataBlur('<%= Html.Resource("CustomerRadio")%>');
 
-		    $('#notification').notification({
-		        showTimeout: 1000,
-		        hideTimeout: 100000
-		    });
+            $('#notification').notification({
+                showTimeout: 1000,
+                hideTimeout: 100000
+            });
 
             <% if (ViewData["qs_CampaignCode"] != null && ViewData["qs_CampaignCode"].ToString() != String.Empty)
-			  {	%>
+              {	%>
 //				$('#OrderCustomData').val('{"CustomAttributesArray":[{"nameField":"CampaignCode","valueField":"<%= ViewData["qs_CampaignCode"]%>"}]}');
-				$('#OrderCustomData').val('[{"Name":"CampaignCode","Value":"<%= ViewData["qs_CampaignCode"]%>"}]');
+                $('#OrderCustomData').val('[{"Name":"CampaignCode","Value":"<%= ViewData["qs_CampaignCode"]%>"}]');
             <%} %>
             
             // Call methods from theme js files that are not in the Default theme js files, empty in Default, params are not used in Default
@@ -763,64 +779,64 @@
             params.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
             params.InitializedObj = initializedObj;
             params.EUCountries = "<%= ViewData["EUCountries"] %>";
-		    initializeAdditionalThemeMethodsDocReady(params);
+            initializeAdditionalThemeMethodsDocReady(params);
 
-		    setNotificationMessage(notificationParams);
+            setNotificationMessage(notificationParams);
 
-		    setOrderByPost('<%= Model.RadioPaymentMethod%>');
+            setOrderByPost('<%= Model.RadioPaymentMethod%>');
 
-		    initializeVtip('<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"]))%>');
+            initializeVtip('<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"]))%>');
 
-		    companyKeyUpBind();
+            companyKeyUpBind();
 //            orgNumberKeyUpBind();
             countryChangeBind(params);
 
             params = {};
             params.CheckEmailAction = '<%= Url.Action("CheckEmail", new { controller = "PublicOrder", area = "PublicOrder" }) %>';
             params.CheckEmailDomainAction = '<%= Url.Action("CheckEmailDomain", new { controller = "PublicOrder", area = "PublicOrder" }) %>';
-		    emailBlurBind(params);
-		    invoiceEmailBlurBind();
-		    emailKeyUpBind();
+            emailBlurBind(params);
+            invoiceEmailBlurBind();
+            emailKeyUpBind();
 
-		    secondAddressRadioBind();
+            secondAddressRadioBind();
 
-		    params = {};
-		    params.ActivationTextMail = '<%= Html.ResourceNotEncoded("OnEmailActivation")%>';
-		    paymentMethodEmailBind(params);
+            params = {};
+            params.ActivationTextMail = '<%= Html.ResourceNotEncoded("OnEmailActivation")%>';
+            paymentMethodEmailBind(params);
 
-		    params.ActivationTextPost = '<%= Html.ResourceNotEncoded("OnPostActivation")%>';
-		    paymentMethodPostBind(params);
+            params.ActivationTextPost = '<%= Html.ResourceNotEncoded("OnPostActivation")%>';
+            paymentMethodPostBind(params);
 
-		    params.ActivationTextCC = '<%= Html.ResourceNotEncoded("OnCCActivation")%>';
-		    paymentMethodCarBind(params);
-			
-			paymentMethodPayPalBind(params);
+            params.ActivationTextCC = '<%= Html.ResourceNotEncoded("OnCCActivation")%>';
+            paymentMethodCarBind(params);
+            
+            paymentMethodPayPalBind(params);
 
-		    fillPaymentMethod('<%= Model.RadioPaymentMethod%>');
+            fillPaymentMethod('<%= Model.RadioPaymentMethod%>');
 
-		    submitOnceUnbind();
+            submitOnceUnbind();
 
-		    $('#submit_form input,select').keydown(function(e) {
-		        if (e.keyCode == 13) {
-		            var submitParams = {};
-		            submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
-		            submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
-		            onSubmit(submitParams);
-		            return false;
-		        }
-		    });
+            $('#submit_form input,select').keydown(function(e) {
+                if (e.keyCode == 13) {
+                    var submitParams = {};
+                    submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
+                    submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
+                    onSubmit(submitParams);
+                    return false;
+                }
+            });
 
-		    $('#orderbutton').bind('click', function() {
+            $('#orderbutton').bind('click', function() {
                 var lbl = document.getElementById('vatValidationInfo');
                 $("#VATValidationMessage").val($("#vatValidationInfo").text());
                 
                 var submitParams = {};
-		        submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
-		        submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
-		        onSubmit(submitParams);
-		    });
+                submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
+                submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
+                onSubmit(submitParams);
+            });
 
-		});
+        });
 
         function AddValidationMethods() {
         
@@ -985,7 +1001,7 @@
 
         function AddOrgNumberValidationRules(){
 
-			if ($('#OrgNumber').length > 0)            
+            if ($('#OrgNumber').length > 0)            
             {
                 $('#OrgNumber').rules("add", {
                     ValidateOrgNumberEx: true,

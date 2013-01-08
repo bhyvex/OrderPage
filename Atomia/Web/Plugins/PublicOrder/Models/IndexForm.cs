@@ -33,5 +33,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// <value>The domain.</value>
         [AtomiaStringLength(55, "ValidationErrors, ErrorStringLength")]
         public string Domain { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sub domain.
+        /// </summary>
+        /// <value>The sub domain.</value>
+        [AtomiaStringLength(69, "ValidationErrors, ErrorStringLength")]
+        public string SubDomain { get; set; }
     }
 }

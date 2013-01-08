@@ -150,6 +150,9 @@
   <data name="Second" xml:space="preserve">
     <value>Transfer existing domain name</value>
   </data>
+  <data name="Third" xml:space="preserve">
+    <value>Add subdomain</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Order webhosting and DNS</value>
   </data>

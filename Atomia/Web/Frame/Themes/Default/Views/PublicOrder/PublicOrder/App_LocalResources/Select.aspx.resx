@@ -349,13 +349,13 @@
     <value>Payment method</value>
   </data>
   <data name="PaymentSmall1" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="PaymentSmall2" xml:space="preserve">
     <value>($5.77 postal fee will be included)</value>
   </data>
   <data name="PaymentSmall3" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="Post_invoice" xml:space="preserve">
     <value>Send me an invoice by regular mail</value>
@@ -434,5 +434,11 @@
   </data>
   <data name="PaymentNeededNotification" xml:space="preserve">
     <value>Payment must be completed before one or more items can be used.</value>
+  </data>
+  <data name="SubdomainAlternative" xml:space="preserve">
+    <value>Subdomain alternative</value>
+  </data>
+  <data name="SubdomainAltInfo" xml:space="preserve">
+    <value>Add subdomain</value>
   </data>
 </root>

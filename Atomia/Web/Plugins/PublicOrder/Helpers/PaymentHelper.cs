@@ -101,6 +101,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             {
                 return String.Empty;
             }
+
+            if (returnedTransaction.Status.ToUpper() == "FRAUD_DETECTED")
+            {
+                return controller.Url.Action("PaymentFailed");
+            }
             
             return transaction.ReturnUrl;
             // if status is not ok throw an exception

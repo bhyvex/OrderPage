@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 using Atomia.Common;
 using Atomia.Web.Base.ActionFilters;
@@ -40,15 +41,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             string[] domains = (string[])Session["domains"];
             string tmp = string.Empty;
-            for (int i = 0; i < domains.Length; i++)
+            if (domains != null)
             {
-                if (i < domains.Length - 1)
+                for (int i = 0; i < domains.Length; i++)
                 {
-                    tmp += domains[i] + " ";
-                }
-                else
-                {
-                    tmp += domains[i];
+                    if (i < domains.Length - 1)
+                    {
+                        tmp += domains[i] + " ";
+                    }
+                    else
+                    {
+                        tmp += domains[i];
+                    }
                 }
             }
 
@@ -94,13 +98,24 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
-                List<RadioRow> list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, null, null);
+                string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
+                List<RadioRow> list = GeneralHelper.FilterPackages(this, service, Guid.Empty, null, null, filterValue);
+                RadioRow preselectedId = list[0];
 
-                string switchedId = list[0].productId + "|" + list[0].productNameDesc + "|" + list[0].RenewalPeriodId;
-                if (list[0].SetupFee != null)
+                // choose package to select
+                if (Session["PreselectedPackage"] != null)
                 {
-                    switchedId += "|" + list[0].SetupFee.productID + "|" + list[0].SetupFee.productDesc + "|" +
-                                  list[0].SetupFee.RenewalPeriodId;
+                    if (list.Exists(rr => rr.productId == (string)Session["PreselectedPackage"]))
+                    {
+                        preselectedId = list.First(rr => rr.productId == (string)Session["PreselectedPackage"]);
+                    }
+                }
+
+                string switchedId = preselectedId.productId + "|" + preselectedId.productNameDesc + "|" + preselectedId.RenewalPeriodId;
+                if (preselectedId.SetupFee != null)
+                {
+                    switchedId += "|" + preselectedId.SetupFee.productID + "|" + preselectedId.SetupFee.productDesc + "|" +
+                                  preselectedId.SetupFee.RenewalPeriodId;
                 }
 
                 ViewData["switchedId"] = switchedId;
@@ -110,12 +125,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 {
                     ProductDescription setupFee = OrderModel.FetchSetupFeePackageFromXml(service, Guid.Empty, null, null);
 
-                    ViewData["CartProducts"] = list[0].productId + '|' + list[0].productNameDesc + '|' + list[0].RenewalPeriodId + '|' + true + '|' +
+                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' + preselectedId.RenewalPeriodId + '|' + true + '|' +
                         setupFee.productID + '|' + setupFee.productDesc + '|' + setupFee.RenewalPeriodId + '|' + false;
                 }
                 else
                 {
-                    ViewData["CartProducts"] = list[0].productId + '|' + list[0].productNameDesc + '|' + list[0].RenewalPeriodId + '|' + true;
+                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' + preselectedId.RenewalPeriodId + '|' + true;
                 }
 
                 PublicOrderConfigurationSection opcs = LocalConfigurationHelper.GetLocalConfigurationSection();

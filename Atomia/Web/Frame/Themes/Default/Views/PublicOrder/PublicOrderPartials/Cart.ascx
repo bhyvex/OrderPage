@@ -24,9 +24,9 @@ $('#product_list').AtomiaShoppingCart(
         ProductCommission: { display: showCommission, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
         ProductTotalPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Amount") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
         ProductNumberOfItems: { display: false, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "Items" }, tbody: { attr: { "class":"right", style:"padding: 10px;"}, css: { } } },
-        OrderSubAmount: { display: true, tfoot: [{ displayText: "Subtotal", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
-        OrderTaxes: { display: true, tfoot: [{ displayText: "VAT", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
-        OrderTotal: { display: true, tfoot: [{ displayText: "Amount to pay", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderSubAmount: { display: true, tfoot: [{ displayText: "<%= Html.ResourceNotEncoded("Subtotal")%>", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderTaxes: { display: true, tfoot: [{ displayText: "<%= Html.ResourceNotEncoded("VAT")%>", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderTotal: { display: true, tfoot: [{ displayText: "<%= Html.ResourceNotEncoded("AmountToPay")%>", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
         PricesIncludingVAT: true,
         AddOrderAddressData: true,
 		vtipImagePath: "<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"])) %>",
@@ -36,28 +36,26 @@ $('#product_list').AtomiaShoppingCart(
             var trIndex = $(htmlElement).parent().parent()[0].rowIndex;
 			var productID = cartArray[trIndex-1].id;
             var productDisplayName = cartArray[trIndex-1].display;
-		   
-		   $('#MainDomainSelect option[value="'+productDisplayName+'"]').remove();
-			if($('#MainDomainSelect').children().length > 1) 
-			{
-				$('#MainDomainHeader').show();
-				$('#MainDomainWrapper').show();
-			} 
-			else 
-			{
-				$('#MainDomainHeader').hide();
-				$('#MainDomainWrapper').hide();
-			}
-			
-			//switch button in upper div
-		   $('#domainsDiv table tbody tr[id='+productID+']').each(function() {
-				var tr = $(this);
-				if (tr.find('.vtip').attr('title') == productDisplayName)
-				{
-					tr.find('a').attr({ rel: "add" });
-					tr.find('a').text("<%=Html.ResourceNotEncoded("Add")%>").removeClass("red").addClass("green");
-				} 
-			});
+           
+           $('#MainDomainSelect option[value="'+productDisplayName+'"]').remove();
+            if($('#MainDomainSelect').children().length > 1) 
+            {
+                $('#MainDomainHeader:hidden, #MainDomainWrapper:hidden').show('blind', 500);
+            } 
+            else 
+            {
+                $('#MainDomainHeader:visible, #MainDomainWrapper:visible').hide('blind', 500);
+            }
+            
+            //switch button in upper div
+           $('#domainsDiv table tbody tr[id='+productID+']').each(function() {
+                var tr = $(this);
+                if (tr.find('.vtip').attr('title') == productDisplayName)
+                {
+                    tr.find('a').attr({ rel: "add" });
+                    tr.find('a').text("<%=Html.ResourceNotEncoded("Add")%>").removeClass("red").addClass("green");
+                } 
+            });
             
             $.fn.AtomiaShoppingCart.RemoveItem(productID, productDisplayName, 1, true); 
         },

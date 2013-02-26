@@ -61,6 +61,16 @@
 					<xs:documentation>The DibsFlexwin.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="0" name="productGroups" type="tns:Atomia.Web.Plugin.PublicOrder.Configurations.ProductGroupsCT">
+				<xs:annotation>
+					<xs:documentation>The ProductGroups.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="worldPayXml" type="tns:Atomia.Web.Plugin.PublicOrder.Configurations.WorldPayXmlCT">
+				<xs:annotation>
+					<xs:documentation>The WorldPayXml.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.QueryStringListCT">
@@ -223,6 +233,43 @@
 		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.DibsFlexwinCT">
+		<xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="enabled" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Enabled.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="default" use="optional" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>The Default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.ProductGroupsCT">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="productGroup" type="tns:Atomia.Web.Plugin.PublicOrder.Configurations.ProductGroupCT">
+				<xs:annotation>
+					<xs:documentation>The ProductGroup Configuration Element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.ProductGroupCT">
+		<xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="groupName" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The GroupName.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="orderPageOptions" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The OrderPageOptions.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.WorldPayXmlCT">
 		<xs:sequence>
 		</xs:sequence>
 		<xs:attribute name="enabled" use="required" type="xs:string">

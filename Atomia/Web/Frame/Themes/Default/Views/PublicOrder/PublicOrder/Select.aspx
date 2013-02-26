@@ -37,67 +37,100 @@
             <p>
                 <%= Html.ResourceNotEncoded("Info")%>
             </p>
-            <h2>
-                <%= Html.Resource("DomainName")%>   
-            </h2>
-            <%
-            if (!(bool)ViewData["firstOption"])
-            {
-                Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml domain = (Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml)Session["singleDomain"];
-                string domainName = domain.ProductName;
-                string productId = domain.ProductID;
-            %>
-            <% if ((bool)ViewData["AddingSubdomain"])
-                {%>
-                    <div class="formrow">
-                        <h4><%= Html.Resource("SubdomainAlternative")%>:</h4>
-                        <div class="col2row">
-                            <p>
-                                <%= Html.Resource("SubdomainAltInfo")%>
-                            </p>
 
-                        </div>
-                        <br class="clear" />
-                    </div>
-            <%  }
-                else
-                {%>
-                   <div class="formrow">
-                        <h4><%= Html.Resource("Alternative")%>:</h4>
-                        <div class="col2row">
-                            <p>
-                                <%= Html.Resource("AltInfo")%>
-                            </p>
-
-                        </div>
-                        <br class="clear" />
-                    </div>
-                <%}%>
-                <div class="formrow">
-                    <label class="required">
-                        <span>*</span><%= Html.Resource("DomainName")%>:
-                    </label>
-                    <div class="col2row">
-                        <p id="singleDomain" rel="<%= Html.Encode(productId)%>">
-                            <%= Html.Encode(domainName)%>
-                        </p>
-
-                    </div>
-                    <br class="clear" />
-                </div>
-            <%
-            }
-            else
-            {
-            %>
-                <div id="DomainSearchContainer">
-                </div>
-            <%
-            }
-            %>
             <% Html.EnableClientValidation(); %>
             <% Html.BeginForm("Select", "PublicOrder", new { area }, FormMethod.Post, new { @id = "submit_form", autocomplete = "off" }); %>
-                <% Html.EditorForModel(); %>
+            <% Html.EditorForModel(); %>
+
+            <!-- DOMAINS SELECT CONTAINER-->
+            <div id="step_0" >
+                <h2>
+                    <%= Html.Resource("DomainName")%>
+                </h2>
+                <%
+                if (!(bool)ViewData["firstOption"])
+                {
+                    Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml domain = (Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml)Session["singleDomain"];
+
+                    if (domain != null)
+                    {
+                        string domainName = domain.ProductName;
+                        string productId = domain.ProductID;
+                    %>
+                    <%
+                        if ((bool) ViewData["AddingSubdomain"])
+                        {%>
+                            <div class="formrow">
+                                <h4><%=Html.Resource("SubdomainAlternative")%>:</h4>
+                                <div class="col2row">
+                                    <p>
+                                        <%=Html.Resource("SubdomainAltInfo")%>
+                                    </p>
+
+                                </div>
+                                <br class="clear" />
+                            </div>
+                    <%
+                        }
+                        else
+                        {%>
+                           <div class="formrow">
+                                <h4><%=Html.Resource("Alternative")%>:</h4>
+                                <div class="col2row">
+                                    <p>
+                                        <%=Html.Resource("AltInfo")%>
+                                    </p>
+
+                                </div>
+                                <br class="clear" />
+                            </div>
+                        <%
+                        }%>
+
+                        <div class="formrow">
+                            <label class="required">
+                                <span>*</span><%=Html.Resource("DomainName")%>:
+                            </label>
+                            <div class="col2row">
+                                <p id="singleDomain" rel="<%=Html.Encode(productId)%>">
+                                    <%=Html.Encode(domainName)%>
+                                </p>
+
+                            </div>
+                            <br class="clear" />
+                        </div>
+                    <%}%>
+                <%
+                }
+                else
+                {
+                %>
+                    <div id="DomainSearchContainer"></div>
+                <%
+                }
+                %>
+
+                <br class="clear" />
+                <div id="MainDomainWrapperOuter">  
+                    <h2 id="MainDomainHeader" style="display:none;">
+                        <%= Html.Resource("MainDomainTitle")%>
+                    </h2>
+                
+                    <div class="formrow" id="MainDomainWrapper" style="display:none;">
+                        <h5>
+                          <label class="required" for="main_domain"><span>*</span><%= Html.Resource("MainDomainTitle")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <select name="MainDomainSelect" id="MainDomainSelect" style="width: 175px;"></select>
+                            <%= Html.ValidationMessage("MainDomainSelect")%>
+                        </div>
+                       <br class="clear" />
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PACKAGE SELECT CONTAINER-->
+            <div id="step_1" >
                 <h2>
                     <%= Html.Resource("Package")%>
                 </h2>
@@ -110,12 +143,21 @@
                     <%if (ViewData["radioList"] != null)
                     {
                         List<RadioRow> list = (List<RadioRow>)ViewData["radioList"];
+                        bool filteredExists = Session["PreselectedPackage"] == null && string.IsNullOrEmpty((string)Session["PreselectedPackage"])
+                            ? list.Exists(p => p.productId == (string)Session["PreselectedPackage"])
+                            : false;
                         for (int i = 0; i < list.Count; i++)
                         {
                     %>
                         <p>
                             <%
-                            if(i == 0)
+                            if (!filteredExists && i == 0)
+                            {
+                            %>
+                                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />
+                            <% 
+                            }
+                            else if ((string)Session["PreselectedPackage"] == list[i].productId)
                             {
                             %>
                                 <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />
@@ -126,7 +168,7 @@
                             %>
                                  <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />                   
                             <%
-                            }      
+                            }
                             %>
                             <input type="hidden" name="RadioProductsName" value="<%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %>" />
                             <input type="hidden" name="RadioProductsRenewalPeriod" value="<%= list[i].RenewalPeriodId %>" />
@@ -145,34 +187,13 @@
                     </div>
                     <br class="clear" />
                 </div>
-                <div id="MainDomainWrapperOuter">  
-                    <h2 id="MainDomainHeader" style="display:none;">
-                        <%= Html.Resource("MainDomainTitle")%>
-                    </h2>
-                
-                    <div class="formrow" id="MainDomainWrapper" style="display:none;">
-                        <h5>
-                          <label class="required" for="main_domain"><span>*</span><%= Html.Resource("MainDomainTitle")%>:</label>
-                        </h5>
-                        <div class="col2row">
-                            <select name="MainDomainSelect" id="MainDomainSelect" style="width: 175px;"></select>
-                            <%= Html.ValidationMessage("MainDomainSelect")%>
-                        </div>
-                       <br class="clear" />
-                    </div>
-                </div>
-                <div id="invoiceDivWrapper">
-                    <h2><%= Html.Resource("Invoice")%></h2>
-                    <div class="formrow" id="invoiceDiv">
-                        <div id="CartContainer">
-                            <table class="invoicespec list" id="product_list"></table>
-                        </div>
-                    </div>                    
-                    <p id="vatValidationInfo" style="font-style:italic"></p>
-                </div>
-                <%= Html.Hidden("ArrayOfProducts")%>
-                <%= Html.ValidationMessage("ArrayOfProducts")%>
-                
+            </div>
+
+            <%= Html.Hidden("ArrayOfProducts")%>
+            <%= Html.ValidationMessage("ArrayOfProducts")%>
+            
+            <!-- INFO INPUT CONTAINER-->
+            <div id="step_2" >
                 <h2><%= Html.Resource("ContactInformation")%></h2>
                 <div class="formrow">
                     <h5>
@@ -516,17 +537,32 @@
                 </div>
                 <% 
                 } %>
+            </div>
 
+            <!-- INVOICE SELECT CONTAINER-->
+            <div id="invoiceDivWrapper">
+                <h2><%= Html.Resource("Invoice")%></h2>
+                <div class="formrow" id="invoiceDiv">
+                    <div id="CartContainer" style="position: relative">
+                        <table class="invoicespec list" id="product_list"></table>
+                    </div>
+                </div>                    
+                <p id="vatValidationInfo" style="font-style:italic"></p>
+            </div>
+			
+			<!-- PAYMENT SELECT CONTAINER-->
+            <div id="step_3" >
                 <%  var paymentEnabled = (bool)ViewData["PaymentEnabled"];
                     var orderByEmailEnabled = (bool)ViewData["OrderByEmailEnabled"];
                     var orderByPostEnabled = (bool)ViewData["OrderByPostEnabled"];
-					var payPalEnabled = (bool)ViewData["PayPalEnabled"];
-					var payexRedirectEnabled = (bool)ViewData["PayexRedirectEnabled"];
+                    var payPalEnabled = (bool)ViewData["PayPalEnabled"];
+                    var payexRedirectEnabled = (bool)ViewData["PayexRedirectEnabled"];
                     var worldPayRedirectEnabled = (bool)ViewData["WorldPayRedirectEnabled"];
                     var dibsFlexwinEnabled = (bool)ViewData["dibsFlexwinEnabled"];
+                    var worldPayXmlRedirectEnabled = (bool)ViewData["WorldPayXmlRedirectEnabled"];
 					
 					int optionCounter = 0;
-                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled, dibsFlexwinEnabled })
+                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled, dibsFlexwinEnabled, worldPayXmlRedirectEnabled })
                     {
                         if (item)
                         {
@@ -563,7 +599,7 @@
                                 <br class="clear" />
                             <%
                             }
-                                if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
+                                if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
                             { %>
                                 <label for="PaymentMethodCard">
                                     <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
@@ -586,36 +622,41 @@
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
+	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
                 { 
-				
-				List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
+                
+                List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
                 if (orderByEmailEnabled || orderByPostEnabled)
                 {
                     plugins.Add(new Atomia.Billing.Core.Common.PaymentPlugins.GuiPaymentPluginData("PayWithInvoice", "Pay with invoice"));
                 }
-				if (paymentEnabled)
-				{
-					plugins.Add(new GuiPaymentPluginData("CCPayment", "Credit card payment"));
-				} 
+                if (paymentEnabled)
+                {
+                    plugins.Add(new GuiPaymentPluginData("CCPayment", "Credit card payment"));
+                } 
                 else if (payexRedirectEnabled)
                 {
                     plugins.Add(new GuiPaymentPluginData("PayExRedirect", "PayEx redirect payment"));
-				}
-				
-				if (payPalEnabled)
-				{
-					plugins.Add(new GuiPaymentPluginData("PayPal", "PayPal payment"));
-				}
+                }
+                
+                if (payPalEnabled)
+                {
+                    plugins.Add(new GuiPaymentPluginData("PayPal", "PayPal payment"));
+                }
 
                 if (worldPayRedirectEnabled)
-				{
-					plugins.Add(new GuiPaymentPluginData("WorldPayRedirect", "WorldPay payment"));
-				}
+                {
+                    plugins.Add(new GuiPaymentPluginData("WorldPayRedirect", "WorldPay payment"));
+                }
 
                 if (dibsFlexwinEnabled)
-				{
+                {
                     plugins.Add(new GuiPaymentPluginData("DibsFlexwin", "Dibs payment"));
+				}
+
+                if (worldPayXmlRedirectEnabled)
+				{
+					plugins.Add(new GuiPaymentPluginData("WorldPayXmlRedirect", "WorldPay payment"));
 				}
 				
 				
@@ -639,7 +680,7 @@
                         <p><%= Html.Resource("OnPostBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
                     <%
-                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
                     {
                      %>
                         <%= Html.Resource("OnCCBilling")%>
@@ -661,7 +702,7 @@
                     { %>
                         <%= Html.Resource("OnPostActivation")%>
                     <%
-                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
                     {
                      %>
                         <%= Html.Resource("OnCCActivation")%>
@@ -688,7 +729,6 @@
                     <%= Html.Resource("TotalAmount")%>: <span id="totalPrice">0,0  <span class="currency"><%= (string)this.Session["OrderCurrencyResource"] ?? Html.Resource(String.Format("{0}Common, Currency", Session["Theme"]))%></span></span>
                 </h2>
                 <br class="clear" />
-                <p class="actions"><a href="javascript:void(0);" class="b_b_create" id="orderbutton" style="display: inline;"><%= Html.Resource("Order")%></a></p>
                 <%= Html.Hidden("TelephoneProcessed")%>
                 <%= Html.Hidden("InvoiceTelephoneProcessed")%>
                 <%= Html.Hidden("FaxProcessed")%>
@@ -703,17 +743,24 @@
                 <%= Html.Hidden("OrderCustomData", "")%>
                 <%= Html.Hidden("formater", "")%>
                 <%= Html.Hidden("VATValidationMessage", "")%>
+
+                <div id="BillingTextEmailContainer" style="display:none;">
+                    <p><%= Html.ResourceNotEncoded("OnEmailBilling")%></p>
+                    <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
+                </div>
+                <div id="BillingTextPostContainer" style="display:none;">
+                    <p><%= Html.ResourceNotEncoded("OnPostBilling")%></p>
+                    <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
+                </div>
+                <div id="BillingTextCCContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnCCBilling")%></div>
+                <div id="BillingTextPayPalContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnPayPalBilling")%></div>
+            </div>
+
+
+            <p class="actions">
+                <a href="#top" class="button large green" id="orderbutton" ><%= Html.Resource("Order")%></a>
+            </p>
             <% Html.EndForm(); %>
-            <div id="BillingTextEmailContainer" style="display:none;">
-                <p><%= Html.ResourceNotEncoded("OnEmailBilling")%></p>
-                <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
-            </div>
-            <div id="BillingTextPostContainer" style="display:none;">
-                <p><%= Html.ResourceNotEncoded("OnPostBilling")%></p>
-                <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
-            </div>
-            <div id="BillingTextCCContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnCCBilling")%></div>
-            <div id="BillingTextPayPalContainer" style="display:none;"><%= Html.ResourceNotEncoded("OnPayPalBilling")%></div>
         </div>
         <%= Html.Hidden("dontShowTaxesForThisResellerHidden", Session["dontShowTaxesForThisResellerHidden"])%>
     </div>
@@ -739,15 +786,23 @@
         var canSubmit = true;
         var decimalDigits = 2;
 
+        var skipFirstStep = <%= !(bool)ViewData["firstOption"] && ((Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml)Session["singleDomain"] == null) ? "true" : "false" %>;
+        var skippedStepsCount = 0;
+        if (skipFirstStep) {
+            skippedStepsCount++;
+        }
+
         var decimalParserParams = {};
         decimalParserParams.DecimalSeparator = '<%= ViewData["decimalSeparator"] %>';
         decimalParserParams.GroupSeparator = '<%= ViewData["groupSeparator"] %>';
         decimalParserParams.Locale = 'se';
         initializeDecimalParser(decimalParserParams);
 
-        $(document).ready(function() {
-            var validator = $("#submit_form").validate();
+        var emptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
 
+        $(document).ready(function() {
+            var formValidator = $("#submit_form").validate();
+            
             AddValidationRules();
             AddValidationMethods();            
             bindSecondAddressCheckBoxClick();
@@ -761,7 +816,6 @@
 
             <% if (ViewData["qs_CampaignCode"] != null && ViewData["qs_CampaignCode"].ToString() != String.Empty)
               {	%>
-//				$('#OrderCustomData').val('{"CustomAttributesArray":[{"nameField":"CampaignCode","valueField":"<%= ViewData["qs_CampaignCode"]%>"}]}');
                 $('#OrderCustomData').val('[{"Name":"CampaignCode","Value":"<%= ViewData["qs_CampaignCode"]%>"}]');
             <%} %>
             
@@ -788,7 +842,6 @@
             initializeVtip('<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"]))%>');
 
             companyKeyUpBind();
-//            orgNumberKeyUpBind();
             countryChangeBind(params);
 
             params = {};
@@ -816,26 +869,18 @@
 
             submitOnceUnbind();
 
-            $('#submit_form input,select').keydown(function(e) {
-                if (e.keyCode == 13) {
-                    var submitParams = {};
-                    submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
-                    submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
-                    onSubmit(submitParams);
-                    return false;
-                }
-            });
+            params = {};
+            params.EmptyFieldMessage = emptyFieldMessage;
+            params.DefaultCountryCode = '<%= ViewData["defaultCountry"]%>';
+            setSubmitFormAdditionalThemeRules(params);
 
-            $('#orderbutton').bind('click', function() {
-                var lbl = document.getElementById('vatValidationInfo');
-                $("#VATValidationMessage").val($("#vatValidationInfo").text());
-                
-                var submitParams = {};
-                submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
-                submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
-                onSubmit(submitParams);
-            });
-
+            // order page wizzard methods
+            var submitParams = {};
+            submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
+            submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
+            OrderPageWizzard.Validator = formValidator;
+            OrderPageWizzard.skipFirstNSteps = skippedStepsCount;
+            OrderPageWizzard.InitializeButtons(submitParams);
         });
 
         function AddValidationMethods() {
@@ -874,20 +919,8 @@
             );
 
             jQuery.validator.addMethod(
-                "ValidateInvoicePostNumberEx", function(value, element, params) {
-                    return !$('#secondAddressTrue').is(':checked') || ValidateInvoicePostNumberEx(value, element, params); 
-                }
-            );
-
-            jQuery.validator.addMethod(
                 "ValidateTelephoneEx", function(value, element, params) {
                     return ValidateTelephoneEx(value, element, params); 
-                }
-            );
-
-            jQuery.validator.addMethod(
-                "ValidateInvoiceTelephoneEx", function(value, element, params) {
-                    return !$('#secondAddressTrue').is(':checked') || ValidateInvoiceTelephoneEx(value, element, params); 
                 }
             );
 
@@ -898,14 +931,39 @@
             );
 
             jQuery.validator.addMethod(
-                "ValidateInvoiceMobileEx", function(value, element, params) {
-                    return this.optional(element) || !$('#secondAddressTrue').is(':checked') || ValidateInvoiceMobileEx(value, element, params); 
+                "ValidateFax", function(value, element, params) {
+                    return this.optional(element) || ValidateFax(value, element, params); 
                 }
             );
 
             jQuery.validator.addMethod(
-                "ValidateFax", function(value, element, params) {
-                    return this.optional(element) || ValidateFax(value, element, params); 
+                "ValidateTerm", function(value, element, params) {
+                    return ValidateTerm(value, element, params); 
+                }
+            );
+
+            // invoice methods
+            jQuery.validator.addMethod(
+                "InvoiceContactNameEx", function(value, element, params) {
+                    return !$('#secondAddressTrue').is(':checked'); 
+                }
+            );
+
+            jQuery.validator.addMethod(
+                "ValidateInvoicePostNumberEx", function(value, element, params) {
+                    return !$('#secondAddressTrue').is(':checked') || ValidatePostNumberEx(value, element, params); 
+                }
+            );
+
+            jQuery.validator.addMethod(
+                "ValidateInvoiceTelephoneEx", function(value, element, params) {
+                    return !$('#secondAddressTrue').is(':checked') || ValidateInvoiceTelephoneEx(value, element, params); 
+                }
+            );
+
+            jQuery.validator.addMethod(
+                "ValidateInvoiceMobileEx", function(value, element, params) {
+                    return this.optional(element) || !$('#secondAddressTrue').is(':checked') || ValidateInvoiceMobileEx(value, element, params); 
                 }
             );
 
@@ -915,11 +973,6 @@
                 }
             );
 
-            jQuery.validator.addMethod(
-                "ValidateTerm", function(value, element, params) {
-                    return ValidateTerm(value, element, params); 
-                }
-            );
         }
 
         function AddValidationRules() {
@@ -996,7 +1049,6 @@
             });
             
             AddRequiredValidationRulesForInvoiceFields();
-
         }
 
         function AddOrgNumberValidationRules(){
@@ -1041,10 +1093,12 @@
         function AddRequiredValidationRulesForInvoiceFields() { 
 
             $("#InvoiceContactName").rules("add", {
+                InvoiceContactNameEx: {},
                 required: function(element) {
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
+                    InvoiceContactNameEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>',
                     required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
                 }
             });
@@ -1107,28 +1161,5 @@
 
         }
 
-    </script>
-    <%--<%= Html.ClientSideValidation<SubmitForm>("SubmitForm")
-        --.AddRule("OrgNumber", new CustomRule("ValidateOrgNumberEx", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidOrgNumber")))
-        --.AddRule("OrgNumber", new CustomRule("ValidateOrgNumberCheckSum", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorOrgNumberCheckSum")))
-        --.AddRule("OrgNumber", new CustomRule("ValidateVATNumberOnExistence", new { }, Html.ResourceNotEncoded("VATValidationResultFalseMessage")))
-        --.AddRule("PostNumber", new CustomRule("ValidatePostNumberEx", new { DefaultCountryCode = ViewData["defaultCountry"] }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidPostNumber")))
-        --.AddRule("InvoicePostNumber", new CustomRule("ValidateInvoicePostNumberEx", new { DefaultCountryCode = ViewData["defaultCountry"] }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidPostNumber")))
-        --.AddRule("Telephone", new CustomRule("ValidateTelephoneEx", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat")))
-        --.AddRule("InvoiceTelephone", new CustomRule("ValidateInvoiceTelephoneEx", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat")))
-        --.AddRule("Mobile", new CustomRule("ValidateMobileEx", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat")))
-        --.AddRule("InvoiceMobile", new CustomRule("ValidateInvoiceMobileEx", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat")))
-        --.AddRule("Fax", new CustomRule("ValidateFax", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat")))
-        --.AddRule("InvoiceFax", new CustomRule("ValidateInvoiceFax", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat")))
-        --.AddRule("errorTerm", new CustomRule("ValidateTerm", new { }, Html.ResourceNotEncoded("ValidationErrors, ErrorTermNotChecked")))%>--%>
-            
-    <script type="text/javascript">
-        var emptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
-        $(document).ready(function() {
-            var params = {};
-            params.EmptyFieldMessage = emptyFieldMessage;
-            params.DefaultCountryCode = '<%= ViewData["defaultCountry"]%>';
-            setSubmitFormAdditionalThemeRules(params);
-        });
     </script>
 </asp:Content>

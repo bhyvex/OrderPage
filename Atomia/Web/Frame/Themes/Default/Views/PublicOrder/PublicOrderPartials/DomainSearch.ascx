@@ -21,10 +21,10 @@ if ((bool)Session["firstOption"])
             <table class="invoicespec list" width="100%" border="0" cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>
-				        <th><%=Html.Resource("DomainName")%></th>
-				        <th style="width: 40px;"><%=Html.Resource("Status")%></th>
-				        <th style="width: 100px;"><%=Html.Resource("PriceUp")%></th>
-				        <th style="width: 18px;">&nbsp;</th>
+                        <th><%=Html.Resource("DomainName")%></th>
+                        <th style="width: 40px;"><%=Html.Resource("Status")%></th>
+                        <th style="width: 100px;"><%=Html.Resource("PriceUp")%></th>
+                        <th style="width: 7em;"><%=Html.Resource("Buy")%></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,165 +148,159 @@ if ((bool)Session["firstOption"])
                             }
                             var title = currentStatus.DomainName;
                             var shorten = "<div class='vtip' style='white-space: nowrap' title='" + title + "'>" + stringToShorten + "</div>";
-    						
-						    $('#domainsDiv table tbody tr').each(function() {
-						      if ($(this).attr('id') == currentStatus.ProductId && currentStatus.DomainName == $(this).find('.vtip').attr('title')) 
-						      {
-						          //generation of IDs for unified testing, atomia.ids.generator.js
-							        var splitedDomainName = currentStatus.DomainName.split('.');
-							        var tld = splitedDomainName[splitedDomainName.length - 1];
-							        GenerateDomainSearchID(tld);
-							        var dsBtnID = GenerateDSButtonID(tld);
-							        var dsDomainNameID = GenerateDSDomainNameID(tld);
-							        var dsStatusID = GenerateDSStatusID(tld);
-							        var dsPriceID = GenerateDSPriceID(tld);
-    								
-							      if(currentStatus.Status == 'available')
-							      {
-								    var existsInCart = false;
-								    for(var j = 0; j < ids.length; j++)
-								    {
-									    if(ids[j] == currentStatus.ProductId + "|" + currentStatus.DomainName)
-									    {
-										    existsInCart = true;
-									    }
-								    }
-    								
-								    if(existsInCart)
-								    {
-								        $(this).find('td').eq(3).html('<a id="' + dsBtnID + '" class="button small red" rel="remove" href="javascript:void(0);"><%=Html.ResourceNotEncoded("Del")%></a>');
-									    $(this).find('td').eq(0).html(shorten);
-									    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
-									    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
-									    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_ok.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Available")%>" alt="<%=Html.ResourceNotEncoded("Available")%>" />');
-									    $(this).find('td').eq(1).attr({'id': dsStatusID});
-									    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
-									    $(this).find('td').eq(2).attr({'id': dsPriceID});
-									    $(this).find('td').eq(2).removeClass('loading');
-								    }
-								    else
-								    {
-								        $(this).find('td').eq(3).html('<a id="' + dsBtnID + '" class="button small green" rel="add" href="javascript:void(0);"><%=Html.ResourceNotEncoded("Add")%></a>');
-									    $(this).find('td').eq(0).html(shorten);
-									    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
-									    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
-									    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_ok.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Available")%>" alt="<%=Html.ResourceNotEncoded("Available")%>" />');
-									    $(this).find('td').eq(1).attr({'id': dsStatusID});
-									    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
-									    $(this).find('td').eq(2).attr({'id': dsPriceID});
-									    $(this).find('td').eq(2).removeClass('loading');
-								    }
-    								
-								    numOfDomains--;
-							      }
-							      else if (currentStatus.Status == 'taken')
-							      {
-							        $(this).find('td').eq(3).html('&nbsp;');
-								    $(this).find('td').eq(0).html(shorten);
-								    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
-								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
-								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Taken")%>" alt="<%=Html.ResourceNotEncoded("Taken")%>" />');
-								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
-								    $(this).find('td').eq(2).attr({'id': dsPriceID});
-								    $(this).find('td').eq(2).removeClass('loading');
-    								
-								    numOfDomains--;
-							      }
-							      else if (currentStatus.Status == 'special')
-							      {
-							        $(this).find('td').eq(3).html('&nbsp;');
-								    $(this).find('td').eq(0).html(shorten);
-								    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
-								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
-								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_warning.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("NotAllowedDomain")%>" alt="<%=Html.ResourceNotEncoded("NotAllowedDomain")%>" />');
-								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
-								    $(this).find('td').eq(2).attr({'id': dsPriceID});
-								    $(this).find('td').eq(2).removeClass('loading');
-    								
-								    numOfDomains--;
-							      }
-							      else if (currentStatus.Status == 'warning')
-							      {
-							        $(this).find('td').eq(3).html('&nbsp;');
-								    $(this).find('td').eq(0).html(shorten);
-								    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
-								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
-								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_warning.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("ErrorProcessing")%>" alt="<%=Html.ResourceNotEncoded("ErrorProcessing")%>" />');
-								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
-								    $(this).find('td').eq(2).attr({'id': dsPriceID});
-								    $(this).find('td').eq(2).removeClass('loading');
-    								
-								    numOfDomains--;
-							      }
-							      else if (currentStatus.Status == 'unavailable')
-							      {
-							        $(this).find('td').eq(3).html('&nbsp;');
-								    $(this).find('td').eq(0).html(shorten);
-								    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
-								    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
-								    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Unavailable")%>" alt="<%=Html.ResourceNotEncoded("Unavailable")%>" />');
-								    $(this).find('td').eq(1).attr({'id': dsStatusID});
-								    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
-								    $(this).find('td').eq(2).attr({'id': dsPriceID});
-								    $(this).find('td').eq(2).removeClass('loading');
-    								
-								    numOfDomains--;
-							      }
-						      }
-						    });
-					    }
-    					
-					    $("#domainsDiv table tbody tr td a").unbind().click(function() {
-    						
-						    if($(this).attr('rel') == "add")
-							    {
-								    $(this).attr({ rel: "remove" });
-								    $(this).text("<%=Html.ResourceNotEncoded("Del")%>").removeClass("green").addClass("red");
-    								
-								    var id = $(this).parent().parent().attr('id');    								
-								    var domain = $(this).parent().parent().find('.vtip').attr('title');
-                                    var renewalPeriod = $(this).parent().parent().find('input[name="renewalPeriod"]').val();
-    								
-								    $.fn.AtomiaShoppingCart.AddItem(id, domain, 1, true, renewalPeriod, false);
-    								
-								    $('#MainDomainSelect').append('<option value="'+domain+'">'+domain+'</option>');
-								    if($('#MainDomainSelect').children().length > 1) 
-								    {
-									    $('#MainDomainHeader').show();
-									    $('#MainDomainWrapper').show();
-								    } 
-								    else 
-								    {
-									    $('#MainDomainHeader').hide();
-									    $('#MainDomainWrapper').hide();
-								    }
-							    }
-							    else
-							    {
-								    $(this).attr({ rel: "add" });
-								    $(this).text("<%=Html.ResourceNotEncoded("Add")%>").removeClass("red").addClass("green");
-    								
-								    var id = $(this).parent().parent().attr('id');
-    								
-								    var domain = $(this).parent().parent().find('.vtip').attr('title');
-    								
-								    $.fn.AtomiaShoppingCart.RemoveItem(id, domain, 1, true);
-    								
-								    $('#MainDomainSelect option[value='+domain+']').remove();
-    								
-								    if($('#MainDomainSelect').children().length > 1) 
-								    {
-									    $('#MainDomainHeader').show();
-									    $('#MainDomainWrapper').show();
-								    } 
-								    else 
-								    {
-									    $('#MainDomainHeader').hide();
-									    $('#MainDomainWrapper').hide();
-								    }
+                            
+                            $('#domainsDiv table tbody tr').each(function() {
+                              if ($(this).attr('id') == currentStatus.ProductId && currentStatus.DomainName == $(this).find('.vtip').attr('title')) 
+                              {
+                                  //generation of IDs for unified testing, atomia.ids.generator.js
+                                    var splitedDomainName = currentStatus.DomainName.split('.');
+                                    var tld = splitedDomainName[splitedDomainName.length - 1];
+                                    GenerateDomainSearchID(tld);
+                                    var dsBtnID = GenerateDSButtonID(tld);
+                                    var dsDomainNameID = GenerateDSDomainNameID(tld);
+                                    var dsStatusID = GenerateDSStatusID(tld);
+                                    var dsPriceID = GenerateDSPriceID(tld);
+                                    
+                                  if(currentStatus.Status == 'available')
+                                  {
+                                    var existsInCart = false;
+                                    for(var j = 0; j < ids.length; j++)
+                                    {
+                                        if(ids[j] == currentStatus.ProductId + "|" + currentStatus.DomainName)
+                                        {
+                                            existsInCart = true;
+                                        }
+                                    }
+                                    
+                                    if(existsInCart)
+                                    {
+                                        $(this).find('td').eq(3).html('<a id="' + dsBtnID + '" class="button small red" rel="remove" href="javascript:void(0);"><%=Html.ResourceNotEncoded("Del")%></a>');
+                                        $(this).find('td').eq(0).html(shorten);
+                                        $(this).find('td').eq(0).attr('class', 'js_labelShorten');
+                                        $(this).find('td').eq(0).attr({'id': dsDomainNameID});
+                                        $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_ok.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Available")%>" alt="<%=Html.ResourceNotEncoded("Available")%>" />');
+                                        $(this).find('td').eq(1).attr({'id': dsStatusID});
+                                        $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
+                                        $(this).find('td').eq(2).attr({'id': dsPriceID});
+                                        $(this).find('td').eq(2).removeClass('loading');
+                                    }
+                                    else
+                                    {
+                                        $(this).find('td').eq(3).html('<a id="' + dsBtnID + '" class="button small green" rel="add" href="javascript:void(0);"><%=Html.ResourceNotEncoded("Add")%></a>');
+                                        $(this).find('td').eq(0).html(shorten);
+                                        $(this).find('td').eq(0).attr('class', 'js_labelShorten');
+                                        $(this).find('td').eq(0).attr({'id': dsDomainNameID});
+                                        $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_ok.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Available")%>" alt="<%=Html.ResourceNotEncoded("Available")%>" />');
+                                        $(this).find('td').eq(1).attr({'id': dsStatusID});
+                                        $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
+                                        $(this).find('td').eq(2).attr({'id': dsPriceID});
+                                        $(this).find('td').eq(2).removeClass('loading');
+                                    }
+                                    
+                                    numOfDomains--;
+                                  }
+                                  else if (currentStatus.Status == 'taken')
+                                  {
+                                    $(this).find('td').eq(3).html('&nbsp;');
+                                    $(this).find('td').eq(0).html(shorten);
+                                    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
+                                    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
+                                    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Taken")%>" alt="<%=Html.ResourceNotEncoded("Taken")%>" />');
+                                    $(this).find('td').eq(1).attr({'id': dsStatusID});
+                                    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
+                                    $(this).find('td').eq(2).attr({'id': dsPriceID});
+                                    $(this).find('td').eq(2).removeClass('loading');
+                                    
+                                    numOfDomains--;
+                                  }
+                                  else if (currentStatus.Status == 'special')
+                                  {
+                                    $(this).find('td').eq(3).html('&nbsp;');
+                                    $(this).find('td').eq(0).html(shorten);
+                                    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
+                                    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
+                                    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_warning.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("NotAllowedDomain")%>" alt="<%=Html.ResourceNotEncoded("NotAllowedDomain")%>" />');
+                                    $(this).find('td').eq(1).attr({'id': dsStatusID});
+                                    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
+                                    $(this).find('td').eq(2).attr({'id': dsPriceID});
+                                    $(this).find('td').eq(2).removeClass('loading');
+                                    
+                                    numOfDomains--;
+                                  }
+                                  else if (currentStatus.Status == 'warning')
+                                  {
+                                    $(this).find('td').eq(3).html('&nbsp;');
+                                    $(this).find('td').eq(0).html(shorten);
+                                    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
+                                    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
+                                    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_warning.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("ErrorProcessing")%>" alt="<%=Html.ResourceNotEncoded("ErrorProcessing")%>" />');
+                                    $(this).find('td').eq(1).attr({'id': dsStatusID});
+                                    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
+                                    $(this).find('td').eq(2).attr({'id': dsPriceID});
+                                    $(this).find('td').eq(2).removeClass('loading');
+                                    
+                                    numOfDomains--;
+                                  }
+                                  else if (currentStatus.Status == 'unavailable')
+                                  {
+                                    $(this).find('td').eq(3).html('&nbsp;');
+                                    $(this).find('td').eq(0).html(shorten);
+                                    $(this).find('td').eq(0).attr('class', 'js_labelShorten');
+                                    $(this).find('td').eq(0).attr({'id': dsDomainNameID});
+                                    $(this).find('td').eq(1).html('<img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "sts_canceled.png"))%>" class="inline-icon" height="24" width="24" title="<%=Html.ResourceNotEncoded("Unavailable")%>" alt="<%=Html.ResourceNotEncoded("Unavailable")%>" />');
+                                    $(this).find('td').eq(1).attr({'id': dsStatusID});
+                                    $(this).find('td').eq(2).html(currentStatus.Price + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span><input type="hidden" name="renewalPeriod" value="' + currentStatus.RenewalPeriodId +'" />');
+                                    $(this).find('td').eq(2).attr({'id': dsPriceID});
+                                    $(this).find('td').eq(2).removeClass('loading');
+                                    
+                                    numOfDomains--;
+                                  }
+                              }
+                            });
+                        }
+                        
+                        $("#domainsDiv table tbody tr td a").unbind().click(function() {
+                            
+                            if($(this).attr('rel') == "add")
+                            {
+                                $(this).attr({ rel: "remove" });
+                                $(this).text("<%=Html.ResourceNotEncoded("Del")%>").removeClass("green").addClass("red");
+                                    
+                                var id = $(this).parent().parent().attr('id');    								
+                                var domain = $(this).parent().parent().find('.vtip').attr('title');
+                                var renewalPeriod = $(this).parent().parent().find('input[name="renewalPeriod"]').val();
+                                    
+                                $.fn.AtomiaShoppingCart.AddItem(id, domain, 1, true, renewalPeriod, false);
+                                    
+                                $('#MainDomainSelect').append('<option value="'+domain+'">'+domain+'</option>');
+                                if($('#MainDomainSelect').children().length > 1) 
+                                {
+                                    $('#MainDomainHeader:hidden, #MainDomainWrapper:hidden').show('blind', 500);
+                                } 
+                                else 
+                                {
+                                    $('#MainDomainHeader:visible, #MainDomainWrapper:visible').hide('blind', 500);
+                                }
+                            } else {
+                                $(this).attr({ rel: "add" });
+                                $(this).text("<%=Html.ResourceNotEncoded("Add")%>").removeClass("red").addClass("green");
+                                    
+                                var id = $(this).parent().parent().attr('id');
+                                    
+                                var domain = $(this).parent().parent().find('.vtip').attr('title');
+                                    
+                                $.fn.AtomiaShoppingCart.RemoveItem(id, domain, 1, true);
+                                    
+                                $('#MainDomainSelect option[value="'+domain+'"]').remove();
+                                    
+                                if($('#MainDomainSelect').children().length > 1) 
+                                {
+                                    $('#MainDomainHeader:hidden, #MainDomainWrapper:hidden').show('blind', 500);
+                                } 
+                                else 
+                                {
+                                    $('#MainDomainHeader:visible, #MainDomainWrapper:visible').hide('blind', 500);
+                                }
 
 
 							    }
@@ -431,76 +425,76 @@ if ((bool)Session["firstOption"])
                                 $.postJSON(action, { domains: decodedDomains }, function(encodedDomains) { 
                                      if(encodedDomains != 'undefined')
                                      {
-									    for(var i=0; i < encodedDomains.length; i++)
-									    {
-										    for(var j=0; j< preparedData.length; j++)
-										    {
-											    if(preparedData[j] == encodedDomains[i])
-											    {
-												    preparedData.splice(j, 1);
-											    }
-										    }
-									    }
-    							
-									    action = "<%=Url.Action("StartSearch", new { controller = "PublicOrder", area = "PublicOrder" })%>";
-									    $.postJSON(action, { domainsArray: preparedData }, function(data) { 
-										     if(data != 'undefined')
-										     {
-											    var tag = "";
-											    for(var i = 0; i<data.length; i++)
-											    {
-												    var evenodd = "";
-												    if((markedDomainsCount + i)%2==0)
-												    {
-													    evenodd = "even";
-												    }
-												    else
-												    {
-													    evenodd = "odd";
-												    }
-												    tag += '<tr id="' + data[i].ProductID + '" class="' + evenodd + '">';
-    											 
-												    var stringToShorten = data[i].ProductName;
-												    var arrTld = data[i].ProductName.split('.');
-												    var isTooLong = false;
-												    if (stringToShorten.length > 40) {
-													    isTooLong = true;
-													    if(arrTld.length > 1)
-													    {
-														    stringToShorten = stringToShorten.substring(0, 40).split('.')[0] + "..." + arrTld[arrTld.length - 1];
-													    }
-													    else
-													    {
-														    stringToShorten = stringToShorten.substring(0, 40).split('.')[0] + "...";
-													    }
-												    }
-												    var title = data[i].ProductName;
-												    var shorten = "<div class='vtip' style='white-space: nowrap' title='" + title + "'>" + stringToShorten + "</div>"
-    											 
-												    tag += '    <td class="loading js_labelShorten">' + shorten + '</td>';
-												    tag += '    <td>';
-												    tag += '        <img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "icn_processing_transparent.gif"))%>" height="24" width="24" title="<%=Html.ResourceNotEncoded("Loading")%>" alt="<%=Html.ResourceNotEncoded("Loading")%>" />';
-												    tag += '    </td>';
-												    tag += '    <td class="right loading">' + data[i].ProductPrice + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span></td>';
-												    tag += '    <td class="right loading">&nbsp;</td>';
-												    tag += '</tr>';
-											    }
-											    $('#domainsDiv table tbody').append(tag);
-    											
-											    var img_url = "<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"]))%>";
-											    vtip(img_url);
-    											
-											    numOfDomains = data[0].NumberOfDomains;
-    											
-											    $('#domainsLoadingDiv').hide();
-											    $('#domainsDiv').show();
-    											
-											    transactionId =  data[0].TransactionId;
-											    $(document).everyTime(300, "documentTimer", CheckResults, 100);
-										     }
-									    });  
-								    }
-							    });
+                                        for(var i=0; i < encodedDomains.length; i++)
+                                        {
+                                            for(var j=0; j< preparedData.length; j++)
+                                            {
+                                                if(preparedData[j] == encodedDomains[i])
+                                                {
+                                                    preparedData.splice(j, 1);
+                                                }
+                                            }
+                                        }
+                                
+                                        action = "<%=Url.Action("StartSearch", new { controller = "PublicOrder", area = "PublicOrder" })%>";
+                                        $.postJSON(action, { domainsArray: preparedData }, function(data) { 
+                                             if(data != 'undefined')
+                                             {
+                                                var tag = "";
+                                                for(var i = 0; i<data.length; i++)
+                                                {
+                                                    var evenodd = "";
+                                                    if((markedDomainsCount + i)%2==0)
+                                                    {
+                                                        evenodd = "even";
+                                                    }
+                                                    else
+                                                    {
+                                                        evenodd = "odd";
+                                                    }
+                                                    tag += '<tr id="' + data[i].ProductID + '" class="' + evenodd + '">';
+                                                 
+                                                    var stringToShorten = data[i].ProductName;
+                                                    var arrTld = data[i].ProductName.split('.');
+                                                    var isTooLong = false;
+                                                    if (stringToShorten.length > 40) {
+                                                        isTooLong = true;
+                                                        if(arrTld.length > 1)
+                                                        {
+                                                            stringToShorten = stringToShorten.substring(0, 40).split('.')[0] + "..." + arrTld[arrTld.length - 1];
+                                                        }
+                                                        else
+                                                        {
+                                                            stringToShorten = stringToShorten.substring(0, 40).split('.')[0] + "...";
+                                                        }
+                                                    }
+                                                    var title = data[i].ProductName;
+                                                    var shorten = "<div class='vtip' style='white-space: nowrap' title='" + title + "'>" + stringToShorten + "</div>"
+                                                 
+                                                    tag += '    <td class="loading js_labelShorten">' + shorten + '</td>';
+                                                    tag += '    <td class="center" >';
+                                                    tag += '        <img src="<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/icons/{1}", Session["Theme"], "icn_processing_transparent.gif"))%>" height="24" width="24" title="<%=Html.ResourceNotEncoded("Loading")%>" alt="<%=Html.ResourceNotEncoded("Loading")%>" />';
+                                                    tag += '    </td>';
+                                                    tag += '    <td class="right loading">' + data[i].ProductPrice + ' <span class="currency"><%=(string)this.Session["OrderCurrencyResource"] ?? Html.ResourceNotEncoded(String.Format("{0}Common, Currency", Session["Theme"]))%></span></td>';
+                                                    tag += '    <td class="left loading">&nbsp;</td>';
+                                                    tag += '</tr>';
+                                                }
+                                                $('#domainsDiv table tbody').append(tag);
+                                                
+                                                var img_url = "<%=ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"]))%>";
+                                                vtip(img_url);
+                                                
+                                                numOfDomains = data[0].NumberOfDomains;
+                                                
+                                                $('#domainsLoadingDiv').hide();
+                                                $('#domainsDiv').show();
+                                                
+                                                transactionId =  data[0].TransactionId;
+                                                $(document).everyTime(300, "documentTimer", CheckResults, 100);
+                                             }
+                                        });  
+                                    }
+                                });
                             }
                         });
                     }

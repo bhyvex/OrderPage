@@ -120,8 +120,17 @@
   <data name="enUS" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="enUSDescription" xml:space="preserve">
+    <value>International</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="nlNL" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="nlNLDescription" xml:space="preserve">
+    <value>Netherlands</value>
   </data>
   <data name="plPL" xml:space="preserve">
     <value>Polish</value>

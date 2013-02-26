@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -168,7 +169,7 @@ namespace Atomia.Web.Frame.Controllers
                     }
                     else
                     {
-                        this.Response.Cookies.Add(cookie);    
+                        this.Response.Cookies.Add(cookie);
                     }
 
                     try
@@ -206,10 +207,42 @@ namespace Atomia.Web.Frame.Controllers
                 }
             }
 
-            this.Response.Redirect(languagePickerFormData.ReturnUrl);
+            // remove lang parameter when using language form
+            string returnUrl = this.FilterReturnUrl(languagePickerFormData.ReturnUrl);
+            this.Response.Redirect(returnUrl);
 
             // View does not exist, but redirect wont pass if some View is not called. :/
             return this.View("Index");
+        }
+
+        /// <summary>
+        /// Filters the return URL.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
+        private string FilterReturnUrl(string returnUrl)
+        {
+            int iqs = returnUrl.IndexOf('?');
+            if (iqs == -1 || iqs == returnUrl.Length - 1 || !returnUrl.Contains("lang="))
+            {
+                return returnUrl;
+            }
+
+            // take just
+            string[] returnUrlParts = returnUrl.Split(new char[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
+            NameValueCollection qscoll = HttpUtility.ParseQueryString(returnUrlParts[1]);
+            qscoll.Remove("lang");
+            return returnUrlParts[0] + this.ToQueryString(qscoll);
+        }
+
+        /// <summary>
+        /// Toes the query string.
+        /// </summary>
+        /// <param name="nvc">The NVC.</param>
+        /// <returns></returns>
+        private string ToQueryString(NameValueCollection nvc)
+        {
+            return "?" + string.Join("&", Array.ConvertAll(nvc.AllKeys, key => string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(nvc[key]))));
         }
 
         /// <summary>

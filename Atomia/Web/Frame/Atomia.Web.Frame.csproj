@@ -120,6 +120,7 @@
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\Select.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\vtip.js" />
     <Content Include="Themes\Default\Scripts\PluginScripts\PublicOrder\PublicOrder\zNotification.js" />
+    <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateWorldPayXmlRedirect.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateDibsFlexwin.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginPanelCreateWorldPayRedirect.ascx" />
     <Content Include="Themes\Default\Views\PaymentForm\PaymentPluginForm.ascx" />
@@ -567,6 +568,7 @@
     <PostBuildEvent>copy /y "$(SolutionDir)..\Lib\*.dll" "$(SolutionDir)..\Frame\bin"
 copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.HostingProducts.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.HostingProducts.dll.config"
 copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.DomainSearch.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.DomainSearch.dll.config"
-copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.Cart.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.Cart.dll.config"</PostBuildEvent>
+copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.Cart.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.Cart.dll.config"
+xcopy "$(ProjectDir)..\..\..\changelog.txt" "$(ProjectDir)publish\files\" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

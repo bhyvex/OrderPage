@@ -63,6 +63,16 @@
             <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/DibsFlexwin" />
           </type>
         </elementProperty>
+        <elementProperty name="ProductGroups" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="productGroups" isReadOnly="false">
+          <type>
+            <configurationElementCollectionMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/ProductGroups" />
+          </type>
+        </elementProperty>
+        <elementProperty name="WorldPayXml" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="worldPayXml" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/WorldPayXml" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElementCollection name="QueryStringList" namespace="Atomia.Web.Plugin.PublicOrder.Configurations" xmlItemName="queryString" codeGenOptions="Indexer, AddMethod, RemoveMethod">
@@ -219,6 +229,39 @@
     <configurationElement name="DibsFlexwin">
       <attributeProperties>
         <attributeProperty name="Enabled" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="enabled" isReadOnly="true">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="Default" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="default" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/Boolean" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElementCollection name="ProductGroups" xmlItemName="productGroup" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods">
+      <itemType>
+        <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/ProductGroup" />
+      </itemType>
+    </configurationElementCollection>
+    <configurationElement name="ProductGroup">
+      <attributeProperties>
+        <attributeProperty name="GroupName" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="groupName" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="OrderPageOptions" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="orderPageOptions" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElement name="WorldPayXml">
+      <attributeProperties>
+        <attributeProperty name="Enabled" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="enabled" isReadOnly="false">
           <type>
             <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
           </type>

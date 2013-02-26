@@ -23,11 +23,9 @@ Rem ========================================
 
 Rem For each defined plugin
 FOR /F "tokens=2* delims=_=" %%A IN ('SET plugins') DO (
-	 xcopy /s /e /y /I "%~dp0..\Plugins\%%A\Views" "%~dp0publish\files\Themes\Default\Views"
 	 md "%~dp0publish\files\Themes\Default\Scripts"
 	 xcopy /s /e /y /I "%~dp0Themes\Default\Scripts" "%~dp0publish\files\Themes\Default\Scripts"
 	 md "%~dp0publish\files\Themes\Default\Scripts\PluginScripts\%%A"
-	 xcopy /s /e /y /I "%~dp0..\Plugins\%%A\Scripts" "%~dp0publish\files\Themes\Default\Scripts\PluginScripts\%%A"
 	 xcopy /s /e /y /I "%~dp0..\Plugins\%%A\bin\%1" "%~dp0publish\files\bin"
 )
 xcopy /e /y /I "%~dp0bin" "%~dp0publish\files\bin"

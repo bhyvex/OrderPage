@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage`1[[Atomia.Web.Plugin.PublicOrder.Models.IndexForm, Atomia.Web.Plugin.PublicOrder]]" %>
+<%@ Import Namespace="Atomia.Web.Plugin.PublicOrder.Helpers" %>
 <%@ Import Namespace="Atomia.Web.Plugin.PublicOrder.Models"%>
 <%@ Import Namespace="System.Web.Mvc" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
@@ -24,11 +25,19 @@
                             <span>*</span><%= Html.Resource("Alternative")%>:
                         </label>
                     </h5>
-                    <div class="col2row">
-                         <%= Html.RadioButton("Selected", "first", new { @id = "first", @checked = "checked" })%><label for="first"><%= Html.Resource("First")%></label><br  />
-                         <%= Html.RadioButton("Selected", "second", new { @id = "second" })%><label for="second"><%= Html.Resource("Second")%></label><br  />
+                    <div class="col2row" id="OrderOptionsContainer">
+                        <%
+                            if (((List<OrderOptions>)ViewData["OrderOptions"]).Exists(oo => oo.Value == OrderOptions.New.Value))
+                            {%>
+                               <%=Html.RadioButton("Selected", "first", new {@id = "first"})%><label for="first"><%=Html.Resource("First")%></label><br  />
+                          <%}
 
-                         <% if (ViewData["AllowAddingSubdomains"] != null)
+                            if (((List<OrderOptions>)ViewData["OrderOptions"]).Exists(oo => oo.Value == OrderOptions.Own.Value))
+                            {%>
+                               <%= Html.RadioButton("Selected", "second", new { @id = "second" })%><label for="second"><%= Html.Resource("Second")%></label><br  />
+                          <%}
+
+                            if (((List<OrderOptions>)ViewData["OrderOptions"]).Exists(oo => oo.Value == OrderOptions.Sub.Value))
                             {%>
                                 <%= Html.RadioButton("Selected", "subdomain", new { @id = "subdomain" })%><label for="subdomain"><%= Html.Resource("Third")%></label><br  />
                           <%}%>
@@ -69,27 +78,28 @@
                         </label>
                     </h5>
                     <div class="col2row">
-                        <%= Html.TextBox("SubDomain")%> <em class="quiet">.<%= (string)ViewData["AllowAddingSubdomains"] %></em> <br />
+                        <%= Html.TextBox("SubDomain")%> <em class="quiet">.<%= (string)ViewData["SubdomainValue"] %></em> <br />
                         <%= Html.ValidationMessage("SubDomain")%>
                     </div>
                     <br class="clear" />
                 </div>
 
-                <p class="actions"><a class="b_b_create" id="orderbutton" href="javascript:void(0);"><%= Html.Resource("Continue")%></a></p>
+                <p class="actions"><a class="button green" id="orderbutton" href="javascript:void(0);"><%= Html.Resource("Continue")%></a></p>
 
             <% Html.EndForm(); %>            
         </div>
     </div>
     <script type="text/javascript">
+        var IndexFormDomainsRequiredMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
+        var ErrorEmptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
+        
         var notificationParams = {};
         notificationParams.wasAnError = "<%= ViewData["WasAnError"] %>";
         notificationParams.NotificationText = "<%= Html.ResourceNotEncoded("NotificationText") %>";
         notificationParams.ValidationErrorsErrorNumDomains = "<%= Html.ResourceNotEncoded("ValidationErrors, ErrorNumDomains") %>";
         notificationParams.NotificationTextInvalidDomain = "<%= Html.ResourceNotEncoded("NotificationTextInvalidDomain") %>";
         notificationParams.title = "<%= Html.Resource("NotificationHeader") %>";
-
-        var allowSubdomainAdd = <%= ViewData["AllowAddingSubdomains"] != null ? "true" : "false" %>;
-        var subdomain = '<%= ViewData["AllowAddingSubdomains"] ?? "" %>';
+        var subdomain = '<%= ViewData["SubdomainValue"] ?? "" %>';
 
         $(document).ready(function() {
             AddValidationRules();
@@ -104,6 +114,10 @@
                 $('#sidebar').remove();
             }
    
+            // select first order option (which ever it is)
+            if ($('#OrderOptionsContainer > input').length > 0) {
+                $('#OrderOptionsContainer > input').first().attr('checked', 'checked');
+            }
             
             $('#notification').notification({
               showTimeout: 1000,
@@ -113,25 +127,33 @@
             setNotificationMessage(notificationParams);
             
             var validator = $("#submit_form").validate();
-            $("#protected1").show();
-            $("#protected2").hide();
-            $("#protected3").hide();
+
+            $("#submit_form").validate().settings.onfocusout = function(element) {
+                if ($(element).attr('id') != 'IndexForm_Domain') {
+                    $(element).valid();
+                }
+            }
+         
+            setIndexFormDomainsRules(IndexFormDomainsRequiredMessage);
+            setIndexFormDomainRules(ErrorEmptyFieldMessage);
+
+            if ($('div[id^=protected]').length > 0) {
+                $('div[id^=protected]').each(function(index) {
+                    $(this).hide();
+                    if (index == 0) {
+                        $(this).show();
+                    }
+                });
+            }
 
             var protectedContainers = ["protected1","protected2","protected3"];
             var inputFieldContainers = ["Domain","Domains"];
-            
-            // bindFirstClick();
-            // bindSecondClick();
 
             bindSelectClick("first", protectedContainers, inputFieldContainers, 0);
             bindSelectClick("second", protectedContainers, inputFieldContainers, 1);
-            if (allowSubdomainAdd) {
-                bindSelectClick("subdomain", protectedContainers, inputFieldContainers, 2);
-            }
+            bindSelectClick("subdomain", protectedContainers, inputFieldContainers, 2);
 
             bindOrderbuttonClick();
-            
-            $("#first").click();
         });
         
         function AddValidationMethods(){
@@ -304,21 +326,5 @@
                 }
             });
         }
-
-    </script>
-     <script type="text/javascript">
-         var IndexFormDomainsRequiredMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
-         var ErrorEmptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
-         $(document).ready(function() {
-         
-            $("#submit_form").validate().settings.onfocusout = function(element) {
-                if ($(element).attr('id') != 'IndexForm_Domain') {
-                    $(element).valid();
-                }
-            }
-         
-             setIndexFormDomainsRules(IndexFormDomainsRequiredMessage);
-             setIndexFormDomainRules(ErrorEmptyFieldMessage);
-         });
     </script>
 </asp:Content>

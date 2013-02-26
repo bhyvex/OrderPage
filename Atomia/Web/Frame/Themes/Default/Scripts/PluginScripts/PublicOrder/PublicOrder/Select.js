@@ -1,4 +1,21 @@
-﻿/* INFOTIPS START */
+﻿var OrderPageWizzard = {
+    skipFirstNSteps: 0,
+    currentStep: 0,
+    Validator: null,
+    InitializeButtons: function (submitParams) {
+        $('#orderbutton').bind('click', function (submitParams) {
+            if (OrderPageWizzard.Validator !== null) {
+                canSubmit = OrderPageWizzard.Validator.valid();
+            }
+
+            $("#VATValidationMessage").val($("#vatValidationInfo").text());
+            onSubmit(submitParams);
+        });
+    }
+};
+
+
+/* INFOTIPS START */
 $('#submit_form input').focus(function() {
     if ($('#infotip' + $(this).attr('id')).css('display') == 'none') {
         $('#infotip' + $(this).attr('id')).css('display', 'block');
@@ -82,15 +99,6 @@ var countryChangeBind = function (params) {
     });
 };
 
-//var orgNumberKeyUpBind = function () {
-//    $('#SubmitForm_OrgNumber').unbind().keyup(function (event) {
-//        if ($('#SubmitForm_OrgNumber').val() != '') {
-//            ValidateVATNumberOnExistence();
-//        }
-//    });
-//};
-
-
 var ValidateVATNumberOnExistence = function(value, element, params) {
     var resultAjax = true;
     //var validationMessage = '';
@@ -132,7 +140,7 @@ var ValidateVATNumberOnExistence = function(value, element, params) {
                             
                             if (validationResult == 'invalid') {
                                 //resultAjax = false;
-								$("#vatValidationInfo").text(validateVATNumberParams.ValidationResultNotValidated);
+                                $("#vatValidationInfo").text(validateVATNumberParams.ValidationResultNotValidated);
                             }
                             else {
                                 if (validationResult == 'validationerror') {
@@ -157,7 +165,6 @@ var ValidateVATNumberOnExistence = function(value, element, params) {
     return resultAjax;    
 
 }
-
 
 var emailBlurBind = function(params) {
     $("#Email").blur(function(e) {
@@ -233,15 +240,15 @@ var paymentMethodEmailBind = function(params) {
 };
 
 var paymentMethodPostBind = function(params) {
-	$("#PaymentMethodPost").click(function() {
-		$("#cc_paymentDiv").hide();
-		$('#BillingText').html($('#BillingTextPostContainer').html());
-		$('#ActivationText').text(params.ActivationTextPost);
-		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
-		$.fn.AtomiaShoppingCart.AddOrderCustomAttribute('PayByInvoice', 'true');
-		globalCounter++;
-		$.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
-	});
+    $("#PaymentMethodPost").click(function() {
+        $("#cc_paymentDiv").hide();
+        $('#BillingText').html($('#BillingTextPostContainer').html());
+        $('#ActivationText').text(params.ActivationTextPost);
+        $.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
+        $.fn.AtomiaShoppingCart.AddOrderCustomAttribute('PayByInvoice', 'true');
+        globalCounter++;
+        $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
+    });
 };
 
 var paymentMethodCarBind = function(params) {
@@ -249,7 +256,7 @@ var paymentMethodCarBind = function(params) {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
-		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"], input[name="pluginSelector"][value="DibsFlexwin"]').attr('checked', 'checked');
+		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"],  input[name="pluginSelector"][value="WorldPayXmlRedirect"], input[name="pluginSelector"][value="DibsFlexwin"]').attr('checked', 'checked');
 		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').html($('#BillingTextCCContainer').html());
@@ -261,20 +268,20 @@ var paymentMethodCarBind = function(params) {
 	});
 };
 var paymentMethodPayPalBind = function(params) {
-	$("#PaymentMethodPayPal").click(function() {
-		$('p.paymentNeededNotification').hide();
-		$('#paymentPluginList').hide();
-		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').hide();
-		$('input[name="pluginSelector"][value="PayPal"]').attr('checked','checked');
-		$('#paymentPluginPayPal').show();
-		$("#cc_paymentDiv").show();
-		$('#BillingText').html($('#BillingTextPayPalContainer').html());
-		$('#ActivationText').text(params.ActivationTextCC);
-		$.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
-		$.fn.AtomiaShoppingCart.RemoveOrderCustomAttribute('PayByInvoice', 'true');
-		globalCounter++;
-		$.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
-	});
+    $("#PaymentMethodPayPal").click(function() {
+        $('p.paymentNeededNotification').hide();
+        $('#paymentPluginList').hide();
+        $('#paymentPluginCCPayment, #paymentPluginPayExRedirect').hide();
+        $('input[name="pluginSelector"][value="PayPal"]').attr('checked','checked');
+        $('#paymentPluginPayPal').show();
+        $("#cc_paymentDiv").show();
+        $('#BillingText').html($('#BillingTextPayPalContainer').html());
+        $('#ActivationText').text(params.ActivationTextCC);
+        $.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller = $("#dontShowTaxesForThisResellerHidden").val();
+        $.fn.AtomiaShoppingCart.RemoveOrderCustomAttribute('PayByInvoice', 'true');
+        globalCounter++;
+        $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
+    });
 };
 
 var fillPaymentMethod = function(model) {
@@ -287,6 +294,8 @@ var fillPaymentMethod = function(model) {
     }
 };
 
+
+// dissallow clicking submit button more then once
 var submitOnceUnbind = function() {
     $('#submit_form').submit(function() {
         if ($("#submit_form").valid()) {
@@ -332,6 +341,14 @@ var onSubmit = function(params) {
     } else {
         $('#ArrayOfProducts').val(ids);
         $('#SearchDomains').val(domains);
+    }
+    
+    if (typeof ($('#PostNumber')) != 'undefined' && $('#PostNumber').val() !== null) {
+        $('#PostNumber').val($('#PostNumber').val().toUpperCase());
+    }
+    
+    if (typeof ($('#InvoicePostNumber')) != 'undefined' && $('#InvoicePostNumber').val() !== null) {
+        $('#InvoicePostNumber').val($('#InvoicePostNumber').val().toUpperCase());
     }
 
     if (canSubmit) {
@@ -667,56 +684,32 @@ function TestCompanyOrgNumber(org) {
 }
 
 var ValidateVATNumberEx = function(value, element, params) {
-	if ($('#VATNumber').val() != '') {
-	    var EUCountries = params.EUCountries.split(' ');
-	    var check = false;
-	    for(var i =0; i< EUCountries.length; i++)
-	    {
-		    if($('#CountryCode').val() == EUCountries[i]) 
-		    {
-			    check = true;
-		    }   
-	    }
-	    if(check)
-	    {
-		    var vatNum = TrimSpace($('#VATNumber').val());
-		    if (checkVATNumber (vatNum)) {
-			    $('#VATNumber').val(checkVATNumber (vatNum));
-			    return true; 
-		    }  
-		    else {
-			    return false;
-		    }
-	    }
-	    else
-	    {
-		    return true;
-	    }
-	} else return true;
-};
-
-var ValidateInvoicePostNumberEx = function(value, element, params) {
-    var regex;
-
-    if (typeof (params) != 'undefined' && typeof (params.DefaultCountryCode) != 'undefined' && $('#InvoiceCountryCode').val() == params.DefaultCountryCode) {
-        regex = /^\d{5}$/;
-    }
-    else {
-        regex = /^\d+$/;
-    }
-    var org = TrimSpace($('#InvoicePostNumber').val());
-
-    var ok = false;
-
-    org = org.replace(' ', '');
-    if (regex.test(org)) {
-        ok = true;
-    }
-    if (!ok) {
-        return false;
-    }
-
-    return true;
+    if ($('#VATNumber').val() != '') {
+        var EUCountries = params.EUCountries.split(' ');
+        var check = false;
+        for(var i =0; i< EUCountries.length; i++)
+        {
+            if($('#CountryCode').val() == EUCountries[i]) 
+            {
+                check = true;
+            }   
+        }
+        if(check)
+        {
+            var vatNum = TrimSpace($('#VATNumber').val());
+            if (checkVATNumber (vatNum)) {
+                $('#VATNumber').val(checkVATNumber (vatNum));
+                return true; 
+            }  
+            else {
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
+    } else return true;
 };
 
 var ValidatePostNumberEx = function(value, element, params) {
@@ -754,7 +747,7 @@ bindSecondAddressCheckBoxClick = function () {
 }
 
 addBillingCustomerDataBlur = function(defaultString) {
-	$("#ContactName,#ContactLastName,#Company,#InvoiceContactName,#InvoiceContactLastName,#InvoiceCompany").blur(function() {
+    $("#ContactName,#ContactLastName,#Company,#InvoiceContactName,#InvoiceContactLastName,#InvoiceCompany").blur(function() {
         if( $("#secondAddressFalse:checked").length == 1)
         {
             if($("#Company").val() != "")
@@ -789,15 +782,15 @@ addBillingCustomerDataBlur = function(defaultString) {
 };
 
 addTechCustomerDataBlur = function(defaultString) {
-	$("#ContactName,#ContactLastName,#Company").blur(function() {
-	    if ($("#Company").val() != "") {
-	        $("#TechContactCustomerText").text($("#Company").val());
-	    }
-	    else if ($("#ContactName").val() != "" && $("#ContactLastName").val() != "") {
-	        $("#TechContactCustomerText").text($("#ContactName").val() + " " + $("#ContactLastName").val());
-	    }
-	    else {
-	        $("#TechContactCustomerText").text(defaultString);
-	    }
+    $("#ContactName,#ContactLastName,#Company").blur(function() {
+        if ($("#Company").val() != "") {
+            $("#TechContactCustomerText").text($("#Company").val());
+        }
+        else if ($("#ContactName").val() != "" && $("#ContactLastName").val() != "") {
+            $("#TechContactCustomerText").text($("#ContactName").val() + " " + $("#ContactLastName").val());
+        }
+        else {
+            $("#TechContactCustomerText").text(defaultString);
+        }
     });
 };

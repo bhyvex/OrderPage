@@ -158,6 +158,7 @@
     <Compile Include="Helpers\MasterPageLocationProviderImplementer.cs" />
     <Compile Include="Helpers\PartialsProviderImplementer.cs" />
     <Compile Include="Helpers\PaymentHelper.cs" />
+    <Compile Include="Helpers\OrderOptions.cs" />
     <Compile Include="Helpers\PluginFileLoaderImplementer.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\ResellerHelper.cs" />

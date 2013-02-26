@@ -159,4 +159,13 @@
   <data name="T" xml:space="preserve">
     <value>Accept Terms of Conditions for .SE domain names: &lt;a onclick="JavaScript: open('Tos?rName=TOS_se' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read more&lt;/a&gt;</value>
   </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="VAT" xml:space="preserve">
+    <value>VAT</value>
+  </data>
+  <data name="AmountToPay" xml:space="preserve">
+    <value>Amount to pay</value>
+  </data>
 </root>

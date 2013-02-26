@@ -19,6 +19,7 @@ using System.Web.Mvc;
 using Atomia.Web.Base.Configs;
 using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Plugin.Cart.Models;
+using Atomia.Web.Plugin.HostingProducts.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 
@@ -475,6 +476,48 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Filters the packages.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <param name="atomiaBillingPublicService">The atomia billing public service.</param>
+        /// <param name="id">The id.</param>
+        /// <param name="currencyCode">The currency code.</param>
+        /// <param name="countryCode">The country code.</param>
+        /// <param name="filterValue">The filter value.</param>
+        /// <returns>Filtered list of packages.</returns>
+        public static List<RadioRow> FilterPackages(Controller controller, AtomiaBillingPublicService atomiaBillingPublicService, Guid id, string currencyCode, string countryCode, string filterValue)
+        {
+            List<RadioRow> packages = OrderModel.FetchPackagesDataFromXml(controller, atomiaBillingPublicService, id, currencyCode, countryCode);
+            if (!string.IsNullOrEmpty(filterValue))
+            {
+                // get all packages from the config
+                    List<ProductItem> packageProducts = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
+                    packages = packages.Where(rr =>
+                                                  {
+                                                      ProductItem item = packageProducts.FirstOrDefault(p => p.ArticalNumber == rr.productId);
+                                                      if (item == null)
+                                                      {
+                                                          return false;
+                                                      }
+
+                                                      object value;
+                                                      if (item.AllProperties.TryGetValue("groups", out value))
+                                                      {
+                                                          return value
+                                                              .ToString()
+                                                              .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                                                              .ToList()
+                                                              .Exists(v => v == filterValue);
+                                                      }
+
+                                                      return false;
+                                                  }).ToList();
+            }
+
+            return packages;
         }
     }
 }

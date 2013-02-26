@@ -50,11 +50,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <summary>
         /// Renders action for default.
         /// </summary>
+        /// <param name="package">The product group.</param>
+        /// <param name="lang">The language.</param>
+        /// <param name="sel">Represents pre-selected hosting package.</param>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
         [AcceptVerbs(HttpVerbs.Get)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
-        public ActionResult Index()
+        public ActionResult Index(string package, string lang, string sel)
         {
             if (this.RouteData.Values.ContainsKey("resellerHash"))
             {
@@ -83,10 +86,32 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 throw new ConfigurationErrorsException("Missing AllowedDomainLength or NumberOfDomainsAllowed in configuration");
             }
 
-            // if set to true, add option to add subdomains to some predefined domain
-            if (!string.IsNullOrEmpty((string)this.HttpContext.Application["AllowAddSubdomain"]))
+            // if productGroup set, check which order options are allowed for it
+            bool groupExists;
+            ViewData["OrderOptions"] = this.GetOrderOptionsForProductGroup(package, out groupExists);
+
+            // add package to session so that packages can be filtered
+            Session["FilterByPackage"] = null;
+            Session["PreselectedPackage"] = null;
+            if (!string.IsNullOrEmpty(sel))
             {
-                ViewData["AllowAddingSubdomains"] = this.HttpContext.Application["AllowAddSubdomain"];
+                Session["PreselectedPackage"] = sel;
+            }
+            
+            if (!string.IsNullOrEmpty(package) && groupExists)
+            {
+                Session["FilterByPackage"] = package;
+            }
+
+            if (((List<OrderOptions>)ViewData["OrderOptions"]).Count == 0)
+            {
+                Session["firstOption"] = false;
+                Session["domains"] = null;
+                Session["singleDomain"] = null;
+                Session["subdomain"] = false;
+
+                // if no order options redirect to second page
+                return RedirectToAction("Select", new { controller = "PublicOrder", area = "PublicOrder" });
             }
 
             ViewData["AllowedDomainLength"] = allowedDomainLength;
@@ -183,6 +208,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     IndexHelper.FirstOptionSelected(this, out viewDataDomains, out domainData, IndexForm.Domains.Trim());
 
                     Session["firstOption"] = true;
+                    Session["subdomain"] = false;
                     Session["domains"] = viewDataDomains;
                     Session["multiDomains"] = domainData;
                 }
@@ -194,6 +220,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     IndexHelper.SecondOptionSelected(out viewDataDomains, out domainData, IndexForm.Domain.Trim(new[] { '.', ' ' }).Trim());
 
                     Session["firstOption"] = false;
+                    Session["subdomain"] = false;
                     Session["domains"] = viewDataDomains;
                     Session["singleDomain"] = domainData;
                 }
@@ -430,6 +457,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
             bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
             bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
+            bool worldPayXmlRedirectEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
 
             ViewData["PaymentEnabled"] = paymentEnabled;
             ViewData["PayPalEnabled"] = payPalEnabled;
@@ -438,6 +466,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
             ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
+            ViewData["WorldPayXmlRedirectEnabled"] = worldPayXmlRedirectEnabled;
 
             ViewData["firstOption"] = (bool)Session["firstOption"];
 
@@ -454,36 +483,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 // enabled payment method end
                 ViewData["WasAnError"] = 0;
-                List<RadioRow> packages = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, currencyCode, countryCode);
 
-                // filter packages if adding subdomain
-                if ((bool)ViewData["AddingSubdomain"])
-                {
-                    // get all packages from the config
-                    List<ProductItem> packageProducts = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
-                    packages = packages.Where(rr =>
-                                                  {
-                                                      ProductItem item = packageProducts.FirstOrDefault(p => p.ArticalNumber == rr.productId);
-                                                      if (item == null)
-                                                      {
-                                                          return false;
-                                                      }
-
-                                                      object value;
-                                                      if (item.AllProperties.TryGetValue("addsubdomain", out value))
-                                                      {
-                                                          if (value.ToString().ToLowerInvariant() == "true")
-                                                          {
-                                                              return true;
-                                                          }
-                                                      }
-
-                                                      return false;
-                                                  }).ToList();
-                }
-
-
-                ViewData["radioList"] = packages;
+                string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
+                ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, currencyCode, countryCode, filterValue);
             }
 
             this.ViewData["OwnDomain"] = string.Empty;
@@ -491,8 +493,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             if (!((bool)this.Session["firstOption"]))
             {
                 DomainDataFromXML singleDomain = (DomainDataFromXML)this.Session["singleDomain"];
-                this.ViewData["Domain"] = singleDomain;
-                this.ViewData["OwnDomain"] = singleDomain.ProductName;
+                if (singleDomain != null)
+                {
+                    this.ViewData["Domain"] = singleDomain;
+                    this.ViewData["OwnDomain"] = singleDomain.ProductName;
+                }
             }
 
             // default values
@@ -522,10 +527,26 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 defaultPaymentPlugin = "PayWithInvoice";
             }
             else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default)
-                || (worldPayRedirectEnabled && opcs.WorldPay.Default) || (dibsFlexwinEnabled && opcs.DibsFlexwin.Default))
+                || (worldPayRedirectEnabled && opcs.WorldPay.Default) || (dibsFlexwinEnabled && opcs.DibsFlexwin.Default)
+                || (worldPayXmlRedirectEnabled && opcs.WorldPayXml.Default))
             {
                 submitForm.RadioPaymentMethod = "card";
-                defaultPaymentPlugin = payExRedirectEnabled && opcs.PayexRedirect.Default ? "PayexRedirect" : "CCPayment";
+                if (payExRedirectEnabled && opcs.PayexRedirect.Default)
+                {
+                    defaultPaymentPlugin = "PayexRedirect";
+                }
+                else if (worldPayRedirectEnabled && opcs.WorldPay.Default)
+                {
+                    defaultPaymentPlugin = "WorldPayRedirect";
+                }
+                else if (worldPayXmlRedirectEnabled && opcs.WorldPayXml.Default)
+                {
+                    defaultPaymentPlugin = "WorldPayXmlRedirect";
+                }
+                else
+                {
+                    defaultPaymentPlugin = "CCPayment";
+                }
             }
             else if (payPalEnabled && opcs.PayPal.Default)
             {
@@ -583,9 +604,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
             bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
             bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
+            bool worldPayXmlRedirectEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
             ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
+            ViewData["WorldPayXmlRedirectEnabled"] = worldPayXmlRedirectEnabled;
 
             string orderByPostId = string.Empty;
             List<string> currentArrayOfProducts;
@@ -638,7 +661,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         });
                 }
 
-                if (!SubmitForm.FirstOption)
+                // this includes own and sub domain
+                if (!string.IsNullOrEmpty(SubmitForm.OwnDomain))
                 {
                     currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, null, null), productDesc = SubmitForm.OwnDomain });
                 }
@@ -684,21 +708,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     if (string.IsNullOrEmpty(SubmitForm.InvoiceEmail))
                     {
                         throw new AtomiaServerSideValidationException("errorEmail", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-                }
-
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                    List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, null, null);
-                    ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
-                    string setupFeeId = OrderModel.FetchSetupFeeIdFromXml(service, Guid.Empty, null, null);
-
-                    if (!currentCart.Any(item => item.productID != setupFeeId && item.productID != selectedPackage.productID))
-                    {
-                        // There is only package (and setup fee) in the cart, raise ex that domain is needed as well
-                        throw new AtomiaServerSideValidationException("ArrayOfProducts", this.GlobalResource("ValidationErrors, ErrorNoDomain"), SubmitForm);
                     }
                 }
             }
@@ -1049,9 +1058,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             else
             {
                 DomainDataFromXML singleDomain = (DomainDataFromXML)Session["singleDomain"];
-                ViewData["Domain"] = singleDomain;
+                ViewData["OwnDomain"] = string.Empty;
                 ViewData["firstOption"] = (bool)Session["firstOption"];
-                ViewData["OwnDomain"] = singleDomain.ProductName;
+                if (singleDomain != null)
+                {
+                    ViewData["Domain"] = singleDomain;
+                    ViewData["OwnDomain"] = singleDomain.ProductName;
+                }
             }
 
             string cartProducts = string.Empty;
@@ -1803,6 +1816,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
                     }
                 }
+                else if (Boolean.Parse(opcs.WorldPayXml.Enabled))
+                {
+                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+
+                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                    {
+                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                    }
+                    else
+                    {
+                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
+                    }
+                }
             }
             else if (paymentMethod == "paypal")
             {
@@ -1879,6 +1906,57 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 OrderPageLogger.LogOrderPageException(ex);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Gets the payment options for product group.
+        /// </summary>
+        /// <param name="productGroup">The product group.</param>
+        /// <param name="groupExists">if set to <c>true</c> [group exists].</param>
+        /// <returns>List of allowed order options.</returns>
+        private List<OrderOptions> GetOrderOptionsForProductGroup(string productGroup, out bool groupExists)
+        {
+            groupExists = true;
+            List<OrderOptions> result = new List<OrderOptions>();
+            PublicOrderConfigurationSection opcs = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+            ProductGroup group = (from ProductGroup g in opcs.ProductGroups where g.GroupName == productGroup select g).FirstOrDefault();
+            bool addSubdomainOption = false;
+            if (!string.IsNullOrEmpty((string)this.HttpContext.Application["AllowAddSubdomain"]))
+            {
+                this.ViewData["SubdomainValue"] = ((string)this.HttpContext.Application["AllowAddSubdomain"]).ToLowerInvariant();
+                addSubdomainOption = true;
+            }
+
+            if (string.IsNullOrEmpty(productGroup) || group == null)
+            {
+                groupExists = false;
+                result.Add(OrderOptions.New);
+                result.Add(OrderOptions.Own);
+
+                // if set to true, add option to add subdomains to some predefined domain);
+                if (addSubdomainOption)
+                {
+                    result.Add(OrderOptions.Sub);
+                }
+            }
+            else
+            {
+                string[] ordOptions = group.OrderPageOptions.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                ordOptions.ToList().ForEach(oo =>
+                                                {
+                                                    if (OrderOptions.GetOrderOption(oo) != null)
+                                                    {
+                                                        result.Add(OrderOptions.GetOrderOption(oo));
+                                                    }
+                                                });
+
+                if (!addSubdomainOption && result.Exists(r => r.Value == OrderOptions.Sub.Value))
+                {
+                    result.Remove(OrderOptions.Sub);
+                }
+            }
+
+            return result;
         }
     }
 }

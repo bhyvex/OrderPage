@@ -291,7 +291,11 @@ $.postJSON = function(url, data, callback) {
         }
 
         var htmlElement = $.fn.AtomiaShoppingCart.options.htmlElement;
-        $(htmlElement).html('<div id="processingImageDiv" style="padding: 20px 0px; text-align: center;"><img width="32" height="32" alt="Invoices" src="' + $.fn.AtomiaShoppingCart.options.processingImageLocation + '"/></div>');
+        
+        // check if processingImageDiv is added after table, if not add it
+        if ($(htmlElement).next().length == 0 || $(htmlElement).next().attr('id') != 'processingImageDiv') {
+            $(htmlElement).after('<div id="processingImageDiv" class="dataTables_processing" id="domainlist_processing" style="position: absolute">Processing...</div>');
+        } 
 
         $.postJSON(
             $.fn.AtomiaShoppingCart.options.ServerURL,
@@ -317,6 +321,7 @@ $.postJSON = function(url, data, callback) {
                 orderAddress: $.fn.AtomiaShoppingCart.options.AddOrderAddressData ? $.fn.AtomiaShoppingCart.GetOrderAddressDataAsJson() : ''
             },
             function(data) {
+                
                 if (counter == globalCounter) {
                     var htmlElement = $.fn.AtomiaShoppingCart.options.htmlElement;
 
@@ -371,7 +376,7 @@ $.postJSON = function(url, data, callback) {
                             case "OrderSubAmount":                          
                             case "OrderTaxes":
                                 if (($.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller == 'false') || ($.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller == undefined) || ($.fn.AtomiaShoppingCart.dontShowTaxesForThisReseller == ''))
-					            {
+                                {
                                     CreateTFootElement(i, val, tfootElement, data);
                                 }
                                 break;                            
@@ -383,6 +388,8 @@ $.postJSON = function(url, data, callback) {
                         }
                     });
 
+                    // delete process iamge div and table clear
+                    $('#processingImageDiv').remove();
                     $(htmlElement).html('');
                     $(htmlElement).append($(theadElement)).append($(tfootElement)).append($(tbodyElement));
 

@@ -168,4 +168,7 @@
   <data name="Unavailable" xml:space="preserve">
     <value>Unavailable</value>
   </data>
+  <data name="Buy" xml:space="preserve">
+    <value>Buy</value>
+  </data>
 </root>

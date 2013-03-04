@@ -121,7 +121,7 @@
     <value>Credit card payment was not accepted</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value>Please try using a different credit card or select invice by e-mail. Domain names will be registerd after the payment has been verified. </value>
+    <value>Please try using a different credit card or select invice by e-mail. Domain names will be registered after the payment has been verified. </value>
     <comment>Vänligen försök med ett annat kort eller så väljer du att betala via e-post faktura. Vid betalning via e-postfaktura kommer dina tjänster aktiveras direkt i väntan på din inbetalning. Domännamn registreras först när fakturan är betald.</comment>
   </data>
   <data name="Title" xml:space="preserve">

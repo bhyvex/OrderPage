@@ -1095,6 +1095,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             // supported countries
+            try
+            {
+                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                {
+                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+
+                    countryList = service.GetCountries().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+            }
+
             ViewData["CountryList"] = CountriesHelper.GetSupportedCountriesSelectList(countryList);
             List<string> euCountries = CountriesHelper.GetEUCountryCodes(countryList);
             string euString = string.Empty;

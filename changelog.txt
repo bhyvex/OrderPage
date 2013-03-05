@@ -1,0 +1,5 @@
+Atomia Public Order Page v13.3
+
+2013-03-04 Ivan Kustera <ivan@atomia.com>
+
+	- [BUGFIX] Fixed bug with empty countries dropdown list in case order submit fails

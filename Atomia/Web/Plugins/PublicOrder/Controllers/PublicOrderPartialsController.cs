@@ -112,26 +112,25 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 }
 
                 string switchedId = preselectedId.productId + "|" + preselectedId.productNameDesc + "|" + preselectedId.RenewalPeriodId;
+
                 if (preselectedId.SetupFee != null)
                 {
-                    switchedId += "|" + preselectedId.SetupFee.productID + "|" + preselectedId.SetupFee.productDesc + "|" +
-                                  preselectedId.SetupFee.RenewalPeriodId;
-                }
+                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' +
+                                               preselectedId.RenewalPeriodId + '|' + true + '|' +
+                                               preselectedId.SetupFee.productID + '|' +
+                                               preselectedId.SetupFee.productDesc + '|' +
+                                               preselectedId.SetupFee.RenewalPeriodId + '|' + false;
 
-                ViewData["switchedId"] = switchedId;
-
-                string setupFeeId = OrderModel.FetchSetupFeeIdFromXml(service, Guid.Empty, null, null);
-                if (setupFeeId != String.Empty)
-                {
-                    ProductDescription setupFee = OrderModel.FetchSetupFeePackageFromXml(service, Guid.Empty, null, null);
-
-                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' + preselectedId.RenewalPeriodId + '|' + true + '|' +
-                        setupFee.productID + '|' + setupFee.productDesc + '|' + setupFee.RenewalPeriodId + '|' + false;
+                    switchedId += "|" + preselectedId.SetupFee.productID + "|" + preselectedId.SetupFee.productDesc +
+                                  "|" + preselectedId.SetupFee.RenewalPeriodId;
                 }
                 else
                 {
-                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' + preselectedId.RenewalPeriodId + '|' + true;
+                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' +
+                                               preselectedId.RenewalPeriodId + '|' + true;
                 }
+
+                ViewData["switchedId"] = switchedId;
 
                 PublicOrderConfigurationSection opcs = LocalConfigurationHelper.GetLocalConfigurationSection();
                 bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);

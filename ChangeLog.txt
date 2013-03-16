@@ -1,5 +1,10 @@
 Atomia Public Order Page v13.3
 
+2013-03-16 Ivan Kustera <ivan@atomia.com>
+
+	- [NEW] Introduced product property NoWebsites which is used for setting all domain lines to provision CsDomainParking instead of website service.
+	- [BUGFIX] Fixed handling of multiple setup fee products when preparing cart data.
+
 2013-03-04 Ivan Kustera <ivan@atomia.com>
 
 	- [BUGFIX] Fixed bug with empty countries dropdown list in case order submit fails

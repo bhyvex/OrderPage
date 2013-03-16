@@ -788,20 +788,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         myOrder.LegalNumber = GeneralHelper.PrepareForSubmit(SubmitForm.VATNumber);
 
                         List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, null, null);
+                        List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
                         ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
                         List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, null, null);
-                        string setupFeeId = OrderModel.FetchSetupFeeIdFromXml(service, Guid.Empty, null, null);
+                        IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, null, null);
 
                         List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
                         foreach (ProductDescription tmpProduct in currentCart)
                         {
-                            // if it's setup fee, continue (it will be added with package product if needed)
-                            if (tmpProduct.productID == setupFeeId)
-                            {
-                                continue;
-                            }
-
                             // If post invoice is selected do not add it to orderItems since that product is added via orderCustomAttributes
                             if (SubmitForm.RadioPaymentMethod == "post")
                             {
@@ -824,7 +819,19 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 }
                             }
 
-                            if (tmpProduct.productID != selectedPackage.productID)
+                            if (setupFeeIds.Any(id => id == tmpProduct.productID))
+                            {
+                                PublicOrderItem tmpItem = new PublicOrderItem
+                                {
+                                    ItemId = Guid.Empty,
+                                    ItemNumber = tmpProduct.productID,
+                                    RenewalPeriodId = renewalPeriodId,
+                                    Quantity = 1
+                                };
+
+                                myOrderItems.Add(tmpItem);
+                            }
+                            else if (tmpProduct.productID != selectedPackage.productID)
                             {
                                 // it's domain
                                 List<PublicOrderItemProperty> arrayOfCustoms = new List<PublicOrderItemProperty>();
@@ -850,19 +857,32 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 }
                                 else
                                 {
-                                    // if the selected package in the cart is not free
+                                    bool websitesAllowed = true;
+                                    ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
+                                    if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("nowebsites") && package.AllProperties["nowebsites"].ToString().ToLowerInvariant() == "true")
+                                    {
+                                        websitesAllowed = false;
+                                    }
+
+                                    // if the selected package in the cart is not free)
                                     if (SubmitForm.FirstOption)
                                     {
+                                        string websiteType = websitesAllowed
+                                                                 ? (tmpProduct.productDesc == SubmitForm.MainDomainSelect
+                                                                        ? "CsLinuxWebsite"
+                                                                        : "CsDomainParking")
+                                                                 : "CsDomainParking";
+
                                         // check if the current product is main domain
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
-
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = tmpProduct.productDesc == SubmitForm.MainDomainSelect ? "CsLinuxWebsite" : "CsDomainParking" });
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
                                     }
                                     else
                                     {
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
+                                        string websiteType = websitesAllowed ? "CsLinuxWebsite" : "CsDomainParking";
 
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = "CsLinuxWebsite" });
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
                                     }
 
                                     PublicOrderItem tmpItem = new PublicOrderItem
@@ -905,19 +925,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     };
 
                                     myOrderItems.Add(tmpItem);
-                                    
-                                    // check if there's setup fee to be added
-                                    if (!String.IsNullOrEmpty(setupFeeId))
-                                    {
-                                        tmpItem = new PublicOrderItem
-                                                      {
-                                                        ItemId = Guid.Empty, 
-                                                        ItemNumber = setupFeeId, 
-                                                        Quantity = 1
-                                                      };
-
-                                        myOrderItems.Add(tmpItem);
-                                    }
                                 }
                             }
                         }

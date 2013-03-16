@@ -554,7 +554,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>52143</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://order.testenv.ovh42.atomiademo.com</IISUrl>
+          <IISUrl>https://order.int.atomia.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

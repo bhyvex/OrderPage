@@ -876,6 +876,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         // check if the current product is main domain
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
+                                        if (tmpProduct.productDesc == SubmitForm.MainDomainSelect)
+                                        {
+                                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                        }
                                     }
                                     else
                                     {

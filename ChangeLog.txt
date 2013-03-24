@@ -1,5 +1,9 @@
 Atomia Public Order Page v13.3
 
+2013-03-24 Ivan Kustera <ivan@atomia.com>
+
+	- [IMPROVEMENT] Modified creating of new order to add MainDomain = true custom attribute for order line which is related to domain selected to be main.
+
 2013-03-16 Ivan Kustera <ivan@atomia.com>
 
 	- [NEW] Introduced product property NoWebsites which is used for setting all domain lines to provision CsDomainParking instead of website service.

@@ -1,5 +1,9 @@
 Atomia Public Order Page v13.3
 
+2013-03-30 Ivan Kustera <ivan@atomia.com>
+
+	- [IMPROVEMENT] Added config option AllowOwnDomain which is used to determine whether option for ordering own domain on order page should be displayed or not.
+
 2013-03-24 Ivan Kustera <ivan@atomia.com>
 
 	- [IMPROVEMENT] Modified creating of new order to add MainDomain = true custom attribute for order line which is related to domain selected to be main.

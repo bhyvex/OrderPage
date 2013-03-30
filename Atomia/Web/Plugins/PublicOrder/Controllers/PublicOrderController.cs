@@ -1938,11 +1938,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 addSubdomainOption = true;
             }
 
+            bool allowOwnDomain = !string.IsNullOrEmpty((string)this.HttpContext.Application["AllowOwnDomain"]) &&
+                                  ((string)this.HttpContext.Application["AllowOwnDomain"]).ToLowerInvariant() == "true";
             if (string.IsNullOrEmpty(productGroup) || group == null)
             {
                 groupExists = false;
                 result.Add(OrderOptions.New);
-                result.Add(OrderOptions.Own);
+
+                if (allowOwnDomain)
+                {
+                    result.Add(OrderOptions.Own);
+                }
 
                 // if set to true, add option to add subdomains to some predefined domain);
                 if (addSubdomainOption)
@@ -1964,6 +1970,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 if (!addSubdomainOption && result.Exists(r => r.Value == OrderOptions.Sub.Value))
                 {
                     result.Remove(OrderOptions.Sub);
+                }
+
+                if (!allowOwnDomain && result.Exists(r => r.Value == OrderOptions.Own.Value))
+                {
+                    result.Remove(OrderOptions.Own);
                 }
             }
 

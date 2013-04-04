@@ -533,6 +533,184 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.da-DK.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.da-DK.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.da-DK.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.es-ES.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.da-DK.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.da-DK.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.es-ES.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.nb-NO.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.nl-NL.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.pt-BR.resx" />
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\BreadCrumbItems.da-DK.resx" />
+    <Content Include="App_GlobalResources\BreadCrumbItems.es-ES.resx" />
+    <Content Include="App_GlobalResources\BreadCrumbItems.nb-NO.resx" />
+    <Content Include="App_GlobalResources\BreadCrumbItems.nl-NL.resx" />
+    <Content Include="App_GlobalResources\BreadCrumbItems.pt-BR.resx" />
+    <Content Include="App_GlobalResources\BreadCrumbItems.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Common.da-DK.resx" />
+    <Content Include="App_GlobalResources\Common.es-ES.resx" />
+    <Content Include="App_GlobalResources\Common.nb-NO.resx" />
+    <Content Include="App_GlobalResources\Common.nl-NL.resx" />
+    <Content Include="App_GlobalResources\Common.pt-BR.resx" />
+    <Content Include="App_GlobalResources\Common.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\DefaultCommon.da-DK.resx" />
+    <Content Include="App_GlobalResources\DefaultCommon.es-ES.resx" />
+    <Content Include="App_GlobalResources\DefaultCommon.nb-NO.resx" />
+    <Content Include="App_GlobalResources\DefaultCommon.nl-NL.resx" />
+    <Content Include="App_GlobalResources\DefaultCommon.pt-BR.resx" />
+    <Content Include="App_GlobalResources\DefaultCommon.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\ValidationErrors.da-DK.resx" />
+    <Content Include="App_GlobalResources\ValidationErrors.es-ES.resx" />
+    <Content Include="App_GlobalResources\ValidationErrors.nb-NO.resx" />
+    <Content Include="App_GlobalResources\ValidationErrors.nl-NL.resx" />
+    <Content Include="App_GlobalResources\ValidationErrors.pt-BR.resx" />
+    <Content Include="App_GlobalResources\ValidationErrors.pt-PT.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

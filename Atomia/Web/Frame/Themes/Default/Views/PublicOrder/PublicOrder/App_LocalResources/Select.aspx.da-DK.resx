@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="Address2" xml:space="preserve">
+    <value>Adresse 2</value>
+  </data>
+  <data name="Alternative" xml:space="preserve">
+    <value>Alternativt domæne</value>
+  </data>
+  <data name="AltInfo" xml:space="preserve">
+    <value>Overfør eksisterende domæne</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Virksomhed</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Rabat</value>
+  </data>
+  <data name="DomainInfo" xml:space="preserve">
+    <value>eksempel-domæne.dk</value>
+  </data>
+  <data name="DomainName" xml:space="preserve">
+    <value>Domænenavn</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail-adresse</value>
+  </data>
+  <data name="Endast" xml:space="preserve">
+    <value>Registrer kun domænenavn</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Udfyld formularen nedenfor for at bestille Atomia Webhosting eller Atomia DNS.&lt;br /&gt;Bemærk, at felter markeret med en stjerne (*) er obligatoriske.</value>
+  </data>
+  <data name="InputDomain" xml:space="preserve">
+    <value>Find flere domænenavne</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Faktura</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Periode</value>
+  </data>
+  <data name="PersonalNum" xml:space="preserve">
+    <value>Cvr-/cpr-nummer</value>
+  </data>
+  <data name="PostNum" xml:space="preserve">
+    <value>Postnummer</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Pris</value>
+  </data>
+  <data name="PriceUp" xml:space="preserve">
+    <value>Årligt gebyr</value>
+  </data>
+  <data name="Separate" xml:space="preserve">
+    <value>Separat fakturaadresse</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Beløb</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Alle priser er inkl. moms (i alt *0* SEK).</value>
+  </data>
+  <data name="Telephone" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Bestilling af webhosting og DNS</value>
+  </data>
+  <data name="xxxx" xml:space="preserve">
+    <value>(xxxxxx-xxxx)</value>
+  </data>
+  <data name="Conclusion" xml:space="preserve">
+    <value>Konklusion</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Kontaktoplysninger</value>
+  </data>
+  <data name="InvoiceAddress" xml:space="preserve">
+    <value>Fakturaadresse</value>
+  </data>
+  <data name="SecondFalse" xml:space="preserve">
+    <value>Nej</value>
+  </data>
+  <data name="SecondTrue" xml:space="preserve">
+    <value>Ja, send fakturaer til følgende adresse</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>Vilkår</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>I alt</value>
+  </data>
+  <data name="Package" xml:space="preserve">
+    <value>Pakke</value>
+  </data>
+  <data name="TotalSum" xml:space="preserve">
+    <value>Samlet beløb</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Fornavn</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Efternavn</value>
+  </data>
+  <data name="MainDomainDesc" xml:space="preserve">
+    <value>&lt;li&gt;Vælg dit primære domænenavn. Det primære domænenavn vil få opsat en hjemmeside under oprettelsen af din konto, og alle andre domænenavne vil blive parkeret. Du kan nemt ændre indstillinger for alle dine domænenavne i kontrolpanelet.&lt;/li&gt;</value>
+  </data>
+  <data name="MainDomainTitle" xml:space="preserve">
+    <value>Primært domænenavn</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Atomia</value>
+  </data>
+  <data name="CustomerAlreadyExists" xml:space="preserve">
+    <value>Kunden findes allerede</value>
+  </data>
+  <data name="ErrorInvalidEmail" xml:space="preserve">
+    <value>Ugyldig e-mail-adresse</value>
+  </data>
+  <data name="AnotherDomain" xml:space="preserve">
+    <value>Find flere domænenavne</value>
+  </data>
+  <data name="BillingAddress" xml:space="preserve">
+    <value>Faktureringsadresse</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Skift</value>
+  </data>
+  <data name="SameAs" xml:space="preserve">
+    <value>Samme som kontaktoplysninger</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Søg</value>
+  </data>
+  <data name="AvalablePackages" xml:space="preserve">
+    <value>Tilgængelige pakker</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beskrivelse</value>
+  </data>
+  <data name="Agree" xml:space="preserve">
+    <value>Jeg accepterer vilkårene og ønsker at bestille.</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Beløb</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Bekræftelse</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Bestil</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Beløb i alt</value>
+  </data>
+  <data name="IHaveRead" xml:space="preserve">
+    <value>Jeg har læst og accepterer</value>
+  </data>
+  <data name="IWish" xml:space="preserve">
+    <value>og jeg ønsker at bestille.</value>
+  </data>
+  <data name="TermsDiv" xml:space="preserve">
+    <value>Læs venligst vores vilkår og betingelser grundigt igennem.</value>
+  </data>
+  <data name="NotificationHeader" xml:space="preserve">
+    <value>Vi kunne desværre ikke behandle din bestilling.</value>
+  </data>
+  <data name="NotificationText" xml:space="preserve">
+    <value>Prøv igen.</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobil</value>
+  </data>
+  <data name="Activation" xml:space="preserve">
+    <value>Kontoaktivering</value>
+  </data>
+  <data name="Billing" xml:space="preserve">
+    <value>Fakturering</value>
+  </data>
+  <data name="ClickOrder" xml:space="preserve">
+    <value>Dette vil ske, når du klikker på Bestil</value>
+  </data>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Kreditkortbetaling</value>
+  </data>
+  <data name="Credit_card" xml:space="preserve">
+    <value>Betal med kreditkort, og vær kørende med det samme</value>
+  </data>
+  <data name="E_invoice" xml:space="preserve">
+    <value>Send mig en faktura via e-mail</value>
+  </data>
+  <data name="NotificationTextPayment" xml:space="preserve">
+    <value>Betalingstransaktionen mislykkedes. Prøv venligst igen, eller vælg en anden betalingsmetode.</value>
+  </data>
+  <data name="OnCCActivation" xml:space="preserve">
+    <value>Direkte</value>
+  </data>
+  <data name="OnCCBilling" xml:space="preserve">
+    <value>Opkrævet af afgivet kreditkort</value>
+  </data>
+  <data name="OnEmailActivation" xml:space="preserve">
+    <value>Direkte. Domænet vil blive registreret, når betalingen er blevet godkendt</value>
+  </data>
+  <data name="OnEmailBilling" xml:space="preserve">
+    <value>Send mig en faktura via e-mail</value>
+  </data>
+  <data name="OnPostActivation" xml:space="preserve">
+    <value>Direkte. Domænet vil blive registreret, når betalingen er blevet godkendt</value>
+  </data>
+  <data name="OnPostBilling" xml:space="preserve">
+    <value>Send mig en faktura med posten</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Betaling</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Betalingsmetode</value>
+  </data>
+  <data name="PaymentSmall1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PaymentSmall2" xml:space="preserve">
+    <value>(postgebyr på 5,77 USD er inkluderet)</value>
+  </data>
+  <data name="PaymentSmall3" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Post_invoice" xml:space="preserve">
+    <value>Send mig en faktura med posten</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Tilgængeligt</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Indlæser</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Fjern</value>
+  </data>
+  <data name="Taken" xml:space="preserve">
+    <value>Optaget</value>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>Ikke tilgængeligt</value>
+  </data>
+  <data name="PhoneInfo" xml:space="preserve">
+    <value>Start med et nul (0) for svenske telefonnumre. Start med et plus (+) eller to nuller for udenlandske telefonnumre.</value>
+  </data>
+  <data name="NotAllowedDomain" xml:space="preserve">
+    <value>Et eller flere af de angivne domænenavne har 4 eller færre tegn. Disse betragtes som premium-domænenavne af nogle registre og kan ikke registreres gennem Atomia.</value>
+  </data>
+  <data name="Organisation" xml:space="preserve">
+    <value>Virksomhed</value>
+  </data>
+  <data name="OrgNum" xml:space="preserve">
+    <value>Cvr-nummer</value>
+  </data>
+  <data name="CompanyNumber" xml:space="preserve">
+    <value>Firmanummer</value>
+  </data>
+  <data name="PersonalNumber" xml:space="preserve">
+    <value>Cpr-nummer</value>
+  </data>
+  <data name="VATValidationResultFalseMessage" xml:space="preserve">
+    <value>Momsnummeret er ugyldigt.</value>
+  </data>
+  <data name="VATValidationResultNotValidated" xml:space="preserve">
+    <value>Momsnummeret kan ikke bekræftes på nuværende tidspunkt på grund af tekniske problemer. Den angivne moms på fakturaen vil blive opkrævet, hvis du bestiller nu. Du kan også kontakte vores kundeservice eller afgive din bestilling på et senere tidspunkt.</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="BillingContact" xml:space="preserve">
+    <value>Kontaktperson vedr. fakturering:</value>
+  </data>
+  <data name="ContactsSettings" xml:space="preserve">
+    <value>Indstillinger for kontaktperson</value>
+  </data>
+  <data name="CustomerRadio" xml:space="preserve">
+    <value>kunde</value>
+  </data>
+  <data name="ResellerRadio" xml:space="preserve">
+    <value>forhandler</value>
+  </data>
+  <data name="TechnicalContact" xml:space="preserve">
+    <value>Teknisk kontaktperson:</value>
+  </data>
+  <data name="OnPayPalBilling" xml:space="preserve">
+    <value>Opkrævet af afgivet PayPal-konto</value>
+  </data>
+  <data name="PaymentSmall4" xml:space="preserve">
+    <value>(gebyrfrit, kom straks i gang med dine tjenester)</value>
+  </data>
+  <data name="PayPalPayment" xml:space="preserve">
+    <value>PayPal-betaling</value>
+  </data>
+  <data name="Pay_pal" xml:space="preserve">
+    <value>Betal med din PayPal-konto</value>
+  </data>
+  <data name="PaymentNeededNotification" xml:space="preserve">
+    <value>Betaling skal være afsluttet, før en eller flere varer kan tages i brug.</value>
+  </data>
+  <data name="SubdomainAlternative" xml:space="preserve">
+    <value>Alternativt underdomæne</value>
+  </data>
+  <data name="SubdomainAltInfo" xml:space="preserve">
+    <value>Tilføj underdomæne</value>
+  </data>
+</root>

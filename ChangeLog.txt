@@ -1,3 +1,9 @@
+Atomia Public Order Page v13.4
+
+2013-04-04 Ivan Kustera <ivan@atomia.com>
+
+	- [IMPROVEMENT] Added DK, ES, NO, NL, BR and PT translations to the default theme.
+
 Atomia Public Order Page v13.3
 
 2013-03-30 Ivan Kustera <ivan@atomia.com>

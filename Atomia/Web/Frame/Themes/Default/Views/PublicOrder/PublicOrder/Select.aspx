@@ -177,7 +177,6 @@
                             <input type="hidden" name="RadioProductsSetupFeeRenewalPeriodId" value="<%= list[i].SetupFee != null ? list[i].SetupFee.RenewalPeriodId : string.Empty  %>" />
                         </p>
                         <p class="package-description">
-                            <%= Html.Resource("Description")%>:<br class="clear" />
                             <%= Html.ResourceNotEncoded(string.Format("{0}Common, {1}", Session["Theme"], list[i].info)) %>
                         </p>
                     <%

@@ -142,7 +142,7 @@
     <value>Ugyldig format, 10 siffer forventet</value>
   </data>
   <data name="ErrorInvalidPostNumber" xml:space="preserve">
-    <value>Ugyldig format, 5 siffer forventet</value>
+    <value>Ugyldig format</value>
   </data>
   <data name="ErrorInvalidSubdomain" xml:space="preserve">
     <value>Ugyldig underdomenenavn.</value>

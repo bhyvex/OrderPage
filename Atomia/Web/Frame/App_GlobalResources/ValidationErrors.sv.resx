@@ -118,54 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DomainExists" xml:space="preserve">
-    <value>The domain name allready exists in the system</value>
+    <value></value>
   </data>
   <data name="ErrorEmptyField" xml:space="preserve">
-    <value>Mandatory</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidChars" xml:space="preserve">
-    <value>Invalid characters</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidDomain" xml:space="preserve">
-    <value>Invalid domain name</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidDomains" xml:space="preserve">
-    <value>One or more domain names are invalid</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidEmail" xml:space="preserve">
-    <value>Invalid E-mail address</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidFormat" xml:space="preserve">
-    <value>Invalid format</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidOrgNumber" xml:space="preserve">
-    <value>Invalid format, expected 10 digits</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidPostNumber" xml:space="preserve">
-    <value>Invalid format, expected 5 digits</value>
+    <value></value>
   </data>
   <data name="ErrorInvalidVATNumber" xml:space="preserve">
-    <value>Invalid European VAT number</value>
+    <value></value>
   </data>
   <data name="ErrorNoDomain" xml:space="preserve">
-    <value>You must select a domain name</value>
+    <value></value>
   </data>
   <data name="ErrorNumDomains" xml:space="preserve">
-    <value>Maximimum number of domain names has been exeeded</value>
+    <value></value>
   </data>
   <data name="ErrorOrgNumberCheckSum" xml:space="preserve">
-    <value>Invalid organization number/civic personal number</value>
+    <value></value>
   </data>
   <data name="ErrorProcessing" xml:space="preserve">
-    <value>Error while processing</value>
+    <value></value>
   </data>
   <data name="ErrorSearchArguments" xml:space="preserve">
-    <value>Add up to 4 domain names separated by space</value>
+    <value></value>
   </data>
   <data name="ErrorStringLength" xml:space="preserve">
-    <value>Maximum number of charachters has been exteeded</value>
+    <value></value>
   </data>
   <data name="ErrorTermNotChecked" xml:space="preserve">
-    <value>You must read and accept the Tearms of Conditions</value>
+    <value></value>
   </data>
 </root>

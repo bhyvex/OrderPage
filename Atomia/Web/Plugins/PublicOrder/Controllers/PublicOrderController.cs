@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+﻿    //-----------------------------------------------------------------------
 // <copyright file="PublicOrderController.cs" company="Atomia AB">
 //     Copyright (c) Atomia AB. All rights reserved.
 // </copyright>
@@ -392,6 +392,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Select()
         {
+            if (Session == null || Session["firstOption"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             // supported countries
             string countryCode = ResellerHelper.GetResellerCountryCode();
 

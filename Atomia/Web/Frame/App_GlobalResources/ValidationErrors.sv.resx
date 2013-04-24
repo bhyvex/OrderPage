@@ -112,60 +112,66 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DomainExists" xml:space="preserve">
-    <value></value>
+    <value>Domännamnet finns redan i systemet</value>
   </data>
   <data name="ErrorEmptyField" xml:space="preserve">
-    <value></value>
+    <value>Obligatorisk</value>
   </data>
   <data name="ErrorInvalidChars" xml:space="preserve">
-    <value></value>
+    <value>Ogiltiga tecken</value>
   </data>
   <data name="ErrorInvalidDomain" xml:space="preserve">
-    <value></value>
+    <value>Ogiltigt domännamn</value>
   </data>
   <data name="ErrorInvalidDomains" xml:space="preserve">
-    <value></value>
+    <value>Ett eller flera domännamn är ogiltiga</value>
   </data>
   <data name="ErrorInvalidEmail" xml:space="preserve">
-    <value></value>
+    <value>Ogiltig e-postadress</value>
   </data>
   <data name="ErrorInvalidFormat" xml:space="preserve">
-    <value></value>
+    <value>Ogiltigt format</value>
   </data>
   <data name="ErrorInvalidOrgNumber" xml:space="preserve">
-    <value></value>
+    <value>Ogiltigt format, vänligen ange 10 siffror</value>
   </data>
   <data name="ErrorInvalidPostNumber" xml:space="preserve">
-    <value></value>
+    <value>Ogiltigt format, vänligen ange 5 siffror</value>
+  </data>
+  <data name="ErrorInvalidSubdomain" xml:space="preserve">
+    <value>Subdomän är inte giltig.</value>
   </data>
   <data name="ErrorInvalidVATNumber" xml:space="preserve">
-    <value></value>
+    <value>Ogiltig europeiskt momsregistreringsnummer</value>
+  </data>
+  <data name="ErrorMultiLevelSubdomain" xml:space="preserve">
+    <value>Endast en nivå tillåten för subdomäner.</value>
   </data>
   <data name="ErrorNoDomain" xml:space="preserve">
-    <value></value>
+    <value>Du måste ange ett domännamn</value>
   </data>
   <data name="ErrorNumDomains" xml:space="preserve">
-    <value></value>
+    <value>Maximalt antal domännamn har överskridits</value>
   </data>
   <data name="ErrorOrgNumberCheckSum" xml:space="preserve">
-    <value></value>
+    <value>Ogiltigt organisationsnummer / personnummer</value>
   </data>
   <data name="ErrorProcessing" xml:space="preserve">
-    <value></value>
+    <value>Fel vid bearbetning</value>
   </data>
   <data name="ErrorSearchArguments" xml:space="preserve">
-    <value></value>
+    <value>Lägg till max 4 domännamn separerade med mellanslag</value>
   </data>
   <data name="ErrorStringLength" xml:space="preserve">
-    <value></value>
+    <value>Maximalt antal tecken har överskridits</value>
   </data>
   <data name="ErrorTermNotChecked" xml:space="preserve">
-    <value></value>
+    <value>Vänligen läs och acceptera villkoren</value>
   </data>
 </root>

@@ -385,6 +385,32 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             }
         }
         #endregion
+        
+        #region AdyenHpp Property
+        /// <summary>
+        /// The XML name of the <see cref="AdyenHpp"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string AdyenHppPropertyName = "adyenHpp";
+        
+        /// <summary>
+        /// Gets or sets the AdyenHpp.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The AdyenHpp.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.AdyenHppPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp AdyenHpp
+        {
+            get
+            {
+                return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.AdyenHppPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.AdyenHppPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace Atomia.Web.Plugin.PublicOrder.Configurations
@@ -1827,6 +1853,80 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             set
             {
                 base[global::Atomia.Web.Plugin.PublicOrder.Configurations.WorldPayXml.DefaultPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace Atomia.Web.Plugin.PublicOrder.Configurations
+{
+    
+    
+    /// <summary>
+    /// The AdyenHpp Configuration Element.
+    /// </summary>
+    public partial class AdyenHpp : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region Enabled Property
+        /// <summary>
+        /// The XML name of the <see cref="Enabled"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string EnabledPropertyName = "enabled";
+        
+        /// <summary>
+        /// Gets or sets the Enabled.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The Enabled.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.EnabledPropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
+        public virtual string Enabled
+        {
+            get
+            {
+                return ((string)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.EnabledPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.EnabledPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region Default Property
+        /// <summary>
+        /// The XML name of the <see cref="Default"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string DefaultPropertyName = "default";
+        
+        /// <summary>
+        /// Gets or sets the Default.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The Default.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.DefaultPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual bool Default
+        {
+            get
+            {
+                return ((bool)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.DefaultPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.DefaultPropertyName] = value;
             }
         }
         #endregion

@@ -463,6 +463,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
             bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
             bool worldPayXmlRedirectEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
+            bool adyenHppEnabled = Boolean.Parse(opcs.AdyenHpp.Enabled);
 
             ViewData["PaymentEnabled"] = paymentEnabled;
             ViewData["PayPalEnabled"] = payPalEnabled;
@@ -472,6 +473,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
             ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
             ViewData["WorldPayXmlRedirectEnabled"] = worldPayXmlRedirectEnabled;
+            ViewData["AdyenHppEnabled"] = adyenHppEnabled;
 
             ViewData["firstOption"] = (bool)Session["firstOption"];
 
@@ -533,7 +535,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default)
                 || (worldPayRedirectEnabled && opcs.WorldPay.Default) || (dibsFlexwinEnabled && opcs.DibsFlexwin.Default)
-                || (worldPayXmlRedirectEnabled && opcs.WorldPayXml.Default))
+                || (worldPayXmlRedirectEnabled && opcs.WorldPayXml.Default) || (adyenHppEnabled && opcs.AdyenHpp.Default))
             {
                 submitForm.RadioPaymentMethod = "card";
                 if (payExRedirectEnabled && opcs.PayexRedirect.Default)
@@ -610,10 +612,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
             bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
             bool worldPayXmlRedirectEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
+            bool adyenHppEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
             ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
             ViewData["WorldPayXmlRedirectEnabled"] = worldPayXmlRedirectEnabled;
+            ViewData["AdyenHppEnabled"] = adyenHppEnabled;
 
             string orderByPostId = string.Empty;
             List<string> currentArrayOfProducts;
@@ -1348,7 +1352,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             decimal decimalAmount;
             Decimal.TryParse(amount, out decimalAmount);
 
-            if (status.ToUpper() == "OK")
+            if (status.ToUpper() == "OK" || status.ToUpper() == "IN_PROGRESS")
             {
                 return RedirectToAction("Thankyou");
             }
@@ -1833,6 +1837,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     }
                 }
                 else if (Boolean.Parse(opcs.WorldPayXml.Enabled))
+                {
+                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+
+                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                    {
+                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                    }
+                    else
+                    {
+                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
+                    }
+                }
+                else if (Boolean.Parse(opcs.AdyenHpp.Enabled))
                 {
                     action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
 

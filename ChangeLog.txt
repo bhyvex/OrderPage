@@ -4,6 +4,10 @@ Atomia Public Order Page v13.4
 
 	- [IMPROVEMENT] IE - edge default rendering engine not IE8
 
+2013-04-26 Ivan Kustera <ivan@atomia.com>
+
+	- [NEW] Added support for Adyen payment method.
+
 2013-04-04 Ivan Kustera <ivan@atomia.com>
 
 	- [IMPROVEMENT] Added DK, ES, NO, NL, BR and PT translations to the default theme.

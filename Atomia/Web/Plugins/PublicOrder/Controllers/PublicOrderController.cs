@@ -61,7 +61,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             if (this.RouteData.Values.ContainsKey("resellerHash"))
             {
-                ResellerHelper.LoadResellerIntoSession((string)this.RouteData.Values["resellerHash"]);
+                ResellerHelper.LoadResellerIntoSessionByHash((string)this.RouteData.Values["resellerHash"]);
+            }
+            else
+            {
+                ResellerHelper.LoadResellerIntoSessionByUrl(this.Request.Url.AbsoluteUri);
             }
 
             ViewData["WasAnError"] = 0;

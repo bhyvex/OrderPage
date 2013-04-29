@@ -57,10 +57,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         }
 
         /// <summary>
-        /// Loads the reseller into session.
+        /// Loads the reseller into session by hash.
         /// </summary>
         /// <param name="resellerHash">The reseller hash.</param>
-        public static void LoadResellerIntoSession(string resellerHash)
+        public static void LoadResellerIntoSessionByHash(string resellerHash)
         {
             // Load reseller's data only if it's not present in session.
             if (HttpContext.Current.Session["resellerAccountData"] == null 
@@ -80,6 +80,53 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                         else
                         {
                             HttpContext.Current.Session["resellerAccountData"] = resellerAccountData;
+                        }
+
+                        if (HttpContext.Current.Session["showContactOptions"] == null)
+                        {
+                            HttpContext.Current.Session.Add("showContactOptions", true);
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["showContactOptions"] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the reseller into session by URL.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        public static void LoadResellerIntoSessionByUrl(string url)
+        {
+            // Load reseller's data only if it's not present in session.
+            if (HttpContext.Current.Session["resellerAccountData"] == null)
+            {
+                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                {
+                    service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
+
+                    AccountData resellerAccountData = service.GetResellerDataByUrl(url);
+                    if (resellerAccountData != null)
+                    {
+                        if (HttpContext.Current.Session["resellerAccountData"] == null)
+                        {
+                            HttpContext.Current.Session.Add("resellerAccountData", resellerAccountData);
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["resellerAccountData"] = resellerAccountData;
+                        }
+
+                        if (HttpContext.Current.Session["showContactOptions"] == null)
+                        {
+                            HttpContext.Current.Session.Add("showContactOptions", false);
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session["showContactOptions"] = false;
                         }
                     }
                 }

@@ -504,7 +504,7 @@
                         <br class="clear" />
                     </div>
                 </div>
-                <% if (this.Session["resellerAccountData"] != null)
+                <% if (this.Session["resellerAccountData"] != null && this.Session["showContactOptions"] != null && (bool)this.Session["showContactOptions"])
                 {	
                 %>
                 <div id="ContactsDiv">

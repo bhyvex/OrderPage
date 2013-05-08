@@ -136,6 +136,7 @@
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\Cart.ascx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\DomainSearch.ascx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Index.aspx" />
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Norid.aspx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\PaymentFailed.aspx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\PayPalConfirm.aspx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Select.aspx" />
@@ -172,6 +173,7 @@
     <None Include="PostPublish.bat" />
     <Content Include="Themes\Default\Views\Web.config" />
     <Content Include="Themes\Default\Site.Master" />
+    <Content Include="Themes\Default\Areas\Empty\Site.Master" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Common.resx">
@@ -711,6 +713,9 @@
     <Content Include="App_GlobalResources\ValidationErrors.nl-NL.resx" />
     <Content Include="App_GlobalResources\ValidationErrors.pt-BR.resx" />
     <Content Include="App_GlobalResources\ValidationErrors.pt-PT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Norid.aspx.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

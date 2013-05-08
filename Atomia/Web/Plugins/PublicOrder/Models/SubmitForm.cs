@@ -314,5 +314,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         public string VATValidationMessage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the VATValidationMessage.
+        /// </summary>
+        public string DomainSpeciffic { get; set; }
+
     }
 }

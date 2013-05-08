@@ -230,19 +230,27 @@ $.postJSON = function(url, data, callback) {
         {
             renewalPeriod = '00000000-0000-0000-0000-000000000000';
         }
+		if($.fn.AtomiaShoppingCart.CheckDuplicate(item,itemdisplay)){
+			if (typeof addToTheBeginning != 'undefined' && addToTheBeginning) {
+				cartArray.splice(0, 0, { id: item, display: itemdisplay, quantity: itemquantity, renewalPeriod: renewalPeriod, isPackage: isPackage });
+			} else {
+				cartArray[cartArray.length] = { id: item, display: itemdisplay, quantity: itemquantity, renewalPeriod: renewalPeriod, isPackage: isPackage };
+			}        
 
-        if (typeof addToTheBeginning != 'undefined' && addToTheBeginning) {
-            cartArray.splice(0, 0, { id: item, display: itemdisplay, quantity: itemquantity, renewalPeriod: renewalPeriod, isPackage: isPackage });
-        } else {
-            cartArray[cartArray.length] = { id: item, display: itemdisplay, quantity: itemquantity, renewalPeriod: renewalPeriod, isPackage: isPackage };
-        }        
-
-        if (typeof doRecalculation != 'undefined' && doRecalculation) {
-            globalCounter++;
-            $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
-        }
+			if (typeof doRecalculation != 'undefined' && doRecalculation) {
+				globalCounter++;
+				$.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
+			}
+		}
     };
-
+	$.fn.AtomiaShoppingCart.CheckDuplicate = function(item,itemdisplay){
+		for( x in cartArray ){
+			if(cartArray[x].id == item && cartArray[x].display == itemdisplay){
+				return false;
+			}
+		}
+		return true;
+	};
     $.fn.AtomiaShoppingCart.RemoveItem = function(item, itemdisplay, itemquantity, doRecalculation) {
         for (var i = 0; i < cartArray.length; i++) {
             if (cartArray[i].id == item && cartArray[i].display == itemdisplay && cartArray[i].quantity == itemquantity) {

@@ -117,73 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DomainExists" xml:space="preserve">
-    <value>The domain name allready exists in the system</value>
-  </data>
-  <data name="ErrorEmptyField" xml:space="preserve">
-    <value>Mandatory</value>
-  </data>
-  <data name="ErrorInvalidChars" xml:space="preserve">
-    <value>Invalid characters</value>
-  </data>
-  <data name="ErrorInvalidDomain" xml:space="preserve">
-    <value>Invalid domain name</value>
-  </data>
-  <data name="ErrorInvalidDomains" xml:space="preserve">
-    <value>One or more domain names are invalid</value>
-  </data>
-  <data name="ErrorInvalidEmail" xml:space="preserve">
-    <value>Invalid E-mail address</value>
-  </data>
-  <data name="ErrorInvalidFormat" xml:space="preserve">
-    <value>Invalid format</value>
-  </data>
-  <data name="ErrorInvalidOrgNumber" xml:space="preserve">
-    <value>Invalid format, expected 10 digits</value>
-  </data>
-  <data name="ErrorInvalidPostNumber" xml:space="preserve">
-    <value>Invalid format, expected 5 digits</value>
-  </data>
-  <data name="ErrorInvalidSubdomain" xml:space="preserve">
-    <value>Subdomain name is not valid.</value>
-  </data>
-  <data name="ErrorInvalidVATNumber" xml:space="preserve">
-    <value>Invalid European VAT number</value>
-  </data>
-  <data name="ErrorMultiLevelSubdomain" xml:space="preserve">
-    <value>Only single level subdomains allowed.</value>
-  </data>
-  <data name="ErrorNoDomain" xml:space="preserve">
-    <value>You must select a domain name</value>
-  </data>
-  <data name="ErrorNumDomains" xml:space="preserve">
-    <value>Maximimum number of domain names has been exeeded</value>
-  </data>
-  <data name="ErrorOrgNumberCheckSum" xml:space="preserve">
-    <value>Invalid organization number/civic personal number</value>
-  </data>
-  <data name="ErrorProcessing" xml:space="preserve">
-    <value>Error while processing</value>
-  </data>
-  <data name="ErrorSearchArguments" xml:space="preserve">
-    <value>Add up to 4 domain names separated by space</value>
-  </data>
-  <data name="ErrorStringLength" xml:space="preserve">
-    <value>Maximum number of charachters has been exteeded</value>
-  </data>
-  <data name="ErrorTermNotChecked" xml:space="preserve">
-    <value>You must read and accept the Tearms of Conditions</value>
-  </data>
-  <data name="ErrorDeclarationNotChecked" xml:space="preserve">
-    <value>You must read and accept the Declaration</value>
-  </data>
-  <data name="ErrorDeclarationFill" xml:space="preserve">
-    <value>To view Self Declaration Form you must fill in the fields:</value>
-  </data>
-  <data name="ErrorMustBeCompany" xml:space="preserve">
-    <value>You need to be company to buy .no domain</value>
-  </data>
-  <data name="ErrorMustBeFromNorway" xml:space="preserve">
-    <value>You need to be from norway to buy .no domain</value>
+  <data name="VersionNumber" xml:space="preserve">
+    <value>2.0</value>
+    <comment>2.0</comment>
   </data>
 </root>

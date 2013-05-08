@@ -174,4 +174,16 @@
   <data name="ErrorTermNotChecked" xml:space="preserve">
     <value>Du må lese og godta avtalevilkårene</value>
   </data>
+  <data name="ErrorDeclarationNotChecked" xml:space="preserve">
+    <value>Du må lese og godta erklæringen</value>
+  </data>
+  <data name="ErrorDeclarationFill" xml:space="preserve">
+    <value>Å vise egenerklæringsskjema du må fylle ut feltene:</value>
+  </data>
+  <data name="ErrorMustBeCompany" xml:space="preserve">
+    <value>Du må være selskapet å kjøpe .no domain</value>
+  </data>
+  <data name="ErrorMustBeFromNorway" xml:space="preserve">
+    <value>Du må være fra Norge å kjøpe .no domain</value>
+  </data>
 </root>

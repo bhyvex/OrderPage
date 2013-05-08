@@ -945,6 +945,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 }
                             }
                         }
+                        
+                        foreach (PublicOrderItem myOrderItem in myOrderItems)
+                        {
+                            if(myOrderItem.ItemNumber == "DOM_NO")
+                            {
+                                if(SubmitForm.DomainSpeciffic == null)
+                                {
+                                    throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for .NO domain");
+                                }
+                                List<PublicOrderItemProperty> arrayOfCustoms  = myOrderItem.CustomData.ToList();
+                                arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
+                                myOrderItem.CustomData = arrayOfCustoms.ToArray();
+                            }
+                        }
 
                         if (SubmitForm.RadioPaymentMethod == "email")
                         {
@@ -2006,6 +2020,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Renders Norid Declaration recieving POST method call
+        /// </summary>
+        /// <param name="NoridData"></param>
+        /// <returns>The View for this action.</returns>
+        [UrlManagerAttribute]
+        public ActionResult Norid()
+        {
+
+            return View();
         }
     }
 }

@@ -16,8 +16,8 @@
     <body>
         <div class="container">
 	        <div id="header" class="span-24">
-				<a href="http://www.atomia.com/">
-					<img height="44" width="168" src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "Atomia.png"))%>" alt="Atomia."/>
+				<a id="logo" href="http://www.atomia.com/">
+					Atomia
 				</a>
 		        <h1><%= Html.Resource("Common, Header") %></h1>
 	        </div>

@@ -319,5 +319,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         public string DomainSpeciffic { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [whois contact].
+        /// </summary>
+        /// <value><c>true</c> if [whois contact]; otherwise, <c>false</c>.</value>
+        public bool WhoisContact { get; set; }
+
+        /// <summary>
+        /// Gets or sets the domain reg contact.
+        /// </summary>
+        /// <value>The domain reg contact.</value>
+        public DomainRegContact DomainRegContact { get; set; }
+
     }
 }

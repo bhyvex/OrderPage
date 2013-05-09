@@ -503,7 +503,7 @@ var emailBlurBind = function(params) {
 var invoiceEmailBlurBind = function () {
     $("#InvoiceEmail").blur(function (e) {
         $(this).val($(this).val().toLowerCase());
-        if ($('#secondAddressTrue').is(':checked')) {
+        if ($('#SecondAddress').val() == 'true') {
             $("#submit_form").validate().element($("#InvoiceEmail"));
         }
     });
@@ -518,13 +518,61 @@ var emailKeyUpBind = function() {
     });
 };
 
-var secondAddressRadioBind = function() {
-    $("#secondAddressTrue").click(function() {
-        $("#secondAddress").show();
+var secondAddressRadioBind = function () {
+    $("#billing-trigger-open").click(function () {
+        $("#secondAddress").show('blind', 500);
+        $('#billing-text-open').hide();
+        $('#billing-text-close').show();
+        $("#SecondAddress").val(true);
     });
 
-    $("#secondAddressFalse").click(function() {
-        $("#secondAddress").hide();
+    $('#billing-trigger-close').click(function () {
+        $("#secondAddress").hide('blind', 500);
+        $('#billing-text-open').show();
+        $('#billing-text-close').hide();
+        $("#SecondAddress").val(false);
+    });
+};
+
+var AddWhoisOrgNumValidation = function (errorInvalidOrgNumber, errorOrgNumberCheckSum, vatValidationResultFalseMessage) {
+    if ($('#DomainRegContact_OrgNo').length > 0) {
+        $('#DomainRegContact_OrgNo').rules("add", {
+            ValidateOrgNumberEx: true,
+            messages: {
+                ValidateOrgNumberEx: errorInvalidOrgNumber
+            }
+        });
+
+        $('#DomainRegContact_OrgNo').rules("add", {
+            ValidateOrgNumberCheckSum: true,
+            messages: {
+                ValidateOrgNumberCheckSum: errorInvalidOrgNumber
+            }
+        });
+
+        $('#DomainRegContact_OrgNo').rules("add", {
+            ValidateVATNumberOnExistence: true,
+            messages: {
+                ValidateVATNumberOnExistence: vatValidationResultFalseMessage
+            }
+        });
+    }
+};
+
+var whoisContactRadioBind = function (errorInvalidOrgNumber, errorOrgNumberCheckSum, vatValidationResultFalseMessage) {
+    $("#whois-trigger-open").click(function () {
+        $("#whoisContact").show('blind', 500);
+        $('#whois-text-open').hide();
+        $('#whois-text-close').show();
+        $('#WhoisContact').val(true);
+        AddWhoisOrgNumValidation(errorInvalidOrgNumber, errorOrgNumberCheckSum, vatValidationResultFalseMessage);
+    });
+
+    $("#whois-trigger-close").click(function () {
+        $("#whoisContact").hide('blind', 500);
+        $('#whois-text-open').show();
+        $('#whois-text-close').hide();
+        $('#WhoisContact').val(false);
     });
 };
 
@@ -685,207 +733,59 @@ var CheckEmailDomain = function(email, params) {
 };
 
 // Validation methods
-var ValidateFax = function(value, element, params) {
-    var regex1 = /^\+[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex2 = /^[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex3 = /^[0-9][0-9-.,()\s\/]+[0-9)]$/;
-    var phone = TrimSpace($('#Fax').val());
-
-    var ok = false;
-
-    if (regex1.test(phone)) {
-        ok = true;
-        $('#FaxProcessed').val(phone.replace('+', ''));
-    }
-    if (regex2.test(phone)) {
-        ok = true;
-        $('#FaxProcessed').val(phone);
-    }
-    if (regex3.test(phone)) {
-        ok = true;
-        if (phone[0] == '0' && phone[1] != '0') {
-            $('#FaxProcessed').val(phone + '|' + $('#CountryCode').val());
-        }
-        else {
-            $('#FaxProcessed').val(phone);
-        }
-    }
-
-    if (!ok) {
-        return false;
-    }
-
-    return true;
+var ValidateFax = function (value, element, params) {
+    return ValidateTelephoneEx(value, element, params);
 };
-
-var ValidateInvoiceFax = function(value, element, params) {
-    var regex1 = /^\+[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex2 = /^[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex3 = /^[0-9][0-9-.,()\s\/]+[0-9)]$/;
-    var phone = TrimSpace($('#InvoiceFax').val());
-
-    var ok = false;
-
-    if (regex1.test(phone)) {
-        ok = true;
-        $('#InvoiceFaxProcessed').val(phone.replace('+', ''));
-    }
-    if (regex2.test(phone)) {
-        ok = true;
-        $('#InvoiceFaxProcessed').val(phone);
-    }
-    if (regex3.test(phone)) {
-        ok = true;
-        if (phone[0] == '0' && phone[1] != '0') {
-            $('#InvoiceFaxProcessed').val(phone + '|' + $('#InvoiceCountryCode').val());
-        }
-        else {
-            $('#InvoiceFaxProcessed').val(phone);
-        }
-    }
-
-    if (!ok) {
-        return false;
-    }
-
-    return true;
-}
 
 var ValidateTelephoneEx = function(value, element, params) {
     var regex1 = /^\+[1-9][0-9-.,()\s\/]+[0-9)]$/;
     var regex2 = /^[1-9][0-9-.,()\s\/]+[0-9)]$/;
     var regex3 = /^[0-9][0-9-.,()\s\/]+[0-9)]$/;
-    var phone = TrimSpace($('#Telephone').val());
 
     var ok = false;
 
-    if (regex1.test(phone)) {
-        ok = true;
-        $('#TelephoneProcessed').val(phone.replace('+', ''));
+    var countryCode = "";
+    var $processedField;
+    if (typeof (params) != 'undefined') {
+        if (typeof (params.CountryFieldName) != 'undefined') {
+            var $countryField = $('#' + params.CountryFieldName);
+            if ($countryField != null && $countryField.val() != null) {
+                countryCode = $countryField.val();
+            }
+        }
+        if (typeof (params.ProcessedFieldName) != 'undefined') {
+            $processedField = $('#' + params.ProcessedFieldName);
+        }
     }
-    if (regex2.test(phone)) {
+
+    if (regex1.test(value)) {
         ok = true;
-        $('#TelephoneProcessed').val(phone);
+        $processedField.val(value.replace('+', ''));
     }
-    if (regex3.test(phone)) {
+    if (regex2.test(value)) {
         ok = true;
-        if (phone[0] == '0' && phone[1] != '0') {
-            $('#TelephoneProcessed').val(phone + '|' + $('#CountryCode').val());
+        $processedField.val(value);
+    }
+    if (regex3.test(value)) {
+        ok = true;
+        if (value[0] == '0' && value[1] != '0') {
+            $processedField.val(value + '|' + countryCode);
         }
         else {
-            $('#TelephoneProcessed').val(phone);
+            $processedField.val(value);
         }
     }
 
-    if (!ok) {
-        return false;
-    }
-
-    return true;
+    return ok;
 };
 
-var ValidateInvoiceTelephoneEx = function(value, element, params) {
-    var regex1 = /^\+[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex2 = /^[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex3 = /^[0-9][0-9-.,()\s\/]+[0-9)]$/;
-    var phone = TrimSpace($('#InvoiceTelephone').val());
-
-    var ok = false;
-
-    if (regex1.test(phone)) {
-        ok = true;
-        $('#InvoiceTelephoneProcessed').val(phone.replace('+', ''));
-    }
-    if (regex2.test(phone)) {
-        ok = true;
-        $('#InvoiceTelephoneProcessed').val(phone);
-    }
-    if (regex3.test(phone)) {
-        ok = true;
-        if (phone[0] == '0' && phone[1] != '0') {
-            $('#InvoiceTelephoneProcessed').val(phone + '|' + $('#InvoiceCountryCode').val());
-        }
-        else {
-            $('#InvoiceTelephoneProcessed').val(phone);
-        }
-    }
-
-    if (!ok) {
-        return false;
-    }
-
-    return true;
-};
-
-var ValidateMobileEx = function(value, element, params) {
-    var regex1 = /^\+[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex2 = /^[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex3 = /^[0-9][0-9-.,()\s\/]+[0-9)]$/;
-    var phone = TrimSpace($('#Mobile').val());
-
-    var ok = false;
-
-    if (regex1.test(phone)) {
-        ok = true;
-        $('#MobileProcessed').val(phone.replace('+', ''));
-    }
-    if (regex2.test(phone)) {
-        ok = true;
-        $('#MobileProcessed').val(phone);
-    }
-    if (regex3.test(phone)) {
-        ok = true;
-        if (phone[0] == '0' && phone[1] != '0') {
-            $('#MobileProcessed').val(phone + '|' + $('#CountryCode').val());
-        }
-        else {
-            $('#MobileProcessed').val(phone);
-        }
-    }
-
-    if (!ok) {
-        return false;
-    }
-
-    return true;
-};
-
-var ValidateInvoiceMobileEx = function(value, element, params) {
-    var regex1 = /^\+[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex2 = /^[1-9][0-9-.,()\s\/]+[0-9)]$/;
-    var regex3 = /^[0-9][0-9-.,()\s\/]+[0-9)]$/;
-    var phone = TrimSpace($('#InvoiceMobile').val());
-
-    var ok = false;
-
-    if (regex1.test(phone)) {
-        ok = true;
-        $('#InvoiceMobileProcessed').val(phone.replace('+', ''));
-    }
-    if (regex2.test(phone)) {
-        ok = true;
-        $('#InvoiceMobileProcessed').val(phone);
-    }
-    if (regex3.test(phone)) {
-        ok = true;
-        if (phone[0] == '0' && phone[1] != '0') {
-            $('#InvoiceMobileProcessed').val(phone + '|' + $('#InvoiceCountryCode').val());
-        }
-        else {
-            $('#InvoiceMobileProcessed').val(phone);
-        }
-    }
-
-    if (!ok) {
-        return false;
-    }
-
-    return true;
+var ValidateMobileEx = function (value, element, params) {
+    return ValidateTelephoneEx(value, element, params);
 };
 
 var ValidateOrgNumberEx = function(value, element, params) {
     var regex = /^\d{10}$/;
-    var org = TrimSpace($('#OrgNumber').val());
+    var org = TrimSpace($(element).val());
 
     var ok = false;
 
@@ -899,8 +799,8 @@ var ValidateOrgNumberEx = function(value, element, params) {
     return ok;
 };
 
-var ValidateOrgNumberCheckSum = function(value, element, params) {
-    var org = TrimSpace($('#OrgNumber').val());
+var ValidateOrgNumberCheckSum = function (value, element, params) {
+    var org = TrimSpace($(element).val());
     org = org.replace('-', '');
     org = org.substr(0, 6) + '-' + org.substr(6);
     //checksum
@@ -1033,14 +933,14 @@ var setSubmitFormAdditionalThemeRules = function(params) {
 };
 
 bindSecondAddressCheckBoxClick = function () {
-    $('#secondAddressTrue').unbind().bind('click', function () {
+    $('#billing-trigger-open').unbind().bind('click', function () {
         AddRequiredValidationRulesForInvoiceFields();
     });
 }
 
 addBillingCustomerDataBlur = function(defaultString) {
     $("#ContactName,#ContactLastName,#Company,#InvoiceContactName,#InvoiceContactLastName,#InvoiceCompany").blur(function() {
-        if( $("#secondAddressFalse:checked").length == 1)
+        if ($('#SecondAddress').val() == 'false')
         {
             if($("#Company").val() != "")
             {

@@ -9,12 +9,12 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-
 using Atomia.Common;
 using Atomia.Web.Base.ActionFilters;
 using Atomia.Web.Base.Helpers.General;
@@ -30,9 +30,7 @@ using Atomia.Web.Plugin.PublicOrder.Filters;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
 using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 using Atomia.Web.Plugin.PublicOrder.Models;
-
 using DomainDataFromXML = Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml;
-using System.Globalization;
 
 #endregion Using namespaces
 
@@ -543,8 +541,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 RadioYouAre = "private",
                 InvoiceRadioYouAre = "private",
                 CountryCode = countryCode,
-                InvoiceCountryCode = countryCode
+                InvoiceCountryCode = countryCode,
+                DomainRegContact = new DomainRegContact { Country = countryCode }
             };
+
+            try
+            {
+                submitForm.WhoisContact = this.HttpContext.Application["ShowWhoIs"].ToString().ToLower() == "true";
+            }
+            catch
+            {
+                submitForm.WhoisContact = false;
+            }
 
             if (this.Session["resellerAccountData"] != null)
             {
@@ -827,6 +835,25 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, Guid.Empty, null, null);
 
                         List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
+                        if (SubmitForm.WhoisContact)
+                        {
+                            SubmitForm.DomainRegContact.City = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.City);
+                            SubmitForm.DomainRegContact.Country = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Country);
+                            SubmitForm.DomainRegContact.Email = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Email);
+                            SubmitForm.DomainRegContact.FaxExtension = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.FaxExtension);
+                            SubmitForm.DomainRegContact.Fax = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegContact.Fax, SubmitForm.DomainRegContact.Country);
+                            SubmitForm.DomainRegContact.Name = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Name);
+                            SubmitForm.DomainRegContact.Org = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Org);
+                            SubmitForm.DomainRegContact.OrgNo = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.OrgNo);
+                            SubmitForm.DomainRegContact.State = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.State);
+                            SubmitForm.DomainRegContact.Street1 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Street1);
+                            SubmitForm.DomainRegContact.Street2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Street2);
+                            SubmitForm.DomainRegContact.Street3 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Street3);
+                            SubmitForm.DomainRegContact.VatNo = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.VatNo);
+                            SubmitForm.DomainRegContact.Voice = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegContact.Voice, SubmitForm.DomainRegContact.Country);
+                            SubmitForm.DomainRegContact.VoiceExtension = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.VoiceExtension);
+                            SubmitForm.DomainRegContact.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Zip);
+                        }
 
                         foreach (ProductDescription tmpProduct in currentCart)
                         {
@@ -891,6 +918,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         }
                                     }
 
+                                    if (SubmitForm.WhoisContact)
+                                    {
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = new JavaScriptSerializer().Serialize(SubmitForm.DomainRegContact) });
+                                    }
+
                                     PublicOrderItem tmpItem = new PublicOrderItem
                                     {
                                         ItemId = Guid.Empty,
@@ -937,6 +969,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                                         ToString()
                                                 });
                                             }
+                                        }
+                                        if (SubmitForm.WhoisContact)
+                                        {
+                                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = new JavaScriptSerializer().Serialize(SubmitForm.DomainRegContact) });
                                         }
                                     }
                                     else

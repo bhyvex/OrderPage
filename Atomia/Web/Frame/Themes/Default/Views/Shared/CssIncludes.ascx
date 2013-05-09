@@ -9,20 +9,6 @@ var cssPath = Server.MapPath(string.Format("~/Themes/{0}/Content/css", Session["
 if (Directory.Exists(cssPath))
 {
    var files = Directory.GetFiles(cssPath, "*.css");
-
-   if (files.Any(file => Path.GetFileNameWithoutExtension(file).ToLower().Equals("screen")))
-   {
-       if (Application["cSSMinifier"] != null && Boolean.Parse(Application["cSSMinifier"].ToString()))
-       {
-           Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/{1}", Session["Theme"], Path.GetFileName(files.First(file => Path.GetFileNameWithoutExtension(file).ToLower().Equals("screen")))));
-       }
-       else
-       {
-		   %>
-			  <link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/{1}", Session["Theme"], Path.GetFileName(files.First(file=>Path.GetFileNameWithoutExtension(file).ToLower().Equals("screen")))))%>"  rel="stylesheet" type="text/css"  media="screen, projection"/>
-		   <%
-        }            
-   } 
    
    if (files.Any(file => Path.GetFileNameWithoutExtension(file).ToLower().Equals("style")))
    {

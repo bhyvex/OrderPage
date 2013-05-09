@@ -107,6 +107,40 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="robots.txt" />
+    <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_hgrid_bg.png" />
+    <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_node.png" />
+    <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_vgrid_bg.png" />
+    <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_vgrid_full_bg.png" />
+    <Content Include="Themes\Default\Content\img\atomia\server_nodes_live_bg.png" />
+    <Content Include="Themes\Default\Content\img\atomia\server_nodes_live_node_bg.png" />
+    <Content Include="Themes\Default\Content\img\gui\btn-arrow-down.png" />
+    <Content Include="Themes\Default\Content\img\gui\h_slider_bar.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_add_item.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_clear_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_drag.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_external.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_locked.png" />
+    <Content Include="Themes\Default\Content\img\gui\icn_processing_16.gif" />
+    <Content Include="Themes\Default\Content\img\gui\icn_processing_28.gif" />
+    <Content Include="Themes\Default\Content\img\gui\icn_save_s.png" />
+    <Content Include="Themes\Default\Content\img\gui\tree_expander_s.png" />
+    <Content Include="Themes\Default\Content\img\icons\anm_processing_16.gif" />
+    <Content Include="Themes\Default\Content\img\icons\anm_processing_28.gif" />
+    <Content Include="Themes\Default\Content\img\icons\anm_processing_gray.gif" />
+    <Content Include="Themes\Default\Content\img\icons\dsh_icons.png" />
+    <Content Include="Themes\Default\Content\img\icons\flags.png" />
+    <Content Include="Themes\Default\Content\img\icons\sys_icons.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_sidebar_h_top.png" />
+    <Content Include="Themes\Default\Content\img\layout\bg_sidebar_top_comments.png" />
+    <Content Include="Themes\Default\Content\img\layout\breadcrumb_left.png" />
+    <Content Include="Themes\Default\Content\img\layout\breadcrumb_right.png" />
+    <Content Include="Themes\Default\Content\img\layout\gray_line.png" />
+    <Content Include="Themes\Default\Content\img\layout\progress_nos.png" />
+    <Content Include="Themes\Default\Content\img\layout\tab_box_left.png" />
+    <Content Include="Themes\Default\Content\img\layout\tab_box_left_exp.png" />
+    <Content Include="Themes\Default\Content\img\layout\tab_box_nav_left.png" />
+    <Content Include="Themes\Default\Content\img\layout\tab_box_nav_right.png" />
+    <Content Include="Themes\Default\Content\img\layout\tab_box_right.png" />
     <Content Include="Themes\Default\Scripts\jquery-1.7.2.min.js" />
     <Content Include="Themes\Default\Scripts\jquery-ui-1.8.20.custom.min.js" />
     <Content Include="Themes\Default\Scripts\MicrosoftMvcJQueryValidation.js" />
@@ -185,7 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Content\css\ie.css" />
-    <Content Include="Themes\Default\Content\css\screen.css" />
     <Content Include="Themes\Default\Content\css\style.css" />
     <Content Include="Themes\Default\Content\css\vtip.css" />
     <Content Include="Themes\Default\Content\img\Atomia.png" />

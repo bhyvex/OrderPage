@@ -504,7 +504,7 @@
                         <br class="clear" />
                     </div>
                 </div>
-                <% if (this.Session["resellerAccountData"] != null)
+                <% if (this.Session["resellerAccountData"] != null && this.Session["showContactOptions"] != null && (bool)this.Session["showContactOptions"])
                 {	
                 %>
                 <div id="ContactsDiv">
@@ -559,9 +559,10 @@
                     var worldPayRedirectEnabled = (bool)ViewData["WorldPayRedirectEnabled"];
                     var dibsFlexwinEnabled = (bool)ViewData["dibsFlexwinEnabled"];
                     var worldPayXmlRedirectEnabled = (bool)ViewData["WorldPayXmlRedirectEnabled"];
+                    var adyenHppEnabled = (bool)ViewData["AdyenHppEnabled"];
 					
 					int optionCounter = 0;
-                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled, dibsFlexwinEnabled, worldPayXmlRedirectEnabled })
+                    foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled, dibsFlexwinEnabled, worldPayXmlRedirectEnabled, adyenHppEnabled })
                     {
                         if (item)
                         {
@@ -598,7 +599,7 @@
                                 <br class="clear" />
                             <%
                             }
-                                if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
+                                if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled || adyenHppEnabled)
                             { %>
                                 <label for="PaymentMethodCard">
                                     <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
@@ -621,7 +622,7 @@
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
+	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled || adyenHppEnabled)
                 { 
                 
                 List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
@@ -657,6 +658,11 @@
 				{
 					plugins.Add(new GuiPaymentPluginData("WorldPayXmlRedirect", "WorldPay payment"));
 				}
+
+                if (adyenHppEnabled)
+				{
+                    plugins.Add(new GuiPaymentPluginData("AdyenHpp", "Adyen payment"));
+				}
 				
 				
 				%>
@@ -679,7 +685,7 @@
                         <p><%= Html.Resource("OnPostBilling")%></p>
                         <p class="paymentNeededNotification notice" style="display:none;"><%= Html.Resource("PaymentNeededNotification") %></p>
                     <%
-                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled || adyenHppEnabled)
                     {
                      %>
                         <%= Html.Resource("OnCCBilling")%>
@@ -701,7 +707,7 @@
                     { %>
                         <%= Html.Resource("OnPostActivation")%>
                     <%
-                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled)
+                    }else if(paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled || adyenHppEnabled)
                     {
                      %>
                         <%= Html.Resource("OnCCActivation")%>

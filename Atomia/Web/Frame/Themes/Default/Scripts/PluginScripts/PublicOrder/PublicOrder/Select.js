@@ -256,7 +256,7 @@ var paymentMethodCarBind = function(params) {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
-		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"],  input[name="pluginSelector"][value="WorldPayXmlRedirect"], input[name="pluginSelector"][value="DibsFlexwin"]').attr('checked', 'checked');
+		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"],  input[name="pluginSelector"][value="WorldPayXmlRedirect"], input[name="pluginSelector"][value="DibsFlexwin"]', input[name="pluginSelector"][value="AdyenHpp"]').attr('checked', 'checked');
 		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').html($('#BillingTextCCContainer').html());

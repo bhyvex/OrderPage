@@ -54,11 +54,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 
                 string countryCode = ResellerHelper.GetResellerCountryCode();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();
-                
+                Guid resellerId = ResellerHelper.GetResellerId();
+
                 unavailableDomains = DomainSearch.Helpers.DomainSearchHelper.MarkDomainsAsUnavailable(
                     GeneralHelper.GetUnavailableDomainsHelper(controller, domains.ToArray()),
                     service,
-                    Guid.Empty,
+                    resellerId,
                     currencyCode,
                     countryCode);
 
@@ -81,7 +82,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 domainDataFromDs = DomainSearch.Helpers.DomainSearchHelper.GetDomainData(
                     domains.ToArray(), 
                     service, 
-                    Guid.Empty, 
+                    resellerId, 
                     currencyCode, 
                     countryCode);
             }

@@ -1,5 +1,9 @@
 Atomia Public Order Page v13.4
 
+2013-05-20 Stefan Stankovic <stefan.stankovic@atomia.com>
+
+	- [IMPROVEMENT] AtomiaServiceExtraProperties gets copy to orderline for AtomiaService CsLinuxWebsite
+
 2013-05-10 Stefan Stankovic <stefan.stankovic@atomia.com>
 	
 	- [IMPROVEMENT] Norid page added for declaration that is needed for .NO domains. Cart duplicate item check added. new custom order line parameter DomainRegistrySpecificAttributes.

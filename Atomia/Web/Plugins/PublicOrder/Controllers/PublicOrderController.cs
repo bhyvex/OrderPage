@@ -877,6 +877,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         websitesAllowed = false;
                                     }
 
+                                    
+
                                     // if the selected package in the cart is not free)
                                     if (SubmitForm.FirstOption)
                                     {
@@ -885,13 +887,22 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                                                         ? "CsLinuxWebsite"
                                                                         : "CsDomainParking")
                                                                  : "CsDomainParking";
-
+                                        
                                         // check if the current product is main domain
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
                                         if (tmpProduct.productDesc == SubmitForm.MainDomainSelect)
                                         {
                                             arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                            if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                            {
+                                                arrayOfCustoms.Add(new PublicOrderItemProperty
+                                                {
+                                                    Name = "AtomiaServiceExtraProperties",
+                                                    Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                        ToString()
+                                                });
+                                            }
                                         }
                                     }
                                     else

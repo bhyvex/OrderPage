@@ -856,6 +856,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = domainValue });
 
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = "CsDomainParking" });
+                                    ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
+                                    if (SubmitForm.FirstOption == false)
+                                    {
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                        if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                        {
+                                            arrayOfCustoms.Add(new PublicOrderItemProperty
+                                            {
+                                                Name = "AtomiaServiceExtraProperties",
+                                                Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                    ToString()
+                                            });
+                                        }
+                                    }
 
                                     PublicOrderItem tmpItem = new PublicOrderItem
                                     {
@@ -908,7 +922,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     else
                                     {
                                         string websiteType = websitesAllowed ? "CsLinuxWebsite" : "CsDomainParking";
-
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                        if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                        {
+                                            arrayOfCustoms.Add(new PublicOrderItemProperty
+                                            {
+                                                Name = "AtomiaServiceExtraProperties",
+                                                Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                    ToString()
+                                            });
+                                        }
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
                                     }

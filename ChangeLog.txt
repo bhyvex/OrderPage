@@ -3,6 +3,7 @@ Atomia Public Order Page v13.4
 2013-05-20 Stefan Stankovic <stefan.stankovic@atomia.com>
 
 	- [IMPROVEMENT] AtomiaServiceExtraProperties gets copy to orderline for AtomiaService CsLinuxWebsite
+	- [IMPROVEMENT] OwnDomain flag MainDomain set to true
 
 2013-05-10 Stefan Stankovic <stefan.stankovic@atomia.com>
 	

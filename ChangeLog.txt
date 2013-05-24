@@ -1,5 +1,8 @@
 Atomia Public Order Page v13.4
 
+2013-05-24 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [IMPROVEMENT] PluginScripts and Scripts folders not required in theme customization
+
 2013-05-20 Stefan Stankovic <stefan.stankovic@atomia.com>
 
 	- [IMPROVEMENT] AtomiaServiceExtraProperties gets copy to orderline for AtomiaService CsLinuxWebsite

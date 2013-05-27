@@ -1,18 +1,4 @@
-﻿<%@ Import Namespace="System.IO"%>
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%@ Import Namespace="Atomia.Web.Base.Minifiers.UI.HTMLExtensions" %>
-
-<!-- Add javascript hardcoded -->
-<% 
-if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
-{
-    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-1.7.2.min.js", Session["Theme"]));
-    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.8.20.custom.min.js", Session["Theme"]));
-	Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery.validate.js", Session["Theme"]));
-    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/json2.js", Session["Theme"]));
-    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/MicrosoftMvcJQueryValidation.js", Session["Theme"]));
-}
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="System.IO" %>
 <%@ Import Namespace="Atomia.Web.Base.Minifiers.UI.HTMLExtensions" %>
 <%  

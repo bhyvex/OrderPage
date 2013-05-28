@@ -483,14 +483,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// </summary>
         /// <param name="controller">The controller.</param>
         /// <param name="atomiaBillingPublicService">The atomia billing public service.</param>
-        /// <param name="id">The id.</param>
+        /// <param name="accountId">The account id.</param>
+        /// <param name="resellerId">The reseller id.</param>
         /// <param name="currencyCode">The currency code.</param>
         /// <param name="countryCode">The country code.</param>
         /// <param name="filterValue">The filter value.</param>
         /// <returns>Filtered list of packages.</returns>
-        public static List<RadioRow> FilterPackages(Controller controller, AtomiaBillingPublicService atomiaBillingPublicService, Guid id, string currencyCode, string countryCode, string filterValue)
+        public static List<RadioRow> FilterPackages(Controller controller, AtomiaBillingPublicService atomiaBillingPublicService, Guid accountId, Guid resellerId, string currencyCode, string countryCode, string filterValue)
         {
-            List<RadioRow> packages = OrderModel.FetchPackagesDataFromXml(controller, atomiaBillingPublicService, id, currencyCode, countryCode);
+            List<RadioRow> packages = OrderModel.FetchPackagesDataFromXml(controller, atomiaBillingPublicService, accountId, resellerId, currencyCode, countryCode);
             if (!string.IsNullOrEmpty(filterValue))
             {
                 // get all packages from the config

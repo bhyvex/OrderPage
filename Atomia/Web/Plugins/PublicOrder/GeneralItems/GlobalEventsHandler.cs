@@ -71,7 +71,7 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
                 {
                     service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
 
-                    DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, null, null);
+                    DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, Guid.Empty, null, null);
                 }
             }
             catch (Exception ex)

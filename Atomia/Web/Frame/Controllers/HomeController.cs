@@ -191,7 +191,7 @@ namespace Atomia.Web.Frame.Controllers
                             }
 
                             this.HttpContext.Session["OrderCurrencyCode"] = orderCurrencyCode;
-                            Plugin.DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, orderCurrencyCode, culture);
+                            Plugin.DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, Guid.Empty, orderCurrencyCode, culture);
                         }
                     }
                     catch (Exception ex)

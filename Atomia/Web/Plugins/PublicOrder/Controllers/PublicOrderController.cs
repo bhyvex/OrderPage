@@ -177,7 +177,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 string countryCode = ResellerHelper.GetResellerCountryCode();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();
 
-                DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, currencyCode, countryCode);
+                DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, Guid.Empty, currencyCode, countryCode);
             }
 
             return Json(null);
@@ -490,13 +490,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, null, null) : string.Empty;
+                ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, Guid.Empty, null, null) : string.Empty;
 
                 // enabled payment method end
                 ViewData["WasAnError"] = 0;
 
                 string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
-                ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, currencyCode, countryCode, filterValue);
+                ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, Guid.Empty, currencyCode, countryCode, filterValue);
             }
 
             this.ViewData["OwnDomain"] = string.Empty;
@@ -638,7 +638,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 if (orderByPostEnabled)
                 {
-                    orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, null, null);
+                    orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, Guid.Empty, null, null);
                     ViewData["OrderByPostId"] = orderByPostId;
                     ViewData["OrderByPostEnabled"] = true;
                 }
@@ -659,7 +659,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 currentArrayOfProducts = SubmitForm.ArrayOfProducts.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, null, null);
+                list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, Guid.Empty, null, null);
 
                 currentCart = new List<ProductDescription>();
 
@@ -677,7 +677,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 // this includes own and sub domain
                 if (!string.IsNullOrEmpty(SubmitForm.OwnDomain))
                 {
-                    currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, null, null), productDesc = SubmitForm.OwnDomain });
+                    currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, Guid.Empty, null, null), productDesc = SubmitForm.OwnDomain });
                 }
             }
 
@@ -798,11 +798,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
                         myOrder.LegalNumber = GeneralHelper.PrepareForSubmit(SubmitForm.VATNumber);
 
-                        List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, null, null);
+                        List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, Guid.Empty, null, null);
                         List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
                         ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
-                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, null, null);
-                        IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, null, null);
+                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service,Guid.Empty, Guid.Empty, null, null);
+                        IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, Guid.Empty, null, null);
 
                         List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
@@ -1522,6 +1522,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     domains,
                     service,
                     Guid.Empty,
+                    Guid.Empty,
                     null,
                     null);
             }
@@ -1554,6 +1555,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     domainsArray,
                     service,
                     Guid.Empty,
+                    Guid.Empty,
                     currencyCode,
                     null);
             }
@@ -1585,6 +1587,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 status = DomainSearchHelper.GetAvailabilityStatus(
                     sTransactionId,
                     service,
+                    Guid.Empty,
                     Guid.Empty,
                     currencyCode,
                     null);

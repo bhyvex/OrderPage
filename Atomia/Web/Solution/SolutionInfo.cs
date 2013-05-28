@@ -6,4 +6,3 @@
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyVersion("13.5.*")]
-[assembly: AssemblyFileVersion("13.5.*")]

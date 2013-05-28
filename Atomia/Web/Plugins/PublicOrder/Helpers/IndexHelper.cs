@@ -59,6 +59,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 unavailableDomains = DomainSearch.Helpers.DomainSearchHelper.MarkDomainsAsUnavailable(
                     GeneralHelper.GetUnavailableDomainsHelper(controller, domains.ToArray()),
                     service,
+                    Guid.Empty,
                     resellerId,
                     currencyCode,
                     countryCode);
@@ -82,6 +83,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 domainDataFromDs = DomainSearch.Helpers.DomainSearchHelper.GetDomainData(
                     domains.ToArray(), 
                     service, 
+                    Guid.Empty, 
                     resellerId, 
                     currencyCode, 
                     countryCode);

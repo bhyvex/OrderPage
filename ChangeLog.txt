@@ -1,5 +1,8 @@
 Atomia Public Order Page v13.4
 
+2013-05-28 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [BUGFIX] Removed swedish organization number formating
+
 2013-05-27 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [BUGFIX] PluginScripts include script fixed
 	

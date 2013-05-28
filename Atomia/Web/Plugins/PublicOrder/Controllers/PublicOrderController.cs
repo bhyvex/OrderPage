@@ -778,8 +778,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         if (!String.IsNullOrEmpty(SubmitForm.OrgNumber))
                         {
                             string tmpString = GeneralHelper.PrepareForSubmit(SubmitForm.OrgNumber);
-                            tmpString = tmpString.Replace("-", string.Empty);
-                            tmpString = tmpString.Insert(6, "-");
                             myOrder.CompanyNumber = tmpString;
                         }
 

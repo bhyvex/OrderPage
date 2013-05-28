@@ -76,6 +76,11 @@
 					<xs:documentation>The AdyenHpp.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="0" name="domainRegistrySpecificProducts" type="tns:Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProductsCT">
+				<xs:annotation>
+					<xs:documentation>The DomainRegistrySpecificProducts.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.QueryStringListCT">
@@ -299,6 +304,24 @@
 		<xs:attribute name="default" use="optional" type="xs:boolean">
 			<xs:annotation>
 				<xs:documentation>The Default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProductsCT">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="domainRegistrySpecificProduct" type="tns:Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProductCT">
+				<xs:annotation>
+					<xs:documentation>The DomainRegistrySpecificProduct Configuration Element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProductCT">
+		<xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="productId" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The ProductId.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>

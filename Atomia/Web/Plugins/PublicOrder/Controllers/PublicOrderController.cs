@@ -977,14 +977,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 }
                             }
                         }
-                        
+                        PublicOrderConfigurationSection opcss = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
                         foreach (PublicOrderItem myOrderItem in myOrderItems)
                         {
-                            if(myOrderItem.ItemNumber == "DOM_NO")
+                            
+                            if(opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
                             {
+
                                 if(SubmitForm.DomainSpeciffic == null)
                                 {
-                                    throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for .NO domain");
+                                    throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for "+myOrderItem.ItemNumber+" domain");
                                 }
                                 List<PublicOrderItemProperty> arrayOfCustoms  = myOrderItem.CustomData.ToList();
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });

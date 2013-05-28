@@ -411,6 +411,32 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             }
         }
         #endregion
+        
+        #region DomainRegistrySpecificProducts Property
+        /// <summary>
+        /// The XML name of the <see cref="DomainRegistrySpecificProducts"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string DomainRegistrySpecificProductsPropertyName = "domainRegistrySpecificProducts";
+        
+        /// <summary>
+        /// Gets or sets the DomainRegistrySpecificProducts.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The DomainRegistrySpecificProducts.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.DomainRegistrySpecificProductsPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProducts DomainRegistrySpecificProducts
+        {
+            get
+            {
+                return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProducts)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.DomainRegistrySpecificProductsPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.PublicOrderConfigurationSection.DomainRegistrySpecificProductsPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace Atomia.Web.Plugin.PublicOrder.Configurations
@@ -1927,6 +1953,224 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             set
             {
                 base[global::Atomia.Web.Plugin.PublicOrder.Configurations.AdyenHpp.DefaultPropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace Atomia.Web.Plugin.PublicOrder.Configurations
+{
+    
+    
+    /// <summary>
+    /// A collection of DomainRegistrySpecificProduct instances.
+    /// </summary>
+    [global::System.Configuration.ConfigurationCollectionAttribute(typeof(global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct), CollectionType=global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate, AddItemName=global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProducts.DomainRegistrySpecificProductPropertyName)]
+    public partial class DomainRegistrySpecificProducts : global::System.Configuration.ConfigurationElementCollection
+    {
+        
+        #region Constants
+        /// <summary>
+        /// The XML name of the individual <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> instances in this collection.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string DomainRegistrySpecificProductPropertyName = "domainRegistrySpecificProduct";
+        #endregion
+        
+        #region Overrides
+        /// <summary>
+        /// Gets the type of the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <returns>The <see cref="global::System.Configuration.ConfigurationElementCollectionType"/> of this collection.</returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override global::System.Configuration.ConfigurationElementCollectionType CollectionType
+        {
+            get
+            {
+                return global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the name used to identify this collection of elements
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override string ElementName
+        {
+            get
+            {
+                return global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProducts.DomainRegistrySpecificProductPropertyName;
+            }
+        }
+        
+        /// <summary>
+        /// Indicates whether the specified <see cref="global::System.Configuration.ConfigurationElement"/> exists in the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="elementName">The name of the element to verify.</param>
+        /// <returns>
+        /// <see langword="true"/> if the element exists in the collection; otherwise, <see langword="false"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override bool IsElementName(string elementName)
+        {
+            return (elementName == global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProducts.DomainRegistrySpecificProductPropertyName);
+        }
+        
+        /// <summary>
+        /// Gets the element key for the specified configuration element.
+        /// </summary>
+        /// <param name="element">The <see cref="global::System.Configuration.ConfigurationElement"/> to return the key for.</param>
+        /// <returns>
+        /// An <see cref="object"/> that acts as the key for the specified <see cref="global::System.Configuration.ConfigurationElement"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override object GetElementKey(global::System.Configuration.ConfigurationElement element)
+        {
+            return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct)(element)).ProductId;
+        }
+        
+        /// <summary>
+        /// Creates a new <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/>.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/>.
+        /// </returns>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        protected override global::System.Configuration.ConfigurationElement CreateNewElement()
+        {
+            return new global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct();
+        }
+        #endregion
+        
+        #region Indexer
+        /// <summary>
+        /// Gets the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct this[int index]
+        {
+            get
+            {
+                return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct)(base.BaseGet(index)));
+            }
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> with the specified key.
+        /// </summary>
+        /// <param name="productId">The key of the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct this[object productId]
+        {
+            get
+            {
+                return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct)(base.BaseGet(productId)));
+            }
+        }
+        #endregion
+        
+        #region Add
+        /// <summary>
+        /// Adds the specified <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="domainRegistrySpecificProduct">The <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to add.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public void Add(global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct domainRegistrySpecificProduct)
+        {
+            base.BaseAdd(domainRegistrySpecificProduct);
+        }
+        #endregion
+        
+        #region Remove
+        /// <summary>
+        /// Removes the specified <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> from the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="domainRegistrySpecificProduct">The <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to remove.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public void Remove(global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct domainRegistrySpecificProduct)
+        {
+            base.BaseRemove(this.GetElementKey(domainRegistrySpecificProduct));
+        }
+        #endregion
+        
+        #region GetItem
+        /// <summary>
+        /// Gets the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct GetItemAt(int index)
+        {
+            return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct)(base.BaseGet(index)));
+        }
+        
+        /// <summary>
+        /// Gets the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> with the specified key.
+        /// </summary>
+        /// <param name="productId">The key of the <see cref="global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct"/> to retrieve.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct GetItemByKey(string productId)
+        {
+            return ((global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct)(base.BaseGet(((object)(productId)))));
+        }
+        #endregion
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+    }
+}
+namespace Atomia.Web.Plugin.PublicOrder.Configurations
+{
+    
+    
+    /// <summary>
+    /// The DomainRegistrySpecificProduct Configuration Element.
+    /// </summary>
+    public partial class DomainRegistrySpecificProduct : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region ProductId Property
+        /// <summary>
+        /// The XML name of the <see cref="ProductId"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string ProductIdPropertyName = "productId";
+        
+        /// <summary>
+        /// Gets or sets the ProductId.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The ProductId.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.ProductIdPropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
+        public virtual string ProductId
+        {
+            get
+            {
+                return ((string)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.ProductIdPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.ProductIdPropertyName] = value;
             }
         }
         #endregion

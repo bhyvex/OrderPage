@@ -78,6 +78,11 @@
             <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/AdyenHpp" />
           </type>
         </elementProperty>
+        <elementProperty name="DomainRegistrySpecificProducts" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="domainRegistrySpecificProducts" isReadOnly="false">
+          <type>
+            <configurationElementCollectionMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/DomainRegistrySpecificProducts" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElementCollection name="QueryStringList" namespace="Atomia.Web.Plugin.PublicOrder.Configurations" xmlItemName="queryString" codeGenOptions="Indexer, AddMethod, RemoveMethod">
@@ -288,6 +293,20 @@
         <attributeProperty name="Default" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="default" isReadOnly="false">
           <type>
             <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/Boolean" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElementCollection name="DomainRegistrySpecificProducts" xmlItemName="domainRegistrySpecificProduct" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods">
+      <itemType>
+        <configurationElementMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/DomainRegistrySpecificProduct" />
+      </itemType>
+    </configurationElementCollection>
+    <configurationElement name="DomainRegistrySpecificProduct">
+      <attributeProperties>
+        <attributeProperty name="ProductId" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="productId" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
           </type>
         </attributeProperty>
       </attributeProperties>

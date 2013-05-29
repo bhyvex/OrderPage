@@ -123,7 +123,7 @@ $('#product_list').AtomiaShoppingCart(
 					}
 				 }
 			}
-			
+			checkCurrentProducts();
 		},
         TermsOfServicesRenderFunction: function(resName, resValue) {
             $('#termsList').html('');

@@ -11,9 +11,275 @@
             $("#VATValidationMessage").val($("#vatValidationInfo").text());
             onSubmit(submitParams);
         });
+    },
+    ValidateStep: function () {
+        // contact info
+        var result = true;
+        switch (OrderPageWizzard.currentStep) {
+			case 1:{
+					
+					window.hasNo = false;
+					checkCurrentProducts();
+					break;
+				}
+            case 2:{
+				
+                if (OrderPageWizzard.Validator !== null) {
+
+
+                    if ($('#OrgNumber').length > 0) {
+                        result = result & $("#submit_form").validate().element("#OrgNumber");
+                    }
+					if(hasNo){
+						result = result 
+						& OrderPageWizzard.Validator.element('#YouAreCompany') 
+						& OrderPageWizzard.Validator.element('#Company') 
+						& OrderPageWizzard.Validator.element('#OrgNumber')
+						& OrderPageWizzard.Validator.element('#SignedName')
+						& OrderPageWizzard.Validator.element('#Acceptdeclaration')
+						& OrderPageWizzard.Validator.element('#DomainSpeciffic')
+						& OrderPageWizzard.Validator.element('#CountryCode');
+					}
+                }
+				}
+        }
+
+        return result;
     }
 };
 
+window.noLength = 0;
+window.productsId = {};
+window.productsKey = [];
+function exampleProductRestrictionFunction(exist,changed){
+	if(exist){
+			// Always executed if exist
+			if(changed){
+				//console.log('Count of product changed');
+			}else{
+				//console.log('Nothing changed');
+			}
+		}else{
+			// Executed once when product get removed
+		}
+}
+function domainNL(exist,changed){
+	if(exist){
+		if(typeof window.initDomainRestrictionNl == "undefined"){
+			window.initDomainRestrictionNl = true;
+			$('#CountryCode').rules('add', 
+						 {
+							onlyNetherlands:true,
+							messages: {
+								onlyNetherlands: "Netherlands"
+							}
+						 });
+		}
+		if(changed){
+			//console.log('Count of product changed');
+		}else{
+			//console.log('Nothing changed');
+		}
+	}else{
+		$('#CountryCode').rules('remove','onlyNetherlands');
+	}
+}
+function off365(exist,changed){
+	if(exist){
+		if($('label[for=contact_company]').hasClass( 'required' ) == 0){
+						$('label[for=contact_company]').addClass('required').html('<span>*</span>'+$('label[for=contact_company]').text());
+						$('#Company').rules('add', {
+							required:true,
+							messages: {
+								required: window.ResourceValidation.Required
+							}
+						
+						});
+					}
+		if(changed){
+			//console.log('Count changed');
+		}else{
+			//console.log('Nothing changed');
+		}
+	}else{
+		$('label[for=contact_company]').removeClass('required');
+		$('label[for=contact_company] span').remove();
+		$('#Company').rules('remove', 'required');
+	}
+};
+function domainNo(exist,changed){
+	if(exist){
+		if(typeof window.initDomainRestrictionNo == "undefined"){
+			window.initDomainRestrectionNo = true;
+			
+					window.hasNo = true;
+					if($('label[for=contact_company]').hasClass( 'required' ) == 0){
+						$('label[for=contact_company]').addClass('required').html('<span>*</span>'+$('label[for=contact_company]').text());
+						$('#Company').rules('add', {
+							required:true,
+							messages: {
+								required: window.ResourceValidation.Required
+							}
+						
+						});
+					}
+					if($('label#labelOrgNo').hasClass( 'required' ) == 0){
+						$('label#labelOrgNo').addClass('required').html('<span>*</span>'+$('label#labelOrgNo').text());
+						$('#OrgNumber').rules('add', {
+							required:true,
+							messages: {
+								required: window.ResourceValidation.Required
+							}
+						
+						});
+					}
+					$('#YouAreCompany').rules('add', 
+					{
+						noDomaincompany:true,
+						messages: {
+							noDomaincompany: window.ResourceValidation.MustBeCompany
+						}
+					 });
+					 $('#CountryCode').rules('add', 
+					 {
+						onlyNorway:true,
+						messages: {
+							onlyNorway: window.ResourceValidation.MustBeFromNorway
+						}
+					 });
+					 $('#SignedName').rules('add', 
+					 {
+						required:true,
+						messages: {
+							required: window.ResourceValidation.Required
+						}
+					 });
+					 $('#DomainSpeciffic').hide();
+					 $('#DomainSpeciffic').rules('add', 
+					 {
+						required:true,
+						messages: {
+							required: window.ResourceValidation.Declaration
+						}
+					 });
+					 $('#Acceptdeclaration').rules('add', 
+					 {
+						required:true,
+						messages: {
+							required: window.ResourceValidation.Required
+						}
+					 });
+					 $('#SignedName, #Acceptdeclaration').prop('disabled', false);
+					 $('#DomainSpeciffic').val('');
+					 $('#step_2 #nodeclaration').show();
+					 function noridconfirmation(e){
+						
+						if(OrderPageWizzard.Validator.element('#Company') 
+							& OrderPageWizzard.Validator.element('#OrgNumber') 
+							& OrderPageWizzard.Validator.element('#SignedName')){
+							window.nuDomains = [];
+							function isNoDomain(element, index, array) {
+							  return (element.id == 'DOM_NO');
+							}
+							var filteredNo = cartArray.filter(isNoDomain);
+							for(var x in filteredNo){
+							  nuDomains.push(filteredNo[x].display);
+							}
+							window.timeprocessed = new Date();
+							timeprocessed = timeprocessed.toISOString().slice(0, -5)+"Z";
+							timeJSON = timeprocessed.slice(0,10)+" "+timeprocessed.slice(11,19);
+							if($(this).prop('tagName') != 'INPUT'){
+								e.preventDefault();
+								window.open ("/Norid?name="+$('#SignedName').val()+"&orgid="+$('#OrgNumber').val()+"&company="+$('#Company').val()+"&domains="+nuDomains.join('|')+"&time="+timeprocessed,"mywindow","status=1");
+							}else{
+								$('#DomainSpeciffic').val('{"AcceptName": "'+$('#SignedName').val()+'", "AcceptDate": "'+timeJSON+'", "AcceptVersion": "2.0" }');
+								$('#DomainSpeciffic').valid();
+							}
+						}else{
+							e.preventDefault();
+							var fillnames = '';
+							if(!OrderPageWizzard.Validator.element('#Company')){
+								fillnames += window.ResourceValidation.Company+'<br/>';
+							}
+							if(!OrderPageWizzard.Validator.element('#OrgNumber')){
+								fillnames += window.ResourceValidation.OrgNum+'<br/>';
+							}
+							if(!OrderPageWizzard.Validator.element('#SignedName')){
+								fillnames += window.ResourceValidation.SignedName+'<br/>';
+							}
+							setNotificationMessage({
+								wasAnError: 1,
+								NotificationText: fillnames,
+								title: window.ResourceValidation.DeclarationFill
+							});
+						}
+					 }
+					 $('#nodeclaration .noriddeclaration').unbind('click').click(noridconfirmation);
+					 
+					 $('#Acceptdeclaration').unbind('click').bind("click",noridconfirmation);
+		}			
+		if(changed){
+			$('#DomainSpeciffic').val('');
+			$('#Acceptdeclaration').attr('checked', false);
+		}else{
+			//console.log('Nothing changed');
+		}
+		$('#SignedName, #Acceptdeclaration').prop('disabled', false);
+		window.hasNo = true;
+	}else{
+		$('#step_2 #nodeclaration').hide();
+		$('#CountryCode').rules('remove','onlyNorway');
+		$('#YouAreCompany').rules('remove','noDomaincompany');
+		$('label#labelOrgNo').removeClass('required');
+		$('label#labelOrgNo span').remove();
+		$('#OrgNumber').rules('remove', 'required');
+		$('#DomainSpeciffic').val('');
+		window.hasNo = false;
+	}
+};
+//BIND FUNCTION TO PRODUCT ID
+window.productsFunct = {
+	'DOM_NO':domainNo,
+	'BHP':off365,
+	'BH':off365,
+	'DOM_NL':domainNL
+};
+//CHECKS ALL PRODUCTS IN THE CART AND CALL FUNCTION IF BINDED
+window.checkCurrentProducts = function(){
+	tmpproductsId = {};
+	tmpproductsKey = [];
+	for(var x in cartArray){
+		if( typeof tmpproductsId[cartArray[x].id] == "undefined"){
+			tmpproductsId[cartArray[x].id] = 1;
+			tmpproductsKey.push(cartArray[x].id);
+		}else{
+			tmpproductsId[cartArray[x].id]++;
+		}
+	}
+	for(var x in tmpproductsKey){
+		if(typeof window.productsFunct[tmpproductsKey[x]] != "undefined"){
+			if(typeof productsId[tmpproductsKey[x]] != "undefined"){
+				if(productsId[tmpproductsKey[x]] != tmpproductsId[tmpproductsKey[x]]){
+					window.productsFunct[tmpproductsKey[x]](true,true);
+				}else{
+					productsId[tmpproductsKey[x]] = tmpproductsId[tmpproductsKey[x]];
+					window.productsFunct[tmpproductsKey[x]](true,false);
+				}
+			}else{
+				window.productsFunct[tmpproductsKey[x]](true,true);
+			}
+		}
+	}
+	for(var x in productsKey){
+		if(typeof window.productsFunct[productsKey[x]] != "undefined"){
+			if(typeof tmpproductsId[productsKey[x]] == "undefined"){
+				window.productsFunct[productsKey[x]](false,false);
+			}
+		}
+	}
+	productsId = tmpproductsId;
+	productsKey = tmpproductsKey;
+}
 
 /* INFOTIPS START */
 $('#submit_form input').focus(function() {
@@ -50,7 +316,46 @@ var initializeAdditionalThemeMethods = function(params) {
 };
 
 var initializeAdditionalThemeMethodsDocReady = function(params) {
-
+	window.ResourceValidation = {};
+	window.ResourceValidation.Required = params.ResourceValidationRequired;
+	window.ResourceValidation.Declaration = params.ResourceValidationDeclaration;
+	window.ResourceValidation.DeclarationFill = params.ResourceValidationDeclarationFill;
+	window.ResourceValidation.Company = params.ResourceCompany;
+    window.ResourceValidation.OrgNum = params.ResourceOrgNum;
+    window.ResourceValidation.SignedName = params.ResourceSignedName;
+    window.ResourceValidation.MustBeCompany = params.ResourceMustBeCompany;
+    window.ResourceValidation.MustBeFromNorway = params.ResourceMustBeFromNorway;
+	jQuery.validator.addMethod("noDomaincompany", function(value, element) {
+		if($("#product_list td:contains('.no')").length != 0){
+			return $('#YouAreCompany').val() == "company";
+		}else{
+			return true;
+		}
+	}, "");
+	jQuery.validator.addMethod("onlyNorway", function(value, element) {
+		if($("#product_list td:contains('.no')").length != 0){
+			return value == "NO";
+		}else{
+			return true;
+		}
+	}, "");
+	jQuery.validator.addMethod("onlyNetherlands", function(value, element) {
+		if($("#product_list td:contains('.nl')").length != 0){
+			return value == "NL";
+		}else{
+			return true;
+		}
+	}, "");
+	jQuery.validator.addMethod("noridDeclaration", function(value, element) {
+		if($("#product_list td:contains('.no')").length != 0){
+			return typeof window.timeprocessed != "undefined";
+		}else{
+			return true;
+		}
+	}, "");
+		$('#CountryCode').change(function(){
+			$("#YouAreCompany").trigger('change');
+		});
 }
 
 var setNotificationMessage = function(notificationParams) {
@@ -256,7 +561,7 @@ var paymentMethodCarBind = function(params) {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
-		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"],  input[name="pluginSelector"][value="WorldPayXmlRedirect"], input[name="pluginSelector"][value="DibsFlexwin"]', input[name="pluginSelector"][value="AdyenHpp"]').attr('checked', 'checked');
+		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"],  input[name="pluginSelector"][value="WorldPayXmlRedirect"], input[name="pluginSelector"][value="DibsFlexwin"], input[name="pluginSelector"][value="AdyenHpp"]').attr('checked', 'checked');
 		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').html($('#BillingTextCCContainer').html());

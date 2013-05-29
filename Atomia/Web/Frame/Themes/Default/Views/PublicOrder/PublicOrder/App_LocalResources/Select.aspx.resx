@@ -151,7 +151,7 @@
     <value>Fax</value>
   </data>
   <data name="Info" xml:space="preserve">
-    <value>Fill in the form below to order Atomia Webhosting or Atomia DNS.&lt;br /&gt;Note that fields marked with asterisks (*) are mandatory.</value>
+    <value>Fill in the form below to order.&lt;br /&gt;Note that fields marked with asterisks (*) are mandatory.</value>
   </data>
   <data name="InputDomain" xml:space="preserve">
     <value>Fins more domain names</value>
@@ -402,6 +402,18 @@
   <data name="VATValidationResultNotValidated" xml:space="preserve">
     <value>VAT number cannot be validated at this moment due to technical problems. Tax shown on invoice will be charged if you order now. You can also contact customer service or try to order later.</value>
   </data>
+  <data name="CustomerType" xml:space="preserve">
+    <value>Customer type</value>
+  </data>
+  <data name="Company-opt" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Org-opt" xml:space="preserve">
+    <value>Organisation</value>
+  </data>
+  <data name="Privateperson" xml:space="preserve">
+    <value>Private person</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Country</value>
   </data>
@@ -440,5 +452,50 @@
   </data>
   <data name="SubdomainAltInfo" xml:space="preserve">
     <value>Add subdomain</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="DescriptionStep1" xml:space="preserve">
+    <value>Buy new or move existing</value>
+  </data>
+  <data name="DescriptionStep2" xml:space="preserve">
+    <value>Pick hosting package that suite your needs</value>
+  </data>
+  <data name="DescriptionStep3" xml:space="preserve">
+    <value>Fill account information</value>
+  </data>
+  <data name="DescriptionStep4" xml:space="preserve">
+    <value>Payment options</value>
+  </data>
+  <data name="HeaderStep1" xml:space="preserve">
+    <value>Domains</value>
+  </data>
+  <data name="HeaderStep2" xml:space="preserve">
+    <value>Hosting</value>
+  </data>
+  <data name="HeaderStep3" xml:space="preserve">
+    <value>Account info</value>
+  </data>
+  <data name="HeaderStep4" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="VATNumber" xml:space="preserve">
+    <value>VAT number</value>
+  </data>
+  <data name="NoridDeclaration" xml:space="preserve">
+    <value>Norid Self Declaration</value>
+  </data>
+  <data name="NoridDeclarationInfo" xml:space="preserve">
+    <value>I read and accept the declaration for .no domains</value>
+  </data>
+  <data name="SignedName" xml:space="preserve">
+    <value>My name is</value>
+  </data>
+  <data name="NoridLink" xml:space="preserve">
+    <value>See statement (opens in new window)</value>
   </data>
 </root>

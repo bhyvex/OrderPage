@@ -194,6 +194,20 @@
             <!-- INFO INPUT CONTAINER-->
             <div id="step_2" >
                 <h2><%= Html.Resource("ContactInformation")%></h2>
+				<div class="formrow">
+                    <h5>
+                      <label class="required" for="contact_name"><span>*</span><%= Html.Resource("CustomerType")%>:</label>
+                    </h5>
+                    <div class="col2row">
+							<select name="RadioYouAre" id="YouAreCompany">
+								<option value="company"><%= Html.Resource("Company-opt")%></option>
+								<option value="private"><%= Html.Resource("Privateperson") %></option>
+								<option value="organization"><%= Html.Resource("Org-opt")%></option>
+							</select>
+							<span id="RadioYouAre_validationMessage" class="field-validation-valid"></span>
+					</div>
+                   <br class="clear" />
+                </div>
                 <div class="formrow">
                     <h5>
                       <label class="required" for="contact_name"><span>*</span><%= Html.Resource("FirstName")%>:</label>
@@ -536,6 +550,32 @@
                 </div>
                 <% 
                 } %>
+				<div id="nodeclaration" style="display:none">
+					<h4><%= Html.Resource("NoridDeclaration")%></h4>
+					
+					
+					 <div class="formrow">
+                        <h5>
+                            <label class="required" for="invoice_city"><span>*</span><%= Html.Resource("SignedName")%>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("SignedName")%>
+                            <%= Html.ValidationMessage("SignedName")%>
+							<%= Html.TextBox("DomainSpeciffic")%>
+                            
+                        </div>
+                        <br class="clear" />
+                    </div>
+					
+					<div class="formrow">
+							<h5><label class="required"><span>*</span> <%= Html.Resource("Confirmation")%>:</label></h5>
+							<div class="col2row"><input type="checkbox" name="acceptdeclaration" id="Acceptdeclaration" /><label for="acceptdeclaration"><%= Html.Resource("NoridDeclarationInfo")%><br/><a href="#" class="noriddeclaration"><%= Html.Resource("NoridLink")%></a></label>
+								<%= Html.ValidationMessage("DomainSpeciffic")%>
+							</div>
+							
+							<br class="clear">
+						</div>
+				</div>
             </div>
 
             <!-- INVOICE SELECT CONTAINER-->
@@ -830,9 +870,15 @@
             params.ResourcePersonalNum = '<%= Html.ResourceNotEncoded("PersonalNum") %>';
             params.ResourceCompany = '<%= Html.ResourceNotEncoded("Company")%>';
             params.ResourceOrgNum = '<%= Html.ResourceNotEncoded("OrgNum")%>';
+            params.ResourceSignedName = '<%= Html.Resource("SignedName")%>';
+            params.ResourceMustBeCompany = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorMustBeCompany") %>';
+            params.ResourceMustBeFromNorway = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorMustBeFromNorway") %>';
             params.ResourceOrganisation = '<%= Html.ResourceNotEncoded("Organisation")%>';
             params.ResourceRemove = '<%= Html.ResourceNotEncoded("Remove")%>';
             params.ResourceViewInfo = '<%= Html.ResourceNotEncoded("ViewInfo")%>';
+			params.ResourceValidationRequired = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
+			params.ResourceValidationDeclaration = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorDeclarationNotChecked") %>';
+			params.ResourceValidationDeclarationFill = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorDeclarationFill") %>';
             params.ImgHideInfo = '<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "butt_hideinfo.gif"))%>';
             params.ImgShowInfo = '<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "butt_showinfo.gif"))%>';
             params.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Address" xml:space="preserve">
     <value>Adresse</value>
@@ -151,7 +151,7 @@
     <value>Faks</value>
   </data>
   <data name="Info" xml:space="preserve">
-    <value>Fyll ut skjemaet under for å bestille Atomia Webhosting eller Atomia DNS.&lt;br /&gt;Legg merke til at feltene markert med stjerne (*) er obligatoriske.</value>
+    <value>Fyll ut skjemaet under for å bestille.&lt;br /&gt;Legg merke til at feltene markert med stjerne (*) er obligatoriske.</value>
   </data>
   <data name="InputDomain" xml:space="preserve">
     <value>Finn flere domenenavn</value>
@@ -205,7 +205,7 @@
     <value>Inngåelse</value>
   </data>
   <data name="ContactInformation" xml:space="preserve">
-    <value>Kontaktdetaljer</value>
+    <value>Kontaktopplysninger</value>
   </data>
   <data name="InvoiceAddress" xml:space="preserve">
     <value>Fakturaadresse</value>
@@ -214,7 +214,7 @@
     <value>Nei</value>
   </data>
   <data name="SecondTrue" xml:space="preserve">
-    <value>Ja. Send fakturaer til den følgende adressen</value>
+    <value>Ja, send faktura til følgende adresse</value>
   </data>
   <data name="Terms" xml:space="preserve">
     <value>Vilkår</value>
@@ -253,7 +253,7 @@
     <value>Finn flere domenenavn</value>
   </data>
   <data name="BillingAddress" xml:space="preserve">
-    <value>Faktureringsadresse</value>
+    <value>Ønsker du å få tilsendt faktura til en annen adresse?</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Endre</value>
@@ -352,7 +352,7 @@
     <value />
   </data>
   <data name="PaymentSmall2" xml:space="preserve">
-    <value>(Forsendelsesgebyr på 5,77 USD vil legges til)</value>
+    <value>(Forsendelsesgebyr på 5.00 EUR vil legges til)</value>
   </data>
   <data name="PaymentSmall3" xml:space="preserve">
     <value />
@@ -402,6 +402,18 @@
   <data name="VATValidationResultNotValidated" xml:space="preserve">
     <value>Org.nr. kunne ikke verifiseres for øyeblikket på grunn av tekniske problemer. Moms vist på faktura vil bli belastet om du bestiller nå. Du kan også ta kontakt med kundeservice, eller forsøke å bestille senere.</value>
   </data>
+  <data name="CustomerType" xml:space="preserve">
+    <value>Kundetype</value>
+  </data>
+  <data name="Company-opt" xml:space="preserve">
+    <value>Firma</value>
+  </data>
+  <data name="Org-opt" xml:space="preserve">
+    <value>Organisasjon</value>
+  </data>
+  <data name="Privateperson" xml:space="preserve">
+    <value>Privat</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Land</value>
   </data>
@@ -433,12 +445,49 @@
     <value>Betal med PayPal kontoen din</value>
   </data>
   <data name="PaymentNeededNotification" xml:space="preserve">
-    <value>Betalingen må fullføres før en eller flere av artiklene kan brukes.</value>
+    <value>Betalingen må gjøres før en eller flere av varene kan brukes.</value>
   </data>
-  <data name="SubdomainAlternative" xml:space="preserve">
-    <value>Alternativ for underdomene</value>
+  <data name="DescriptionStep1" xml:space="preserve">
+    <value>Kjøpe ny eller flytte eksisterende</value>
   </data>
-  <data name="SubdomainAltInfo" xml:space="preserve">
-    <value>Legg til underdomene</value>
+  <data name="DescriptionStep2" xml:space="preserve">
+    <value>Plukk hosting pakke som suite dine behov</value>
   </data>
+  <data name="DescriptionStep3" xml:space="preserve">
+    <value>Fyll kontoinformasjon</value>
+  </data>
+  <data name="DescriptionStep4" xml:space="preserve">
+    <value>Betalingsalternativer</value>
+  </data>
+  <data name="HeaderStep1" xml:space="preserve">
+    <value>Domener</value>
+  </data>
+  <data name="HeaderStep2" xml:space="preserve">
+    <value>Hosting</value>
+  </data>
+  <data name="HeaderStep3" xml:space="preserve">
+    <value>Kontoinformasjon</value>
+  </data>
+  <data name="HeaderStep4" xml:space="preserve">
+    <value>Betale</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Tilbake</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Neste</value>
+  </data>
+  <data name="NoridDeclaration" xml:space="preserve">
+    <value>Norid Egenerklæring</value>
+  </data>
+  <data name="NoridDeclarationInfo" xml:space="preserve">
+    <value>Jeg her lest og akseptereregenerklæringen for .no domener</value>
+  </data>
+  <data name="SignedName" xml:space="preserve">
+    <value>Mitt navn er</value>
+  </data>
+  <data name="NoridLink" xml:space="preserve">
+    <value>Vis egenerklæring (åpnes i nytt vindu)</value>
+  </data>
+  
 </root>

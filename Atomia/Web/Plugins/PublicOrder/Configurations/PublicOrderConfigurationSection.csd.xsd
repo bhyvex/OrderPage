@@ -324,5 +324,15 @@
 				<xs:documentation>The ProductId.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+		<xs:attribute name="email" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Email.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="cccEmail" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The CccEmail.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 </xs:schema>

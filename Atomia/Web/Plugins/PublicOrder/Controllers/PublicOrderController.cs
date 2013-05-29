@@ -978,17 +978,41 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             }
                         }
                         PublicOrderConfigurationSection opcss = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+                        Dictionary<string, string> emailProps = new Dictionary<string, string>();
+                        JavaScriptSerializer jsemail = new JavaScriptSerializer();
                         foreach (PublicOrderItem myOrderItem in myOrderItems)
                         {
+
                             
                             if(opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
                             {
-
+                                List<PublicOrderItemProperty> arrayOfCustoms = myOrderItem.CustomData.ToList();
                                 if(SubmitForm.DomainSpeciffic == null)
                                 {
                                     throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for "+myOrderItem.ItemNumber+" domain");
                                 }
-                                List<PublicOrderItemProperty> arrayOfCustoms  = myOrderItem.CustomData.ToList();
+                                string emailType =
+                                    opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
+                                if (!String.IsNullOrEmpty(emailType))
+                                {
+                                    string cccEmail =
+                                    opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).CccEmail;
+                                    emailProps.Add("Type", emailType);
+                                    if (myOrderItem.CustomData.Any(v => v.Name == "DomainName"))
+                                    {
+                                        emailProps.Add("Domain", myOrderItem.CustomData.FirstOrDefault(v => v.Name == "DomainName").Value ?? "");
+                                    }
+                                    Dictionary<string, string> domainSpecific = new Dictionary<string, string>();
+                                    domainSpecific =
+                                        jsemail.Deserialize<Dictionary<string, string>>(SubmitForm.DomainSpeciffic);
+                                    emailProps.Add("Name", domainSpecific.FirstOrDefault(v => v.Key == "AcceptName").Value ?? "");
+                                    emailProps.Add("Time", domainSpecific.FirstOrDefault(v => v.Key == "AcceptDate").Value ?? "");
+                                    emailProps.Add("Orgnum", myOrder.CompanyNumber);
+                                    emailProps.Add("Company", myOrder.Company);
+                                    emailProps.Add("Version", domainSpecific.FirstOrDefault(v => v.Key == "AcceptVersion").Value ?? "");
+                                    emailProps.Add("Ccc", cccEmail);
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "Email", Value = jsemail.Serialize(emailProps) });
+                                }
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
                                 myOrderItem.CustomData = arrayOfCustoms.ToArray();
                             }
@@ -2062,9 +2086,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="NoridData"></param>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
-        public ActionResult Norid()
+        public ActionResult Norid(string domains, string company, string orgid, string name, string time)
         {
-
+            ViewData["domains"] = domains ?? "";
+            ViewData["company"] = company ?? "";
+            ViewData["orgid"] = orgid ?? "";
+            ViewData["name"] = name ?? "";
+            ViewData["time"] = time ?? "";
             return View();
         }
     }

@@ -2174,5 +2174,57 @@ namespace Atomia.Web.Plugin.PublicOrder.Configurations
             }
         }
         #endregion
+        
+        #region Email Property
+        /// <summary>
+        /// The XML name of the <see cref="Email"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string EmailPropertyName = "email";
+        
+        /// <summary>
+        /// Gets or sets the Email.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The Email.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.EmailPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual string Email
+        {
+            get
+            {
+                return ((string)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.EmailPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.EmailPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region CccEmail Property
+        /// <summary>
+        /// The XML name of the <see cref="CccEmail"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        internal const string CccEmailPropertyName = "cccEmail";
+        
+        /// <summary>
+        /// Gets or sets the CccEmail.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.0.5")]
+        [global::System.ComponentModel.DescriptionAttribute("The CccEmail.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.CccEmailPropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual string CccEmail
+        {
+            get
+            {
+                return ((string)(base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.CccEmailPropertyName]));
+            }
+            set
+            {
+                base[global::Atomia.Web.Plugin.PublicOrder.Configurations.DomainRegistrySpecificProduct.CccEmailPropertyName] = value;
+            }
+        }
+        #endregion
     }
 }

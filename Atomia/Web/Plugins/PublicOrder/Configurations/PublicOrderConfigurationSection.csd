@@ -309,6 +309,16 @@
             <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
           </type>
         </attributeProperty>
+        <attributeProperty name="Email" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="email" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="CccEmail" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="cccEmail" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/46147fb7-ba4e-410f-91eb-7f9c681dc0fe/String" />
+          </type>
+        </attributeProperty>
       </attributeProperties>
     </configurationElement>
   </configurationElements>

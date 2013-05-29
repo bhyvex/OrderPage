@@ -1,5 +1,8 @@
 Atomia Public Order Page v13.4
 
+2013-05-29 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [IMPROVEMENT] Norid self signed certificate email added in custom data of order line
+	
 2013-05-28 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [BUGFIX] Removed swedish organization number formating
 	- [BUGFIX] Refactored DomainSpecific part

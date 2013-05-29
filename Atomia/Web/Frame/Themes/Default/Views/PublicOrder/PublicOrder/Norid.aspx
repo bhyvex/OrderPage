@@ -49,12 +49,12 @@ Abonnenten aksepterer at Norid ikke kan holdes ansvarlig for direkte eller indir
 </p>
 
 <div>
-    Domenenavn: <div style="margin:-18px 0 0 100px"><%= Request["domains"].Replace("|","<br>") %></div><br><br>
-    Søkers navn: <%= Request["company"] %><br><br>
-    ID-nummer (org.nr eller PID): <%= Request["orgid"] %><br><br>
-    Navn på personen som avgir samtykke: <%= Request["name"] %><br><br>
+    Domenenavn: <div style="margin:-18px 0 0 100px"><%= ViewData["domains"].ToString().Replace("|","<br>") %></div><br><br>
+    Søkers navn: <%= ViewData["company"].ToString() %><br><br>
+    ID-nummer (org.nr eller PID): <%= ViewData["orgid"].ToString() %><br><br>
+    Navn på personen som avgir samtykke: <%= ViewData["name"].ToString() %><br><br>
     <span style="float:right">Versjonsnummer: <%= Html.Resource("VersionNumber") %></span>
-    Tidsstempel: <%= Request["time"] %>
+    Tidsstempel: <%= ViewData["time"].ToString() %>
 </div>
 
 

@@ -110,7 +110,7 @@ function off365(exist,changed){
 function domainNo(exist,changed){
 	if(exist){
 		if(typeof window.initDomainRestrictionNo == "undefined"){
-			window.initDomainRestrectionNo = true;
+			window.initDomainRestrictionNo = true;
 			
 					window.hasNo = true;
 					if($('label[for=contact_company]').hasClass( 'required' ) == 0){

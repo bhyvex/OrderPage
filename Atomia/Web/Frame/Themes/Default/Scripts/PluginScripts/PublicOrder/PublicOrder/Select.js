@@ -239,10 +239,8 @@ function domainNo(exist,changed){
 };
 //BIND FUNCTION TO PRODUCT ID
 window.productsFunct = {
-	'DOM_NO':domainNo,
-	'BHP':off365,
-	'BH':off365,
-	'DOM_NL':domainNL
+	'DMN_NO':domainNo,
+	'DMN_NL':domainNL
 };
 //CHECKS ALL PRODUCTS IN THE CART AND CALL FUNCTION IF BINDED
 window.checkCurrentProducts = function(){

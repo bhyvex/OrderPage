@@ -1,4 +1,7 @@
 Atomia Public Order Page v13.4
+2013-06-11 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [IMPROVEMENT] Email to MailOnOrder changed for custom order line data
+
 2013-05-31 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [BUGFIX] Norid fix of configsection
 	

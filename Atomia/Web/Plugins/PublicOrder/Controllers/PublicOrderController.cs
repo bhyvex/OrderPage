@@ -1011,7 +1011,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     emailProps.Add("Company", myOrder.Company);
                                     emailProps.Add("Version", domainSpecific.FirstOrDefault(v => v.Key == "AcceptVersion").Value ?? "");
                                     emailProps.Add("Ccc", cccEmail);
-                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "Email", Value = jsemail.Serialize(emailProps) });
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MailOnOrder", Value = jsemail.Serialize(emailProps) });
                                 }
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
                                 myOrderItem.CustomData = arrayOfCustoms.ToArray();

@@ -1922,12 +1922,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     List<AttributeData> attributeDatas = transaction.Attributes.ToList();
                     if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
                     {
-                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", null, new { controller = "PublicOrder" }, this.Request.Url.Scheme) });
                     }
                     else
                     {
-                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
+                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", null, new { controller = "PublicOrder" }, this.Request.Url.Scheme);
                     }
+
+                    transaction.Attributes = attributeDatas.ToArray();
                 }
                 else if (Boolean.Parse(opcs.AdyenHpp.Enabled))
                 {

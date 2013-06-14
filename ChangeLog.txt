@@ -1,5 +1,6 @@
 Atomia Public Order Page v13.6
 2013-06-14 Daniel Persson <daniel.persson@atomia.com>
+	- [IMPROVEMENT] Refill order form on going back when appropriate, e.g. on canceled payment.
 	- [IMPROVEMENT] Save absolute cancel URL for WorldPayXml to transaction.
 
 Atomia Public Order Page v13.4

@@ -90,6 +90,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 throw new ConfigurationErrorsException("Missing AllowedDomainLength or NumberOfDomainsAllowed in configuration");
             }
 
+            // Throw away any previous submit form (used to re-fill form on canceled payment)
+            Session["SavedSubmitForm"] = null;
+
             // if productGroup set, check which order options are allowed for it
             bool groupExists;
             ViewData["OrderOptions"] = this.GetOrderOptionsForProductGroup(package, out groupExists);
@@ -587,6 +590,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             Session["dontShowTaxesForThisResellerHidden"] = (!GeneralHelper.TaxAreShownForReseller(this)).ToString().ToLower();
 
+            if (Session["SavedSubmitForm"] != null)
+            {
+                // Used saved submit form from and earlier request to re-fill. (E.g. return to form from canceled payment).
+                submitForm = (SubmitForm)Session["SavedSubmitForm"];
+            }
+
             return View(submitForm);
         }
 
@@ -733,6 +742,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             if (ModelState.IsValid)
             {
+
+                // Save form to session to be able to refill, e.g. on canceled payment.
+                Session["SavedSubmitForm"] = SubmitForm;
+
                 // call Billing to Submit form
                 try
                 {
@@ -1317,6 +1330,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["CreatedOrderAsJson"] = js.Serialize(this.Session["CreatedOrder"]);
 
                 this.Session["CreatedOrder"] = null;
+
+                // Throw away any previous submit form (used to re-fill form on canceled payment)
+                this.Session["SavedSubmitForm"] = null;
             }
             
             return View();

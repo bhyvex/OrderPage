@@ -59,6 +59,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Index(string package, string lang, string sel)
         {
+            bool skipIndexPage;
+            if (this.HttpContext.Application.AllKeys.Contains("SkipIndexPage") && bool.TryParse(this.HttpContext.Application["SkipIndexPage"].ToString(), out skipIndexPage)
+                    && skipIndexPage)
+            {
+                return RedirectToAction("Select", new { controller = "PublicOrder", area = "PublicOrder" });
+            }
+
             if (this.RouteData.Values.ContainsKey("resellerHash"))
             {
                 ResellerHelper.LoadResellerIntoSessionByHash((string)this.RouteData.Values["resellerHash"]);
@@ -401,7 +408,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             if (Session == null || Session["firstOption"] == null)
             {
-                return RedirectToAction("Index");
+                bool skipIndexPage;
+                if (this.HttpContext.Application.AllKeys.Contains("SkipIndexPage") && bool.TryParse(this.HttpContext.Application["SkipIndexPage"].ToString(), out skipIndexPage)
+                    && skipIndexPage)
+                {
+                    Session["firstOption"] = true;
+                    Session["domains"] = new string[] { };
+                    Session["singleDomain"] = null;
+                    Session["subdomain"] = false;
+                    Session["multiDomains"] = new List<DomainDataFromXml>();
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             // supported countries

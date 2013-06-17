@@ -4,6 +4,9 @@ Atomia Public Order Page v13.6
 	- [IMPROVEMENT] Save absolute cancel URL for WorldPayXml to transaction.
 
 Atomia Public Order Page v13.4
+2013-06-17 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [IMPROVEMENT] Fixed tranlsation for errors
+
 2013-06-11 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [IMPROVEMENT] Email to MailOnOrder changed for custom order line data
 

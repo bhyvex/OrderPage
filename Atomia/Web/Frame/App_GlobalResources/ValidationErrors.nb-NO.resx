@@ -181,9 +181,18 @@
     <value>Å vise egenerklæringsskjema du må fylle ut feltene:</value>
   </data>
   <data name="ErrorMustBeCompany" xml:space="preserve">
-    <value>Du må være selskapet å kjøpe .no domain</value>
+    <value>Du trenger et organisasjonsnummer i Brønnøysundregistrene.</value>
   </data>
   <data name="ErrorMustBeFromNorway" xml:space="preserve">
-    <value>Du må være fra Norge å kjøpe .no domain</value>
+    <value>Du må ha en norsk postadresse for å kunne registrere et .no domene.</value>
+  </data>
+  <data name="ErrorMustBeFromGermany" xml:space="preserve">
+    <value>Du må ha en tysk postadresse for å kunne registrere et .de domene.</value>
+  </data>
+  <data name="ErrorMustBeFromNetherlands" xml:space="preserve">
+    <value>Du må ha en nederlandsk postadresse for å kunne registrere et .nl domene.</value>
+  </data>
+  <data name="ErrorMustBeFromEU" xml:space="preserve">
+    <value>Du må ha en EU postadresse for å kunne registrere et .eu domene.</value>
   </data>
 </root>

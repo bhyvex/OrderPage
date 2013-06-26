@@ -9,10 +9,13 @@
 
 #region Using namespaces
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 
 using Atomia.Web.Plugin.Cart.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+using Atomia.Web.Plugin.PublicOrder.Configurations;
 
 #endregion Using namespaces
 
@@ -54,6 +57,150 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             return HttpContext.Current.Session["resellerAccountData"] != null
                        ? ((AccountData)HttpContext.Current.Session["resellerAccountData"]).DefaultCurrencyCode
                        : CountriesHelper.GetDefaultCurrencyCodeFromConfig(CountriesHelper.GetDefaultCountryCodeFromConfig());
+        }
+
+        public static IList<PaymentMethod> GetResellerPaymentMethods(out PaymentMethod defaultPaymentMethod)
+        {
+            AccountData resellerAccountData = HttpContext.Current.Session["resellerAccountData"] != null
+                                          ? HttpContext.Current.Session["resellerAccountData"] as AccountData : null;
+            if (resellerAccountData != null && resellerAccountData.PaymentMethods != null && resellerAccountData.PaymentMethods.Length > 0)
+            {
+                IList<PaymentMethod> paymentMethods = resellerAccountData.PaymentMethods.ToList();
+                PaymentMethod defaultMethod = resellerAccountData.DefaultPaymentMethod;
+
+                // Add InvoiceByPost and InvoiceByEmail if they are enabled in config but not in reseller's list of payment methods
+                PublicOrderConfigurationSection config = LocalConfigurationHelper.GetLocalConfigurationSection();
+
+                if ((Boolean.Parse(config.InvoiceByPost.Enabled) && !resellerAccountData.PaymentMethods.Any(p => p.GuiPluginName == "InvoiceByPost")) ||
+                    (Boolean.Parse(config.InvoiceByEmail.Enabled) && !resellerAccountData.PaymentMethods.Any(p => p.GuiPluginName == "InvoiceByEmail")))
+                {
+                    if (Boolean.Parse(config.InvoiceByPost.Enabled) && !paymentMethods.Any(p => p.GuiPluginName == "InvoiceByPost"))
+                    {
+                        PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByPost" };
+                        paymentMethods.Add(paymentMethod);
+                        if (defaultMethod == null && config.InvoiceByPost.Default)
+                        {
+                            defaultMethod = paymentMethod;
+                        }
+                    }
+
+                    if (Boolean.Parse(config.InvoiceByEmail.Enabled) && !paymentMethods.Any(p => p.GuiPluginName == "InvoiceByEmail"))
+                    {
+                        PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByEmail" };
+                        paymentMethods.Add(paymentMethod);
+                        if (defaultMethod == null && config.InvoiceByEmail.Default)
+                        {
+                            defaultMethod = paymentMethod;
+                        }
+                    }
+
+                    resellerAccountData.DefaultPaymentMethod = defaultMethod;
+                    resellerAccountData.PaymentMethods = paymentMethods.ToArray();
+                }
+
+                defaultPaymentMethod = defaultMethod;
+                return paymentMethods;
+            }
+            else
+            {
+                // Load payment methods from config
+                IList<PaymentMethod> paymentMethods = new List<PaymentMethod>();
+                PaymentMethod defaultMethod = null;
+
+                PublicOrderConfigurationSection config = LocalConfigurationHelper.GetLocalConfigurationSection();
+                if (Boolean.Parse(config.InvoiceByPost.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByPost" };
+                    paymentMethods.Add(paymentMethod);
+                    if (config.InvoiceByPost.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.InvoiceByEmail.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByEmail" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.InvoiceByEmail.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.OnlinePayment.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "CCPayment" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.OnlinePayment.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.PayPal.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "PayPal" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.PayPal.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.PayexRedirect.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "PayexRedirect" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.PayexRedirect.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.WorldPay.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "WorldPay" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.WorldPay.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.DibsFlexwin.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "DibsFlexwin" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.DibsFlexwin.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.WorldPayXml.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "WorldPayXml" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.WorldPayXml.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                if (Boolean.Parse(config.AdyenHpp.Enabled))
+                {
+                    PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "AdyenHpp" };
+                    paymentMethods.Add(paymentMethod);
+                    if (defaultMethod == null && config.AdyenHpp.Default)
+                    {
+                        defaultMethod = paymentMethod;
+                    }
+                }
+
+                defaultPaymentMethod = defaultMethod;
+                return paymentMethods;
+            }
         }
 
         /// <summary>

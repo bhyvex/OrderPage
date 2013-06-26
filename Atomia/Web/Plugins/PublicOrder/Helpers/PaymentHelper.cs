@@ -27,7 +27,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <param name="request">The request.</param>
         /// <param name="paidAmount">The paid amount.</param>
         /// <returns>PaymentTransaction object</returns>
-        public static PublicPaymentTransaction FillPaymentTransactionForOrder(Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, HttpRequestBase request, decimal paidAmount)
+        public static PublicPaymentTransaction FillPaymentTransactionForOrder(OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, HttpRequestBase request, decimal paidAmount)
         {
             // Fill transaction
             var paymentTransaction = new PublicPaymentTransaction { GuiPluginName = GuiPaymentPluginRequestHelper.GuiPluginName(request) };
@@ -59,7 +59,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <param name="returnUrl">The return URL.</param>
         /// <param name="transaction">The transaction.</param>
         /// <returns>Success of creation.</returns>
-        public static string CreatePaymentTransaction(Controller controller, Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount, string returnUrl, PublicPaymentTransaction transaction)
+        public static string CreatePaymentTransaction(Controller controller, OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount, string returnUrl, PublicPaymentTransaction transaction)
         {
             // set the return URL, if redirection outside our application is required
             List<string> tmpList = returnUrl.TrimStart('/').Split('/').ToList();
@@ -102,14 +102,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 return String.Empty;
             }
 
-            if (returnedTransaction.Status.ToUpper() == "FRAUD_DETECTED")
-            {
-                return controller.Url.Action("PaymentFailed");
-            }
-            
-            return transaction.ReturnUrl;
-            // if status is not ok throw an exception
-            throw new Exception("Error creating payment transaction");
+            return returnedTransaction.Status.ToUpper() == "FRAUD_DETECTED"
+                       ? controller.Url.Action("PaymentFailed")
+                       : transaction.ReturnUrl;
         }
     }
 }

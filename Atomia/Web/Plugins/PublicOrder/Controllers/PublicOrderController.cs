@@ -479,18 +479,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["EUCountries"] = europeanCountries.Trim();
             ViewData["CountryList"] = CountriesHelper.GetSupportedCountriesSelectList(countryList);
 
-            // enabled payment method?
-            PublicOrderConfigurationSection opcs = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+            PaymentMethod defaultPaymentMethod;
+            IList<PaymentMethod> resellerPaymentMethods = ResellerHelper.GetResellerPaymentMethods(out defaultPaymentMethod);
 
-            bool paymentEnabled = Boolean.Parse(opcs.OnlinePayment.Enabled);
-            bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
-            bool orderByEmailEnabled = Boolean.Parse(opcs.InvoiceByEmail.Enabled);
-            bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
-            bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
-            bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
-            bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
-            bool worldPayXmlRedirectEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
-            bool adyenHppEnabled = Boolean.Parse(opcs.AdyenHpp.Enabled);
+            bool paymentEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "CCPayment");
+            bool orderByPostEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "InvoiceByPost");
+            bool orderByEmailEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "InvoiceByEmail");
+            bool payPalEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayPal");
+            bool payExRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayexRedirect");
+            bool worldPayRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPay");
+            bool dibsFlexwinEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "DibsFlexwin");
+            bool worldPayXmlRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayXml");
+            bool adyenHppEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "AdyenHpp");
 
             ViewData["PaymentEnabled"] = paymentEnabled;
             ViewData["PayPalEnabled"] = payPalEnabled;
@@ -550,39 +550,27 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             string defaultPaymentPlugin = string.Empty;
-            if (orderByEmailEnabled && opcs.InvoiceByEmail.Default)
+            if (orderByEmailEnabled && defaultPaymentMethod.GuiPluginName == "InvoiceByEmail")
             {
                 submitForm.RadioPaymentMethod = "email";
                 defaultPaymentPlugin = "PayWithInvoice";
             }
-            else if (orderByPostEnabled && opcs.InvoiceByPost.Default)
+            else if (orderByPostEnabled && defaultPaymentMethod.GuiPluginName == "InvoiceByPost")
             {
                 submitForm.RadioPaymentMethod = "post";
                 defaultPaymentPlugin = "PayWithInvoice";
             }
-            else if ((paymentEnabled && opcs.OnlinePayment.Default) || (payExRedirectEnabled && opcs.PayexRedirect.Default)
-                || (worldPayRedirectEnabled && opcs.WorldPay.Default) || (dibsFlexwinEnabled && opcs.DibsFlexwin.Default)
-                || (worldPayXmlRedirectEnabled && opcs.WorldPayXml.Default) || (adyenHppEnabled && opcs.AdyenHpp.Default))
+            else if ((paymentEnabled && defaultPaymentMethod.GuiPluginName == "CCPayment")
+                || (payExRedirectEnabled && defaultPaymentMethod.GuiPluginName == "PayexRedirect")
+                || (worldPayRedirectEnabled && defaultPaymentMethod.GuiPluginName == "WorldPay")
+                || (dibsFlexwinEnabled && defaultPaymentMethod.GuiPluginName == "DibsFlexwin")
+                || (worldPayXmlRedirectEnabled && defaultPaymentMethod.GuiPluginName == "WorldPayXml")
+                || (adyenHppEnabled && defaultPaymentMethod.GuiPluginName == "AdyenHpp"))
             {
                 submitForm.RadioPaymentMethod = "card";
-                if (payExRedirectEnabled && opcs.PayexRedirect.Default)
-                {
-                    defaultPaymentPlugin = "PayexRedirect";
-                }
-                else if (worldPayRedirectEnabled && opcs.WorldPay.Default)
-                {
-                    defaultPaymentPlugin = "WorldPayRedirect";
-                }
-                else if (worldPayXmlRedirectEnabled && opcs.WorldPayXml.Default)
-                {
-                    defaultPaymentPlugin = "WorldPayXmlRedirect";
-                }
-                else
-                {
-                    defaultPaymentPlugin = "CCPayment";
-                }
+                defaultPaymentPlugin = defaultPaymentMethod.GuiPluginName;
             }
-            else if (payPalEnabled && opcs.PayPal.Default)
+            else if (payPalEnabled && defaultPaymentMethod.GuiPluginName == "PayPal")
             {
                 submitForm.RadioPaymentMethod = "paypal";
                 defaultPaymentPlugin = "PayPal";
@@ -634,18 +622,19 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool paymentMethodCc = false; // finish payment method CC
             ViewData["WasAnError"] = 0;
 
-            // enabled payment method?
-            PublicOrderConfigurationSection opcs = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+            PaymentMethod defaultPaymentMethod;
+            IList<PaymentMethod> resellerPaymentMethods = ResellerHelper.GetResellerPaymentMethods(out defaultPaymentMethod);
 
-            bool paymentEnabled = Boolean.Parse(opcs.OnlinePayment.Enabled);
-            bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
-            bool orderByEmailEnabled = Boolean.Parse(opcs.InvoiceByEmail.Enabled);
-            bool payPalEnabled = Boolean.Parse(opcs.PayPal.Enabled);
-            bool payExRedirectEnabled = Boolean.Parse(opcs.PayexRedirect.Enabled);
-            bool worldPayRedirectEnabled = Boolean.Parse(opcs.WorldPay.Enabled);
-            bool dibsFlexwinEnabled = Boolean.Parse(opcs.DibsFlexwin.Enabled);
-            bool worldPayXmlRedirectEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
-            bool adyenHppEnabled = Boolean.Parse(opcs.WorldPayXml.Enabled);
+            bool paymentEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "CCPayment");
+            bool orderByPostEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "InvoiceByPost");
+            bool orderByEmailEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "InvoiceByEmail");
+            bool payPalEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayPal");
+            bool payExRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayexRedirect");
+            bool worldPayRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPay");
+            bool dibsFlexwinEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "DibsFlexwin");
+            bool worldPayXmlRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayXml");
+            bool adyenHppEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "AdyenHpp");
+
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
             ViewData["WorldPayRedirectEnabled"] = worldPayRedirectEnabled;
             ViewData["DibsFlexwinEnabled"] = dibsFlexwinEnabled;
@@ -1900,16 +1889,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             PublicPaymentTransaction transaction = PaymentHelper.FillPaymentTransactionForOrder(order, Request, paidAmount);
 
+            PaymentMethod defaultPaymentMethod;
+            IList<PaymentMethod> paymentMethods = ResellerHelper.GetResellerPaymentMethods(out defaultPaymentMethod);
+
             string action = null;
 
             if (paymentMethod == "card")
             {
-                PublicOrderConfigurationSection opcs = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
-                if (Boolean.Parse(opcs.OnlinePayment.Enabled))
+                if (paymentMethods.Any(m => m.GuiPluginName == "CCPayment"))
                 {
                     action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
                 }
-                else if (Boolean.Parse(opcs.PayexRedirect.Enabled))
+                else if (paymentMethods.Any(m => m.GuiPluginName == "PayexRedirect"))
                 {
                     action = controller.Url.Action("PayExConfirmRedirect", new { controller = "PublicOrder" });
 
@@ -1923,51 +1914,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
                     }
                 }
-                else if (Boolean.Parse(opcs.WorldPay.Enabled))
-                {
-                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
-
-                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                    {
-                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
-                    }
-                    else
-                    {
-                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
-                    }
-                }
-                else if (Boolean.Parse(opcs.DibsFlexwin.Enabled))
-                {
-                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
-
-                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                    {
-                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
-                    }
-                    else
-                    {
-                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
-                    }
-                }
-                else if (Boolean.Parse(opcs.WorldPayXml.Enabled))
-                {
-                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
-
-                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                    {
-                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", null, new { controller = "PublicOrder" }, this.Request.Url.Scheme) });
-                    }
-                    else
-                    {
-                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", null, new { controller = "PublicOrder" }, this.Request.Url.Scheme);
-                    }
-
-                    transaction.Attributes = attributeDatas.ToArray();
-                }
-                else if (Boolean.Parse(opcs.AdyenHpp.Enabled))
+                else if (paymentMethods.Any(m => m.GuiPluginName == "WorldPay") || paymentMethods.Any(m => m.GuiPluginName == "DibsFlexwin") ||
+                    paymentMethods.Any(m => m.GuiPluginName == "WorldPayXml") || paymentMethods.Any(m => m.GuiPluginName == "AdyenHpp"))
                 {
                     action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
 

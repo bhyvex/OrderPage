@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -16,6 +17,7 @@ using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Frame.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 using Atomia.Web.Plugin.PublicOrder.Configurations;
+using Atomia.Web.Plugin.PublicOrder.Helpers;
 
 using Elmah;
 
@@ -301,64 +303,41 @@ namespace Atomia.Web.Frame.Controllers
         /// <returns>List of languages.</returns>
         private List<LanguageModel> GetAvailableLanguages()
         {
-            string[] defaultLanguage = { "en", "US" };
-            foreach (Atomia.Web.Base.Configs.Language configLanguage in Atomia.Web.Base.Configs.AppConfig.Instance.LanguagesList)
-            {
-                if (configLanguage.Default)
-                {
-                    string[] extractedLanguage = configLanguage.Name.Split('-');
-                    if (extractedLanguage.Length > 2)
+            IList<Language> resellerLanguages = ResellerHelper.GetResellerLanguages();
+            List<LanguageModel> languages =
+                resellerLanguages.Select(
+                    language =>
+                    new LanguageModel
                     {
-                        defaultLanguage[0] = extractedLanguage[0] + '-' + extractedLanguage[1];
-                        defaultLanguage[1] = extractedLanguage[2];
-                    }
-                    else
-                    {
-                        defaultLanguage = extractedLanguage;
-                    }
-
-                    break;
-                }
-            }
+                        Code = language.Code,
+                        Name = language.Code.Replace("-", String.Empty),
+                        IsDefault = language.IsDefault
+                    }).ToList();
 
             try
             {
                 if (this.HttpContext.Session != null && this.HttpContext.Session["SessionAccountLanguages"] != null)
                 {
-                    AtomiaCultureInfo accountLanguages = this.HttpContext.Session["SessionAccountLanguages"] as AtomiaCultureInfo;
-                    if (accountLanguages != null)
+                    AtomiaCultureInfo cultureInfo = this.HttpContext.Session["SessionAccountLanguages"] as AtomiaCultureInfo;
+                    if (cultureInfo != null)
                     {
-                        defaultLanguage[0] = accountLanguages.Language;
-                        defaultLanguage[1] = accountLanguages.Culture;
+                        string defaultLanguage = string.Format("{0}-{1}", cultureInfo.Language, cultureInfo.Culture);
+
+                        if (languages.Any(l => l.Code == defaultLanguage))
+                        {
+                            foreach (LanguageModel languageModel in languages.Where(l => l.IsDefault))
+                            {
+                                languageModel.IsDefault = false;
+                            }
+
+                            languages.First(l => l.Code == defaultLanguage).IsDefault = true;
+                        }
                     }
                 }
             }
             catch (Exception e)
             {
                 OrderPageLogger.LogOrderPageException(e);
-            }
-
-            List<LanguageModel> languages = new List<LanguageModel>();
-
-            foreach (Base.Configs.Language languageItem in Base.Configs.AppConfig.Instance.LanguagesList)
-            {
-                LanguageModel languageModel = new LanguageModel { Code = languageItem.Name, Name = languageItem.Name.Replace("-", String.Empty) };
-                if (defaultLanguage.Length == 2)
-                {
-                    if (languageItem.Name == defaultLanguage[0] + '-' + defaultLanguage[1])
-                    {
-                        languageModel.IsDefault = true;
-                    }
-                }
-                else if (defaultLanguage.Length == 1)
-                {
-                    if (languageItem.Name == defaultLanguage[0])
-                    {
-                        languageModel.IsDefault = true;
-                    }
-                }
-
-                languages.Add(languageModel);
             }
 
             return languages;

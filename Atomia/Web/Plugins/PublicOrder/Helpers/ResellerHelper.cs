@@ -59,6 +59,30 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                        : CountriesHelper.GetDefaultCurrencyCodeFromConfig(CountriesHelper.GetDefaultCountryCodeFromConfig());
         }
 
+        /// <summary>
+        /// Gets the reseller languages.
+        /// </summary>
+        /// <returns>List of reseller's languages.</returns>
+        public static IList<Language> GetResellerLanguages()
+        {
+            AccountData resellerAccountData = HttpContext.Current.Session["resellerAccountData"] != null
+                                                  ? HttpContext.Current.Session["resellerAccountData"] as AccountData
+                                                  : null;
+
+            // If there are defined languages for reseller, use them, if not, fallback to config.
+            return resellerAccountData != null && resellerAccountData.Languages != null && resellerAccountData.Languages.Length > 0
+                       ? resellerAccountData.Languages.Select(
+                           language =>
+                           new Language { Code = language, IsDefault = language == resellerAccountData.DefaultLanguage }).ToList()
+                       : (from Base.Configs.Language languageItem in Base.Configs.AppConfig.Instance.LanguagesList
+                          select new Language { Code = languageItem.Name, IsDefault = languageItem.Default }).ToList();
+        }
+
+        /// <summary>
+        /// Gets the reseller payment methods.
+        /// </summary>
+        /// <param name="defaultPaymentMethod">The default payment method.</param>
+        /// <returns>List of reseller's payment methods.</returns>
         public static IList<PaymentMethod> GetResellerPaymentMethods(out PaymentMethod defaultPaymentMethod)
         {
             AccountData resellerAccountData = HttpContext.Current.Session["resellerAccountData"] != null

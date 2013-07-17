@@ -1,3 +1,7 @@
+Atomia Public Order Page v13.7
+2013-07-17 Ivan Kustera <ivan@atomia.com>
+	- [IMPROVEMENT] Added support for loading languages based on reseller.
+
 Atomia Public Order Page v13.6
 2013-06-26 Ivan Kustera <ivan@atomia.com>
 	- [IMPROVEMENT] Added support for defining payment methods per reseller.

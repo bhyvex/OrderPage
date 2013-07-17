@@ -5,4 +5,4 @@
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("13.6.*")]
+[assembly: AssemblyVersion("13.7.*")]

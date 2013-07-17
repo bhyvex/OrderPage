@@ -6,10 +6,14 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Atomia.Web.Base.Helpers.General;
+using Atomia.Web.Plugin.PublicOrder.Helpers;
+
 using Elmah;
 
 namespace Atomia.Web.Plugin.PublicOrder.Filters
@@ -69,6 +73,26 @@ namespace Atomia.Web.Plugin.PublicOrder.Filters
                         }
                         catch
                         {
+                        }
+                    }
+                    else
+                    {
+                        if (filterContext.RouteData.Values.ContainsKey("resellerHash"))
+                        {
+                            ResellerHelper.LoadResellerIntoSessionByHash((string)filterContext.RouteData.Values["resellerHash"]);
+                        }
+                        else
+                        {
+                            ResellerHelper.LoadResellerIntoSessionByUrl(filterContext.HttpContext.Request.Url.AbsoluteUri);
+                        }
+
+                        IList<Language> languages = ResellerHelper.GetResellerLanguages();
+                        Language defaultResellerLanguage = languages.FirstOrDefault(l => l.IsDefault);
+                        if (defaultResellerLanguage != null)
+                        {
+                            string language = defaultResellerLanguage.Code.Split(new[] { "-" }, StringSplitOptions.RemoveEmptyEntries)[0];
+                            string culture = defaultResellerLanguage.Code.Split(new[] { "-" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                            languageObj = new AtomiaCultureInfo { Language = language, Culture = culture };
                         }
                     }
 

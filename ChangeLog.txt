@@ -1,4 +1,7 @@
 Atomia Public Order Page v13.7
+2013-07-18 Ivan Kustera <ivan@atomia.com>
+	- [IMPROVEMENT] Updated DomainSearch dll which includes fix for excluding domains without price.
+	
 2013-07-17 Ivan Kustera <ivan@atomia.com>
 	- [IMPROVEMENT] Added support for loading languages based on reseller.
 

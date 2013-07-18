@@ -37,6 +37,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             ViewData["multiDomains"] = this.Session["multiDomains"];
 
+            ViewData["rawDomains"] = this.Session["rawDomains"];
+
             ViewData["firstOption"] = (bool)Session["firstOption"];
 
             string[] domains = (string[])Session["domains"];

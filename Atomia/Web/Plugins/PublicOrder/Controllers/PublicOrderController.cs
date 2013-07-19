@@ -55,6 +55,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="sel">Represents pre-selected hosting package.</param>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Index(string package, string lang, string sel)
@@ -199,6 +200,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="IndexForm"></param>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Post)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Index(IndexForm IndexForm)
@@ -402,6 +404,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// </summary>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Select()
@@ -613,6 +616,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="SubmitForm"></param>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Post)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Select(SubmitForm SubmitForm)
@@ -1327,6 +1331,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// </summary>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute(ClearSession = true)]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Thankyou()
@@ -1352,6 +1357,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// </summary>
         /// <returns>The View for this action.</returns>
         [UrlManagerAttribute]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult PaymentFailed()
@@ -1447,6 +1453,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="status">The status.</param>
         /// <returns>Redirects to thankyou page.</returns>
         [UrlManagerAttribute]
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Payment(string amount, string transactionReference, int transactionReferenceType, string status)
         {
@@ -1697,6 +1704,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             return Json(result);
         }
 
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult PayPalConfirm()
         {
@@ -1737,6 +1745,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             return View();
         }
 
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PayPalConfirm(string token, string PayerID)
         {
@@ -1816,6 +1825,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 });
         }
 
+        [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult PayExConfirmRedirect()
         {

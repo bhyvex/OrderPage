@@ -1,4 +1,7 @@
 Atomia Public Order Page v13.7
+2013-07-19 Ivan Kustera <ivan@atomia.com>
+	- [IMPROVEMENT] Added new action filter, ResellerDataProvider, which puts on ViewData additional reseller data needed for rendering customized parts of Public Order Pages.
+	
 2013-07-18 Ivan Kustera <ivan@atomia.com>
 	- [IMPROVEMENT] Updated DomainSearch dll which includes fix for excluding domains without price.
 	

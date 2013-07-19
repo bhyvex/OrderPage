@@ -16,6 +16,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
     /// Error Controller class.
     /// </summary>
     [Internationalization(InterfaceImplementer = true)]
+    [ResellerDataProvider]
     [CompressResponse]
     [TranslationHelper]
     public class ErrorController : Controller

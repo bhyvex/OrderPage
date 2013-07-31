@@ -600,6 +600,7 @@
                     var dibsFlexwinEnabled = (bool)ViewData["dibsFlexwinEnabled"];
                     var worldPayXmlRedirectEnabled = (bool)ViewData["WorldPayXmlRedirectEnabled"];
                     var adyenHppEnabled = (bool)ViewData["AdyenHppEnabled"];
+                    var defaultPluginName = ViewData["DefaultPaymentPlugin"].ToString();
 					
 					int optionCounter = 0;
                     foreach (var item in new List<Boolean>() { paymentEnabled, orderByEmailEnabled, orderByPostEnabled, payPalEnabled, payexRedirectEnabled, worldPayRedirectEnabled, dibsFlexwinEnabled, worldPayXmlRedirectEnabled, adyenHppEnabled })
@@ -621,8 +622,8 @@
                             <%if (orderByEmailEnabled)
                             {
                             %>
-                                <label for="PaymentMethodEmail">
-                                    <%= Html.RadioButton("RadioPaymentMethod", "email", Model.RadioPaymentMethod == "email", new Dictionary<string, object> { { "id", "PaymentMethodEmail" } })%> <%= Html.Resource("E_invoice")%>
+                                <label for="InvoiceByEmail">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "InvoiceByEmail", defaultPluginName == "InvoiceByEmail", new Dictionary<string, object> { { "id", "InvoiceByEmail" } })%> <%= Html.Resource("E_invoice")%>
                                 </label>
                                 <br class="clear" />
                                 <div class="smalltext"><%= Html.Resource("PaymentSmall1")%></div>
@@ -631,28 +632,85 @@
                             }
                             if (orderByPostEnabled)
                             { %>
-                                <label for="PaymentMethodPost">
-                                    <%= Html.RadioButton("RadioPaymentMethod", "post", Model.RadioPaymentMethod == "post", new Dictionary<string, object> { { "id", "PaymentMethodPost" } })%> <%= Html.Resource("Post_invoice")%>
+                                <label for="InvoiceByPost">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "InvoiceByPost", defaultPluginName == "InvoiceByPost", new Dictionary<string, object> { { "id", "InvoiceByPost" } })%> <%= Html.Resource("Post_invoice")%>
                                 </label>
                                 <br class="clear" />
                                 <div class="smalltext"><%= Html.Resource("PaymentSmall2")%></div>
                                 <br class="clear" />
                             <%
                             }
-                                if (paymentEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled || adyenHppEnabled)
+                            
+                            if (paymentEnabled)
                             { %>
-                                <label for="PaymentMethodCard">
-                                    <%= Html.RadioButton("RadioPaymentMethod", "card", Model.RadioPaymentMethod == "card", new Dictionary<string, object> { { "id", "PaymentMethodCard" } })%> <%= Html.Resource("Credit_card")%>
+                                <label for="CCPayment">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "CCPayment", defaultPluginName == "CCPayment", new Dictionary<string, object> { { "id", "CCPayment" } })%> <%= Html.Resource("CCPayment")%> 
                                 </label>
                                 <br class="clear" />
                                 <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
                                 <br class="clear" />
                             <% 
-                            } 
+                            }
+                            
+                            if (payexRedirectEnabled)
+                            { %>
+                                <label for="PayExRedirect">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "PayExRedirect", defaultPluginName == "PayExRedirect", new Dictionary<string, object> { { "id", "PayExRedirect" } })%> <%= Html.Resource("PayExRedirect")%> 
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+                                <br class="clear" />
+                            <% 
+                            }
+                            
+                            if (worldPayRedirectEnabled)
+                            { %>
+                                <label for="WorldPayRedirect">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "WorldPayRedirect", defaultPluginName == "WorldPayRedirect", new Dictionary<string, object> { { "id", "WorldPayRedirect" } })%> <%= Html.Resource("WorldPayRedirect")%> 
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+                                <br class="clear" />
+                            <% 
+                            }
+                            
+                            if (dibsFlexwinEnabled)
+                            { %>
+                                <label for="DibsFlexwin">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "DibsFlexwin", defaultPluginName == "DibsFlexwin", new Dictionary<string, object> { { "id", "DibsFlexwin" } })%> <%= Html.Resource("DibsFlexwin")%> 
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+                                <br class="clear" />
+                            <% 
+                            }
+                            
+                            if (worldPayXmlRedirectEnabled)
+                            { %>
+                                <label for="WorldPayXmlRedirect">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "WorldPayXmlRedirect", defaultPluginName == "WorldPayXmlRedirect", new Dictionary<string, object> { { "id", "WorldPayXmlRedirect" } })%> <%= Html.Resource("WorldPayXmlRedirect")%> 
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+                                <br class="clear" />
+                            <% 
+                            }
+                            
+                            if (adyenHppEnabled)
+                            { %>
+                                <label for="AdyenHpp">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "AdyenHpp", defaultPluginName == "AdyenHpp", new Dictionary<string, object> { { "id", "AdyenHpp" } })%> <%= Html.Resource("AdyenHpp")%> 
+                                </label>
+                                <br class="clear" />
+                                <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
+                                <br class="clear" />
+                            <% 
+                            }
+                            
                             if (payPalEnabled)
                             { %>
-                                <label for="PaymentMethodPayPal">
-                                    <%= Html.RadioButton("RadioPaymentMethod", "paypal", Model.RadioPaymentMethod == "paypal", new Dictionary<string, object> { { "id", "PaymentMethodPayPal" } })%> <%= Html.Resource("Pay_pal")%>
+                                <label for="PayPal">
+                                    <%= Html.RadioButton("RadioPaymentMethod", "PayPal", defaultPluginName == "PayPal", new Dictionary<string, object> { { "id", "PayPal" } })%> <%= Html.Resource("Pay_pal")%>
                                 </label>
                                 <br class="clear" />
                                 <div class="smalltext"><%= Html.Resource("PaymentSmall4")%></div>
@@ -662,55 +720,7 @@
 		                </div>
 	                </div>
 	            </div>
-	            <%if (paymentEnabled || payPalEnabled || payexRedirectEnabled || worldPayRedirectEnabled || dibsFlexwinEnabled || worldPayXmlRedirectEnabled || adyenHppEnabled)
-                { 
-                
-                List<GuiPaymentPluginData> plugins = new List<GuiPaymentPluginData>();
-                if (orderByEmailEnabled || orderByPostEnabled)
-                {
-                    plugins.Add(new GuiPaymentPluginData("PayWithInvoice", "Pay with invoice"));
-                }
-                if (paymentEnabled)
-                {
-                    plugins.Add(new GuiPaymentPluginData("CCPayment", "Credit card payment"));
-                } 
-                else if (payexRedirectEnabled)
-                {
-                    plugins.Add(new GuiPaymentPluginData("PayExRedirect", "PayEx redirect payment"));
-                }
-                
-                if (payPalEnabled)
-                {
-                    plugins.Add(new GuiPaymentPluginData("PayPal", "PayPal payment"));
-                }
-
-                if (worldPayRedirectEnabled)
-                {
-                    plugins.Add(new GuiPaymentPluginData("WorldPayRedirect", "WorldPay payment"));
-                }
-
-                if (dibsFlexwinEnabled)
-                {
-                    plugins.Add(new GuiPaymentPluginData("DibsFlexwin", "Dibs payment"));
-				}
-
-                if (worldPayXmlRedirectEnabled)
-				{
-					plugins.Add(new GuiPaymentPluginData("WorldPayXmlRedirect", "WorldPay payment"));
-				}
-
-                if (adyenHppEnabled)
-				{
-                    plugins.Add(new GuiPaymentPluginData("AdyenHpp", "Adyen payment"));
-				}
-				
-				
-				%>
-                <div id="cc_paymentDiv" style="display: none;">
-                    <% Html.RenderAction("Index", "PaymentForm", new { area = "PaymentForm", listOfPlugins = plugins.ToArray() }); %>
-                </div>
-                <% 
-                } %>
+	            
             
                 <h2><%= Html.Resource("ClickOrder")%></h2>
                 <h4><%= Html.Resource("Billing")%></h4>
@@ -912,11 +922,16 @@
             paymentMethodPostBind(params);
 
             params.ActivationTextCC = '<%= Html.ResourceNotEncoded("OnCCActivation")%>';
-            paymentMethodCarBind(params);
+            paymentMethodCardBind(params, $("#CCPayment"));
+            paymentMethodCardBind(params, $("#PayExRedirect"));
+            paymentMethodCardBind(params, $("#WorldPayRedirect"));
+            paymentMethodCardBind(params, $("#DibsFlexwin"));
+            paymentMethodCardBind(params, $("#WorldPayXmlRedirect"));
+            paymentMethodCardBind(params, $("#AdyenHpp"));
             
             paymentMethodPayPalBind(params);
 
-            fillPaymentMethod('<%= Model.RadioPaymentMethod%>');
+            $('#<%= defaultPluginName %>').click();
 
             submitOnceUnbind();
 

@@ -318,6 +318,24 @@
   <data name="Credit_card" xml:space="preserve">
     <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
   </data>
+  <data name="CCPayment" xml:space="preserve">
+    <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
+  </data>
+  <data name="PayExRedirect" xml:space="preserve">
+    <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
+  </data>
+  <data name="WorldPayRedirect" xml:space="preserve">
+    <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
+  </data>
+  <data name="DibsFlexwin" xml:space="preserve">
+    <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
+  </data>
+  <data name="WorldPayXmlRedirect" xml:space="preserve">
+    <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
+  </data>
+  <data name="AdyenHpp" xml:space="preserve">
+    <value>Pague con tarjeta de crédito y complete la transacción inmediatamente</value>
+  </data>
   <data name="E_invoice" xml:space="preserve">
     <value>Enviarme una factura mediante correo electrónico</value>
   </data>

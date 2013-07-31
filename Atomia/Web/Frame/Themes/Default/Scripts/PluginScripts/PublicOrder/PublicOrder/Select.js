@@ -529,7 +529,7 @@ var secondAddressRadioBind = function() {
 };
 
 var paymentMethodEmailBind = function(params) {
-    $('#PaymentMethodEmail').bind('click', function(event, preventRecalculation) {
+    $('#InvoiceByEmail').bind('click', function (event, preventRecalculation) {
         $("#cc_paymentDiv").hide();
         $('#BillingText').html($('#BillingTextEmailContainer').html());
         $('#ActivationText').text(params.ActivationTextMail);
@@ -543,7 +543,7 @@ var paymentMethodEmailBind = function(params) {
 };
 
 var paymentMethodPostBind = function(params) {
-    $("#PaymentMethodPost").click(function() {
+    $("#InvoiceByPost").click(function () {
         $("#cc_paymentDiv").hide();
         $('#BillingText').html($('#BillingTextPostContainer').html());
         $('#ActivationText').text(params.ActivationTextPost);
@@ -554,12 +554,11 @@ var paymentMethodPostBind = function(params) {
     });
 };
 
-var paymentMethodCarBind = function(params) {
-	$("#PaymentMethodCard").click(function() {
+var paymentMethodCardBind = function(params, container) {
+    container.click(function () {
 		$('p.paymentNeededNotification').hide();
 		$('#paymentPluginList').hide();
 		$('#paymentPluginPayPal').hide();
-		$('input[name="pluginSelector"][value="CCPayment"], input[name="pluginSelector"][value="PayExRedirect"], input[name="pluginSelector"][value="WorldPayRedirect"],  input[name="pluginSelector"][value="WorldPayXmlRedirect"], input[name="pluginSelector"][value="DibsFlexwin"], input[name="pluginSelector"][value="AdyenHpp"]').attr('checked', 'checked');
 		$('#paymentPluginCCPayment, #paymentPluginPayExRedirect').show();
 		$("#cc_paymentDiv").show();
 		$('#BillingText').html($('#BillingTextCCContainer').html());
@@ -570,8 +569,9 @@ var paymentMethodCarBind = function(params) {
 		$.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
 	});
 };
+
 var paymentMethodPayPalBind = function(params) {
-    $("#PaymentMethodPayPal").click(function() {
+    $("#PayPal").click(function () {
         $('p.paymentNeededNotification').hide();
         $('#paymentPluginList').hide();
         $('#paymentPluginCCPayment, #paymentPluginPayExRedirect').hide();
@@ -586,17 +586,6 @@ var paymentMethodPayPalBind = function(params) {
         $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
     });
 };
-
-var fillPaymentMethod = function(model) {
-    if (model == 'email') {
-        $("#PaymentMethodEmail").click();
-    } else if (model == 'post') {
-        $("#PaymentMethodPost").click();
-    } else if (model == 'card') {
-        $("#PaymentMethodCard").click();
-    }
-};
-
 
 // dissallow clicking submit button more then once
 var submitOnceUnbind = function() {

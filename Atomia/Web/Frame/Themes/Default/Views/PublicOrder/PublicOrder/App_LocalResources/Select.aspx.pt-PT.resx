@@ -318,6 +318,24 @@
   <data name="Credit_card" xml:space="preserve">
     <value>Pague com cartão de crédito e fique operacional imediatamente</value>
   </data>
+  <data name="CCPayment" xml:space="preserve">
+    <value>Pague com cartão de crédito e fique operacional imediatamente</value>
+  </data>
+  <data name="PayExRedirect" xml:space="preserve">
+    <value>Pague com cartão de crédito e fique operacional imediatamente</value>
+  </data>
+  <data name="WorldPayRedirect" xml:space="preserve">
+    <value>Pague com cartão de crédito e fique operacional imediatamente</value>
+  </data>
+  <data name="DibsFlexwin" xml:space="preserve">
+    <value>Pague com cartão de crédito e fique operacional imediatamente</value>
+  </data>
+  <data name="WorldPayXmlRedirect" xml:space="preserve">
+    <value>Pague com cartão de crédito e fique operacional imediatamente</value>
+  </data>
+  <data name="AdyenHpp" xml:space="preserve">
+    <value>Pague com cartão de crédito e fique operacional imediatamente</value>
+  </data>
   <data name="E_invoice" xml:space="preserve">
     <value>Enviar-me uma fatura por e-mail</value>
   </data>

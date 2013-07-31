@@ -26,11 +26,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <param name="order">The order.</param>
         /// <param name="request">The request.</param>
         /// <param name="paidAmount">The paid amount.</param>
+        /// <param name="paymentMethod">The payment method.</param>
         /// <returns>PaymentTransaction object</returns>
-        public static PublicPaymentTransaction FillPaymentTransactionForOrder(OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, HttpRequestBase request, decimal paidAmount)
+        public static PublicPaymentTransaction FillPaymentTransactionForOrder(OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, HttpRequestBase request, decimal paidAmount, string paymentMethod)
         {
             // Fill transaction
-            var paymentTransaction = new PublicPaymentTransaction { GuiPluginName = GuiPaymentPluginRequestHelper.GuiPluginName(request) };
+            var paymentTransaction = new PublicPaymentTransaction { GuiPluginName = paymentMethod };
             List<AttributeData> attrData = new List<AttributeData>();
             foreach (var key in GuiPaymentPluginRequestHelper.RequestToCustomAttributes(request))
             {

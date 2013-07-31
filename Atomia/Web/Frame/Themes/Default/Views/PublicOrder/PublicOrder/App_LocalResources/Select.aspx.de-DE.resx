@@ -318,6 +318,24 @@
   <data name="Credit_card" xml:space="preserve">
     <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
   </data>
+  <data name="CCPayment" xml:space="preserve">
+    <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
+  </data>
+  <data name="PayExRedirect" xml:space="preserve">
+    <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
+  </data>
+  <data name="WorldPayRedirect" xml:space="preserve">
+    <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
+  </data>
+  <data name="DibsFlexwin" xml:space="preserve">
+    <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
+  </data>
+  <data name="WorldPayXmlRedirect" xml:space="preserve">
+    <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
+  </data>
+  <data name="AdyenHpp" xml:space="preserve">
+    <value>Mit Kreditkarte zahlen und sofort startbereit sein</value>
+  </data>
   <data name="E_invoice" xml:space="preserve">
     <value>Ich möchte eine Rechnung per E-Mail erhalten</value>
   </data>

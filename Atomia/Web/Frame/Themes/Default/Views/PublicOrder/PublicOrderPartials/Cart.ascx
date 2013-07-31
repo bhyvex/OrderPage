@@ -94,7 +94,7 @@ $('#product_list').AtomiaShoppingCart(
 			if(parseFloat(data.ShoppingCartTotal) == 0)
 			{
 			    if (typeof(data.ShoppingCartItems) != 'undefined' && data.ShoppingCartItems != null && data.ShoppingCartItems.length > 0) {
-			        $('#PaymentMethodEmail').trigger('click', [true]);
+			        $('#InvoiceByEmail').trigger('click', [true]);
 			    }
 				
 				$('#PaymentDiv').hide();
@@ -108,7 +108,7 @@ $('#product_list').AtomiaShoppingCart(
 			
 			$('p.paymentNeededNotification').hide();
 			
-			if ($('#PaymentMethodEmail').is(':checked') || $('#PaymentMethodPost').is(':checked')) {
+			if ($('#InvoiceByEmail').is(':checked') || $('#InvoiceByPost').is(':checked')) {
 				 if (typeof(data.ShoppingCartItems) != 'undefined' && data.ShoppingCartItems != null && data.ShoppingCartItems.length > 0) {
 					var found = false;
 					for (var i=0; i<data.ShoppingCartItems.length; i++) {
@@ -218,6 +218,15 @@ function ValidateTerm(value, element, params) {
     return true;
 }
 
+function RemoveOrderByPost() {
+    if(OrderByPostSelected) 
+    {
+        var id = "<%= ViewData["OrderByPostId"].ToString()%>";
+        var text = '<%= Html.ResourceNotEncoded(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"]))%>';
+		$.fn.AtomiaShoppingCart.RemoveItem(id, text, 1, true);
+    } 
+}
+
 $(document).ready(function() {
     // copy html to its container
     var cartHtmlToAppend = $("#CartPartialDiv").html();
@@ -286,16 +295,7 @@ $(document).ready(function() {
         }
     );
     
-    $("#PaymentMethodEmail").click(function() {
-        if(OrderByPostSelected)
-        {
-            var id = "<%= ViewData["OrderByPostId"].ToString()%>";
-            var text = '<%= Html.ResourceNotEncoded(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"]))%>';
-			$.fn.AtomiaShoppingCart.RemoveItem(id, text, 1, true);
-        } 
-    });
-    
-    $("#PaymentMethodPost").click(function() {
+    $("#InvoiceByPost").click(function() {
         OrderByPostSelected = true;
         var id = "<%= ViewData["OrderByPostId"].ToString()%>";
         var text = '<%= Html.ResourceNotEncoded(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"]))%>';
@@ -304,14 +304,37 @@ $(document).ready(function() {
 		$.fn.AtomiaShoppingCart.AddItem(id, text, 1, true, false);
     });
     
-    $("#PaymentMethodCard").click(function() {
-        if(OrderByPostSelected)
-        {
-            var id = "<%= ViewData["OrderByPostId"].ToString()%>";
-            var text = '<%= Html.ResourceNotEncoded(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"]))%>';
-			$.fn.AtomiaShoppingCart.RemoveItem(id, text, 1, true);
-        }
-    });  
+    $("#InvoiceByEmail").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#PayPal").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#CCPayment").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#PayExRedirect").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#WorldPayRedirect").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#DibsFlexwin").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#WorldPayXmlRedirect").click(function() {
+        RemoveOrderByPost();
+    });
+    
+    $("#AdyenHpp").click(function() {
+        RemoveOrderByPost();
+    });
 });
 </script>
    

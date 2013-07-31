@@ -558,12 +558,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             string defaultPaymentPlugin = string.Empty;
             if (orderByEmailEnabled && defaultPaymentMethod.GuiPluginName == "InvoiceByEmail")
             {
-                submitForm.RadioPaymentMethod = "email";
                 defaultPaymentPlugin = "PayWithInvoice";
             }
             else if (orderByPostEnabled && defaultPaymentMethod.GuiPluginName == "InvoiceByPost")
             {
-                submitForm.RadioPaymentMethod = "post";
                 defaultPaymentPlugin = "PayWithInvoice";
             }
             else if ((paymentEnabled && defaultPaymentMethod.GuiPluginName == "CCPayment")
@@ -573,16 +571,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 || (worldPayXmlRedirectEnabled && defaultPaymentMethod.GuiPluginName == "WorldPayXml")
                 || (adyenHppEnabled && defaultPaymentMethod.GuiPluginName == "AdyenHpp"))
             {
-                submitForm.RadioPaymentMethod = "card";
                 defaultPaymentPlugin = defaultPaymentMethod.GuiPluginName;
             }
             else if (payPalEnabled && defaultPaymentMethod.GuiPluginName == "PayPal")
             {
-                submitForm.RadioPaymentMethod = "paypal";
                 defaultPaymentPlugin = "PayPal";
             }
 
-            this.ControllerContext.HttpContext.Application["DefaultPaymentPlugin"] = defaultPaymentPlugin;
+            this.ControllerContext.HttpContext.Application["DefaultPaymentPlugin"] = ViewData["DefaultPaymentPlugin"] = defaultPaymentPlugin;
             ViewData["RegDomainFront"] = RegularExpression.GetRegularExpression("DomainFront");
             ViewData["RegDomain"] = RegularExpression.GetRegularExpression("Domain");
 
@@ -838,7 +834,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         foreach (ProductDescription tmpProduct in currentCart)
                         {
                             // If post invoice is selected do not add it to orderItems since that product is added via orderCustomAttributes
-                            if (SubmitForm.RadioPaymentMethod == "post")
+                            if (SubmitForm.RadioPaymentMethod == "InvoiceByPost")
                             {
                                 if (tmpProduct.productID == orderByPostId)
                                 {
@@ -1047,12 +1043,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             }
                         }
 
-                        if (SubmitForm.RadioPaymentMethod == "email")
+                        if (SubmitForm.RadioPaymentMethod == "InvoiceByEmail")
                         {
                             orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
                         }
 
-                        if (SubmitForm.RadioPaymentMethod == "post")
+                        if (SubmitForm.RadioPaymentMethod == "InvoiceByPost")
                         {
                             orderCustomData.Add(new PublicOrderCustomData { Name = "SendInvoiceByPost", Value = "true" });
                             orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
@@ -1153,9 +1149,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         this.Session["CreatedOrder"] = newOrder;
                     }
 
-                    if (SubmitForm.RadioPaymentMethod == "card" || SubmitForm.RadioPaymentMethod == "paypal")
+                    if (SubmitForm.RadioPaymentMethod != "InvoiceByPost" && SubmitForm.RadioPaymentMethod != "InvoiceByEmail")
                     {
-                        paymentMethodCc = (SubmitForm.RadioPaymentMethod == "card");
+                        paymentMethodCc = (SubmitForm.RadioPaymentMethod != "PayPal");
 
                         string result = this.CreatePaymentTransaction(this, newOrder, newOrder.Total, SubmitForm.RadioPaymentMethod);
 
@@ -1897,65 +1893,91 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <param name="controller">The controller.</param>
         /// <param name="order">The order.</param>
         /// <param name="paidAmount">The paid amount.</param>
+        /// <param name="paymentMethod">The payment method.</param>
         /// <returns>Creation of transaction success</returns>
         private string CreatePaymentTransaction(Controller controller, OrderServiceReferences.AtomiaBillingPublicService.PublicOrder order, decimal paidAmount, string paymentMethod)
         {
-            PublicPaymentTransaction transaction = PaymentHelper.FillPaymentTransactionForOrder(order, Request, paidAmount);
+            PublicPaymentTransaction transaction = PaymentHelper.FillPaymentTransactionForOrder(order, Request, paidAmount, paymentMethod);
 
             PaymentMethod defaultPaymentMethod;
             IList<PaymentMethod> paymentMethods = ResellerHelper.GetResellerPaymentMethods(out defaultPaymentMethod);
 
             string action = null;
 
-            if (paymentMethod == "card")
+            switch (paymentMethod)
             {
-                if (paymentMethods.Any(m => m.GuiPluginName == "CCPayment"))
-                {
+                case "CCPayment":
                     action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
-                }
-                else if (paymentMethods.Any(m => m.GuiPluginName == "PayexRedirect"))
-                {
-                    action = controller.Url.Action("PayExConfirmRedirect", new { controller = "PublicOrder" });
+                    break;
 
-                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                case "PayexRedirect":
                     {
-                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
-                    }
-                    else
-                    {
-                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
-                    }
-                }
-                else if (paymentMethods.Any(m => m.GuiPluginName == "WorldPay") || paymentMethods.Any(m => m.GuiPluginName == "DibsFlexwin") ||
-                    paymentMethods.Any(m => m.GuiPluginName == "WorldPayXml") || paymentMethods.Any(m => m.GuiPluginName == "AdyenHpp"))
-                {
-                    action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+                        action = controller.Url.Action("PayExConfirmRedirect", new { controller = "PublicOrder" });
 
-                    List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                    if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                    {
-                        attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
+                        List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                        if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                        {
+                            attributeDatas.Add(
+                                new AttributeData
+                                {
+                                    Name = "CancelUrl",
+                                    Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
+                                });
+                        }
+                        else
+                        {
+                            attributeDatas.First(item => item.Name == "CancelUrl").Value =
+                                controller.Url.Action("Select", new { controller = "PublicOrder" });
+                        }
                     }
-                    else
-                    {
-                        attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
-                    }
-                }
-            }
-            else if (paymentMethod == "paypal")
-            {
-                action = controller.Url.Action("PayPalConfirm", new { controller = "PublicOrder" });
+                    break;
 
-                List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                {
-                    attributeDatas.Add(new AttributeData { Name = "CancelUrl", Value = controller.Url.Action("Select", new { controller = "PublicOrder" }) });
-                }
-                else
-                {
-                    attributeDatas.First(item => item.Name == "CancelUrl").Value = controller.Url.Action("Select", new { controller = "PublicOrder" });
-                }
+                case "AdyenHpp":
+                case "WorldPayXml":
+                case "DibsFlexwin":
+                case "WorldPay":
+                    {
+                        action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+
+                        List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                        if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                        {
+                            attributeDatas.Add(
+                                new AttributeData
+                                {
+                                    Name = "CancelUrl",
+                                    Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
+                                });
+                        }
+                        else
+                        {
+                            attributeDatas.First(item => item.Name == "CancelUrl").Value =
+                                controller.Url.Action("Select", new { controller = "PublicOrder" });
+                        }
+                    }
+                    break;
+
+                case "PayPal":
+                    {
+                        action = controller.Url.Action("PayPalConfirm", new { controller = "PublicOrder" });
+
+                        List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                        if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                        {
+                            attributeDatas.Add(
+                                new AttributeData
+                                {
+                                    Name = "CancelUrl",
+                                    Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
+                                });
+                        }
+                        else
+                        {
+                            attributeDatas.First(item => item.Name == "CancelUrl").Value =
+                                controller.Url.Action("Select", new { controller = "PublicOrder" });
+                        }
+                    }
+                    break;
             }
 
             return PaymentHelper.CreatePaymentTransaction(controller, order, paidAmount, action, transaction);

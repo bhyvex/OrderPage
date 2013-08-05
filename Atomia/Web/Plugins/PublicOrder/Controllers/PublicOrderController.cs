@@ -227,7 +227,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     Session["subdomain"] = false;
                     Session["domains"] = viewDataDomains;
                     Session["multiDomains"] = domainData;
-                    Session["rawDomains"] = IndexForm.Domains;
                 }
                 else if (IndexForm.Selected == "second" && !string.IsNullOrEmpty(IndexForm.Domain))
                 {
@@ -240,7 +239,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     Session["subdomain"] = false;
                     Session["domains"] = viewDataDomains;
                     Session["singleDomain"] = domainData;
-                    Session["rawDomains"] = IndexForm.Domains;
                 }
                 else if (IndexForm.Selected == "subdomain" && !string.IsNullOrEmpty(IndexForm.SubDomain))
                 {
@@ -260,7 +258,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     Session["domains"] = viewDataDomains;
                     Session["singleDomain"] = domainData;
                     Session["subdomain"] = true;
-                    Session["rawDomains"] = IndexForm.Domains;
                 }
                 else
                 {

@@ -43,7 +43,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Filters
                         }
                         else
                         {
-                            ResellerHelper.LoadResellerIntoSessionByUrl(filterContext.HttpContext.Request.Url.AbsoluteUri);
+                            ResellerHelper.LoadResellerIntoSessionByUrl(filterContext.HttpContext.Request.Url.Host);
                         }
 
                         // Flag which prevents another loading of reseller is set to true even if there's no reseller.

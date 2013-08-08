@@ -83,7 +83,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Filters
                         }
                         else
                         {
-                            ResellerHelper.LoadResellerIntoSessionByUrl(filterContext.HttpContext.Request.Url.AbsoluteUri);
+                            ResellerHelper.LoadResellerIntoSessionByUrl(filterContext.HttpContext.Request.Url.Host);
                         }
 
                         IList<Language> languages = ResellerHelper.GetResellerLanguages();

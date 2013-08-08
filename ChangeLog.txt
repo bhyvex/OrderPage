@@ -1,3 +1,7 @@
+Atomia Public Order Page v13.8
+2013-07-31 Ivan Kustera <ivan@atomia.com>
+	- [FIX] Modified calls of LoadResellerIntoSessionByUrl to use Host instead of AbsoluteUri.
+	
 Atomia Public Order Page v13.7
 2013-07-31 Ivan Kustera <ivan@atomia.com>
 	- [IMPROVEMENT] Refactored logic for payment plugins to support more than one "card" payment type.

@@ -73,7 +73,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             else
             {
-                ResellerHelper.LoadResellerIntoSessionByUrl(this.Request.Url.AbsoluteUri);
+                ResellerHelper.LoadResellerIntoSessionByUrl(this.Request.Url.Host);
             }
 
             ViewData["WasAnError"] = 0;

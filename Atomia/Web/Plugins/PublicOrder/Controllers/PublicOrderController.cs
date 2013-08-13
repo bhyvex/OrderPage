@@ -1319,7 +1319,21 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GetAddressInfo(string identifier, string companyType)
         {
-            return Json(null);
+            AddressInfo addressInfo = new AddressInfo();
+            try
+            {
+                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                {
+                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                    addressInfo = service.GetAddressInfoOrder(identifier, EntityType.Company, ResellerHelper.GetResellerId());
+                }
+            }
+            catch(Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+            }
+
+            return Json(addressInfo);
         }
 
         /// <summary>

@@ -1,4 +1,7 @@
 Atomia Public Order Page v13.8
+2013-08-14 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [NEW] GetInfoAddress implemented.
+
 2013-07-31 Ivan Kustera <ivan@atomia.com>
 	- [FIX] Modified calls of LoadResellerIntoSessionByUrl to use Host instead of AbsoluteUri.
 	

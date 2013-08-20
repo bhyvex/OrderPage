@@ -291,22 +291,24 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             else
             {
                 phoneNumber = phoneNumber.TrimStart('0');
-                foreach (PhoneCodePair kvPair in CountryPhoneCode)
+                if (!phoneNumber.StartsWith("+"))
                 {
-                    if (phoneNumber.StartsWith(kvPair.PhoneCode) && phoneNumber.Length - kvPair.PhoneCode.Length > 4)
+                    if (phoneNumber.StartsWith(invdefaultPhoneCode))
                     {
-                        phoneCode = kvPair.PhoneCode;
-                        phoneNum = phoneNumber.Remove(0, phoneCode.Length);
-
-                        break;
+                        phoneCode = invdefaultPhoneCode;
+                        phoneNum = phoneNumber.Remove(0, invdefaultPhoneCode.Length);
                     }
+                    else
+                    {
+                        phoneCode = invdefaultPhoneCode;
+                        phoneNum = phoneNumber;
+                    }
+                }else
+                {
+                    phoneCode = String.Empty;
+                    phoneNum = phoneNumber.Remove(0,1);
                 }
 
-                if (phoneCode == String.Empty)
-                {
-                    phoneCode = invdefaultPhoneCode;
-                    phoneNum = phoneNumber;
-                }
             }
 
             return "+" + phoneCode + "." + phoneNum.TrimStart('0');

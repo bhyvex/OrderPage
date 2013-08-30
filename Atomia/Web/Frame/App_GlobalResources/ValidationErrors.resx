@@ -142,7 +142,7 @@
     <value>Invalid format, expected 10 digits</value>
   </data>
   <data name="ErrorInvalidPostNumber" xml:space="preserve">
-    <value>Invalid format, expected 5 digits</value>
+    <value>Invalid post number</value>
   </data>
   <data name="ErrorInvalidSubdomain" xml:space="preserve">
     <value>Subdomain name is not valid.</value>

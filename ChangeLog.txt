@@ -1,4 +1,7 @@
 Atomia Public Order Page v13.8
+2013-08-30 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [FIX] Post number validation text
+	
 2013-08-23 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [FIX] GetAddressInfo route added
 	

@@ -1005,7 +1005,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         foreach (PublicOrderItem myOrderItem in myOrderItems)
                         {
 
-                            
+                            emailProps = new Dictionary<string, string>();
                             if(opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
                             {
                                 List<PublicOrderItemProperty> arrayOfCustoms = myOrderItem.CustomData.ToList();

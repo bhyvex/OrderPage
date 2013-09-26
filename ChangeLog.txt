@@ -1,3 +1,7 @@
+Atomia Public Order Page v13.9
+2013-09-26 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [FIX] Fix for DomainSpecific when there is more than one DomainSpecific item
+
 Atomia Public Order Page v13.8
 2013-08-30 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [FIX] Post number validation text

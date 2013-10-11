@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Message" xml:space="preserve">
-    <value>Ansökan har uppstått ett okänt fel</value>
+    <value>Din begäran kunde ej utföras på grund av ett okänt fel.</value>
   </data>
   <data name="Sorry" xml:space="preserve">
     <value>Vi är mycket ledsna</value>

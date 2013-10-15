@@ -193,6 +193,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             new PhoneCodePair { PhoneCode = "966",  CountryCode = "SA" },
             new PhoneCodePair { PhoneCode = "221",  CountryCode = "SN" },
             new PhoneCodePair { PhoneCode = "381",  CountryCode = "RS" },
+            new PhoneCodePair { PhoneCode = "381",  CountryCode = "CS" },
             new PhoneCodePair { PhoneCode = "248",  CountryCode = "SC" },
             new PhoneCodePair { PhoneCode = "232",  CountryCode = "SL" },
             new PhoneCodePair { PhoneCode = "65",   CountryCode = "SG" },

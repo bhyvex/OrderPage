@@ -349,7 +349,7 @@
     <value>Charged by given credit card</value>
   </data>
   <data name="OnEmailActivation" xml:space="preserve">
-    <value>Direct, domain will be registerd after payment has been verified</value>
+    <value>Direct, domain will be registered after payment has been verified</value>
   </data>
   <data name="OnEmailBilling" xml:space="preserve">
     <value>Send me an invoice by e-mail</value>

@@ -1,3 +1,7 @@
+Atomia Public Order Page v13.10
+2013-10-23 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [FIX] Returnurl for payment is made of current url of orderpage.
+
 Atomia Public Order Page v13.9
 2013-09-26 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [FIX] Fix for DomainSpecific when there is more than one DomainSpecific item

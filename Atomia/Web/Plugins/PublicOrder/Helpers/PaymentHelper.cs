@@ -64,7 +64,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         {
             // set the return URL, if redirection outside our application is required
             List<string> tmpList = returnUrl.TrimStart('/').Split('/').ToList();
-            string appUrl = controller.HttpContext.Application["OrderApplicationRawURL"].ToString();
+            var currentUrl = controller.Url.RequestContext.HttpContext.Request.Url;
+            string appUrl = currentUrl == null ? controller.HttpContext.Application["OrderApplicationRawURL"].ToString() : string.Format("{0}://{1}/",
+                                                  currentUrl.Scheme,
+                                                  currentUrl.Authority);
+            
             if (appUrl.EndsWith(tmpList[0]))
             {
                 tmpList.RemoveAt(0);

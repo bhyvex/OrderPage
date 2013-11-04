@@ -1,3 +1,7 @@
+Atomia Public Order Page v13.11
+2013-11-04 Stefan Stankovic <stefan.stankovic@atomia.com>
+	- [IMPROVEMENT] HostingProducts Lib updated to latest
+
 Atomia Public Order Page v13.10
 2013-10-23 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [FIX] Returnurl for payment is made of current url of orderpage.

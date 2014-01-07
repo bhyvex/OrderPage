@@ -822,20 +822,20 @@
     <script type="text/javascript">
 
         var initializeParams = {};
-        initializeParams.ResourcePersonalNumber = '<%= Html.ResourceNotEncoded("PersonalNumber")%>';
-        initializeParams.ResourceCompanyNumber = '<%= Html.ResourceNotEncoded("CompanyNumber")%>';
+        initializeParams.ResourcePersonalNumber = <%= Html.ResourceJavascript("PersonalNumber") %>;
+        initializeParams.ResourceCompanyNumber = <%= Html.ResourceJavascript("CompanyNumber") %>;
         var initializedObj = initializeAdditionalThemeMethods(initializeParams);
         
         var notificationParams = {};
         notificationParams.wasAnError = '<%= ViewData["WasAnError"] %>';
-        notificationParams.NotificationText = '<%= Html.ResourceNotEncoded("NotificationText") %>';
-        notificationParams.NotificationTextPayment = '<%= Html.ResourceNotEncoded("NotificationTextPayment") %>';
-        notificationParams.title = '<%= Html.Resource("NotificationHeader") %>';
+        notificationParams.NotificationText = <%= Html.ResourceJavascript("NotificationText") %>;
+        notificationParams.NotificationTextPayment = <%= Html.ResourceJavascript("NotificationTextPayment") %>;
+        notificationParams.title = <%= Html.ResourceJavascript("NotificationHeader") %>;
         
         var validateVATNumberParams = {};
         validateVATNumberParams.ValidateVATNumberUrl = '<%= Url.Action("ValidateVatNumber", new { controller = "PublicOrder", area = "PublicOrder" }) %>';        
-        validateVATNumberParams.ValidationResultFalseMessage = '<%= Html.Resource("VATValidationResultFalseMessage") %>';
-        validateVATNumberParams.ValidationResultNotValidated = '<%= Html.Resource("VATValidationResultNotValidated") %>';
+        validateVATNumberParams.ValidationResultFalseMessage = <%= Html.ResourceJavascript("VATValidationResultFalseMessage") %>;
+        validateVATNumberParams.ValidationResultNotValidated = <%= Html.ResourceJavascript("VATValidationResultNotValidated") %>;
 
         var OrderByPostSelected = false;
         var canSubmit = true;
@@ -853,7 +853,7 @@
         decimalParserParams.Locale = 'se';
         initializeDecimalParser(decimalParserParams);
 
-        var emptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
+        var emptyFieldMessage = <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>;
 
         $(document).ready(function() {
             var formValidator = $("#submit_form").validate();
@@ -861,8 +861,8 @@
             AddValidationRules();
             AddValidationMethods();            
             bindSecondAddressCheckBoxClick();
-            addBillingCustomerDataBlur('<%= Html.Resource("CustomerRadio")%>');
-            addTechCustomerDataBlur('<%= Html.Resource("CustomerRadio")%>');
+            addBillingCustomerDataBlur(<%= Html.ResourceJavascript("CustomerRadio") %>);
+            addTechCustomerDataBlur(<%= Html.ResourceJavascript("CustomerRadio") %>);
 
             $('#notification').notification({
                 showTimeout: 1000,
@@ -877,18 +877,18 @@
             // Call methods from theme js files that are not in the Default theme js files, empty in Default, params are not used in Default
             var params = {};
             params.PersonalDataButtonAction = '<%= Url.Action("GetAddressInfo", new { controller = "PublicOrder", area = "PublicOrder" }) %>';
-            params.ResourcePersonalNum = '<%= Html.ResourceNotEncoded("PersonalNum") %>';
-            params.ResourceCompany = '<%= Html.ResourceNotEncoded("Company")%>';
-            params.ResourceOrgNum = '<%= Html.ResourceNotEncoded("OrgNum")%>';
-            params.ResourceSignedName = '<%= Html.Resource("SignedName")%>';
-            params.ResourceMustBeCompany = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorMustBeCompany") %>';
-            params.ResourceMustBeFromNorway = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorMustBeFromNorway") %>';
-            params.ResourceOrganisation = '<%= Html.ResourceNotEncoded("Organisation")%>';
-            params.ResourceRemove = '<%= Html.ResourceNotEncoded("Remove")%>';
-            params.ResourceViewInfo = '<%= Html.ResourceNotEncoded("ViewInfo")%>';
-			params.ResourceValidationRequired = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
-			params.ResourceValidationDeclaration = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorDeclarationNotChecked") %>';
-			params.ResourceValidationDeclarationFill = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorDeclarationFill") %>';
+            params.ResourcePersonalNum = <%= Html.ResourceJavascript("PersonalNum") %>;
+            params.ResourceCompany = <%= Html.ResourceJavascript("Company") %>;
+            params.ResourceOrgNum = <%= Html.ResourceJavascript("OrgNum") %>;
+            params.ResourceSignedName = <%= Html.ResourceJavascript("SignedName") %>;
+            params.ResourceMustBeCompany = <%= Html.ResourceJavascript("ValidationErrors, ErrorMustBeCompany") %>;
+            params.ResourceMustBeFromNorway = <%= Html.ResourceJavascript("ValidationErrors, ErrorMustBeFromNorway") %>;
+            params.ResourceOrganisation = <%= Html.ResourceJavascript("Organisation") %>;
+            params.ResourceRemove = <%= Html.ResourceJavascript("Remove") %>;
+            params.ResourceViewInfo = <%= Html.ResourceJavascript("ViewInfo") %>;
+			params.ResourceValidationRequired = <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>;
+			params.ResourceValidationDeclaration = <%= Html.ResourceJavascript("ValidationErrors, ErrorDeclarationNotChecked") %>;
+			params.ResourceValidationDeclarationFill = <%= Html.ResourceJavascript("ValidationErrors, ErrorDeclarationFill") %>;
             params.ImgHideInfo = '<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "butt_hideinfo.gif"))%>';
             params.ImgShowInfo = '<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/{1}", Session["Theme"], "butt_showinfo.gif"))%>';
             params.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
@@ -915,13 +915,13 @@
             secondAddressRadioBind();
 
             params = {};
-            params.ActivationTextMail = '<%= Html.ResourceNotEncoded("OnEmailActivation")%>';
+            params.ActivationTextMail = <%= Html.ResourceJavascript("OnEmailActivation") %>;
             paymentMethodEmailBind(params);
 
-            params.ActivationTextPost = '<%= Html.ResourceNotEncoded("OnPostActivation")%>';
+            params.ActivationTextPost = <%= Html.ResourceJavascript("OnPostActivation") %>;
             paymentMethodPostBind(params);
 
-            params.ActivationTextCC = '<%= Html.ResourceNotEncoded("OnCCActivation")%>';
+            params.ActivationTextCC = <%= Html.ResourceJavascript("OnCCActivation") %>;
             paymentMethodCardBind(params, $("#CCPayment"));
             paymentMethodCardBind(params, $("#PayExRedirect"));
             paymentMethodCardBind(params, $("#WorldPayRedirect"));
@@ -1052,7 +1052,7 @@
                     DefaultCountryCode: "<%= ViewData["defaultCountry"] %>"
                 },
                 messages: {
-                    ValidatePostNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidPostNumber") %>'
+                    ValidatePostNumberEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidPostNumber") %>
                 }
             });
 
@@ -1061,56 +1061,56 @@
                     DefaultCountryCode: "<%= ViewData["defaultCountry"] %>"
                 },
                 messages: {
-                    ValidateInvoicePostNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidPostNumber") %>'
+                    ValidateInvoicePostNumberEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidPostNumber") %>
                 }
             });
 
             $('#Telephone').rules("add", {
                 ValidateTelephoneEx: true,
                 messages: {
-                    ValidateTelephoneEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat") %>'
+                    ValidateTelephoneEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidFormat") %>
                 }
             });
 
             $('#InvoiceTelephone').rules("add", {
                 ValidateInvoiceTelephoneEx: true,
                 messages: {
-                    ValidateInvoiceTelephoneEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat") %>'
+                    ValidateInvoiceTelephoneEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidFormat") %>
                 }
             });
         
             $('#Mobile').rules("add", {
                 ValidateMobileEx: true,
                 messages: {
-                    ValidateMobileEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat") %>'
+                    ValidateMobileEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidFormat") %>
                 }
             });
 
             $('#InvoiceMobile').rules("add", {
                 ValidateInvoiceMobileEx: true,
                 messages: {
-                    ValidateInvoiceMobileEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat") %>'
+                    ValidateInvoiceMobileEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidFormat") %>
                 }
             });
 
             $('#Fax').rules("add", {
                 ValidateFax: true,
                 messages: {
-                    ValidateFax: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat") %>'
+                    ValidateFax: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidFormat") %>
                 }
             });
 
             $('#InvoiceFax').rules("add", {
                 ValidateInvoiceFax: true,
                 messages: {
-                    ValidateInvoiceFax: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidFormat") %>'
+                    ValidateInvoiceFax: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidFormat") %>
                 }
             });
 
             $('#errorTerm').rules("add", {
                 ValidateTerm: true,
                 messages: {
-                    ValidateTerm: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorTermNotChecked") %>'
+                    ValidateTerm: <%= Html.ResourceJavascript("ValidationErrors, ErrorTermNotChecked") %>
                 }
             });
             
@@ -1124,21 +1124,21 @@
                 $('#OrgNumber').rules("add", {
                     ValidateOrgNumberEx: true,
                     messages: {
-                        ValidateOrgNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidOrgNumber") %>'
+                        ValidateOrgNumberEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidOrgNumber") %>
                     }
                 });
 
                 $('#OrgNumber').rules("add", {
                     ValidateOrgNumberCheckSum: true,
                     messages: {
-                        ValidateOrgNumberCheckSum: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorOrgNumberCheckSum") %>'
+                        ValidateOrgNumberCheckSum: <%= Html.ResourceJavascript("ValidationErrors, ErrorOrgNumberCheckSum") %>
                     }
                 });
 
                 $('#OrgNumber').rules("add", {
                     ValidateVATNumberOnExistence: true,
                     messages: {
-                        ValidateVATNumberOnExistence: '<%= Html.ResourceNotEncoded("VATValidationResultFalseMessage") %>'
+                        ValidateVATNumberOnExistence: <%= Html.ResourceJavascript("VATValidationResultFalseMessage") %>
                     }
                 });
             }
@@ -1151,7 +1151,7 @@
                     EUCountries: "<%= ViewData["EUCountries"] %>" 
                 },
                 messages: {
-                    ValidateVATNumberEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidVATNumber") %>'
+                    ValidateVATNumberEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidVATNumber") %>
                 }
             });
         }
@@ -1164,8 +1164,8 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    InvoiceContactNameEx: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>',
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    InvoiceContactNameEx: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>,
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
 
@@ -1175,7 +1175,7 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
   
@@ -1184,7 +1184,7 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
 
@@ -1193,7 +1193,7 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
             
@@ -1202,7 +1202,7 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
 
@@ -1211,7 +1211,7 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
 
@@ -1220,7 +1220,7 @@
                     return $('#secondAddressTrue').is(':checked');
                 },
                 messages: {
-                    required: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>'
+                    required: <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>
                 }
             });
             

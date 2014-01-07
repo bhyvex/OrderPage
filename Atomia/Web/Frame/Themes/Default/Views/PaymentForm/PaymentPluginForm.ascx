@@ -76,7 +76,7 @@
                                 return false;
                             },
                             messages: {
-                                required: '<%= Html.ResourceNotEncoded("ErrorSelectPaymentMethod") %>'
+                                required: <%= Html.ResourceJavascript("ErrorSelectPaymentMethod") %>
                             }
                         });
                     };

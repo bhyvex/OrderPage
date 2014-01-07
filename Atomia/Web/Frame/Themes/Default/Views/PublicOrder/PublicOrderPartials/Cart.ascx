@@ -12,21 +12,21 @@ var showCommission = ('<%= Session["resellerAccountData"] != null %>').toLowerCa
 var footerColspan = '<%= Session["resellerAccountData"] != null ? 5 : 4 %>';
 $('#product_list').AtomiaShoppingCart(
     {
-        OrderSubAmount: { display: true, tfoot: [ { "displayText" : "<%= Html.ResourceNotEncoded("Sum")%>", attr : { "colspan":"4", "style":"padding: 5px 10px;" } }, { attr : { "style":"padding: 5px 10px;" } }, { attr: { "style":"padding: 5px 10px;" } } ] },
+        OrderSubAmount: { display: true, tfoot: [ { "displayText" : <%= Html.ResourceJavascript("Sum") %>, attr : { "colspan":"4", "style":"padding: 5px 10px;" } }, { attr : { "style":"padding: 5px 10px;" } }, { attr: { "style":"padding: 5px 10px;" } } ] },
         OrderTaxes: { display: true, tfoot: [ { attr : { "colspan":"4", style:"padding: 5px 10px;" } }, { attr : { style:"padding: 5px 10px;" } }, { attr : { style:"padding: 5px 10px;" } } ] },
-        OrderTotal: { display: true, tfoot: [ { displayText : "<%= Html.ResourceNotEncoded("Total")%>", attr : { "colspan":"4", style:"padding: 5px 10px;" } }, { attr : { style:"padding: 5px 10px;" } }, { attr : { style:"padding: 5px 10px;" } } ] },
+        OrderTotal: { display: true, tfoot: [ { displayText : <%= Html.ResourceJavascript("Total") %>, attr : { "colspan":"4", style:"padding: 5px 10px;" } }, { attr : { style:"padding: 5px 10px;" } }, { attr : { style:"padding: 5px 10px;" } } ] },
         ServerURL: "<%= Url.Action("RecalculateCart", new { area = "PublicOrder", controller = "PublicOrder" }) %>",
-        ProductName: { display : true, thead : { attr : { 'scope': 'col' }, css : { }, displayText : "<%= Html.ResourceNotEncoded("Name") %>" }, tbody: { attr : { }, css: { } } },
-        ProductAction: { display: true, thead: { attr : { 'scope': 'col', "class":"center" }, css: { }, displayText: " " }, tbody: { attr: { "class":"center", style:"min-width: 45px;" }, css: { }, displayButtonText: "<%= Html.ResourceNotEncoded("Remove")%>", displayButtonClass: "b_s_delete button small red" } },
-        ProductPeriod: { display: true, change: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Period")%>" }, tbody: { attr: { "class":"right", style:"padding: 10px;"}, css: { } } },
-        ProductPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Price") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
-        ProductDiscount: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Discount") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
+        ProductName: { display : true, thead : { attr : { 'scope': 'col' }, css : { }, displayText : <%= Html.ResourceJavascript("Name") %> }, tbody: { attr : { }, css: { } } },
+        ProductAction: { display: true, thead: { attr : { 'scope': 'col', "class":"center" }, css: { }, displayText: " " }, tbody: { attr: { "class":"center", style:"min-width: 45px;" }, css: { }, displayButtonText: <%= Html.ResourceJavascript("Remove") %>, displayButtonClass: "b_s_delete button small red" } },
+        ProductPeriod: { display: true, change: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: <%= Html.ResourceJavascript("Period") %> }, tbody: { attr: { "class":"right", style:"padding: 10px;"}, css: { } } },
+        ProductPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: <%= Html.ResourceJavascript("Price") %> }, tbody: { attr: { "class":"right" }, css: { } } },
+        ProductDiscount: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: <%= Html.ResourceJavascript("Discount") %> }, tbody: { attr: { "class":"right" }, css: { } } },
         ProductCommission: { display: showCommission, thead: { attr: { 'scope': 'col', "class": "right" }, css: {}, displayText: "Commission" }, tbody: { attr: { "class": "right", style: "padding: 10px;" }, css: {}} },
-        ProductTotalPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "<%= Html.ResourceNotEncoded("Amount") %>" }, tbody: { attr: { "class":"right" }, css: { } } },
+        ProductTotalPrice: { display: true, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: <%= Html.ResourceJavascript("Amount") %> }, tbody: { attr: { "class":"right" }, css: { } } },
         ProductNumberOfItems: { display: false, thead: { attr : { 'scope': 'col', "class":"right" }, css: { }, displayText: "Items" }, tbody: { attr: { "class":"right", style:"padding: 10px;"}, css: { } } },
-        OrderSubAmount: { display: true, tfoot: [{ displayText: "<%= Html.ResourceNotEncoded("Subtotal")%>", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
-        OrderTaxes: { display: true, tfoot: [{ displayText: "<%= Html.ResourceNotEncoded("VAT")%>", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
-        OrderTotal: { display: true, tfoot: [{ displayText: "<%= Html.ResourceNotEncoded("AmountToPay")%>", attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderSubAmount: { display: true, tfoot: [{ displayText: <%= Html.ResourceJavascript("Subtotal") %>, attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderTaxes: { display: true, tfoot: [{ displayText: <%= Html.ResourceJavascript("VAT") %>, attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
+        OrderTotal: { display: true, tfoot: [{ displayText: <%= Html.ResourceJavascript("AmountToPay") %>, attr: { colspan: footerColspan, style: "padding: 5px 10px;"} }, { attr: { style: "padding: 5px 10px;"}}] },
         PricesIncludingVAT: true,
         AddOrderAddressData: true,
 		vtipImagePath: "<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/img/gui", Session["Theme"])) %>",
@@ -222,7 +222,7 @@ function RemoveOrderByPost() {
     if(OrderByPostSelected) 
     {
         var id = "<%= ViewData["OrderByPostId"].ToString()%>";
-        var text = '<%= Html.ResourceNotEncoded(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"]))%>';
+        var text = <%= Html.ResourceJavascript(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"])) %>;
 		$.fn.AtomiaShoppingCart.RemoveItem(id, text, 1, true);
     } 
 }
@@ -298,7 +298,7 @@ $(document).ready(function() {
     $("#InvoiceByPost").click(function() {
         OrderByPostSelected = true;
         var id = "<%= ViewData["OrderByPostId"].ToString()%>";
-        var text = '<%= Html.ResourceNotEncoded(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"]))%>';
+        var text = <%= Html.ResourceJavascript(String.Format("{0}Common, PostOrderTitleDesc", Session["Theme"])) %>;
         // Remove if in the cart
         $.fn.AtomiaShoppingCart.RemoveItem(id, text, 1, false);
 		$.fn.AtomiaShoppingCart.AddItem(id, text, 1, true, false);

@@ -90,8 +90,8 @@
         </div>
     </div>
     <script type="text/javascript">
-        var IndexFormDomainsRequiredMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
-        var ErrorEmptyFieldMessage = '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorEmptyField") %>';
+        var IndexFormDomainsRequiredMessage = <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>;
+        var ErrorEmptyFieldMessage = <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>;
         
         var notificationParams = {};
         notificationParams.wasAnError = "<%= ViewData["WasAnError"] %>";
@@ -254,7 +254,7 @@
                     NumberOfDomainsAllowed: "<%= ViewData["NumberOfDomainsAllowed"].ToString() %>"
                 },
                 messages: {
-                    ValidateNumOfDomains: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorNumDomains") %>'
+                    ValidateNumOfDomains: <%= Html.ResourceJavascript("ValidationErrors, ErrorNumDomains") %>
                 }
             });
 
@@ -264,7 +264,7 @@
                     RegDomain: "<%= ViewData["RegDomain"].ToString() %>"
                 },
                 messages: {
-                    ValidateGroupOfDomains: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidDomains") %>'
+                    ValidateGroupOfDomains: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidDomains") %>
                 }
             });
 
@@ -273,7 +273,7 @@
                     AllowedDomainLength: "<%= ViewData["AllowedDomainLength"] %>"
                 },
                 messages: {
-                    ValidateDomainsLength: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorStringLength") %>'
+                    ValidateDomainsLength: <%= Html.ResourceJavascript("ValidationErrors, ErrorStringLength") %>
                 }
             });
 
@@ -283,7 +283,7 @@
                     ParentContainer: 'second'
                 },
                 messages: {
-                    ValidateOwnDomainBasedOnTLD: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidDomains") %>'
+                    ValidateOwnDomainBasedOnTLD: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidDomains") %>
                 }
             });
 
@@ -293,7 +293,7 @@
                     ParentContainer: 'second'
                 },
                 messages: {
-                    ValidateOwnDomainExistanceInSystem: '<%= Html.ResourceNotEncoded("ValidationErrors, DomainExists") %>'
+                    ValidateOwnDomainExistanceInSystem: <%= Html.ResourceJavascript("ValidationErrors, DomainExists") %>
                 }
             });
 
@@ -302,7 +302,7 @@
                     ParentContainer: 'subdomain'
                 },
                 messages: {
-                    ValidateSubDomainIsSingleLevel: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorMultiLevelSubdomain") %>'
+                    ValidateSubDomainIsSingleLevel: <%= Html.ResourceJavascript("ValidationErrors, ErrorMultiLevelSubdomain") %>
                 }
             });
 
@@ -312,7 +312,7 @@
                     ParentContainer: 'subdomain'
                 },
                 messages: {
-                    ValidateSubDomain: '<%= Html.ResourceNotEncoded("ValidationErrors, ErrorInvalidSubdomain") %>'
+                    ValidateSubDomain: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidSubdomain") %>
                 }
             });
 
@@ -322,7 +322,7 @@
                     ParentContainer: 'subdomain'
                 },
                 messages: {
-                    ValidateSubDomainExistanceInSystem: '<%= Html.ResourceNotEncoded("ValidationErrors, DomainExists") %>'
+                    ValidateSubDomainExistanceInSystem: <%= Html.ResourceJavascript("ValidationErrors, DomainExists") %>
                 }
             });
         }

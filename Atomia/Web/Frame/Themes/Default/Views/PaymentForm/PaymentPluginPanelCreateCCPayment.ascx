@@ -132,7 +132,7 @@
                                 return $("#cc-box" + pluginSuffix).is(':visible');
                             },
                             messages: {
-                                required: '<%= Html.ResourceNotEncoded("ErrorEmptyField") %>'
+                                required: <%= Html.ResourceJavascript("ErrorEmptyField") %>
                             }
                         });
                     }
@@ -145,7 +145,7 @@
                                 return !$("#cc-box" + current_suffix).is(':visible');
                             },
                             messages: {
-                                required: '<%= Html.ResourceNotEncoded("ErrorEmptyProfile") %>'
+                                required: <%= Html.ResourceJavascript("ErrorEmptyProfile") %>
                             }
                         });
                     };

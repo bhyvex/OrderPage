@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
 [assembly: AssemblyCompany("Atomia AB")]
-[assembly: AssemblyCopyright("Copyright © Atomia AB 2013")]
+[assembly: AssemblyCopyright("Copyright © Atomia AB 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("13.8.*")]
+[assembly: AssemblyVersion("14.1.*")]

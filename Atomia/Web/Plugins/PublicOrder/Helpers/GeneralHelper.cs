@@ -202,6 +202,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             new PhoneCodePair { PhoneCode = "252",  CountryCode = "SO" },
             new PhoneCodePair { PhoneCode = "27",   CountryCode = "ZA" },
             new PhoneCodePair { PhoneCode = "34",   CountryCode = "ES" },
+            new PhoneCodePair { PhoneCode = "34",   CountryCode = "IC" },
             new PhoneCodePair { PhoneCode = "94",   CountryCode = "LK" },
             new PhoneCodePair { PhoneCode = "249",  CountryCode = "SD" },
             new PhoneCodePair { PhoneCode = "597",  CountryCode = "SR" },

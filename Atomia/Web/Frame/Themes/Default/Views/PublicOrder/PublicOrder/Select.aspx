@@ -649,6 +649,9 @@
                                 <br class="clear" />
                                 <div class="smalltext"><%= Html.Resource("PaymentSmall3")%></div>
                                 <br class="clear" />
+                                <div id="cc_paymentDiv" style="display: none;">
+									<% Html.RenderAction("Index", "PaymentForm", new { area = "PaymentForm", listOfPlugins = new List<GuiPaymentPluginData> { new GuiPaymentPluginData("CCPayment", "Credit card payment")}.ToArray() }); %>
+								</div>
                             <% 
                             }
                             

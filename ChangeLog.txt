@@ -1,3 +1,7 @@
+Atomia Public Order Page v14.1
+2014-02-11 Daniel Persson <daniel.persson@atomia.com>
+	- [FIX] Fixed missing credit card form for CCPayment payment method.
+
 Atomia Public Order Page v13.11
 2013-11-04 Stefan Stankovic <stefan.stankovic@atomia.com>
 	- [IMPROVEMENT] HostingProducts Lib updated to latest

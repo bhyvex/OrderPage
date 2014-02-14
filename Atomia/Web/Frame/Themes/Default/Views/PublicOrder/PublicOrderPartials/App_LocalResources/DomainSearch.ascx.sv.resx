@@ -118,49 +118,49 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>Lägg till</value>
   </data>
   <data name="AnotherDomain" xml:space="preserve">
-    <value>Find more domain names</value>
+    <value>Sök fler domännamn</value>
   </data>
   <data name="Available" xml:space="preserve">
-    <value>Available</value>
+    <value>Tillgänglig</value>
   </data>
   <data name="DomainName" xml:space="preserve">
-    <value>Domain name</value>
+    <value>Domännamn</value>
   </data>
   <data name="ErrorProcessing" xml:space="preserve">
-    <value>Could not process your order</value>
+    <value>Kunde ej behandla din order</value>
   </data>
   <data name="ErrorSearchArguments" xml:space="preserve">
-    <value>Add up to 4 domain names separate by space</value>
+    <value>Lägg till upp till fyra domännamn separerade av mellanslag</value>
   </data>
   <data name="ErrorStringLength" xml:space="preserve">
-    <value>The maximum numbers of characters have been violated.</value>
+    <value>För många tecken.</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading</value>
+    <value>Laddar</value>
   </data>
   <data name="NotAllowedDomain" xml:space="preserve">
-    <value>This is a permium domain and it can not be registered by us (yet).</value>
+    <value>Detta är ett premiumdomännamn och kan ej registreras.</value>
   </data>
   <data name="PriceUp" xml:space="preserve">
-    <value>Annual fee</value>
+    <value>Årsavgift</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Ta bort</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Sök</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="Taken" xml:space="preserve">
-    <value>Taken</value>
+    <value>Tagen</value>
   </data>
   <data name="Unavailable" xml:space="preserve">
-    <value>Unavailable</value>
+    <value>Ej tillgänglig</value>
   </data>
   <data name="AdditionalDomain" xml:space="preserve">
     <value>Lägg till ytterligare domännamn</value>

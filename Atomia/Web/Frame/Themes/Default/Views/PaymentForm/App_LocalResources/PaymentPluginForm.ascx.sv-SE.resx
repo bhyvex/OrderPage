@@ -186,4 +186,13 @@
   <data name="TermsAndConditions" xml:space="preserve">
     <value>Terms and conditions</value>
   </data>
+  <data name="AtomiaCredit" xml:space="preserve">
+    <value>Betala med krediter</value>
+  </data>
+  <data name="AtomiaCreditDescription" xml:space="preserve">
+    <value>Betalningen måste ske helt och hållet med krediter. Om man inte har tillräckligt med krediter så kan man köpa fler.</value>
+  </data>
+  <data name="AtomiaCreditTitle" xml:space="preserve">
+    <value>Krediter</value>
+  </data>
 </root>

@@ -153,4 +153,7 @@
   <data name="Title" xml:space="preserve">
     <value>Beställ webbhotell och DNS</value>
   </data>
+  <data name="Third" xml:space="preserve">
+    <value>Lägg till subdomän</value>
+  </data>
 </root>

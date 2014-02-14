@@ -162,4 +162,13 @@
   <data name="Unavailable" xml:space="preserve">
     <value>Unavailable</value>
   </data>
+  <data name="AdditionalDomain" xml:space="preserve">
+    <value>Lägg till ytterligare domännamn</value>
+  </data>
+  <data name="Del" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="Buy" xml:space="preserve">
+    <value>Köp</value>
+  </data>
 </root>

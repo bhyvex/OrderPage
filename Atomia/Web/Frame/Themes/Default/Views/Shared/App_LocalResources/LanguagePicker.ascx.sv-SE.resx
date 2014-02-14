@@ -129,4 +129,19 @@
   <data name="svSE" xml:space="preserve">
     <value>Svenska</value>
   </data>
+  <data name="enUSDescription" xml:space="preserve">
+    <value>Internationell</value>
+  </data>
+  <data name="nlNL" xml:space="preserve">
+    <value>Nederlänska</value>
+  </data>
+  <data name="nlNLDescrption" xml:space="preserve">
+    <value>Nederländerna</value>
+  </data>
+  <data name="nbNO" xml:space="preserve">
+    <value>Norska</value>
+  </data>
+  <data name="nbNODescrption" xml:space="preserve">
+    <value>Norge</value>
+  </data>
 </root>

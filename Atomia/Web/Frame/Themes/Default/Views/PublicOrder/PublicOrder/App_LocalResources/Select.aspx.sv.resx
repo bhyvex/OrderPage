@@ -441,4 +441,79 @@
   <data name="PaymentNeededNotification" xml:space="preserve">
     <value>Betalning ska vara avslutad innan ett eller flera artiklar kan användas.</value>
   </data>
+  <data name="CustomerType" xml:space="preserve">
+    <value>Kundtyp</value>
+  </data>
+  <data name="Company-opt" xml:space="preserve">
+    <value>Företag</value>
+  </data>
+  <data name="Org-opt" xml:space="preserve">
+    <value>Organisation</value>
+  </data>
+  <data name="Privateperson" xml:space="preserve">
+    <value>Privatperson</value>
+  </data>
+  <data name="OnPayPalBilling" xml:space="preserve">
+    <value>Betalt via angivet paypal-konto</value>
+  </data>
+  <data name="PaymentSmall4" xml:space="preserve">
+    <value>(utan avgift, kom igång direkt</value>
+  </data>
+  <data name="PayPalPayment" xml:space="preserve">
+    <value>Paypal-betalning</value>
+  </data>
+  <data name="Pay_pal" xml:space="preserve">
+    <value>Betala med ditt paypal-konto</value>
+  </data>
+  <data name="SubdomainAlternative" xml:space="preserve">
+    <value>Subdomän-alternativ</value>
+  </data>
+  <data name="SubdomainAltInfo" xml:space="preserve">
+    <value>Lägg till subdomän</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Bakåt</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Nästa</value>
+  </data>
+  <data name="DescriptionStep1" xml:space="preserve">
+    <value>Köp nytt eller flytta existerande</value>
+  </data>
+  <data name="DescriptionStep2" xml:space="preserve">
+    <value>Välj ett webbhotellspaket som passar dig</value>
+  </data>
+  <data name="DescriptionStep3" xml:space="preserve">
+    <value>Fyll i kontoinformation</value>
+  </data>
+  <data name="DescriptionStep4" xml:space="preserve">
+    <value>Betalningsalternativ</value>
+  </data>
+  <data name="HeaderStep1" xml:space="preserve">
+    <value>Domäner</value>
+  </data>
+  <data name="HeaderStep2" xml:space="preserve">
+    <value>Webbhotell</value>
+  </data>
+  <data name="HeaderStep3" xml:space="preserve">
+    <value>Kontoinformation</value>
+  </data>
+  <data name="HeaderStep4" xml:space="preserve">
+    <value>Kassan</value>
+  </data>
+  <data name="VATNumber" xml:space="preserve">
+    <value>Momsregistreringsnummer</value>
+  </data>
+  <data name="NoridDeclaration" xml:space="preserve">
+    <value>Norids egendeklaration</value>
+  </data>
+  <data name="NoridDeclarationInfo" xml:space="preserve">
+    <value>Jag har läst och accepterat egendeklarationen för .no domäner</value>
+  </data>
+  <data name="SignedName" xml:space="preserve">
+    <value>Mitt namn är</value>
+  </data>
+  <data name="NoridLink" xml:space="preserve">
+    <value>Se egendeklarationen (öppnas i eget fönster)</value>
+  </data>
 </root>

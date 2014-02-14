@@ -192,4 +192,7 @@
   <data name="CurrencySymbolUSD" xml:space="preserve">
     <value>USD</value>
   </data>
+  <data name="resellerTOS_core" xml:space="preserve">
+    <value>Jag intygar att kunden godkänner &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's allmänna villkor&lt;/a&gt;.*</value>
+  </data>
 </root>

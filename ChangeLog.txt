@@ -1,4 +1,7 @@
 Atomia Public Order Page v14.1
+2014-02-20 Daniel Persson <daniel.persson@atomia.com>
+	- [FIX] Fixed order page not redirecting to WorldPay correctly.
+	
 2014-02-11 Daniel Persson <daniel.persson@atomia.com>
 	- [FIX] Fixed missing credit card form for CCPayment payment method.
 

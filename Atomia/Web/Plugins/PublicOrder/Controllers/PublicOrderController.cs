@@ -1946,7 +1946,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 case "AdyenHpp":
                 case "WorldPayXml":
                 case "DibsFlexwin":
-                case "WorldPay":
+                case "WorldPayRedirect":
                     {
                         action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
 

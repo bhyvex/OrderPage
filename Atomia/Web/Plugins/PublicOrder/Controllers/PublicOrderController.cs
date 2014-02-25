@@ -1,4 +1,4 @@
-﻿    //-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="PublicOrderController.cs" company="Atomia AB">
 //     Copyright (c) Atomia AB. All rights reserved.
 // </copyright>
@@ -112,7 +112,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 Session["PreselectedPackage"] = sel;
             }
-            
+
             if (!string.IsNullOrEmpty(package) && groupExists)
             {
                 Session["FilterByPackage"] = package;
@@ -169,7 +169,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 return RedirectToAction("Domain", new { domain = queryStringDomain });
             }
-            
+
             return View();
         }
 
@@ -305,7 +305,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             catch (ConfigurationErrorsException ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(ex);
                 throw;
             }
 
@@ -473,12 +473,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             catch (Exception ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(ex);
             }
 
             List<string> europeanCountriesList = CountriesHelper.GetEUCountryCodes(countryList);
             string europeanCountries = europeanCountriesList.Aggregate(string.Empty, (current, country) => current + String.Format("{0} ", country));
-            
+
             ViewData["EUCountries"] = europeanCountries.Trim();
             ViewData["CountryList"] = CountriesHelper.GetSupportedCountriesSelectList(countryList);
 
@@ -649,7 +649,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                
+
                 ViewData["PaymentEnabled"] = paymentEnabled;
 
                 ViewData["PayPalEnabled"] = payPalEnabled;
@@ -686,7 +686,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     currentCart.Add(
                         new ProductDescription
                         {
-                            productID = currentArrayOfProducts[i], 
+                            productID = currentArrayOfProducts[i],
                             productDesc = currentArrayOfProducts[i + 1],
                             RenewalPeriodId = currentArrayOfProducts[i + 2]
                         });
@@ -823,7 +823,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, Guid.Empty, null, null);
                         List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
                         ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
-                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service,Guid.Empty, Guid.Empty, null, null);
+                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, Guid.Empty, null, null);
                         IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, Guid.Empty, null, null);
 
                         List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
@@ -911,7 +911,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         websitesAllowed = false;
                                     }
 
-                                    
+
 
                                     // if the selected package in the cart is not free)
                                     if (SubmitForm.FirstOption)
@@ -921,7 +921,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                                                         ? "CsLinuxWebsite"
                                                                         : "CsDomainParking")
                                                                  : "CsDomainParking";
-                                        
+
                                         // check if the current product is main domain
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
@@ -976,8 +976,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     // if it's free package, just add it
                                     PublicOrderItem tmpItem = new PublicOrderItem
                                                                   {
-                                                                      ItemId = Guid.Empty, 
-                                                                      ItemNumber = tmpProduct.productID, 
+                                                                      ItemId = Guid.Empty,
+                                                                      ItemNumber = tmpProduct.productID,
                                                                       RenewalPeriodId = renewalPeriodId,
                                                                       Quantity = 1
                                                                   };
@@ -1006,12 +1006,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         {
 
                             emailProps = new Dictionary<string, string>();
-                            if(opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
+                            if (opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
                             {
                                 List<PublicOrderItemProperty> arrayOfCustoms = myOrderItem.CustomData.ToList();
-                                if(SubmitForm.DomainSpeciffic == null)
+                                if (SubmitForm.DomainSpeciffic == null)
                                 {
-                                    throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for "+myOrderItem.ItemNumber+" domain");
+                                    throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for " + myOrderItem.ItemNumber + " domain");
                                 }
                                 string emailType =
                                     opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
@@ -1081,7 +1081,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             }
                             catch (Exception ex)
                             {
-                               OrderPageLogger.LogOrderPageException(ex);
+                                OrderPageLogger.LogOrderPageException(ex);
                                 throw;
                             }
                         }
@@ -1162,7 +1162,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 }
                 catch (Exception ex)
                 {
-                   OrderPageLogger.LogOrderPageException(ex);
+                    OrderPageLogger.LogOrderPageException(ex);
                 }
             }
 
@@ -1328,7 +1328,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     addressInfo = service.GetAddressInfoOrder(identifier, EntityType.Company, ResellerHelper.GetResellerId());
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 OrderPageLogger.LogOrderPageException(ex);
             }
@@ -1349,7 +1349,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             if (this.Session["CreatedOrder"] != null)
             {
                 JavaScriptSerializer js = new JavaScriptSerializer();
-                
+
                 ViewData["CreatedOrderRaw"] = this.Session["CreatedOrder"];
                 ViewData["CreatedOrderAsJson"] = js.Serialize(this.Session["CreatedOrder"]);
 
@@ -1358,7 +1358,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 // Throw away any previous submit form (used to re-fill form on canceled payment)
                 this.Session["SavedSubmitForm"] = null;
             }
-            
+
             return View();
         }
 
@@ -1411,13 +1411,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             catch (Exception ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(ex);
                 throw;
             }
 
             return Json(emailExists);
         }
-        
+
         /// <summary>
         /// Checks if email domain is valid (against IDN validation).
         /// </summary>
@@ -1431,9 +1431,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-               string emailDomain = email.Split('@')[1];
-               SimpleDnsPlus.IDNLib.Encode(emailDomain);
-               emailDomainValid = true;
+                string emailDomain = email.Split('@')[1];
+                SimpleDnsPlus.IDNLib.Encode(emailDomain);
+                emailDomainValid = true;
             }
             catch (Exception)
             {
@@ -1539,7 +1539,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             catch (Exception ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(ex);
                 throw;
             }
 
@@ -1620,7 +1620,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
                 string currencyCode = null;
-                if (System.Web.HttpContext.Current.Session != null && 
+                if (System.Web.HttpContext.Current.Session != null &&
                     System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null)
                 {
                     currencyCode = System.Web.HttpContext.Current.Session["OrderCurrencyCode"] as string;
@@ -1805,7 +1805,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     publicOrderService.UpdatePaymentTransactionData(token, transaction.Status, transaction.StatusCode, transaction.StatusCodeDescription, nameValues.ToArray());
                     finishedTransaction = publicOrderService.FinishPayment(transaction.TransactionId);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -1915,85 +1915,45 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             string action = null;
 
-            switch (paymentMethod)
+            if (paymentMethod == "CCPayment")
             {
-                case "CCPayment":
+                action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
+
+            }
+            else
+            {
+                if (controller.HttpContext != null && controller.HttpContext.Application != null &&
+                    controller.HttpContext.Application.AllKeys.Contains(paymentMethod + "PaymentReturnAction") &&
+                    !string.IsNullOrEmpty((string)controller.HttpContext.Application[paymentMethod + "PaymentReturnAction"]))
+                {
+                    action = controller.Url.Action((string)controller.HttpContext.Application[paymentMethod + "PaymentReturnAction"], new { controller = "PublicOrder" });
+                }
+                else
+                {
                     action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
-                    break;
+                }
 
-                case "PayexRedirect":
-                    {
-                        action = controller.Url.Action("PayExConfirmRedirect", new { controller = "PublicOrder" });
 
-                        List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                        if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                List<AttributeData> attributeDatas = transaction.Attributes.ToList();
+                if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
+                {
+                    attributeDatas.Add(
+                        new AttributeData
                         {
-                            attributeDatas.Add(
-                                new AttributeData
-                                {
-                                    Name = "CancelUrl",
-                                    Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
-                                });
-                        }
-                        else
-                        {
-                            attributeDatas.First(item => item.Name == "CancelUrl").Value =
-                                controller.Url.Action("Select", new { controller = "PublicOrder" });
-                        }
-                    }
-                    break;
-
-                case "AdyenHpp":
-                case "WorldPayXml":
-                case "DibsFlexwin":
-                case "WorldPayRedirect":
-                    {
-                        action = controller.Url.Action("Payment", new { controller = "PublicOrder" });
-
-                        List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                        if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                        {
-                            attributeDatas.Add(
-                                new AttributeData
-                                {
-                                    Name = "CancelUrl",
-                                    Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
-                                });
-                        }
-                        else
-                        {
-                            attributeDatas.First(item => item.Name == "CancelUrl").Value =
-                                controller.Url.Action("Select", new { controller = "PublicOrder" });
-                        }
-                    }
-                    break;
-
-                case "PayPal":
-                    {
-                        action = controller.Url.Action("PayPalConfirm", new { controller = "PublicOrder" });
-
-                        List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-                        if (!attributeDatas.Any(item => item.Name == "CancelUrl"))
-                        {
-                            attributeDatas.Add(
-                                new AttributeData
-                                {
-                                    Name = "CancelUrl",
-                                    Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
-                                });
-                        }
-                        else
-                        {
-                            attributeDatas.First(item => item.Name == "CancelUrl").Value =
-                                controller.Url.Action("Select", new { controller = "PublicOrder" });
-                        }
-                    }
-                    break;
+                            Name = "CancelUrl",
+                            Value = controller.Url.Action("Select", new { controller = "PublicOrder" })
+                        });
+                }
+                else
+                {
+                    attributeDatas.First(item => item.Name == "CancelUrl").Value =
+                        controller.Url.Action("Select", new { controller = "PublicOrder" });
+                }
             }
 
             return PaymentHelper.CreatePaymentTransaction(controller, order, paidAmount, action, transaction);
         }
-        
+
         /// <summary>
         /// Validate VAT number
         /// </summary>
@@ -2010,7 +1970,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
                 {
-                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();                                    
+                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
                     VatNumberValidationResultType valResult = publicOrderService.ValidateVatNumber(
                         countryCode, VATNumber);
@@ -2021,7 +1981,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             catch (Exception ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(ex);
                 var dataToReturn = new
                 {
                     sEcho,
@@ -2037,7 +1997,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
         private PublicPaymentTransaction GetTransationById(string transactionId)
         {
-            
+
             try
             {
                 using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())

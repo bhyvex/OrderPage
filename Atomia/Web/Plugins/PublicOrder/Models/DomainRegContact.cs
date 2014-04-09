@@ -7,21 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace Atomia.Web.Plugin.PublicOrder.Models
 {
     /// <summary>
-    /// The DomainRegContact model.
+    /// The DomainRegContact model used for serializing DomainRegContact fields on SubmitForm to JSON.
     /// </summary>
     public class DomainRegContact
     {
-        /// <summary>
-        /// Gets or sets the logical ID.
-        /// </summary>
-        /// <value>The logical ID.</value>
-        public string LogicalID { get; set; }
-
         /// <summary>
         /// Gets or sets the city.
         /// </summary>
@@ -47,18 +39,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         public string Fax { get; set; }
 
         /// <summary>
-        /// Gets or sets the fax extension.
-        /// </summary>
-        /// <value>The fax extension.</value>
-        public string FaxExtension { get; set; }
-
-        /// <summary>
-        /// Gets or sets the contact's id.
-        /// </summary>
-        /// <value>The contact's id.</value>
-        public string Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The contact's name.</value>
@@ -77,12 +57,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         public string OrgNo { get; set; }
 
         /// <summary>
-        /// Gets or sets the state.
-        /// </summary>
-        /// <value>The contact's state.</value>
-        public string State { get; set; }
-
-        /// <summary>
         /// Gets or sets the street1.
         /// </summary>
         /// <value>The street1.</value>
@@ -93,12 +67,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         /// <value>The street2.</value>
         public string Street2 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the street3.
-        /// </summary>
-        /// <value>The street3.</value>
-        public string Street3 { get; set; }
 
         /// <summary>
         /// Gets or sets the vat no.
@@ -113,37 +81,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         public string Voice { get; set; }
 
         /// <summary>
-        /// Gets or sets the voice extension.
-        /// </summary>
-        /// <value>The voice extension.</value>
-        public string VoiceExtension { get; set; }
-
-        /// <summary>
         /// Gets or sets the zip.
         /// </summary>
         /// <value>The contact's zip.</value>
         public string Zip { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is reseller contact.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is reseller contact; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsResellerContact { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is primary contact.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is primary contact; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsPrimaryContact { get; set; }
-
-        /// <summary>
-        /// Gets or sets the read only properties.
-        /// </summary>
-        /// <value>The read only properties.</value>
-        public List<string> ReadOnlyProperties { get; set; }
     }
 }

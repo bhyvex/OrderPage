@@ -1,4 +1,15 @@
 Atomia Public Order Page v14.1
+2014-04-15 Daniel Persson <daniel.persson@atomia.com>
+	- [IMPROVEMENT] Use standard configurable validation from Atomia.Web.Plugin Validation (front-end and back-end).
+	- [IMPROVEMENT] Updated jQuery Validation Plugin (jquery.validate.js) to version 1.8.1
+	- [IMPROVEMENT] Changed default required field message from "Mandatory" to "This field cannot be empty"
+	- [IMPROVEMENT] Made VAT number an explicit visible field to fill in instead of a hidden automatically handled field.
+	- [FIX] Fixed form labels referencing the correct input field ids.
+	- [IMPROVEMENT] Use first name and last name for whois form (same as other addresses) and combine later.
+	- [IMPROVEMENT] Made Billing fax field not hidden.
+	- [IMPROVEMENT] Standardized whois form field names, ids and order.
+	
+	
 2014-02-20 Daniel Persson <daniel.persson@atomia.com>
 	- [FIX] Fixed order page not redirecting to WorldPay correctly.
 	

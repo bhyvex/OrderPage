@@ -59,7 +59,8 @@ $.postJSON = function(url, data, callback) {
             vtipImagePath: "",
             processingImageLocation: "",
             cartTotal: 0,
-            OnAfterRecalculation: function(data) { }
+            OnAfterRecalculation: function(data) { },
+            CartUpdatedEventName: "AtomiaShoppingCartUpdated"
         };
         var options = $.extend(defaults, options);
 
@@ -242,6 +243,8 @@ $.postJSON = function(url, data, callback) {
 				$.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
 			}
 		}
+		
+		$.fn.AtomiaShoppingCart.TriggerCartUpdated();
     };
 	$.fn.AtomiaShoppingCart.CheckDuplicate = function(item,itemdisplay){
 		for( x in cartArray ){
@@ -261,6 +264,8 @@ $.postJSON = function(url, data, callback) {
             globalCounter++;
             $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
         }
+		
+		$.fn.AtomiaShoppingCart.TriggerCartUpdated();
     };
     $.fn.AtomiaShoppingCart.SwitchItem = function(oldId, olddisplay, oldquantity, oldRenewalPeriod, oldIsPackage, newId, newdisplay, newquantity, newRenewalPeriod, newIsPackage, doRecalculation) {
         for (var i = 0; i < cartArray.length; i++) {
@@ -272,6 +277,8 @@ $.postJSON = function(url, data, callback) {
             globalCounter++;
             $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
         }
+		
+		$.fn.AtomiaShoppingCart.TriggerCartUpdated();
     };
     $.fn.AtomiaShoppingCart.ResetCart = function(doRecalculation) {
         cartArray = new Array();
@@ -279,6 +286,8 @@ $.postJSON = function(url, data, callback) {
             globalCounter++;
             $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
         }
+		
+		$.fn.AtomiaShoppingCart.TriggerCartUpdated();
     };
     $.fn.AtomiaShoppingCart.RecalculateCart = function(counter) {
         var productIds = '';
@@ -473,6 +482,9 @@ $.postJSON = function(url, data, callback) {
                 $.fn.AtomiaShoppingCart.options.OnAfterRecalculation(data);
             }
         );
+    };
+    $.fn.AtomiaShoppingCart.TriggerCartUpdated = function () {
+        $($.fn.AtomiaShoppingCart.options.htmlElement).trigger($.fn.AtomiaShoppingCart.options.CartUpdatedEventName);
     };
 })(jQuery);
 

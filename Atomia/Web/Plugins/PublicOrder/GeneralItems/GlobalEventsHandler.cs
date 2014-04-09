@@ -8,9 +8,11 @@
 using System;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Atomia.Web.Base.Configs;
 using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+using Atomia.Web.Plugin.Validation.ValidationAttributes;
 using Elmah;
 
 namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
@@ -80,6 +82,13 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
             }
 
             base.Application_Start(sender, e);
+
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(CustomerValidationAttribute), typeof(CustomerValidationAttribute.CustomerValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaRegularExpressionAttribute), typeof(AtomiaRegularExpressionValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaRequiredAttribute), typeof(AtomiaRequiredValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaStringLengthAttribute), typeof(AtomiaStringLengthValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaRangeAttribute), typeof(AtomiaRangeValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaUsernameAttribute), typeof(AtomiaUsernameAttribute.AtomiaUsernameValidator));
         }
     }
 }

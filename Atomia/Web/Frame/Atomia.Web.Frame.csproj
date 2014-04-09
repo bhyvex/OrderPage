@@ -141,6 +141,7 @@
     <Content Include="Themes\Default\Content\img\layout\tab_box_nav_left.png" />
     <Content Include="Themes\Default\Content\img\layout\tab_box_nav_right.png" />
     <Content Include="Themes\Default\Content\img\layout\tab_box_right.png" />
+    <Content Include="Themes\Default\Scripts\AtomiaValidation.js" />
     <Content Include="Themes\Default\Scripts\jquery-1.7.2.min.js" />
     <Content Include="Themes\Default\Scripts\jquery-ui-1.8.20.custom.min.js" />
     <Content Include="Themes\Default\Scripts\MicrosoftMvcJQueryValidation.js" />
@@ -852,6 +853,11 @@
   <ItemGroup>
     <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.fr-FR.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\CustomerValidation.resx">
+      <LastGenOutput>CustomerValidation.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -888,6 +894,7 @@
 copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.HostingProducts.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.HostingProducts.dll.config"
 copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.DomainSearch.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.DomainSearch.dll.config"
 copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.Cart.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.Cart.dll.config"
+copy /y "$(SolutionDir)..\Lib\Atomia.Web.Plugin.Validation.dll.config" "$(SolutionDir)..\Frame\bin\Atomia.Web.Plugin.Validation.dll.config"
 xcopy "$(ProjectDir)..\..\..\changelog.txt" "$(ProjectDir)publish\files\" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

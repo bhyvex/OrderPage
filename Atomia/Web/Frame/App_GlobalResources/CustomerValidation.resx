@@ -117,82 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DomainExists" xml:space="preserve">
-    <value>The domain name allready exists in the system</value>
+  <data name="Address" xml:space="preserve">
+    <value>The address is not valid</value>
   </data>
-  <data name="ErrorEmptyField" xml:space="preserve">
-    <value>This field cannot be empty</value>
+  <data name="City" xml:space="preserve">
+    <value>The city is not valid</value>
   </data>
-  <data name="ErrorInvalidChars" xml:space="preserve">
-    <value>Invalid characters</value>
+  <data name="CompanyName" xml:space="preserve">
+    <value>The company name is not valid</value>
   </data>
-  <data name="ErrorInvalidDomain" xml:space="preserve">
-    <value>Invalid domain name</value>
+  <data name="Country" xml:space="preserve">
+    <value>The country is not valid</value>
   </data>
-  <data name="ErrorInvalidDomains" xml:space="preserve">
-    <value>One or more domain names are invalid</value>
+  <data name="vat_number.default.default.dmn-nu" xml:space="preserve">
+    <value>.nu domain order requires a valid VAT number</value>
   </data>
-  <data name="ErrorInvalidEmail" xml:space="preserve">
-    <value>Invalid E-mail address</value>
+  <data name="vat_number.default.default.dmn-se" xml:space="preserve">
+    <value>.se domain order requires a valid VAT number</value>
   </data>
-  <data name="ErrorInvalidFormat" xml:space="preserve">
-    <value>Invalid format</value>
+  <data name="Email" xml:space="preserve">
+    <value>The email address is not valid</value>
   </data>
-  <data name="ErrorInvalidOrgNumber" xml:space="preserve">
-    <value>Invalid format, expected 10 digits</value>
+  <data name="Fax" xml:space="preserve">
+    <value>The fax number is not valid for the selected country</value>
   </data>
-  <data name="ErrorInvalidPostNumber" xml:space="preserve">
-    <value>Invalid post number</value>
+  <data name="FirstName" xml:space="preserve">
+    <value>The first name is not valid</value>
   </data>
-  <data name="ErrorInvalidSubdomain" xml:space="preserve">
-    <value>Subdomain name is not valid.</value>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>The company/person no. is not valid</value>
   </data>
-  <data name="ErrorInvalidVATNumber" xml:space="preserve">
-    <value>Invalid European VAT number</value>
+  <data name="identity_number.no.default.default" xml:space="preserve">
+    <value>Not a valid Norwegian identity number (YYMMDD-XXXXX)</value>
   </data>
-  <data name="ErrorMultiLevelSubdomain" xml:space="preserve">
-    <value>Only single level subdomains allowed.</value>
+  <data name="identity_number.se.default.default" xml:space="preserve">
+    <value>Not a valid Swedish identity number (YYMMDD-XXXX)</value>
   </data>
-  <data name="ErrorNoDomain" xml:space="preserve">
-    <value>You must select a domain name</value>
+  <data name="LastName" xml:space="preserve">
+    <value>The last name is not valid</value>
   </data>
-  <data name="ErrorNumDomains" xml:space="preserve">
-    <value>Maximimum number of domain names has been exeeded</value>
+  <data name="Mobile" xml:space="preserve">
+    <value>The mobile number is not valid for the selected country</value>
   </data>
-  <data name="ErrorOrgNumberCheckSum" xml:space="preserve">
-    <value>Invalid organization number/civic personal number</value>
+  <data name="Phone" xml:space="preserve">
+    <value>The phone number is not valid for the selected country</value>
   </data>
-  <data name="ErrorProcessing" xml:space="preserve">
-    <value>Error while processing</value>
+  <data name="identity_number.se.default.dmn-nu" xml:space="preserve">
+    <value>.nu domain order requires a Swedish company/person no.</value>
   </data>
-  <data name="ErrorSearchArguments" xml:space="preserve">
-    <value>Add up to 4 domain names separated by space</value>
+  <data name="identity_number.se.default.dmn-se" xml:space="preserve">
+    <value>.se domain order requires a Swedish company/person no.</value>
   </data>
-  <data name="ErrorStringLength" xml:space="preserve">
-    <value>Maximum number of charachters has been exteeded</value>
+  <data name="VatNumber" xml:space="preserve">
+    <value>The VAT number is not valid for the selected country</value>
   </data>
-  <data name="ErrorTermNotChecked" xml:space="preserve">
-    <value>You must read and accept the Tearms of Conditions</value>
-  </data>
-  <data name="ErrorDeclarationNotChecked" xml:space="preserve">
-    <value>You must read and accept the Declaration</value>
-  </data>
-  <data name="ErrorDeclarationFill" xml:space="preserve">
-    <value>To view Self Declaration Form you must fill in the fields:</value>
-  </data>
-  <data name="ErrorMustBeCompany" xml:space="preserve">
-    <value>You need to be company or organization</value>
-  </data>
-  <data name="ErrorMustBeFromNorway" xml:space="preserve">
-    <value>You must have a Norwegian address in order to register a .no domain.</value>
-  </data>
-  <data name="ErrorMustBeFromGermany" xml:space="preserve">
-    <value>You must have a German address in order to register a .de domain.</value>
-  </data>
-  <data name="ErrorMustBeFromNetherlands" xml:space="preserve">
-    <value>You must have a Dutch address in order to register a .nl domain.</value>
-  </data>
-  <data name="ErrorMustBeFromEU" xml:space="preserve">
-    <value>You must have a EU address in order to register a .eu domain.</value>
+  <data name="Zip" xml:space="preserve">
+    <value>The zip is not valid for the selected country</value>
   </data>
 </root>

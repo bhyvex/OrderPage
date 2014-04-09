@@ -84,6 +84,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Atomia.Web.Plugin.ServiceReferences.dll</HintPath>
     </Reference>
+    <Reference Include="Atomia.Web.Plugin.Validation">
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.Validation.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Elmah.dll</HintPath>
@@ -91,6 +94,9 @@
     <Reference Include="idnlib, Version=1.0.2.0, Culture=neutral, PublicKeyToken=3eacd9f3dbc38099, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\idnlib.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic">
+      <HintPath>..\..\Lib\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">

@@ -30,6 +30,7 @@ using Atomia.Web.Plugin.PublicOrder.Filters;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
 using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 using Atomia.Web.Plugin.PublicOrder.Models;
+using Atomia.Web.Plugin.Validation.Helpers;
 using DomainDataFromXML = Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml;
 
 #endregion Using namespaces
@@ -523,6 +524,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, Guid.Empty, currencyCode, countryCode, filterValue);
             }
 
+            CustomerValidationHelper.InitItemCategories(ResellerHelper.GetResellerId(), currencyCode, countryCode);
+            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories();
+
             this.ViewData["OwnDomain"] = string.Empty;
 
             if (!((bool)this.Session["firstOption"]))
@@ -542,7 +546,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 InvoiceRadioYouAre = "private",
                 CountryCode = countryCode,
                 InvoiceCountryCode = countryCode,
-                DomainRegContact = new DomainRegContact { Country = countryCode }
+                DomainRegCountryCode = countryCode
             };
 
             try
@@ -649,8 +653,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["WorldPayXmlRedirectEnabled"] = worldPayXmlRedirectEnabled;
             ViewData["AdyenHppEnabled"] = adyenHppEnabled;
 
+            ViewData["AddingSubdomain"] = false;
+            if (this.Session["subdomain"] != null)
+            {
+                ViewData["AddingSubdomain"] = (bool)this.Session["subdomain"];
+            }
+
+            ViewData["DefaultPaymentPlugin"] = ControllerContext.HttpContext.Application["DefaultPaymentPlugin"];
+
             string orderByPostId = string.Empty;
-            List<string> currentArrayOfProducts;
             List<RadioRow> list;
             List<ProductDescription> currentCart;
 
@@ -683,78 +694,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     ViewData["OrderByEmailEnabled"] = false;
                 }
 
-                currentArrayOfProducts = SubmitForm.ArrayOfProducts.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
                 list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, Guid.Empty, null, null);
 
-                currentCart = new List<ProductDescription>();
-
-                for (int i = 0; i < currentArrayOfProducts.Count; i += 3)
-                {
-                    currentCart.Add(
-                        new ProductDescription
-                        {
-                            productID = currentArrayOfProducts[i],
-                            productDesc = currentArrayOfProducts[i + 1],
-                            RenewalPeriodId = currentArrayOfProducts[i + 2]
-                        });
-                }
-
-                // this includes own and sub domain
-                if (!string.IsNullOrEmpty(SubmitForm.OwnDomain))
-                {
-                    currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, Guid.Empty, null, null), productDesc = SubmitForm.OwnDomain });
-                }
-            }
-
-            try
-            {
-                var errors = DataAnnotationsValidationRunner.GetErrors(SubmitForm);
-                if (errors.Any())
-                {
-                    ViewData["WasAnError"] = 1;
-
-                    throw new AtomiaServerSideValidationException(errors);
-                }
-
-                if (SubmitForm.SecondAddress)
-                {
-                    if (string.IsNullOrEmpty(SubmitForm.InvoiceContactName))
-                    {
-                        throw new AtomiaServerSideValidationException("errorName", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-
-                    if (string.IsNullOrEmpty(SubmitForm.InvoiceAddress))
-                    {
-                        throw new AtomiaServerSideValidationException("errorAddress", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-
-                    if (string.IsNullOrEmpty(SubmitForm.InvoicePostNumber))
-                    {
-                        throw new AtomiaServerSideValidationException("errorPostNumber", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-
-                    if (string.IsNullOrEmpty(SubmitForm.InvoiceCity))
-                    {
-                        throw new AtomiaServerSideValidationException("errorCity", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-
-                    if (string.IsNullOrEmpty(SubmitForm.InvoiceTelephone))
-                    {
-                        throw new AtomiaServerSideValidationException("errorTelephone", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-
-                    if (string.IsNullOrEmpty(SubmitForm.InvoiceEmail))
-                    {
-                        throw new AtomiaServerSideValidationException("errorEmail", this.GlobalResource("ValidationErrors, ErrorEmptyField"), SubmitForm);
-                    }
-                }
-            }
-            catch (AtomiaServerSideValidationException ex)
-            {
-                ViewData["WasAnError"] = 1;
-
-                ex.AddModelStateErrors(ModelState, String.Empty);
+                currentCart = SubmitForm.CurrentCart;
             }
 
             if (ModelState.IsValid)
@@ -798,9 +740,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                             myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
 
-                            myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephoneProcessed, SubmitForm.InvoiceCountryCode));
-                            myOrder.BillingFax = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceFaxProcessed, SubmitForm.InvoiceCountryCode));
-                            myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceMobileProcessed, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingFax = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
                         }
 
                         myOrder.City = GeneralHelper.PrepareForSubmit(SubmitForm.City);
@@ -821,8 +763,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         myOrder.Email = GeneralHelper.PrepareForSubmit(SubmitForm.Email);
 
-                        myOrder.Fax = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.FaxProcessed, SubmitForm.CountryCode));
-                        myOrder.Mobile = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.MobileProcessed, SubmitForm.CountryCode));
+                        myOrder.Fax = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
+                        myOrder.Mobile = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
 
                         myOrder.FirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
                         myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
@@ -835,24 +777,38 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, Guid.Empty, null, null);
 
                         List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
+
+                        string jsonDomainRegContact = string.Empty;
                         if (SubmitForm.WhoisContact)
                         {
-                            SubmitForm.DomainRegContact.City = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.City);
-                            SubmitForm.DomainRegContact.Country = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Country);
-                            SubmitForm.DomainRegContact.Email = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Email);
-                            SubmitForm.DomainRegContact.FaxExtension = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.FaxExtension);
-                            SubmitForm.DomainRegContact.Fax = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegContact.Fax, SubmitForm.DomainRegContact.Country);
-                            SubmitForm.DomainRegContact.Name = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Name);
-                            SubmitForm.DomainRegContact.Org = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Org);
-                            SubmitForm.DomainRegContact.OrgNo = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.OrgNo);
-                            SubmitForm.DomainRegContact.State = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.State);
-                            SubmitForm.DomainRegContact.Street1 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Street1);
-                            SubmitForm.DomainRegContact.Street2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Street2);
-                            SubmitForm.DomainRegContact.Street3 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Street3);
-                            SubmitForm.DomainRegContact.VatNo = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.VatNo);
-                            SubmitForm.DomainRegContact.Voice = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegContact.Voice, SubmitForm.DomainRegContact.Country);
-                            SubmitForm.DomainRegContact.VoiceExtension = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.VoiceExtension);
-                            SubmitForm.DomainRegContact.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContact.Zip);
+                            SubmitForm.DomainRegCity = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCity);
+                            SubmitForm.DomainRegCountryCode = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCountryCode);
+                            SubmitForm.DomainRegEmail = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegEmail);
+                            SubmitForm.DomainRegFax = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
+                            SubmitForm.DomainRegContactName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactName);
+                            SubmitForm.DomainRegContactLastName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactLastName);
+                            SubmitForm.DomainRegCompany = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCompany);
+                            SubmitForm.DomainRegOrgNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegOrgNumber);
+                            SubmitForm.DomainRegAddress = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress);
+                            SubmitForm.DomainRegAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress2);
+                            SubmitForm.DomainRegVATNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegVATNumber);
+                            SubmitForm.DomainRegTelephone = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
+                            SubmitForm.DomainRegPostNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegPostNumber);
+                            jsonDomainRegContact = new JavaScriptSerializer().Serialize(new DomainRegContact()
+                                {
+                                    City = SubmitForm.DomainRegCity,
+                                    Country = SubmitForm.DomainRegCountryCode,
+                                    Email = SubmitForm.DomainRegEmail,
+                                    Fax = SubmitForm.DomainRegFax,
+                                    Name = SubmitForm.DomainRegContactName + " " + SubmitForm.DomainRegContactLastName,
+                                    Org = SubmitForm.DomainRegCompany,
+                                    OrgNo = SubmitForm.DomainRegOrgNumber,
+                                    Street1 = SubmitForm.DomainRegAddress,
+                                    Street2 = SubmitForm.DomainRegAddress2,
+                                    VatNo = SubmitForm.DomainRegVATNumber,
+                                    Voice = SubmitForm.DomainRegTelephone,
+                                    Zip = SubmitForm.DomainRegPostNumber
+                                });
                         }
 
                         foreach (ProductDescription tmpProduct in currentCart)
@@ -920,7 +876,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                                     if (SubmitForm.WhoisContact)
                                     {
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = new JavaScriptSerializer().Serialize(SubmitForm.DomainRegContact) });
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty
+                                        {
+                                            Name = "DomainRegContact",
+                                            Value = jsonDomainRegContact
+                                        });
                                     }
 
                                     PublicOrderItem tmpItem = new PublicOrderItem
@@ -972,7 +932,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                         }
                                         if (SubmitForm.WhoisContact)
                                         {
-                                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = new JavaScriptSerializer().Serialize(SubmitForm.DomainRegContact) });
+                                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = jsonDomainRegContact });
                                         }
                                     }
                                     else
@@ -1148,25 +1108,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         myOrder.ResellerId = ResellerHelper.GetResellerId();
 
-                        myOrder.Phone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.TelephoneProcessed, SubmitForm.CountryCode));
+                        myOrder.Phone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
 
                         myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Replace(" ", String.Empty));
-
-                        if (!SubmitForm.SecondAddress)
-                        {
-                            myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
-                            myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
-                            myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.Company);
-                            myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.Address);
-                            myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.Address2);
-                            myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.City);
-                            myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(SubmitForm.CountryCode);
-                            myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Replace(" ", String.Empty));
-                            myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.Email);
-                            myOrder.BillingPhone = myOrder.Phone;
-                            myOrder.BillingFax = GeneralHelper.PrepareForSubmit(SubmitForm.Fax);
-                            myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(SubmitForm.Mobile);
-                        }
 
                         myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card"
                                                     ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard
@@ -1200,6 +1144,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 {
                     OrderPageLogger.LogOrderPageException(ex);
                 }
+            }
+            else
+            {
+                ViewData["WasAnError"] = 1;
             }
 
             if ((bool)Session["firstOption"])
@@ -1343,6 +1291,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             ViewData["ShowPersonalNumber"] = showPersonalNumber;
 
+            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories();
+
             return View(SubmitForm);
         }
 
@@ -1424,59 +1374,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["TOSResource"] = rName;
 
             return View();
-        }
-
-        /// <summary>
-        /// Checks if customer allready exists
-        /// </summary>
-        /// <returns>The json for this action.</returns>
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CheckEmail()
-        {
-            var email = Request["email"];
-            string id = string.Empty;
-            bool emailExists;
-
-            try
-            {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                    emailExists = service.CheckEmail(id, email);
-                }
-            }
-            catch (Exception ex)
-            {
-                OrderPageLogger.LogOrderPageException(ex);
-                throw;
-            }
-
-            return Json(emailExists);
-        }
-
-        /// <summary>
-        /// Checks if email domain is valid (against IDN validation).
-        /// </summary>
-        /// <returns>The json for this action.</returns>
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult CheckEmailDomain()
-        {
-            var email = Request["email"];
-            string id = string.Empty;
-            bool emailDomainValid = false;
-
-            try
-            {
-                string emailDomain = email.Split('@')[1];
-                SimpleDnsPlus.IDNLib.Encode(emailDomain);
-                emailDomainValid = true;
-            }
-            catch (Exception)
-            {
-                emailDomainValid = false;
-            }
-
-            return Json(emailDomainValid);
         }
 
         /// <summary>

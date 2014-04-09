@@ -116,11 +116,13 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
 	if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
        {
             Html.Scripts().Add("~/Themes/Default/Scripts/AtomiaBase.js");  %>
+            Html.Scripts().Add("~/Themes/Default/Scripts/AtomiaValidation.js");  %>
             <%= Html.Scripts().HTML%>
     <% } 
     else 
         { %>
         <script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/AtomiaBase.js")%>" type="text/javascript"></script>
+        <script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/AtomiaValidation.js")%>" type="text/javascript"></script>
      <% }
 }else{	 
 %>
@@ -129,13 +131,19 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
 if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
 {
    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/AtomiaBase.js", Session["Theme"]));
+   Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/AtomiaValidation.js", Session["Theme"]));
 %>
     <%= Html.Scripts().HTML%>
 <%
    } else {
 %>
     <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/AtomiaBase.js", Session["Theme"]))%>" type="text/javascript"></script>
+    <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/AtomiaValidation.js", Session["Theme"]))%>" type="text/javascript"></script>
 <%
    }
    }
 %>
+
+<script type="text/javascript">
+    AtomiaValidation.init("AtomiaRegularExpression", "AtomiaRequired", "AtomiaStringLength", "AtomiaRange");
+</script>

@@ -5,7 +5,13 @@
 // <author> Ilija Nikolic </author>
 //-----------------------------------------------------------------------
 
-using Atomia.Web.Base.Validation.ValidationAttributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Atomia.Common.Validation;
+using Atomia.Web.Plugin.Validation.ValidationAttributes;
+using Atomia.Web.Plugin.Cart.Models;
+using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 
 namespace Atomia.Web.Plugin.PublicOrder.Models
 {
@@ -18,6 +24,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the radio you are.
         /// </summary>
         /// <value>The radio you are.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
         public string RadioYouAre { get; set; }
 
         /// <summary>
@@ -30,6 +37,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the radio payment method.
         /// </summary>
         /// <value>The radio payment method.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
         public string RadioPaymentMethod { get; set; }
 
         /// <summary>
@@ -48,108 +56,129 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the org number.
         /// </summary>
         /// <value>The org number.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
+        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "CountryCode", ProductField = "CurrentCart.productID")]
         public string OrgNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoice org number.
+        /// </summary>
+        /// <value>The org number.</value>
+        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "InvoiceCountryCode", ProductField = "CurrentCart.productID")]
+        public string InvoiceOrgNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the VAT number.
         /// </summary>
         /// <value>The VAT number.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
+        [CustomerValidation(CustomerValidationType.VatNumber, "CustomerValidation,VatNumber", CountryField = "CountryCode", ProductField = "CurrentCart.productID")]
         public string VATNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the contact.
         /// </summary>
         /// <value>The name of the contact.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.FirstName, "CustomerValidation,FirstName")]
         public string ContactName { get; set; }
 
         /// <summary>
         /// Gets or sets the last name of the contact.
         /// </summary>
         /// <value>The last name of the contact.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.LastName, "CustomerValidation,LastName")]
         public string ContactLastName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the invoice contact.
         /// </summary>
         /// <value>The name of the invoice contact.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.FirstName, "CustomerValidation,FirstName")]
         public string InvoiceContactName { get; set; }
 
         /// <summary>
         /// Gets or sets the last name of the invoice contact.
         /// </summary>
         /// <value>The last name of the invoice contact.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.LastName, "CustomerValidation,LastName")]
         public string InvoiceContactLastName { get; set; }
 
         /// <summary>
         /// Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
+        [CustomerValidation(CustomerValidationType.CompanyName, "CustomerValidation,CompanyName")]
         public string Company { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice company.
         /// </summary>
         /// <value>The invoice company.</value>
+        [CustomerValidation(CustomerValidationType.CompanyName, "CustomerValidation,CompanyName")]
         public string InvoiceCompany { get; set; }
 
         /// <summary>
         /// Gets or sets the address.
         /// </summary>
         /// <value>The address.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Address, "CustomerValidation,address")]
         public string Address { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice address.
         /// </summary>
         /// <value>The invoice address.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Address, "CustomerValidation,address")]
         public string InvoiceAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the address2.
         /// </summary>
         /// <value>The address2.</value>
+        [CustomerValidation(CustomerValidationType.Address, "CustomerValidation,address")]
         public string Address2 { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice address2.
         /// </summary>
         /// <value>The invoice address2.</value>
+        [CustomerValidation(CustomerValidationType.Address, "CustomerValidation,address")]
         public string InvoiceAddress2 { get; set; }
 
         /// <summary>
         /// Gets or sets the post number.
         /// </summary>
         /// <value>The post number.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "CountryCode")]
         public string PostNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice post number.
         /// </summary>
         /// <value>The invoice post number.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "InvoiceCountryCode")]
         public string InvoicePostNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the city.
         /// </summary>
         /// <value>The city .</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.City, "CustomerValidation,City")]
         public string City { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice city.
         /// </summary>
         /// <value>The invoice city.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.City, "CustomerValidation,City")]
         public string InvoiceCity { get; set; }
 
         /// <summary>
@@ -157,106 +186,76 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         /// <value>The country code.</value>
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Country, "CustomerValidation,Country")]
         public string CountryCode { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice country code.
         /// </summary>
         /// <value>The invoice country code.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Country, "CustomerValidation,Country")]
         public string InvoiceCountryCode { get; set; }
 
         /// <summary>
         /// Gets or sets the telephone.
         /// </summary>
         /// <value>The telephone.</value>
-        [AtomiaStringLength(20, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Phone, "CustomerValidation,Phone", CountryField = "CountryCode")]
         public string Telephone { get; set; }
 
         /// <summary>
         /// Gets or sets the mobile.
         /// </summary>
         /// <value>The mobile.</value>
-        [AtomiaStringLength(20, "ValidationErrors, ErrorStringLength")]
+        [CustomerValidation(CustomerValidationType.Mobile, "CustomerValidation,Mobile", CountryField = "CountryCode")]
         public string Mobile { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice telephone.
         /// </summary>
         /// <value>The invoice telephone.</value>
-        [AtomiaStringLength(20, "ValidationErrors, ErrorStringLength")]
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Phone, "CustomerValidation,Phone", CountryField = "InvoiceCountryCode")]
         public string InvoiceTelephone { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice mobile.
         /// </summary>
         /// <value>The invoice mobile.</value>
-        [AtomiaStringLength(20, "ValidationErrors, ErrorStringLength")]
+        [CustomerValidation(CustomerValidationType.Mobile, "CustomerValidation,Mobile", CountryField = "InvoiceCountryCode")]
         public string InvoiceMobile { get; set; }
-
-        /// <summary>
-        /// Gets or sets the telephone processed.
-        /// </summary>
-        /// <value>The telephone processed.</value>
-        public string TelephoneProcessed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the mobile processed.
-        /// </summary>
-        /// <value>The mobile processed.</value>
-        public string MobileProcessed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the invoice mobile processed.
-        /// </summary>
-        /// <value>The invoice mobile processed.</value>
-        public string InvoiceMobileProcessed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the invoice telephone processed.
-        /// </summary>
-        /// <value>The invoice telephone processed.</value>
-        public string InvoiceTelephoneProcessed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the fax processed.
-        /// </summary>
-        /// <value>The fax processed.</value>
-        public string FaxProcessed { get; set; }
 
         /// <summary>
         /// Gets or sets the fax.
         /// </summary>
         /// <value>The fax  .</value>
+        [CustomerValidation(CustomerValidationType.Fax, "CustomerValidation,Fax", CountryField = "CountryCode")]
         public string Fax { get; set; }
-
-        /// <summary>
-        /// Gets or sets the invoice fax processed.
-        /// </summary>
-        /// <value>The invoice fax processed.</value>
-        public string InvoiceFaxProcessed { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice fax.
         /// </summary>
         /// <value>The invoice fax.</value>
+        [CustomerValidation(CustomerValidationType.Fax, "CustomerValidation,Fax", CountryField = "InvoiceCountryCode")]
         public string InvoiceFax { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
         /// </summary>
         /// <value>The email.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
-        [AtomiaRegularExpression("Email", "ValidationErrors, ErrorInvalidEmail", true)]
+        [CustomerValidation(CustomerValidationType.Email, "CustomerValidation,Email")]
+        [AtomiaUsername("BillingResources,ErrorUsernameNotAvailable")]
         public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice email.
         /// </summary>
         /// <value>The invoice email.</value>
-        [AtomiaStringLength(255, "ValidationErrors, ErrorStringLength")]
-        [AtomiaRegularExpression("Email", "ValidationErrors, ErrorInvalidEmail", true)]
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Email, "CustomerValidation,Email")]
         public string InvoiceEmail { get; set; }
 
         /// <summary>
@@ -300,7 +299,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the error term.
         /// </summary>
         /// <value>The error term.</value>
-        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
         public string errorTerm { get; set; }
 
         /// <summary>
@@ -326,10 +324,134 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         public bool WhoisContact { get; set; }
 
         /// <summary>
-        /// Gets or sets the domain reg contact.
+        /// Gets or sets the city.
         /// </summary>
-        /// <value>The domain reg contact.</value>
-        public DomainRegContact DomainRegContact { get; set; }
+        /// <value>The contact's city.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.City, "CustomerValidation,City")]
+        public string DomainRegCity { get; set; }
 
+        /// <summary>
+        /// Gets or sets the country.
+        /// </summary>
+        /// <value>The country.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Country, "CustomerValidation,Country")]
+        public string DomainRegCountryCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>The contact's email.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Email, "CustomerValidation,Email")]
+        public string DomainRegEmail { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fax.
+        /// </summary>
+        /// <value>The contact's fax.</value>
+        [CustomerValidation(CustomerValidationType.Fax, "CustomerValidation,Fax", CountryField = "DomainRegCountryCode")]
+        public string DomainRegFax { get; set; }
+
+        /// <summary>
+        /// Gets or sets the first name.
+        /// </summary>
+        /// <value>The contact's first name.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.FirstName, "CustomerValidation,FirstName")]
+        public string DomainRegContactName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last name.
+        /// </summary>
+        /// <value>The contact's last name.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.LastName, "CustomerValidation,LastName")]
+        public string DomainRegContactLastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the org.
+        /// </summary>
+        /// <value>The contact's organization.</value>
+        [CustomerValidation(CustomerValidationType.CompanyName, "CustomerValidation,CompanyName")]
+        public string DomainRegCompany { get; set; }
+
+        /// <summary>
+        /// Gets or sets the org no.
+        /// </summary>
+        /// <value>The org no.</value>
+        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "DomainRegCountryCode", ProductField = "CurrentCart.productID")]
+        public string DomainRegOrgNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the VAT no.
+        /// </summary>
+        /// <value>The org no.</value>
+        [CustomerValidation(CustomerValidationType.VatNumber, "CustomerValidation,VatNumber", CountryField = "DomainRegCountryCode", ProductField = "CurrentCart.productID")]
+        public string DomainRegVATNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the street1.
+        /// </summary>
+        /// <value>The street1.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Address, "CustomerValidation,address")]
+        public string DomainRegAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the street2.
+        /// </summary>
+        /// <value>The street2.</value>
+        [CustomerValidation(CustomerValidationType.Address, "CustomerValidation,address")]
+        public string DomainRegAddress2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the voice.
+        /// </summary>
+        /// <value>The voice.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Phone, "CustomerValidation,Phone", CountryField = "DomainRegCountryCode")]
+        public string DomainRegTelephone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the zip.
+        /// </summary>
+        /// <value>The contact's zip.</value>
+        [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
+        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "DomainRegCountryCode")]
+        public string DomainRegPostNumber { get; set; }
+
+
+        public List<ProductDescription> CurrentCart
+        {
+            get
+            {
+                var currentCart = new List<ProductDescription>();
+                var currentArrayOfProducts = this.ArrayOfProducts.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                for (int i = 0; i < currentArrayOfProducts.Count; i += 3)
+                {
+                    currentCart.Add(
+                        new ProductDescription
+                        {
+                            productID = currentArrayOfProducts[i],
+                            productDesc = currentArrayOfProducts[i + 1],
+                            RenewalPeriodId = currentArrayOfProducts[i + 2]
+                        });
+                }
+
+                // this includes own and sub domain
+                if (!string.IsNullOrEmpty(this.OwnDomain))
+                {
+                    using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                    {
+                        currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, Guid.Empty, null, null), productDesc = this.OwnDomain });
+                    }
+                }
+
+                return currentCart;
+            }
+        }
     }
 }

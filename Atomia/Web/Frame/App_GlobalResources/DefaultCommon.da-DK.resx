@@ -195,4 +195,10 @@
   <data name="CurrencySymbolUSD" xml:space="preserve">
     <value>USD</value>
   </data>
+  <data name="WordpressPackageDesc" xml:space="preserve">
+    <value>(Et Wordpress installation)</value>
+  </data>
+  <data name="WordpressPackage" xml:space="preserve">
+    <value>Wordpress pakke</value>
+  </data>
 </root>

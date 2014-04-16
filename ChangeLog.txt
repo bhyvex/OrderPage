@@ -1,4 +1,7 @@
 Atomia Public Order Page v14.1
+2014-04-17 Oscar Linderholm <oscar@atomiacom>
+	- [IMPROVEMENT] Added support for buying the Wordpress package.
+
 2014-04-15 Daniel Persson <daniel.persson@atomia.com>
 	- [IMPROVEMENT] Use standard configurable validation from Atomia.Web.Plugin Validation (front-end and back-end).
 	- [IMPROVEMENT] Updated jQuery Validation Plugin (jquery.validate.js) to version 1.8.1

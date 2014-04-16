@@ -998,6 +998,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         PublicOrderConfigurationSection opcss = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
                         Dictionary<string, string> emailProps = new Dictionary<string, string>();
                         JavaScriptSerializer jsemail = new JavaScriptSerializer();
+                        bool addApplication = false;
+
                         foreach (PublicOrderItem myOrderItem in myOrderItems)
                         {
 
@@ -1034,6 +1036,43 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
                                 myOrderItem.CustomData = arrayOfCustoms.ToArray();
                             }
+
+                            if (myOrderItem.ItemNumber == "HST-APPY")
+                            {
+                                addApplication = true;
+                            }
+                        }
+
+                        if (addApplication)
+                        {
+                            PublicOrderItem tmpItem = myOrderItems.Where(i => i.CustomData != null && i.CustomData.Any(c => c.Name == "MainDomain")).FirstOrDefault();
+
+                            if (tmpItem == null)
+                            {
+                                throw new Exception("Unable to find MainDomain order item");
+                            }
+
+                            PublicOrderItemProperty tmpProperty = tmpItem.CustomData.Where(c => c.Name == "DomainName").FirstOrDefault();
+
+                            myOrderItems.Add(new PublicOrderItem
+                            {
+                                ItemId = Guid.Empty,
+                                ItemNumber = "XSV-APP",
+                                Quantity = 1,
+                                CustomData = new PublicOrderItemProperty[2]
+                                    {
+                                        new PublicOrderItemProperty
+                                        {
+                                            Name = "DomainName",
+                                            Value = tmpProperty.Value
+                                        },
+                                        new PublicOrderItemProperty
+                                        {
+                                            Name = "ApplicationName",
+                                            Value = "wordpress"
+                                        }
+                                    }
+                            });
                         }
 
                         if (SubmitForm.RadioPaymentMethod == "InvoiceByEmail")

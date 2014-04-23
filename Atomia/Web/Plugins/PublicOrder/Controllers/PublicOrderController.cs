@@ -740,9 +740,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                             myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
 
-                            myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
-                            myOrder.BillingFax = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
-                            myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingFax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
                         }
 
                         myOrder.City = GeneralHelper.PrepareForSubmit(SubmitForm.City);
@@ -763,8 +763,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         myOrder.Email = GeneralHelper.PrepareForSubmit(SubmitForm.Email);
 
-                        myOrder.Fax = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
-                        myOrder.Mobile = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
+                        myOrder.Fax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
+                        myOrder.Mobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
 
                         myOrder.FirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
                         myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
@@ -784,7 +784,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             SubmitForm.DomainRegCity = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCity);
                             SubmitForm.DomainRegCountryCode = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCountryCode);
                             SubmitForm.DomainRegEmail = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegEmail);
-                            SubmitForm.DomainRegFax = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
+                            SubmitForm.DomainRegFax = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
                             SubmitForm.DomainRegContactName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactName);
                             SubmitForm.DomainRegContactLastName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactLastName);
                             SubmitForm.DomainRegCompany = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCompany);
@@ -792,7 +792,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             SubmitForm.DomainRegAddress = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress);
                             SubmitForm.DomainRegAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress2);
                             SubmitForm.DomainRegVATNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegVATNumber);
-                            SubmitForm.DomainRegTelephone = GeneralHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
+                            SubmitForm.DomainRegTelephone = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
                             SubmitForm.DomainRegPostNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegPostNumber);
                             jsonDomainRegContact = new JavaScriptSerializer().Serialize(new DomainRegContact()
                                 {
@@ -1147,7 +1147,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         myOrder.ResellerId = ResellerHelper.GetResellerId();
 
-                        myOrder.Phone = GeneralHelper.PrepareForSubmit(GeneralHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
+                        myOrder.Phone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
 
                         myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Replace(" ", String.Empty));
 

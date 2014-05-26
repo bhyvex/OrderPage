@@ -1,4 +1,7 @@
 Atomia Public Order Page v14.1
+2014-05-26 Daniel Persson <daniel.persson@atomia.com>
+	- [FIX] Do not remove whitespace from zip codes, other than trimming before and after.
+
 2014-04-23 Oscar Linderholm <oscar@atomia.com>
 	- [IMPROVEMENT] Refactored FormatPhoneNumber to use AtomiaCommon instead.
 

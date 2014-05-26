@@ -735,7 +735,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(String.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
                             if (SubmitForm.InvoicePostNumber != null)
                             {
-                                myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Replace(" ", String.Empty));
+                                myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Trim());
                             }
 
                             myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
@@ -807,7 +807,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     Street2 = SubmitForm.DomainRegAddress2,
                                     VatNo = SubmitForm.DomainRegVATNumber,
                                     Voice = SubmitForm.DomainRegTelephone,
-                                    Zip = SubmitForm.DomainRegPostNumber
+                                    Zip = SubmitForm.DomainRegPostNumber.Trim()
                                 });
                         }
 
@@ -1149,7 +1149,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                         myOrder.Phone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
 
-                        myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Replace(" ", String.Empty));
+                        myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Trim());
 
                         myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card"
                                                     ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard

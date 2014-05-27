@@ -117,34 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="DomainExists" xml:space="preserve">
+    <value>The domain name already exists in the system</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="ErrorEmptyField" xml:space="preserve">
+    <value>This field can’t be empty</value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="ErrorInvalidChars" xml:space="preserve">
+    <value>Invalid characters</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
+  <data name="ErrorInvalidDomain" xml:space="preserve">
+    <value>Invalid domain name</value>
   </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
+  <data name="ErrorInvalidDomains" xml:space="preserve">
+    <value>One or more domain names are invalid</value>
   </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
+  <data name="ErrorInvalidEmail" xml:space="preserve">
+    <value>Invalid email address</value>
   </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="ErrorInvalidFormat" xml:space="preserve">
+    <value>Invalid format</value>
   </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
+  <data name="ErrorInvalidOrgNumber" xml:space="preserve">
+    <value>Invalid format, expected 10 digits</value>
   </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
+  <data name="ErrorInvalidPostNumber" xml:space="preserve">
+    <value>Invalid post number</value>
   </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="ErrorInvalidSubdomain" xml:space="preserve">
+    <value>Subdomain name is not valid.</value>
+  </data>
+  <data name="ErrorInvalidVATNumber" xml:space="preserve">
+    <value>Invalid European VAT number</value>
+  </data>
+  <data name="ErrorMultiLevelSubdomain" xml:space="preserve">
+    <value>Only single level subdomains allowed.</value>
+  </data>
+  <data name="ErrorNoDomain" xml:space="preserve">
+    <value>You must select a domain name</value>
+  </data>
+  <data name="ErrorNumDomains" xml:space="preserve">
+    <value>Maximimum number of domain names has been exeeded</value>
+  </data>
+  <data name="ErrorOrgNumberCheckSum" xml:space="preserve">
+    <value>Invalid corporate/personal ID number</value>
+  </data>
+  <data name="ErrorProcessing" xml:space="preserve">
+    <value>Error while processing</value>
+  </data>
+  <data name="ErrorSearchArguments" xml:space="preserve">
+    <value>Add up to 4 domain names separated by space</value>
+  </data>
+  <data name="ErrorStringLength" xml:space="preserve">
+    <value>Maximum number of characters has been exceeded</value>
+  </data>
+  <data name="ErrorTermNotChecked" xml:space="preserve">
+    <value>You must read and accept the Terms and Conditions</value>
+  </data>
+  <data name="ErrorDeclarationNotChecked" xml:space="preserve">
+    <value>You must read and accept the Declaration</value>
+  </data>
+  <data name="ErrorDeclarationFill" xml:space="preserve">
+    <value>To view the Self Declaration Form you must fill in the fields:</value>
+  </data>
+  <data name="ErrorMustBeCompany" xml:space="preserve">
+    <value>You need to be a company or organization</value>
+  </data>
+  <data name="ErrorMustBeFromNorway" xml:space="preserve">
+    <value>You must have a Norwegian address in order to register a .no domain.</value>
+  </data>
+  <data name="ErrorMustBeFromGermany" xml:space="preserve">
+    <value>You must have a German address in order to register a .de domain.</value>
+  </data>
+  <data name="ErrorMustBeFromNetherlands" xml:space="preserve">
+    <value>You must have a Dutch address in order to register a .nl domain.</value>
+  </data>
+  <data name="ErrorMustBeFromEU" xml:space="preserve">
+    <value>You must have a EU address in order to register a .eu domain.</value>
   </data>
 </root>

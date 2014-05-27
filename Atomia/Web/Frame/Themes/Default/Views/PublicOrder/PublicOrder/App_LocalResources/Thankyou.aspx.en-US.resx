@@ -117,34 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="Info2" xml:space="preserve">
+    <value>Your order has been sent to our customer service for a manual review. Once the order has passed the review we will activate your account, register the desired domain name(s) and send an email to you with all the information you need to get started with the service.</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="Info3" xml:space="preserve">
+    <value>We hope that you will have great use of the service!</value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="Thanks" xml:space="preserve">
+    <value>Thank you for your order!</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
-  </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
-  </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
-  </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
-  </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
-  </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
-  </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="Title" xml:space="preserve">
+    <value>Order web hosting and DNS</value>
   </data>
 </root>

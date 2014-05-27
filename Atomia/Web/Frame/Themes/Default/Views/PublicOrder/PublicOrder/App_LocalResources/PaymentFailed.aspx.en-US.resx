@@ -117,34 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="Info1" xml:space="preserve">
+    <value>Credit card payment wasn’t accepted</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="Info2" xml:space="preserve">
+    <value>Please try using a different credit card or select invice by email. Domain names will be registered after the payment has been verified. </value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="Title" xml:space="preserve">
+    <value>Atomia</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
-  </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
-  </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
-  </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
-  </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
-  </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
-  </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Try again?</value>
   </data>
 </root>

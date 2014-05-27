@@ -127,7 +127,7 @@
     <value>Cancel</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>We are ready to take your order now. Please review your order and click on Order button to confirm the transaction. Your order will be securely processed by PayPal.</value>
+    <value>We are ready to take your order now. Please review your order before you confirm the transaction. Your order will be securely processed by PayPal once you click on Order.</value>
   </data>
   <data name="Discount" xml:space="preserve">
     <value>Discount</value>
@@ -148,7 +148,7 @@
     <value>Tax</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>PayPal Confirmation</value>
+    <value>PayPal confirmation</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>

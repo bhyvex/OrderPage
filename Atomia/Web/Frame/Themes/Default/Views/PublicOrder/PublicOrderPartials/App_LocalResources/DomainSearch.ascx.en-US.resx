@@ -117,34 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="AdditionalDomain" xml:space="preserve">
+    <value>Add additional domain names</value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="AnotherDomain" xml:space="preserve">
+    <value>Find more domain names</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
   </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
+  <data name="Del" xml:space="preserve">
+    <value>Del</value>
   </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
+  <data name="DomainName" xml:space="preserve">
+    <value>Domain name</value>
   </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="ErrorProcessing" xml:space="preserve">
+    <value>Could not process your order</value>
   </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
+  <data name="ErrorSearchArguments" xml:space="preserve">
+    <value>Add up to 4 domain names separated by spaces</value>
   </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
+  <data name="ErrorStringLength" xml:space="preserve">
+    <value>The maximum number of characters has been exceeded.</value>
   </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="NotAllowedDomain" xml:space="preserve">
+    <value>This is a premium domain name. It can’t be registered by us (yet).</value>
+  </data>
+  <data name="PriceUp" xml:space="preserve">
+    <value>Annual fee</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Taken" xml:space="preserve">
+    <value>Taken</value>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>Unavailable</value>
+  </data>
+  <data name="Buy" xml:space="preserve">
+    <value>Buy</value>
   </data>
 </root>

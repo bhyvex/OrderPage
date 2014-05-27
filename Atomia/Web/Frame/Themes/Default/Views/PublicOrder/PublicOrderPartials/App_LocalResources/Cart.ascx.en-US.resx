@@ -117,34 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
+  <data name="defaultTOS" xml:space="preserve">
+    <value>Our Terms and Conditions, &lt;a onclick="JavaScript: open('Tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read&lt;/a&gt;</value>
   </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
   </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
   </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
   </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="SetupFeeTitleDesc" xml:space="preserve">
+    <value>Setup fee</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="TOS_core" xml:space="preserve">
+    <value>I have read and accept &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's Terms of Conditions&lt;/a&gt;.*</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="T" xml:space="preserve">
+    <value>Accept Terms of Conditions for .SE domain names: &lt;a onclick="JavaScript: open('Tos?rName=TOS_se' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read more&lt;/a&gt;</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="VAT" xml:space="preserve">
+    <value>VAT</value>
+  </data>
+  <data name="AmountToPay" xml:space="preserve">
+    <value>Amount to pay</value>
   </data>
 </root>

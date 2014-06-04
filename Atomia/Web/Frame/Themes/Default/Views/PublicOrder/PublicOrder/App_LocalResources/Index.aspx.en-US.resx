@@ -117,34 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="Alternative" xml:space="preserve">
+    <value>Alternatives</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="DomainName" xml:space="preserve">
+    <value>Domain names</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
+  <data name="First" xml:space="preserve">
+    <value>Register new domain name</value>
   </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
+  <data name="Info" xml:space="preserve">
+    <value>Fill in the form below to order Atomia Web hosting or Atomia DNS. Note that fields marked with asterisks (*) are mandatory.</value>
   </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
+  <data name="NotAllowedDomain" xml:space="preserve">
+    <value>One or more of the entered domain names have 4 or less characters. These are considered as premium domain names by some registrars and can’t be registered through Atomia.</value>
   </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="NotificationHeader" xml:space="preserve">
+    <value>We are sorry, your order couldn’t be processed.</value>
   </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
+  <data name="NotificationText" xml:space="preserve">
+    <value>Please try again.</value>
   </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
+  <data name="NotificationTextInvalidDomain" xml:space="preserve">
+    <value>Invalid format. Please provide a valid domain name.</value>
   </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Atomia</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Transfer existing domain name</value>
+  </data>
+  <data name="Third" xml:space="preserve">
+    <value>Add subdomain</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Order web hosting and DNS</value>
   </data>
 </root>

@@ -117,34 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="enUS" xml:space="preserve">
-    <value>English</value>
+  <data name="BasePackageYear" xml:space="preserve">
+    <value>Gold package</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="defaultTOS" xml:space="preserve">
+    <value>Our Terms of Conditions, &lt;a onclick="JavaScript: open('Tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read&lt;/a&gt;</value>
   </data>
-  <data name="plPL" xml:space="preserve">
-    <value>Polish</value>
+  <data name="resellerDefaultTOS" xml:space="preserve">
+    <value>I verify that customer agrees to the Terms of Conditions, &lt;a onclick="JavaScript: open('Tos?rName=defaultTOS' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read&lt;/a&gt;</value>
   </data>
-  <data name="svSE" xml:space="preserve">
-    <value>Swedish</value>
+  <data name="DnsPackageDesc" xml:space="preserve">
+    <value>(DNS management and redirects are included - 0 SEK/month)</value>
   </data>
-  <data name="enUSDescription" xml:space="preserve">
-    <value>International</value>
+  <data name="DNSPackage" xml:space="preserve">
+    <value>DNS package</value>
   </data>
-  <data name="nlNL" xml:space="preserve">
-    <value>Dutch</value>
+  <data name="PostOrderTitleDesc" xml:space="preserve">
+    <value>Invoice fee</value>
   </data>
-  <data name="nlNLDescrption" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="PremiumPackageDesc" xml:space="preserve">
+    <value>(Web hosting, 6 GB space, 100 GB traffic)</value>
   </data>
-  <data name="nbNO" xml:space="preserve">
-    <value>Norwegian</value>
+  <data name="PremiumPackageYear" xml:space="preserve">
+    <value>Platinum package</value>
   </data>
-  <data name="nbNODescrption" xml:space="preserve">
-    <value>Norway</value>
+  <data name="SetupFeeTitleDesc" xml:space="preserve">
+    <value>Setup fee</value>
   </data>
-  <data name="nlNLDescription" xml:space="preserve">
-    <value>Netherlands</value>
+  <data name="TOS_core" xml:space="preserve">
+    <value>I have read and accept &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's Terms of Conditions&lt;/a&gt;.*</value>
+  </data>
+  <data name="resellerTOS_core" xml:space="preserve">
+    <value>I verify that customer agrees to the &lt;a onclick="JavaScript: open('Tos?rName=TOS_core' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;CORE's Terms of Conditions&lt;/a&gt;.*</value>
+  </data>
+  <data name="TOS_se" xml:space="preserve">
+    <value>Accept Terms of Conditions for .SE domain names: &lt;a onclick="JavaScript: open('Tos?rName=TOS_se' , 'messageWindow', 'toolbar=no, scrollbars=yes, width=580, height=500'); return false" href="javascript:void(0);"&gt;Click here to read more&lt;/a&gt;</value>
+  </data>
+  <data name="BasePackageDesc" xml:space="preserve">
+    <value>(Web hosting 3 GB space, 50 GB traffic)</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="MonthPlr" xml:space="preserve">
+    <value>month</value>
+  </data>
+  <data name="MonthSng" xml:space="preserve">
+    <value>month</value>
+  </data>
+  <data name="VAT" xml:space="preserve">
+    <value>VAT 25%:</value>
+  </data>
+  <data name="YearPlr" xml:space="preserve">
+    <value>years</value>
+  </data>
+  <data name="YearSng" xml:space="preserve">
+    <value>year</value>
+  </data>
+  <data name="BasePackageMonth" xml:space="preserve">
+    <value>Gold package</value>
+  </data>
+  <data name="BasePackageQuater" xml:space="preserve">
+    <value>Gold package</value>
+  </data>
+  <data name="PremiumPackageMonth" xml:space="preserve">
+    <value>Platinum package</value>
+  </data>
+  <data name="PremiumPackageQuater" xml:space="preserve">
+    <value>Platinum package</value>
+  </data>
+  <data name="CurrencySymbolPLN" xml:space="preserve">
+    <value>PLN</value>
+  </data>
+  <data name="CurrencySymbolSEK" xml:space="preserve">
+    <value>SEK</value>
+  </data>
+  <data name="CurrencySymbolUSD" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="WordpressPackageDesc" xml:space="preserve">
+    <value>(One Wordpress installation)</value>
+  </data>
+  <data name="WordpressPackage" xml:space="preserve">
+    <value>Wordpress package</value>
   </data>
 </root>

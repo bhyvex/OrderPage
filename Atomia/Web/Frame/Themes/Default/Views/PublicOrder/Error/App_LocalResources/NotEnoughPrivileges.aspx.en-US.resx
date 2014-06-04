@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Message" xml:space="preserve">
-    <value>Sorry, you do not have enough privileges to view this page.</value>
+    <value>Sorry, you don’t have enough privileges to view this page.</value>
   </data>
   <data name="Sorry" xml:space="preserve">
     <value>We are very sorry</value>

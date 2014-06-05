@@ -9,40 +9,33 @@
 	}
 if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
     {
-		if(pathScriptsExist){
-			Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-1.7.2.min.js", Session["Theme"]));
-			Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery.validate.js", Session["Theme"]));
-			Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/MicrosoftMvcJQueryValidation.js", Session["Theme"]));
-			Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.8.20.custom.min.js", Session["Theme"])); 
-			Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/json2.js", Session["Theme"])); 
-		}else{
-			Html.Scripts().Add("~/Themes/Default/Scripts/jquery-1.7.2.min.js");
-			Html.Scripts().Add("~/Themes/Default/Scripts/jquery.validate.js");
-			Html.Scripts().Add("~/Themes/Default/Scripts/MicrosoftMvcJQueryValidation.js");
-			Html.Scripts().Add("~/Themes/Default/Scripts/jquery-ui-1.8.20.custom.min.js");
-			Html.Scripts().Add("~/Themes/Default/Scripts/json2.js");
-		}
-		
+        foreach (string globalScript in new string[] {
+            "jquery-1.7.2.min.js", "jquery.validate.js", "MicrosoftMvcJQueryValidation.js", "jquery.cookie.js", "jquery.blockUI.js", "AtomiaValidation.js", "custom-global.js"
+        }) {
+            string filePath = pathScriptsExist ? Server.MapPath(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript)) : null;
+		    if (pathScriptsExist && File.Exists(filePath)) {
+			    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript));
+            } else {
+                Html.Scripts().Add(string.Format("~/Themes/Default/Scripts/{0}", globalScript));
+            }
+		}		
     } 
     else 
     { 
-		if(pathScriptsExist){
-		%>
-			<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery-1.7.2.min.js", Session["Theme"])) %>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery.validate.js", Session["Theme"])) %>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/MicrosoftMvcJQueryValidation.js", Session["Theme"])) %>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/jquery-ui-1.8.20.custom.min.js", Session["Theme"]))%>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/json2.js", Session["Theme"]))%>" type="text/javascript"></script>
-		<% } 
-		else
-		{
-		%>
-			<script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/jquery-1.7.2.min.js") %>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/jquery.validate.js") %>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/MicrosoftMvcJQueryValidation.js") %>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/jquery-ui-1.8.20.custom.min.js")%>" type="text/javascript"></script>
-			<script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/json2.js")%>" type="text/javascript"></script>
-		<% } 
+        foreach (string globalScript in new string[] { 
+            "jquery-1.7.2.min.js", "jquery.validate.js", "MicrosoftMvcJQueryValidation.js", "jquery.cookie.js", "jquery.blockUI.js", "AtomiaValidation.js", "custom-global.js"
+        }) {
+            string filePath = pathScriptsExist ? Server.MapPath(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript)) : null;
+            if (pathScriptsExist && File.Exists(filePath)) {
+            %>
+                <script src="<%= ResolveClientUrl(filePath) %>" type="text/javascript"></script>
+            <%
+            } else {
+            %>
+                <script src="<%= ResolveClientUrl(string.Format("~/Themes/Default/Scripts/{0}", globalScript)) %>" type="text/javascript"></script>
+            <%
+		    } 
+        }
 	}
 %>
     
@@ -112,17 +105,16 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
 %>
        
 <%
-    if(!pathScriptsExist){
+    bool atomiaBaseExists = pathScriptsExist && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Scripts/AtomiaBase.js", Session["Theme"])));
+    if(!atomiaBaseExists){
 	if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
        {
             Html.Scripts().Add("~/Themes/Default/Scripts/AtomiaBase.js");  %>
-            Html.Scripts().Add("~/Themes/Default/Scripts/AtomiaValidation.js");  %>
             <%= Html.Scripts().HTML%>
     <% } 
     else 
         { %>
         <script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/AtomiaBase.js")%>" type="text/javascript"></script>
-        <script src="<%= ResolveClientUrl("~/Themes/Default/Scripts/AtomiaValidation.js")%>" type="text/javascript"></script>
      <% }
 }else{	 
 %>
@@ -131,19 +123,16 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
 if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
 {
    Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/AtomiaBase.js", Session["Theme"]));
-   Html.Scripts().Add(string.Format("~/Themes/{0}/Scripts/AtomiaValidation.js", Session["Theme"]));
 %>
     <%= Html.Scripts().HTML%>
 <%
    } else {
 %>
     <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/AtomiaBase.js", Session["Theme"]))%>" type="text/javascript"></script>
-    <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/AtomiaValidation.js", Session["Theme"]))%>" type="text/javascript"></script>
 <%
    }
    }
 %>
-
 <script type="text/javascript">
-    AtomiaValidation.init("AtomiaRegularExpression", "AtomiaRequired", "AtomiaStringLength", "AtomiaRange");
+    AtomiaValidation.init('AtomiaRequired', 'AtomiaRegularExpression', 'AtomiaStringLength', 'AtomiaRange');
 </script>

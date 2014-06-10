@@ -98,8 +98,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+                string currencyCode = ResellerHelper.GetResellerCurrencyCode();
+                Guid resellerId = ResellerHelper.GetResellerId();
                 string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
-                List<RadioRow> list = GeneralHelper.FilterPackages(this, service, Guid.Empty, Guid.Empty, null, null, filterValue);
+                List<RadioRow> list = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
                 RadioRow preselectedId = list[0];
 
                 // choose package to select
@@ -137,7 +140,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 if (orderByPostEnabled)
                 {
-                    ViewData["OrderByPostId"] = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, Guid.Empty, null, null);
+                    ViewData["OrderByPostId"] = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
                     ViewData["OrderByPostEnabled"] = true;
                 }
                 else

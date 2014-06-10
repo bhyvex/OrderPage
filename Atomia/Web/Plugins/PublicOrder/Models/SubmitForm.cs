@@ -11,6 +11,7 @@ using System.Linq;
 using Atomia.Common.Validation;
 using Atomia.Web.Plugin.Validation.ValidationAttributes;
 using Atomia.Web.Plugin.Cart.Models;
+using Atomia.Web.Plugin.PublicOrder.Helpers;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 
 namespace Atomia.Web.Plugin.PublicOrder.Models
@@ -446,7 +447,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
                 {
                     using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
                     {
-                        currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, Guid.Empty, null, null), productDesc = this.OwnDomain });
+                        var resellerId = ResellerHelper.GetResellerId();
+                        var currencyCode = ResellerHelper.GetResellerCurrencyCode();
+                        var countryCode = ResellerHelper.GetResellerCountryCode();
+
+                        currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode), productDesc = this.OwnDomain });
                     }
                 }
 

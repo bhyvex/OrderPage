@@ -184,10 +184,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
-                string countryCode = ResellerHelper.GetResellerCountryCode();
+                Guid resellerId = ResellerHelper.GetResellerId();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();
-
-                DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, Guid.Empty, currencyCode, countryCode);
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+                
+                DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, currencyCode, countryCode);
             }
 
             return Json(null);
@@ -437,6 +438,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             ViewData["defaultCountry"] = countryCode;
             string currencyCode = ResellerHelper.GetResellerCurrencyCode();
+            var resellerId = ResellerHelper.GetResellerId();
 
             // Show or hide Personal number field
             bool showPersonalNumber = true;
@@ -515,13 +517,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, Guid.Empty, null, null) : string.Empty;
+                ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode) : string.Empty;
 
                 // enabled payment method end
                 ViewData["WasAnError"] = 0;
 
                 string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
-                ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, Guid.Empty, currencyCode, countryCode, filterValue);
+                ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
             }
 
             CustomerValidationHelper.InitItemCategories(ResellerHelper.GetResellerId(), currencyCode, countryCode);
@@ -665,6 +667,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             List<RadioRow> list;
             List<ProductDescription> currentCart;
 
+            var resellerId = ResellerHelper.GetResellerId();
+            var currencyCode = ResellerHelper.GetResellerCurrencyCode();
+            var countryCode = ResellerHelper.GetResellerCountryCode();
+
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
@@ -675,7 +681,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 if (orderByPostEnabled)
                 {
-                    orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, Guid.Empty, null, null);
+                    orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
                     ViewData["OrderByPostId"] = orderByPostId;
                     ViewData["OrderByPostEnabled"] = true;
                 }
@@ -694,7 +700,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     ViewData["OrderByEmailEnabled"] = false;
                 }
 
-                list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, Guid.Empty, null, null);
+                list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, resellerId, currencyCode, countryCode);
 
                 currentCart = SubmitForm.CurrentCart;
             }
@@ -770,11 +776,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
                         myOrder.LegalNumber = GeneralHelper.PrepareForSubmit(SubmitForm.VATNumber);
 
-                        List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, Guid.Empty, null, null);
+                        List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
                         List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
                         ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
-                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, Guid.Empty, null, null);
-                        IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, Guid.Empty, null, null);
+                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                        IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
 
                         List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
@@ -1299,8 +1305,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["AllowedDomainLength"] = allowedDomainLength;
             ViewData["NumberOfDomainsAllowed"] = numberOfDomainsAllowed;
 
-            string countryCode = ResellerHelper.GetResellerCountryCode();
-
             // Check if there is locale setting for country in cookie ad set if there is
             if (System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"] != null && !String.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"].Value))
             {
@@ -1532,13 +1536,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             {
                 service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
 
+                Guid resellerId = ResellerHelper.GetResellerId();
+                string currencyCode = ResellerHelper.GetResellerCurrencyCode();
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+
                 result = DomainSearchHelper.MarkDomainsAsUnavailable(
                     domains,
                     service,
                     Guid.Empty,
-                    Guid.Empty,
-                    null,
-                    null);
+                    resellerId,
+                    currencyCode,
+                    countryCode);
             }
 
             return Json(result);
@@ -1565,13 +1573,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     currencyCode = System.Web.HttpContext.Current.Session["OrderCurrencyCode"] as string;
                 }
 
+                Guid resellerId = ResellerHelper.GetResellerId();
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+
                 result = DomainSearchHelper.StartSearch(
                     domainsArray,
                     service,
                     Guid.Empty,
-                    Guid.Empty,
+                    resellerId,
                     currencyCode,
-                    null);
+                    countryCode);
             }
 
             return Json(result);
@@ -1597,14 +1608,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 {
                     currencyCode = System.Web.HttpContext.Current.Session["OrderCurrencyCode"] as string;
                 }
+                
+                Guid resellerId = ResellerHelper.GetResellerId();
+                string countryCode = ResellerHelper.GetResellerCountryCode();
 
                 status = DomainSearchHelper.GetAvailabilityStatus(
                     sTransactionId,
                     service,
                     Guid.Empty,
-                    Guid.Empty,
+                    resellerId,
                     currencyCode,
-                    null);
+                    countryCode);
             }
 
             return Json(new

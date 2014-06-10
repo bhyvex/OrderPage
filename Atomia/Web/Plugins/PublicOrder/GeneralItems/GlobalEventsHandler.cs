@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Atomia.Web.Base.Configs;
 using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+using Atomia.Web.Plugin.PublicOrder.Helpers;
 using Atomia.Web.Plugin.Validation.ValidationAttributes;
 using Elmah;
 
@@ -72,8 +73,12 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
                 using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
                 {
                     service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
+                    
+                    Guid resellerId = ResellerHelper.GetResellerId();
+                    string countryCode = ResellerHelper.GetResellerCountryCode();
+                    string currencyCode = ResellerHelper.GetResellerCurrencyCode();
 
-                    DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, Guid.Empty, null, null);
+                    DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, countryCode, currencyCode);
                 }
             }
             catch (Exception ex)

@@ -28,7 +28,7 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
             string filePath = pathScriptsExist ? Server.MapPath(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript)) : null;
             if (pathScriptsExist && File.Exists(filePath)) {
             %>
-                <script src="<%= ResolveClientUrl(filePath) %>" type="text/javascript"></script>
+                <script src="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript)) %>" type="text/javascript"></script>
             <%
             } else {
             %>

@@ -10,7 +10,7 @@
 if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["javascriptMinifier"].ToString()))
     {
         foreach (string globalScript in new string[] {
-            "jquery-1.7.2.min.js", "jquery.validate.js", "MicrosoftMvcJQueryValidation.js", "AtomiaValidation.js", "custom-global.js"
+            "jquery-1.7.2.min.js", "jquery.validate.js", "MicrosoftMvcJQueryValidation.js", "jquery-ui-1.8.20.custom.min.js", "json2.js", "AtomiaValidation.js", "custom-global.js"
         }) {
             string filePath = pathScriptsExist ? Server.MapPath(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript)) : null;
 		    if (pathScriptsExist && File.Exists(filePath)) {
@@ -23,7 +23,7 @@ if (Application["javascriptMinifier"] != null && Boolean.Parse(Application["java
     else 
     { 
         foreach (string globalScript in new string[] { 
-            "jquery-1.7.2.min.js", "jquery.validate.js", "MicrosoftMvcJQueryValidation.js", "AtomiaValidation.js", "custom-global.js"
+            "jquery-1.7.2.min.js", "jquery.validate.js", "MicrosoftMvcJQueryValidation.js", "jquery-ui-1.8.20.custom.min.js", "json2.js", "AtomiaValidation.js", "custom-global.js"
         }) {
             string filePath = pathScriptsExist ? Server.MapPath(string.Format("~/Themes/{0}/Scripts/{1}", Session["Theme"], globalScript)) : null;
             if (pathScriptsExist && File.Exists(filePath)) {

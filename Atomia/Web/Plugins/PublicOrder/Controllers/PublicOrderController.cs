@@ -729,28 +729,25 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         myOrder.Address = GeneralHelper.PrepareForSubmit(SubmitForm.Address);
                         myOrder.Address2 = GeneralHelper.PrepareForSubmit(SubmitForm.Address2);
 
-                        if (SubmitForm.SecondAddress)
+                        myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactName);
+                        myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactLastName);
+                        myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCompany);
+
+                        myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress);
+                        myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress2);
+                        myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCity);
+                        myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(String.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
+                        if (SubmitForm.InvoicePostNumber != null)
                         {
-                            myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactName);
-                            myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactLastName);
-                            myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCompany);
-
-                            myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress);
-                            myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress2);
-                            myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCity);
-                            myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(String.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
-                            if (SubmitForm.InvoicePostNumber != null)
-                            {
-                                myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Trim());
-                            }
-
-                            myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
-
-                            myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
-                            myOrder.BillingFax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
-                            myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
+                            myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Trim());
                         }
 
+                        myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
+
+                        myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
+                        myOrder.BillingFax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
+                        myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
+                        
                         myOrder.City = GeneralHelper.PrepareForSubmit(SubmitForm.City);
                         myOrder.Company = GeneralHelper.PrepareForSubmit(SubmitForm.Company);
                         if (!String.IsNullOrEmpty(SubmitForm.OrgNumber))

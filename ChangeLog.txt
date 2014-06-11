@@ -1,5 +1,8 @@
 Atomia Public Order Page v14.1
 2014-06-11 Daniel Persson <daniel.persson@atomia.com>
+	- [FIX] Fixed orders were not getting billing address filled in if hidden.
+
+2014-06-11 Daniel Persson <daniel.persson@atomia.com>
 	- [FIX] Updated HostingProducts plugin and related calls to fix intermittent domain search and pricing errors.
 
 2014-05-26 Daniel Persson <daniel.persson@atomia.com>

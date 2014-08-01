@@ -526,7 +526,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
             }
 
-            ViewData["ItemCategories"] = new Dictionary<string, string>();
+            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories();
 
             this.ViewData["OwnDomain"] = string.Empty;
 

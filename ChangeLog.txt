@@ -1,4 +1,8 @@
 Atomia Public Order Page v14.9
+2014-08-22 Daniel Persson <daniel.persson@atomia.com>
+	- [FIX] Updated validation plugin for product category based validation performance changes.
+	- [IMPROVEMENT] Updated AtomiaCommon for improved zip code validation.
+	
 2014-08-21 Oscar Linderholm <oscar@atomia.com>
 	- [FIX] Updated Atomia.Common.dll with fixed FormatPhoneNumber code.
 

@@ -1,3 +1,7 @@
+Atomia Public Order Page v14.9
+2014-08-21 Oscar Linderholm <oscar@atomia.com>
+	- [FIX] Updated Atomia.Common.dll with fixed FormatPhoneNumber code.
+
 Atomia Public Order Page v14.1
 2014-06-11 Daniel Persson <daniel.persson@atomia.com>
 	- [FIX] Fixed orders were not getting billing address filled in if hidden.

@@ -1169,13 +1169,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                     if (SubmitForm.RadioPaymentMethod != "InvoiceByPost" && SubmitForm.RadioPaymentMethod != "InvoiceByEmail")
                     {
-                        paymentMethodCc = (SubmitForm.RadioPaymentMethod != "PayPal");
-
-                        string result = this.CreatePaymentTransaction(this, newOrder, newOrder.Total, SubmitForm.RadioPaymentMethod);
-
-                        if (!String.IsNullOrEmpty(result))
+                        if (newOrder.Total > decimal.Zero)
                         {
-                            return Redirect(result);
+                            paymentMethodCc = (SubmitForm.RadioPaymentMethod != "PayPal");
+                            string result = this.CreatePaymentTransaction(this, newOrder, newOrder.Total,
+                                                                          SubmitForm.RadioPaymentMethod);
+
+                            if (!String.IsNullOrEmpty(result))
+                            {
+                                return Redirect(result);
+                            }
                         }
                     }
 

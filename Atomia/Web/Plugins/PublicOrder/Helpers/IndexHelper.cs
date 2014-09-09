@@ -51,6 +51,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
             {
                 service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
+                service.Timeout = Int32.Parse(controller.HttpContext.Application["OrderApplicationPublicServiceTimeout"].ToString());
                 
                 string countryCode = ResellerHelper.GetResellerCountryCode();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();

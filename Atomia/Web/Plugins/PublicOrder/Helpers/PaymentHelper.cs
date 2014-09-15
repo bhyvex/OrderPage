@@ -90,13 +90,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             transaction.ReturnUrl = appUrl.TrimEnd(new[] { '/' }) + '/' + returnUrl.TrimStart(new[] { '/' });
             
             PublicPaymentTransaction returnedTransaction;
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = controller.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                service.Timeout = Int32.Parse(controller.HttpContext.Application["OrderApplicationPublicServiceTimeout"].ToString());
-                returnedTransaction = service.MakePayment(transaction);
-            }
 
+            var service = GeneralHelper.GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
+            returnedTransaction = service.MakePayment(transaction);
+            
             if (returnedTransaction.Status.ToUpper() == "IN_PROGRESS" && !string.IsNullOrEmpty(returnedTransaction.RedirectUrl))
             {
                 return returnedTransaction.RedirectUrl;

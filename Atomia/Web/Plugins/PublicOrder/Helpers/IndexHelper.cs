@@ -48,11 +48,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
 
             DomainDataFromXml[] unavailableDomains, domainDataFromDs;
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
-                service.Timeout = Int32.Parse(controller.HttpContext.Application["OrderApplicationPublicServiceTimeout"].ToString());
-                
+            var service = GeneralHelper.GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
                 string countryCode = ResellerHelper.GetResellerCountryCode();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();
                 Guid resellerId = ResellerHelper.GetResellerId();
@@ -88,7 +84,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     resellerId, 
                     currencyCode, 
                     countryCode);
-            }
 
             domainData = unavailableDomains.Select(data => new DomainDataFromXml
                 {

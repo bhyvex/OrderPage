@@ -70,16 +70,12 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
         {
             try
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
-                    
-                    Guid resellerId = ResellerHelper.GetResellerId();
-                    string countryCode = ResellerHelper.GetResellerCountryCode();
-                    string currencyCode = ResellerHelper.GetResellerCurrencyCode();
+                var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
+                Guid resellerId = ResellerHelper.GetResellerId();
+                string countryCode = ResellerHelper.GetResellerCountryCode();
+                string currencyCode = ResellerHelper.GetResellerCurrencyCode();
 
-                    DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, countryCode, currencyCode);
-                }
+                DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, countryCode, currencyCode);
             }
             catch (Exception ex)
             {

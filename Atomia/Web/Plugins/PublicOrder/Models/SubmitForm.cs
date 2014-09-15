@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using Atomia.Common.Validation;
 using Atomia.Web.Plugin.Validation.ValidationAttributes;
 using Atomia.Web.Plugin.Cart.Models;
@@ -445,14 +446,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
                 // this includes own and sub domain
                 if (!string.IsNullOrEmpty(this.OwnDomain))
                 {
-                    using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                    {
-                        var resellerId = ResellerHelper.GetResellerId();
-                        var currencyCode = ResellerHelper.GetResellerCurrencyCode();
-                        var countryCode = ResellerHelper.GetResellerCountryCode();
+                    var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
+                    var resellerId = ResellerHelper.GetResellerId();
+                    var currencyCode = ResellerHelper.GetResellerCurrencyCode();
+                    var countryCode = ResellerHelper.GetResellerCountryCode();
 
-                        currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode), productDesc = this.OwnDomain });
-                    }
+                    currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode), productDesc = this.OwnDomain });
                 }
 
                 return currentCart;

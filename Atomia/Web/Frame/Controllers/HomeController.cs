@@ -176,27 +176,24 @@ namespace Atomia.Web.Frame.Controllers
 
                     try
                     {
-                        using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                        var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                        string orderCurrencyResource = LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency" + languagePickerFormData.SelectedLanguage, this.HttpContext.Session["Theme"]))
+                                                        ?? LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency", this.HttpContext.Session["Theme"]));
+                        this.HttpContext.Session["OrderCurrencyResource"] = orderCurrencyResource;
+                        string orderCurrencyCode = "SEK";
+
+                        if (this.HttpContext.Application["CurrencyCode" + languagePickerFormData.SelectedLanguage] != null &&
+                            !String.IsNullOrEmpty(
+                                (string)this.HttpContext.Application["CurrencyCode" + languagePickerFormData.SelectedLanguage]))
                         {
-                            service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                            string orderCurrencyResource = LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency" + languagePickerFormData.SelectedLanguage, this.HttpContext.Session["Theme"]))
-                                                            ?? LocalizationHelpers.GlobalResource(String.Format("{0}Common, Currency", this.HttpContext.Session["Theme"]));
-                            this.HttpContext.Session["OrderCurrencyResource"] = orderCurrencyResource;
-                            string orderCurrencyCode = "SEK";
-
-                            if (this.HttpContext.Application["CurrencyCode" + languagePickerFormData.SelectedLanguage] != null &&
-                                !String.IsNullOrEmpty(
-                                    (string)this.HttpContext.Application["CurrencyCode" + languagePickerFormData.SelectedLanguage]))
-                            {
-                                orderCurrencyCode =
-                                    (string)this.HttpContext.Application["CurrencyCode" + languagePickerFormData.SelectedLanguage];
-                            }
-
-                            this.HttpContext.Session["OrderCurrencyCode"] = orderCurrencyCode;
-                            Guid resellerId = ResellerHelper.GetResellerId();
-
-                            Plugin.DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, orderCurrencyCode, culture);
+                            orderCurrencyCode =
+                                (string)this.HttpContext.Application["CurrencyCode" + languagePickerFormData.SelectedLanguage];
                         }
+
+                        this.HttpContext.Session["OrderCurrencyCode"] = orderCurrencyCode;
+                        Guid resellerId = ResellerHelper.GetResellerId();
+
+                        Plugin.DomainSearch.Helpers.DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, orderCurrencyCode, culture);
                     }
                     catch (Exception ex)
                     {

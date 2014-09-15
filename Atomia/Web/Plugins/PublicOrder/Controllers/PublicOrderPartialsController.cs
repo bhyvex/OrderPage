@@ -94,62 +94,58 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Cart()
         {
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+            string countryCode = ResellerHelper.GetResellerCountryCode();
+            string currencyCode = ResellerHelper.GetResellerCurrencyCode();
+            Guid resellerId = ResellerHelper.GetResellerId();
+            string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
+            List<RadioRow> list = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
+            RadioRow preselectedId = list[0];
+
+            // choose package to select
+            if (Session["PreselectedPackage"] != null)
             {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                string countryCode = ResellerHelper.GetResellerCountryCode();
-                string currencyCode = ResellerHelper.GetResellerCurrencyCode();
-                Guid resellerId = ResellerHelper.GetResellerId();
-                string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
-                List<RadioRow> list = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
-                RadioRow preselectedId = list[0];
-
-                // choose package to select
-                if (Session["PreselectedPackage"] != null)
+                if (list.Exists(rr => rr.productId == (string)Session["PreselectedPackage"]))
                 {
-                    if (list.Exists(rr => rr.productId == (string)Session["PreselectedPackage"]))
-                    {
-                        preselectedId = list.First(rr => rr.productId == (string)Session["PreselectedPackage"]);
-                    }
-                }
-
-                string switchedId = preselectedId.productId + "|" + preselectedId.productNameDesc + "|" + preselectedId.RenewalPeriodId;
-
-                if (preselectedId.SetupFee != null)
-                {
-                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' +
-                                               preselectedId.RenewalPeriodId + '|' + true + '|' +
-                                               preselectedId.SetupFee.productID + '|' +
-                                               preselectedId.SetupFee.productDesc + '|' +
-                                               preselectedId.SetupFee.RenewalPeriodId + '|' + false;
-
-                    switchedId += "|" + preselectedId.SetupFee.productID + "|" + preselectedId.SetupFee.productDesc +
-                                  "|" + preselectedId.SetupFee.RenewalPeriodId;
-                }
-                else
-                {
-                    ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' +
-                                               preselectedId.RenewalPeriodId + '|' + true;
-                }
-
-                ViewData["switchedId"] = switchedId;
-
-                PublicOrderConfigurationSection opcs = LocalConfigurationHelper.GetLocalConfigurationSection();
-                bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
-
-                if (orderByPostEnabled)
-                {
-                    ViewData["OrderByPostId"] = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-                    ViewData["OrderByPostEnabled"] = true;
-                }
-                else
-                {
-                    ViewData["OrderByPostId"] = String.Empty;
-                    ViewData["OrderByPostEnabled"] = false;
+                    preselectedId = list.First(rr => rr.productId == (string)Session["PreselectedPackage"]);
                 }
             }
 
+            string switchedId = preselectedId.productId + "|" + preselectedId.productNameDesc + "|" + preselectedId.RenewalPeriodId;
+
+            if (preselectedId.SetupFee != null)
+            {
+                ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' +
+                                            preselectedId.RenewalPeriodId + '|' + true + '|' +
+                                            preselectedId.SetupFee.productID + '|' +
+                                            preselectedId.SetupFee.productDesc + '|' +
+                                            preselectedId.SetupFee.RenewalPeriodId + '|' + false;
+
+                switchedId += "|" + preselectedId.SetupFee.productID + "|" + preselectedId.SetupFee.productDesc +
+                                "|" + preselectedId.SetupFee.RenewalPeriodId;
+            }
+            else
+            {
+                ViewData["CartProducts"] = preselectedId.productId + '|' + preselectedId.productNameDesc + '|' +
+                                            preselectedId.RenewalPeriodId + '|' + true;
+            }
+
+            ViewData["switchedId"] = switchedId;
+
+            PublicOrderConfigurationSection opcs = LocalConfigurationHelper.GetLocalConfigurationSection();
+            bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
+
+            if (orderByPostEnabled)
+            {
+                ViewData["OrderByPostId"] = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                ViewData["OrderByPostEnabled"] = true;
+            }
+            else
+            {
+                ViewData["OrderByPostId"] = String.Empty;
+                ViewData["OrderByPostEnabled"] = false;
+            }
+            
             return PartialView();
         }
     }

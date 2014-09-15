@@ -44,6 +44,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
     [Internationalization(InterfaceImplementer = true)]
     [CompressResponse]
     [TranslationHelper]
+    [ServiceProvider]
     public class PublicOrderController : Controller
     {
         /// <summary>
@@ -180,16 +181,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         public ActionResult LoadProductsIntoSession()
         {
             // call any function using HostingProducts to initialize loading
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
                 Guid resellerId = ResellerHelper.GetResellerId();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();
                 string countryCode = ResellerHelper.GetResellerCountryCode();
                 
                 DomainSearchHelper.LoadProductsIntoSession(service, Guid.Empty, resellerId, currencyCode, countryCode);
-            }
 
             return Json(null);
         }
@@ -463,15 +460,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             List<Country> countryList = new List<Country>();
 
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+
             try
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
                     countryList = service.GetCountries().ToList();
                 }
-            }
             catch (Exception ex)
             {
                 OrderPageLogger.LogOrderPageException(ex);
@@ -514,9 +508,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["AddingSubdomain"] = (bool)this.Session["subdomain"];
             }
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
                 ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode) : string.Empty;
 
                 // enabled payment method end
@@ -524,7 +515,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
                 ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
-            }
 
             ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories();
 
@@ -670,43 +660,38 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             var currencyCode = ResellerHelper.GetResellerCurrencyCode();
             var countryCode = ResellerHelper.GetResellerCountryCode();
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+            ViewData["PaymentEnabled"] = paymentEnabled;
+            ViewData["PayPalEnabled"] = payPalEnabled;
+
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+
+            if (orderByPostEnabled)
             {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                ViewData["PaymentEnabled"] = paymentEnabled;
-
-                ViewData["PayPalEnabled"] = payPalEnabled;
-
-                if (orderByPostEnabled)
-                {
-                    orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-                    ViewData["OrderByPostId"] = orderByPostId;
-                    ViewData["OrderByPostEnabled"] = true;
-                }
-                else
-                {
-                    ViewData["OrderByPostId"] = String.Empty;
-                    ViewData["OrderByPostEnabled"] = false;
-                }
-
-                if (orderByEmailEnabled)
-                {
-                    ViewData["OrderByEmailEnabled"] = true;
-                }
-                else
-                {
-                    ViewData["OrderByEmailEnabled"] = false;
-                }
-
-                list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, resellerId, currencyCode, countryCode);
-
-                currentCart = SubmitForm.CurrentCart;
+                orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                ViewData["OrderByPostId"] = orderByPostId;
+                ViewData["OrderByPostEnabled"] = true;
             }
+            else
+            {
+                ViewData["OrderByPostId"] = String.Empty;
+                ViewData["OrderByPostEnabled"] = false;
+            }
+
+            if (orderByEmailEnabled)
+            {
+                ViewData["OrderByEmailEnabled"] = true;
+            }
+            else
+            {
+                ViewData["OrderByEmailEnabled"] = false;
+            }
+
+            list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, resellerId, currencyCode, countryCode);
+
+            currentCart = SubmitForm.CurrentCart;
 
             if (ModelState.IsValid)
             {
-
                 // Save form to session to be able to refill, e.g. on canceled payment.
                 Session["SavedSubmitForm"] = SubmitForm;
 
@@ -714,131 +699,271 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 try
                 {
                     OrderServiceReferences.AtomiaBillingPublicService.PublicOrder newOrder;
+                    OrderServiceReferences.AtomiaBillingPublicService.PublicOrder myOrder = new OrderServiceReferences.AtomiaBillingPublicService.PublicOrder();
+                    countryList = service.GetCountries().ToList();
 
-                    using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                    List<PublicOrderCustomData> orderCustomData = new List<PublicOrderCustomData>();
+
+                    myOrder.Address = GeneralHelper.PrepareForSubmit(SubmitForm.Address);
+                    myOrder.Address2 = GeneralHelper.PrepareForSubmit(SubmitForm.Address2);
+
+                    myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactName);
+                    myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactLastName);
+                    myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCompany);
+
+                    myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress);
+                    myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress2);
+                    myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCity);
+                    myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(String.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
+                    if (SubmitForm.InvoicePostNumber != null)
                     {
-                        service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                        myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Trim());
+                    }
 
-                        OrderServiceReferences.AtomiaBillingPublicService.PublicOrder myOrder = new OrderServiceReferences.AtomiaBillingPublicService.PublicOrder();
+                    myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
 
-                        countryList = service.GetCountries().ToList();
+                    myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
+                    myOrder.BillingFax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
+                    myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
+                    
+                    myOrder.City = GeneralHelper.PrepareForSubmit(SubmitForm.City);
+                    myOrder.Company = GeneralHelper.PrepareForSubmit(SubmitForm.Company);
+                    if (!String.IsNullOrEmpty(SubmitForm.OrgNumber))
+                    {
+                        string tmpString = GeneralHelper.PrepareForSubmit(SubmitForm.OrgNumber);
+                        myOrder.CompanyNumber = tmpString;
+                    }
 
-                        List<PublicOrderCustomData> orderCustomData = new List<PublicOrderCustomData>();
+                    myOrder.Country = GeneralHelper.PrepareForSubmit(SubmitForm.CountryCode);
 
-                        myOrder.Address = GeneralHelper.PrepareForSubmit(SubmitForm.Address);
-                        myOrder.Address2 = GeneralHelper.PrepareForSubmit(SubmitForm.Address2);
+                    myOrder.Currency = "SEK";
+                    if (this.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string)this.Session["OrderCurrencyCode"]))
+                    {
+                        myOrder.Currency = this.Session["OrderCurrencyCode"].ToString();
+                    }
 
-                        myOrder.BillingFirstName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactName);
-                        myOrder.BillingLastName = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceContactLastName);
-                        myOrder.BillingCompany = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCompany);
+                    myOrder.Email = GeneralHelper.PrepareForSubmit(SubmitForm.Email);
 
-                        myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress);
-                        myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress2);
-                        myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCity);
-                        myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(String.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
-                        if (SubmitForm.InvoicePostNumber != null)
-                        {
-                            myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Trim());
-                        }
+                    myOrder.Fax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
+                    myOrder.Mobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
 
-                        myOrder.BillingEmail = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceEmail);
+                    myOrder.FirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
+                    myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
+                    myOrder.LegalNumber = GeneralHelper.PrepareForSubmit(SubmitForm.VATNumber);
 
-                        myOrder.BillingPhone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceTelephone, SubmitForm.InvoiceCountryCode));
-                        myOrder.BillingFax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceFax, SubmitForm.InvoiceCountryCode));
-                        myOrder.BillingMobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.InvoiceMobile, SubmitForm.InvoiceCountryCode));
-                        
-                        myOrder.City = GeneralHelper.PrepareForSubmit(SubmitForm.City);
-                        myOrder.Company = GeneralHelper.PrepareForSubmit(SubmitForm.Company);
-                        if (!String.IsNullOrEmpty(SubmitForm.OrgNumber))
-                        {
-                            string tmpString = GeneralHelper.PrepareForSubmit(SubmitForm.OrgNumber);
-                            myOrder.CompanyNumber = tmpString;
-                        }
+                    List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                    List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
+                    ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
+                    List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                    IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
 
-                        myOrder.Country = GeneralHelper.PrepareForSubmit(SubmitForm.CountryCode);
+                    List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
-                        myOrder.Currency = "SEK";
-                        if (this.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string)this.Session["OrderCurrencyCode"]))
-                        {
-                            myOrder.Currency = this.Session["OrderCurrencyCode"].ToString();
-                        }
-
-                        myOrder.Email = GeneralHelper.PrepareForSubmit(SubmitForm.Email);
-
-                        myOrder.Fax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
-                        myOrder.Mobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
-
-                        myOrder.FirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
-                        myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
-                        myOrder.LegalNumber = GeneralHelper.PrepareForSubmit(SubmitForm.VATNumber);
-
-                        List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-                        List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
-                        ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
-                        List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-                        IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-
-                        List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
-
-                        string jsonDomainRegContact = string.Empty;
-                        if (SubmitForm.WhoisContact)
-                        {
-                            SubmitForm.DomainRegCity = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCity);
-                            SubmitForm.DomainRegCountryCode = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCountryCode);
-                            SubmitForm.DomainRegEmail = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegEmail);
-                            SubmitForm.DomainRegFax = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
-                            SubmitForm.DomainRegContactName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactName);
-                            SubmitForm.DomainRegContactLastName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactLastName);
-                            SubmitForm.DomainRegCompany = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCompany);
-                            SubmitForm.DomainRegOrgNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegOrgNumber);
-                            SubmitForm.DomainRegAddress = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress);
-                            SubmitForm.DomainRegAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress2);
-                            SubmitForm.DomainRegVATNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegVATNumber);
-                            SubmitForm.DomainRegTelephone = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
-                            SubmitForm.DomainRegPostNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegPostNumber);
-                            jsonDomainRegContact = new JavaScriptSerializer().Serialize(new DomainRegContact()
-                                {
-                                    City = SubmitForm.DomainRegCity,
-                                    Country = SubmitForm.DomainRegCountryCode,
-                                    Email = SubmitForm.DomainRegEmail,
-                                    Fax = SubmitForm.DomainRegFax,
-                                    Name = SubmitForm.DomainRegContactName + " " + SubmitForm.DomainRegContactLastName,
-                                    Org = SubmitForm.DomainRegCompany,
-                                    OrgNo = SubmitForm.DomainRegOrgNumber,
-                                    Street1 = SubmitForm.DomainRegAddress,
-                                    Street2 = SubmitForm.DomainRegAddress2,
-                                    VatNo = SubmitForm.DomainRegVATNumber,
-                                    Voice = SubmitForm.DomainRegTelephone,
-                                    Zip = SubmitForm.DomainRegPostNumber.Trim()
-                                });
-                        }
-
-                        foreach (ProductDescription tmpProduct in currentCart)
-                        {
-                            // If post invoice is selected do not add it to orderItems since that product is added via orderCustomAttributes
-                            if (SubmitForm.RadioPaymentMethod == "InvoiceByPost")
+                    string jsonDomainRegContact = string.Empty;
+                    if (SubmitForm.WhoisContact)
+                    {
+                        SubmitForm.DomainRegCity = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCity);
+                        SubmitForm.DomainRegCountryCode = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCountryCode);
+                        SubmitForm.DomainRegEmail = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegEmail);
+                        SubmitForm.DomainRegFax = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
+                        SubmitForm.DomainRegContactName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactName);
+                        SubmitForm.DomainRegContactLastName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactLastName);
+                        SubmitForm.DomainRegCompany = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCompany);
+                        SubmitForm.DomainRegOrgNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegOrgNumber);
+                        SubmitForm.DomainRegAddress = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress);
+                        SubmitForm.DomainRegAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress2);
+                        SubmitForm.DomainRegVATNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegVATNumber);
+                        SubmitForm.DomainRegTelephone = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
+                        SubmitForm.DomainRegPostNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegPostNumber);
+                        jsonDomainRegContact = new JavaScriptSerializer().Serialize(new DomainRegContact()
                             {
-                                if (tmpProduct.productID == orderByPostId)
-                                {
-                                    continue;
-                                }
+                                City = SubmitForm.DomainRegCity,
+                                Country = SubmitForm.DomainRegCountryCode,
+                                Email = SubmitForm.DomainRegEmail,
+                                Fax = SubmitForm.DomainRegFax,
+                                Name = SubmitForm.DomainRegContactName + " " + SubmitForm.DomainRegContactLastName,
+                                Org = SubmitForm.DomainRegCompany,
+                                OrgNo = SubmitForm.DomainRegOrgNumber,
+                                Street1 = SubmitForm.DomainRegAddress,
+                                Street2 = SubmitForm.DomainRegAddress2,
+                                VatNo = SubmitForm.DomainRegVATNumber,
+                                Voice = SubmitForm.DomainRegTelephone,
+                                Zip = SubmitForm.DomainRegPostNumber.Trim()
+                            });
+                    }
+
+                    foreach (ProductDescription tmpProduct in currentCart)
+                    {
+                        // If post invoice is selected do not add it to orderItems since that product is added via orderCustomAttributes
+                        if (SubmitForm.RadioPaymentMethod == "InvoiceByPost")
+                        {
+                            if (tmpProduct.productID == orderByPostId)
+                            {
+                                continue;
                             }
+                        }
 
-                            // Get renewal period id for current cart product
-                            Guid renewalPeriodId = Guid.Empty;
-                            if (!string.IsNullOrEmpty(tmpProduct.RenewalPeriodId))
+                        // Get renewal period id for current cart product
+                        Guid renewalPeriodId = Guid.Empty;
+                        if (!string.IsNullOrEmpty(tmpProduct.RenewalPeriodId))
+                        {
+                            try
                             {
-                                try
-                                {
-                                    renewalPeriodId = new Guid(tmpProduct.RenewalPeriodId);
-                                }
-                                catch (Exception)
-                                {
-                                }
+                                renewalPeriodId = new Guid(tmpProduct.RenewalPeriodId);
                             }
-
-                            if (setupFeeIds.Any(id => id == tmpProduct.productID))
+                            catch (Exception)
                             {
+                            }
+                        }
+
+                        if (setupFeeIds.Any(id => id == tmpProduct.productID))
+                        {
+                            PublicOrderItem tmpItem = new PublicOrderItem
+                            {
+                                ItemId = Guid.Empty,
+                                ItemNumber = tmpProduct.productID,
+                                RenewalPeriodId = renewalPeriodId,
+                                Quantity = 1
+                            };
+
+                            myOrderItems.Add(tmpItem);
+                        }
+                        else if (tmpProduct.productID != selectedPackage.productID)
+                        {
+                            // it's domain
+                            List<PublicOrderItemProperty> arrayOfCustoms = new List<PublicOrderItemProperty>();
+                            if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
+                            {
+                                // if the selected package in the cart is free
+                                string domainValue = SubmitForm.FirstOption ? tmpProduct.productDesc : (SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain);
+
+                                arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = domainValue });
+
+                                arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = "CsDomainParking" });
+                                ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
+                                if (SubmitForm.FirstOption == false)
+                                {
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                    if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                    {
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty
+                                        {
+                                            Name = "AtomiaServiceExtraProperties",
+                                            Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                ToString()
+                                        });
+                                    }
+                                }
+
+                                if (SubmitForm.WhoisContact)
+                                {
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty
+                                    {
+                                        Name = "DomainRegContact",
+                                        Value = jsonDomainRegContact
+                                    });
+                                }
+
+                                PublicOrderItem tmpItem = new PublicOrderItem
+                                {
+                                    ItemId = Guid.Empty,
+                                    ItemNumber = tmpProduct.productID,
+                                    Quantity = 1,
+                                    RenewalPeriodId = renewalPeriodId,
+                                    CustomData = arrayOfCustoms.ToArray()
+                                };
+
+                                myOrderItems.Add(tmpItem);
+                            }
+                            else
+                            {
+                                bool websitesAllowed = true;
+                                ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
+                                if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("nowebsites") && package.AllProperties["nowebsites"].ToString().ToLowerInvariant() == "true")
+                                {
+                                    websitesAllowed = false;
+                                }
+
+
+
+                                // if the selected package in the cart is not free)
+                                if (SubmitForm.FirstOption)
+                                {
+                                    string websiteType = websitesAllowed
+                                                                ? (tmpProduct.productDesc == SubmitForm.MainDomainSelect
+                                                                    ? "CsLinuxWebsite"
+                                                                    : "CsDomainParking")
+                                                                : "CsDomainParking";
+
+                                    // check if the current product is main domain
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
+                                    if (tmpProduct.productDesc == SubmitForm.MainDomainSelect)
+                                    {
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                        if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                        {
+                                            arrayOfCustoms.Add(new PublicOrderItemProperty
+                                            {
+                                                Name = "AtomiaServiceExtraProperties",
+                                                Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                    ToString()
+                                            });
+                                        }
+                                    }
+                                    if (SubmitForm.WhoisContact)
+                                    {
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = jsonDomainRegContact });
+                                    }
+                                }
+                                else
+                                {
+                                    string websiteType = websitesAllowed ? "CsLinuxWebsite" : "CsDomainParking";
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
+                                    if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                    {
+                                        arrayOfCustoms.Add(new PublicOrderItemProperty
+                                        {
+                                            Name = "AtomiaServiceExtraProperties",
+                                            Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                ToString()
+                                        });
+                                    }
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
+                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
+                                }
+
+                                PublicOrderItem tmpItem = new PublicOrderItem
+                                {
+                                    ItemId = Guid.Empty,
+                                    ItemNumber = tmpProduct.productID,
+                                    Quantity = 1,
+                                    RenewalPeriodId = renewalPeriodId,
+                                    CustomData = arrayOfCustoms.ToArray()
+                                };
+
+                                myOrderItems.Add(tmpItem);
+                            }
+                        }
+                        else
+                        {
+                            // it's package
+                            if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
+                            {
+                                // if it's free package, just add it
+                                PublicOrderItem tmpItem = new PublicOrderItem
+                                                                {
+                                                                    ItemId = Guid.Empty,
+                                                                    ItemNumber = tmpProduct.productID,
+                                                                    RenewalPeriodId = renewalPeriodId,
+                                                                    Quantity = 1
+                                                                };
+
+                                myOrderItems.Add(tmpItem);
+                            }
+                            else
+                            {
+                                // if it's not a free package 
                                 PublicOrderItem tmpItem = new PublicOrderItem
                                 {
                                     ItemId = Guid.Empty,
@@ -849,324 +974,177 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                                 myOrderItems.Add(tmpItem);
                             }
-                            else if (tmpProduct.productID != selectedPackage.productID)
-                            {
-                                // it's domain
-                                List<PublicOrderItemProperty> arrayOfCustoms = new List<PublicOrderItemProperty>();
-                                if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
-                                {
-                                    // if the selected package in the cart is free
-                                    string domainValue = SubmitForm.FirstOption ? tmpProduct.productDesc : (SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain);
-
-                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = domainValue });
-
-                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = "CsDomainParking" });
-                                    ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
-                                    if (SubmitForm.FirstOption == false)
-                                    {
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
-                                        if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
-                                        {
-                                            arrayOfCustoms.Add(new PublicOrderItemProperty
-                                            {
-                                                Name = "AtomiaServiceExtraProperties",
-                                                Value = package.AllProperties["atomiaserviceextraproperties"].
-                                                    ToString()
-                                            });
-                                        }
-                                    }
-
-                                    if (SubmitForm.WhoisContact)
-                                    {
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty
-                                        {
-                                            Name = "DomainRegContact",
-                                            Value = jsonDomainRegContact
-                                        });
-                                    }
-
-                                    PublicOrderItem tmpItem = new PublicOrderItem
-                                    {
-                                        ItemId = Guid.Empty,
-                                        ItemNumber = tmpProduct.productID,
-                                        Quantity = 1,
-                                        RenewalPeriodId = renewalPeriodId,
-                                        CustomData = arrayOfCustoms.ToArray()
-                                    };
-
-                                    myOrderItems.Add(tmpItem);
-                                }
-                                else
-                                {
-                                    bool websitesAllowed = true;
-                                    ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
-                                    if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("nowebsites") && package.AllProperties["nowebsites"].ToString().ToLowerInvariant() == "true")
-                                    {
-                                        websitesAllowed = false;
-                                    }
-
-
-
-                                    // if the selected package in the cart is not free)
-                                    if (SubmitForm.FirstOption)
-                                    {
-                                        string websiteType = websitesAllowed
-                                                                 ? (tmpProduct.productDesc == SubmitForm.MainDomainSelect
-                                                                        ? "CsLinuxWebsite"
-                                                                        : "CsDomainParking")
-                                                                 : "CsDomainParking";
-
-                                        // check if the current product is main domain
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = tmpProduct.productDesc });
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
-                                        if (tmpProduct.productDesc == SubmitForm.MainDomainSelect)
-                                        {
-                                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
-                                            if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
-                                            {
-                                                arrayOfCustoms.Add(new PublicOrderItemProperty
-                                                {
-                                                    Name = "AtomiaServiceExtraProperties",
-                                                    Value = package.AllProperties["atomiaserviceextraproperties"].
-                                                        ToString()
-                                                });
-                                            }
-                                        }
-                                        if (SubmitForm.WhoisContact)
-                                        {
-                                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegContact", Value = jsonDomainRegContact });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        string websiteType = websitesAllowed ? "CsLinuxWebsite" : "CsDomainParking";
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
-                                        if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
-                                        {
-                                            arrayOfCustoms.Add(new PublicOrderItemProperty
-                                            {
-                                                Name = "AtomiaServiceExtraProperties",
-                                                Value = package.AllProperties["atomiaserviceextraproperties"].
-                                                    ToString()
-                                            });
-                                        }
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
-                                        arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
-                                    }
-
-                                    PublicOrderItem tmpItem = new PublicOrderItem
-                                    {
-                                        ItemId = Guid.Empty,
-                                        ItemNumber = tmpProduct.productID,
-                                        Quantity = 1,
-                                        RenewalPeriodId = renewalPeriodId,
-                                        CustomData = arrayOfCustoms.ToArray()
-                                    };
-
-                                    myOrderItems.Add(tmpItem);
-                                }
-                            }
-                            else
-                            {
-                                // it's package
-                                if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
-                                {
-                                    // if it's free package, just add it
-                                    PublicOrderItem tmpItem = new PublicOrderItem
-                                                                  {
-                                                                      ItemId = Guid.Empty,
-                                                                      ItemNumber = tmpProduct.productID,
-                                                                      RenewalPeriodId = renewalPeriodId,
-                                                                      Quantity = 1
-                                                                  };
-
-                                    myOrderItems.Add(tmpItem);
-                                }
-                                else
-                                {
-                                    // if it's not a free package 
-                                    PublicOrderItem tmpItem = new PublicOrderItem
-                                    {
-                                        ItemId = Guid.Empty,
-                                        ItemNumber = tmpProduct.productID,
-                                        RenewalPeriodId = renewalPeriodId,
-                                        Quantity = 1
-                                    };
-
-                                    myOrderItems.Add(tmpItem);
-                                }
-                            }
                         }
-                        PublicOrderConfigurationSection opcss = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
-                        Dictionary<string, string> emailProps = new Dictionary<string, string>();
-                        JavaScriptSerializer jsemail = new JavaScriptSerializer();
-                        bool addApplication = false;
-
-                        foreach (PublicOrderItem myOrderItem in myOrderItems)
-                        {
-
-                            emailProps = new Dictionary<string, string>();
-                            if (opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
-                            {
-                                List<PublicOrderItemProperty> arrayOfCustoms = myOrderItem.CustomData.ToList();
-                                if (SubmitForm.DomainSpeciffic == null)
-                                {
-                                    throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for " + myOrderItem.ItemNumber + " domain");
-                                }
-                                string emailType =
-                                    opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
-                                if (!String.IsNullOrEmpty(emailType))
-                                {
-                                    string cccEmail =
-                                    opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).CccEmail;
-                                    emailProps.Add("Type", emailType);
-                                    if (myOrderItem.CustomData.Any(v => v.Name == "DomainName"))
-                                    {
-                                        emailProps.Add("Domain", myOrderItem.CustomData.FirstOrDefault(v => v.Name == "DomainName").Value ?? "");
-                                    }
-                                    Dictionary<string, string> domainSpecific = new Dictionary<string, string>();
-                                    domainSpecific =
-                                        jsemail.Deserialize<Dictionary<string, string>>(SubmitForm.DomainSpeciffic);
-                                    emailProps.Add("Name", domainSpecific.FirstOrDefault(v => v.Key == "AcceptName").Value ?? "");
-                                    emailProps.Add("Time", domainSpecific.FirstOrDefault(v => v.Key == "AcceptDate").Value ?? "");
-                                    emailProps.Add("Orgnum", myOrder.CompanyNumber);
-                                    emailProps.Add("Company", myOrder.Company);
-                                    emailProps.Add("Version", domainSpecific.FirstOrDefault(v => v.Key == "AcceptVersion").Value ?? "");
-                                    emailProps.Add("Ccc", cccEmail);
-                                    arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MailOnOrder", Value = jsemail.Serialize(emailProps) });
-                                }
-                                arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
-                                myOrderItem.CustomData = arrayOfCustoms.ToArray();
-                            }
-
-                            if (myOrderItem.ItemNumber == "HST-APPY")
-                            {
-                                addApplication = true;
-                            }
-                        }
-
-                        if (addApplication)
-                        {
-                            PublicOrderItem tmpItem = myOrderItems.Where(i => i.CustomData != null && i.CustomData.Any(c => c.Name == "MainDomain")).FirstOrDefault();
-
-                            if (tmpItem == null)
-                            {
-                                throw new Exception("Unable to find MainDomain order item");
-                            }
-
-                            PublicOrderItemProperty tmpProperty = tmpItem.CustomData.Where(c => c.Name == "DomainName").FirstOrDefault();
-
-                            myOrderItems.Add(new PublicOrderItem
-                            {
-                                ItemId = Guid.Empty,
-                                ItemNumber = "XSV-APP",
-                                Quantity = 1,
-                                CustomData = new PublicOrderItemProperty[2]
-                                    {
-                                        new PublicOrderItemProperty
-                                        {
-                                            Name = "DomainName",
-                                            Value = tmpProperty.Value
-                                        },
-                                        new PublicOrderItemProperty
-                                        {
-                                            Name = "ApplicationName",
-                                            Value = "wordpress"
-                                        }
-                                    }
-                            });
-                        }
-
-                        if (SubmitForm.RadioPaymentMethod == "InvoiceByEmail")
-                        {
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
-                        }
-
-                        if (SubmitForm.RadioPaymentMethod == "InvoiceByPost")
-                        {
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "SendInvoiceByPost", Value = "true" });
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
-                        }
-
-                        if (!String.IsNullOrEmpty((string)Session["SpecialPID"]))
-                        {
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "SpecialPID", Value = (string)Session["SpecialPID"] });
-                        }
-
-                        if (!String.IsNullOrEmpty(SubmitForm.VATValidationMessage))
-                        {
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "VATValidationMessage", Value = SubmitForm.VATValidationMessage });
-                        }
-
-                        if (!string.IsNullOrEmpty(SubmitForm.RadioBillingContact))
-                        {
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "BillingContact", Value = SubmitForm.RadioBillingContact });
-                        }
-
-                        if (!string.IsNullOrEmpty(SubmitForm.RadioTechContact))
-                        {
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "TechContact", Value = SubmitForm.RadioTechContact });
-                        }
-
-                        // Add CustommData posted with submit, client added
-                        if (!String.IsNullOrEmpty(SubmitForm.OrderCustomData))
-                        {
-                            try
-                            {
-                                JavaScriptSerializer js = new JavaScriptSerializer();
-                                orderCustomData.AddRange(js.Deserialize<PublicOrderCustomData[]>(SubmitForm.OrderCustomData));
-                            }
-                            catch (Exception ex)
-                            {
-                                OrderPageLogger.LogOrderPageException(ex);
-                                throw;
-                            }
-                        }
-
-                        // Add IP address of the customer as the custom order attribute
-                        string ip = this.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-                        if (!string.IsNullOrEmpty(ip))
-                        {
-                            string[] ipRange = ip.Split(',');
-                            string trueIp = ipRange[0];
-
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "IpAddress", Value = trueIp });
-                        }
-                        else
-                        {
-                            ip = this.Request.ServerVariables["REMOTE_ADDR"];
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "IpAddress", Value = ip });
-                        }
-
-                        if (this.HttpContext.Session["SessionAccountLanguages"] != null)
-                        {
-                            AtomiaCultureInfo atomiaCultureInfo = (AtomiaCultureInfo)this.HttpContext.Session["SessionAccountLanguages"];
-                            orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = String.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
-                        }
-
-                        myOrder.CustomData = orderCustomData.ToArray();
-                        myOrder.OrderItems = myOrderItems.ToArray();
-
-                        myOrder.ResellerId = ResellerHelper.GetResellerId();
-
-                        myOrder.Phone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
-
-                        myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Trim());
-
-                        myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card"
-                                                    ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard
-                                                    : OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice;
-
-                        newOrder = service.CreateOrder(myOrder);
-
-                        if (newOrder == null)
-                        {
-                            throw new Exception("Order could not be created.");
-                        }
-
-                        this.Session["CreatedOrder"] = newOrder;
                     }
 
+                    PublicOrderConfigurationSection opcss = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
+                    Dictionary<string, string> emailProps = new Dictionary<string, string>();
+                    JavaScriptSerializer jsemail = new JavaScriptSerializer();
+                    bool addApplication = false;
+
+                    foreach (PublicOrderItem myOrderItem in myOrderItems)
+                    {
+                        emailProps = new Dictionary<string, string>();
+                        if (opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber) != null)
+                        {
+                            List<PublicOrderItemProperty> arrayOfCustoms = myOrderItem.CustomData.ToList();
+                            if (SubmitForm.DomainSpeciffic == null)
+                            {
+                                throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for " + myOrderItem.ItemNumber + " domain");
+                            }
+                            string emailType =
+                                opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
+                            if (!String.IsNullOrEmpty(emailType))
+                            {
+                                string cccEmail =
+                                opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).CccEmail;
+                                emailProps.Add("Type", emailType);
+                                if (myOrderItem.CustomData.Any(v => v.Name == "DomainName"))
+                                {
+                                    emailProps.Add("Domain", myOrderItem.CustomData.FirstOrDefault(v => v.Name == "DomainName").Value ?? "");
+                                }
+                                Dictionary<string, string> domainSpecific = new Dictionary<string, string>();
+                                domainSpecific =
+                                    jsemail.Deserialize<Dictionary<string, string>>(SubmitForm.DomainSpeciffic);
+                                emailProps.Add("Name", domainSpecific.FirstOrDefault(v => v.Key == "AcceptName").Value ?? "");
+                                emailProps.Add("Time", domainSpecific.FirstOrDefault(v => v.Key == "AcceptDate").Value ?? "");
+                                emailProps.Add("Orgnum", myOrder.CompanyNumber);
+                                emailProps.Add("Company", myOrder.Company);
+                                emailProps.Add("Version", domainSpecific.FirstOrDefault(v => v.Key == "AcceptVersion").Value ?? "");
+                                emailProps.Add("Ccc", cccEmail);
+                                arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MailOnOrder", Value = jsemail.Serialize(emailProps) });
+                            }
+                            arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
+                            myOrderItem.CustomData = arrayOfCustoms.ToArray();
+                        }
+
+                        if (myOrderItem.ItemNumber == "HST-APPY")
+                        {
+                            addApplication = true;
+                        }
+                    }
+
+                    if (addApplication)
+                    {
+                        PublicOrderItem tmpItem = myOrderItems.Where(i => i.CustomData != null && i.CustomData.Any(c => c.Name == "MainDomain")).FirstOrDefault();
+
+                        if (tmpItem == null)
+                        {
+                            throw new Exception("Unable to find MainDomain order item");
+                        }
+
+                        PublicOrderItemProperty tmpProperty = tmpItem.CustomData.Where(c => c.Name == "DomainName").FirstOrDefault();
+
+                        myOrderItems.Add(new PublicOrderItem
+                        {
+                            ItemId = Guid.Empty,
+                            ItemNumber = "XSV-APP",
+                            Quantity = 1,
+                            CustomData = new PublicOrderItemProperty[2]
+                                {
+                                    new PublicOrderItemProperty
+                                    {
+                                        Name = "DomainName",
+                                        Value = tmpProperty.Value
+                                    },
+                                    new PublicOrderItemProperty
+                                    {
+                                        Name = "ApplicationName",
+                                        Value = "wordpress"
+                                    }
+                                }
+                        });
+                    }
+
+                    if (SubmitForm.RadioPaymentMethod == "InvoiceByEmail")
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
+                    }
+
+                    if (SubmitForm.RadioPaymentMethod == "InvoiceByPost")
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "SendInvoiceByPost", Value = "true" });
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
+                    }
+
+                    if (!String.IsNullOrEmpty((string)Session["SpecialPID"]))
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "SpecialPID", Value = (string)Session["SpecialPID"] });
+                    }
+
+                    if (!String.IsNullOrEmpty(SubmitForm.VATValidationMessage))
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "VATValidationMessage", Value = SubmitForm.VATValidationMessage });
+                    }
+
+                    if (!string.IsNullOrEmpty(SubmitForm.RadioBillingContact))
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "BillingContact", Value = SubmitForm.RadioBillingContact });
+                    }
+
+                    if (!string.IsNullOrEmpty(SubmitForm.RadioTechContact))
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "TechContact", Value = SubmitForm.RadioTechContact });
+                    }
+
+                    // Add CustommData posted with submit, client added
+                    if (!String.IsNullOrEmpty(SubmitForm.OrderCustomData))
+                    {
+                        try
+                        {
+                            JavaScriptSerializer js = new JavaScriptSerializer();
+                            orderCustomData.AddRange(js.Deserialize<PublicOrderCustomData[]>(SubmitForm.OrderCustomData));
+                        }
+                        catch (Exception ex)
+                        {
+                            OrderPageLogger.LogOrderPageException(ex);
+                            throw;
+                        }
+                    }
+
+                    // Add IP address of the customer as the custom order attribute
+                    string ip = this.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                    if (!string.IsNullOrEmpty(ip))
+                    {
+                        string[] ipRange = ip.Split(',');
+                        string trueIp = ipRange[0];
+
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "IpAddress", Value = trueIp });
+                    }
+                    else
+                    {
+                        ip = this.Request.ServerVariables["REMOTE_ADDR"];
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "IpAddress", Value = ip });
+                    }
+
+                    if (this.HttpContext.Session["SessionAccountLanguages"] != null)
+                    {
+                        AtomiaCultureInfo atomiaCultureInfo = (AtomiaCultureInfo)this.HttpContext.Session["SessionAccountLanguages"];
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = String.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
+                    }
+
+                    myOrder.CustomData = orderCustomData.ToArray();
+                    myOrder.OrderItems = myOrderItems.ToArray();
+
+                    myOrder.ResellerId = ResellerHelper.GetResellerId();
+
+                    myOrder.Phone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
+
+                    myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Trim());
+
+                    myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card"
+                                                ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard
+                                                : OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice;
+
+                    newOrder = service.CreateOrder(myOrder);
+
+                    if (newOrder == null)
+                    {
+                        throw new Exception("Order could not be created.");
+                    }
+
+                    this.Session["CreatedOrder"] = newOrder;
+                    
                     if (SubmitForm.RadioPaymentMethod != "InvoiceByPost" && SubmitForm.RadioPaymentMethod != "InvoiceByEmail")
                     {
                         if (newOrder.Total > decimal.Zero)
@@ -1256,12 +1234,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             // supported countries
             try
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                    countryList = service.GetCountries().ToList();
-                }
+                countryList = service.GetCountries().ToList();
+                
             }
             catch (Exception ex)
             {
@@ -1350,12 +1324,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             AddressInfo addressInfo = new AddressInfo();
             try
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);                
                     addressInfo = service.GetAddressInfoOrder(identifier, EntityType.Company, ResellerHelper.GetResellerId());
                 }
-            }
             catch (Exception ex)
             {
                 OrderPageLogger.LogOrderPageException(ex);
@@ -1498,9 +1469,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-                {
-                    service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
                     AttributeData[] checkedDomains = service.CheckDomains(new[] { domainName });
 
                     for (int i = 0; i < checkedDomains.Length; i++)
@@ -1511,7 +1480,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         }
                     }
                 }
-            }
             catch (Exception ex)
             {
                 OrderPageLogger.LogOrderPageException(ex);
@@ -1531,10 +1499,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             DomainDataFromXML[] result;
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
                 Guid resellerId = ResellerHelper.GetResellerId();
                 string currencyCode = ResellerHelper.GetResellerCurrencyCode();
                 string countryCode = ResellerHelper.GetResellerCountryCode();
@@ -1546,7 +1511,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     resellerId,
                     currencyCode,
                     countryCode);
-            }
 
             return Json(result);
         }
@@ -1561,10 +1525,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             DomainDataFromXML[] result;
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
                 string currencyCode = null;
                 if (System.Web.HttpContext.Current.Session != null &&
                     System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null)
@@ -1582,7 +1543,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     resellerId,
                     currencyCode,
                     countryCode);
-            }
 
             return Json(result);
         }
@@ -1597,10 +1557,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             AvailabilityStatus status;
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
                 string currencyCode = null;
                 if (System.Web.HttpContext.Current.Session != null &&
                     System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null)
@@ -1618,7 +1575,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     resellerId,
                     currencyCode,
                     countryCode);
-            }
 
             return Json(new
             {
@@ -1661,10 +1617,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 currencyFromCookie = (string)System.Web.HttpContext.Current.Session["OrderCurrencyCode"];
             }
 
-            using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
-            {
-                service.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
+            var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
                 bool resellerTos = Session != null && Session["resellerAccountData"] != null;
                 result = CartHelper.RecalculateCart(
                     this,
@@ -1694,7 +1647,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     orderAddress,
                     null,
                     resellerTos);
-            }
 
             return Json(result);
         }
@@ -1784,13 +1736,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
-                {
-                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                    publicOrderService.UpdatePaymentTransactionData(token, transaction.Status, transaction.StatusCode, transaction.StatusCodeDescription, nameValues.ToArray());
-                    finishedTransaction = publicOrderService.FinishPayment(transaction.TransactionId);
-                }
-
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                finishedTransaction = service.FinishPayment(transaction.TransactionId);
             }
             catch (Exception ex)
             {
@@ -1847,12 +1794,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
-                {
-                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                    publicOrderService.UpdatePaymentTransactionData(orderRef, transaction.Status, transaction.StatusCode, transaction.StatusCodeDescription, attributeDatas.Select(item => new NameValue { Name = item.Name, Value = item.Value }).ToArray());
-                    finishedTransaction = publicOrderService.FinishPayment(transaction.TransactionId);
-                }
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                finishedTransaction = service.FinishPayment(transaction.TransactionId);
             }
             catch (Exception ex)
             {
@@ -1864,7 +1807,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 // error: transaction does not exist
                 throw new ArgumentException("Transcation could not be finished.");
             }
-
 
             CultureInfo locale = CultureInfo.CreateSpecificCulture("en-US");
 
@@ -1953,16 +1895,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
-                {
-                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                VatNumberValidationResultType valResult = service.ValidateVatNumber(countryCode, VATNumber);
 
-                    VatNumberValidationResultType valResult = publicOrderService.ValidateVatNumber(
-                        countryCode, VATNumber);
-
-                    var dataToReturn = new { sEcho, validationResult = valResult.ToString().ToLower(), error = string.Empty, success = true };
-                    result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
-                }
+                var dataToReturn = new { sEcho, validationResult = valResult.ToString().ToLower(), error = string.Empty, success = true };
+                result = Json(dataToReturn, JsonRequestBehavior.AllowGet);
+                
             }
             catch (Exception ex)
             {
@@ -1979,17 +1917,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             return result;
         }
-
+        
         private PublicPaymentTransaction GetTransationById(string transactionId)
         {
 
             try
             {
-                using (AtomiaBillingPublicService publicOrderService = new AtomiaBillingPublicService())
-                {
-                    publicOrderService.Url = this.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-                    return publicOrderService.GetPaymentTransactionById(transactionId);
-                }
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                return service.GetPaymentTransactionById(transactionId);
             }
             catch (Exception ex)
             {

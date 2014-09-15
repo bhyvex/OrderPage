@@ -237,30 +237,26 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             if (HttpContext.Current.Session["resellerAccountData"] == null 
                 || ((AccountData)HttpContext.Current.Session["resellerAccountData"]).Hash != resellerHash)
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
+                AccountData resellerAccountData = service.GetAccountDataByHash(resellerHash);
+                if (resellerAccountData != null)
                 {
-                    service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                    AccountData resellerAccountData = service.GetAccountDataByHash(resellerHash);
-                    if (resellerAccountData != null)
+                    if (HttpContext.Current.Session["resellerAccountData"] == null)
                     {
-                        if (HttpContext.Current.Session["resellerAccountData"] == null)
-                        {
-                            HttpContext.Current.Session.Add("resellerAccountData", resellerAccountData);
-                        }
-                        else
-                        {
-                            HttpContext.Current.Session["resellerAccountData"] = resellerAccountData;
-                        }
+                        HttpContext.Current.Session.Add("resellerAccountData", resellerAccountData);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session["resellerAccountData"] = resellerAccountData;
+                    }
 
-                        if (HttpContext.Current.Session["showContactOptions"] == null)
-                        {
-                            HttpContext.Current.Session.Add("showContactOptions", true);
-                        }
-                        else
-                        {
-                            HttpContext.Current.Session["showContactOptions"] = true;
-                        }
+                    if (HttpContext.Current.Session["showContactOptions"] == null)
+                    {
+                        HttpContext.Current.Session.Add("showContactOptions", true);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session["showContactOptions"] = true;
                     }
                 }
             }
@@ -275,30 +271,26 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             // Load reseller's data only if it's not present in session.
             if (HttpContext.Current.Session["resellerAccountData"] == null)
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
+                AccountData resellerAccountData = service.GetResellerDataByUrl(url);
+                if (resellerAccountData != null)
                 {
-                    service.Url = HttpContext.Current.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                    AccountData resellerAccountData = service.GetResellerDataByUrl(url);
-                    if (resellerAccountData != null)
+                    if (HttpContext.Current.Session["resellerAccountData"] == null)
                     {
-                        if (HttpContext.Current.Session["resellerAccountData"] == null)
-                        {
-                            HttpContext.Current.Session.Add("resellerAccountData", resellerAccountData);
-                        }
-                        else
-                        {
-                            HttpContext.Current.Session["resellerAccountData"] = resellerAccountData;
-                        }
+                        HttpContext.Current.Session.Add("resellerAccountData", resellerAccountData);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session["resellerAccountData"] = resellerAccountData;
+                    }
 
-                        if (HttpContext.Current.Session["showContactOptions"] == null)
-                        {
-                            HttpContext.Current.Session.Add("showContactOptions", false);
-                        }
-                        else
-                        {
-                            HttpContext.Current.Session["showContactOptions"] = false;
-                        }
+                    if (HttpContext.Current.Session["showContactOptions"] == null)
+                    {
+                        HttpContext.Current.Session.Add("showContactOptions", false);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session["showContactOptions"] = false;
                     }
                 }
             }

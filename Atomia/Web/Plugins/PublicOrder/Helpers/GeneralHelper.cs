@@ -63,49 +63,46 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             string result = string.Empty;
             try
             {
-                using (AtomiaBillingPublicService service = new AtomiaBillingPublicService())
+                var service = GeneralHelper.GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
+                AttributeData[] checkedDomains = service.CheckDomains(domains);
+
+                for (int i = 0; i < checkedDomains.Length; i++)
                 {
-                    service.Url = controller.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
-
-                    AttributeData[] checkedDomains = service.CheckDomains(domains);
-
-                    for (int i = 0; i < checkedDomains.Length; i++)
+                    if (checkedDomains[i].Value.ToLower() == "taken")
                     {
-                        if (checkedDomains[i].Value.ToLower() == "taken")
-                        {
-                            result += checkedDomains[i].Name + "|TAKEN ";
-                        }
-                        else
-                        {
-                            bool passed = false;
-                            List<string> tldBasedRegexesStrings = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
+                        result += checkedDomains[i].Name + "|TAKEN ";
+                    }
+                    else
+                    {
+                        bool passed = false;
+                        List<string> tldBasedRegexesStrings = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
 
-                            // if there are no tld-special regexes disregard and continue
-                            if (tldBasedRegexesStrings.Count > 0)
+                        // if there are no tld-special regexes disregard and continue
+                        if (tldBasedRegexesStrings.Count > 0)
+                        {
+                            List<Regex> tldBasedRegexes = new List<Regex>();
+                            for (int j = 0; j < tldBasedRegexesStrings.Count; j++)
                             {
-                                List<Regex> tldBasedRegexes = new List<Regex>();
-                                for (int j = 0; j < tldBasedRegexesStrings.Count; j++)
-                                {
-                                    tldBasedRegexes.Add(new Regex(tldBasedRegexesStrings[j]));
-                                }
+                                tldBasedRegexes.Add(new Regex(tldBasedRegexesStrings[j]));
+                            }
 
-                                string tmpStr = SimpleDnsPlus.IDNLib.Decode(checkedDomains[i].Name.Trim());
-                                for (var g = 0; g < tldBasedRegexes.Count; g++)
+                            string tmpStr = SimpleDnsPlus.IDNLib.Decode(checkedDomains[i].Name.Trim());
+                            for (var g = 0; g < tldBasedRegexes.Count; g++)
+                            {
+                                if (tldBasedRegexes[g].IsMatch(tmpStr))
                                 {
-                                    if (tldBasedRegexes[g].IsMatch(tmpStr))
-                                    {
-                                        passed = true;
-                                    }
+                                    passed = true;
                                 }
+                            }
 
-                                if (!passed)
-                                {
-                                    result += checkedDomains[i].Name + "|SPECIAL ";
-                                }
+                            if (!passed)
+                            {
+                                result += checkedDomains[i].Name + "|SPECIAL ";
                             }
                         }
                     }
                 }
+                
             }
             catch (Exception ex)
             {
@@ -163,7 +160,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             }
             catch (Exception e)
             {
-               OrderPageLogger.LogOrderPageException(e);
+                OrderPageLogger.LogOrderPageException(e);
             }
 
             Directory.SetCurrentDirectory(currentDir);
@@ -197,22 +194,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             bool result = true;
             try
             {
-                
+
                 Guid resellerId = new Guid(OrderModel.FetchResellerGuidFromXml());
 
-                using (Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService orderService = new AtomiaBillingPublicService())
-                {
-                    orderService.Url = controller.HttpContext.Application["OrderApplicationPublicServiceURL"].ToString();
+                var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
 
-                    bool resellerShowTaxBool = orderService.ShowTaxForReseller(resellerId);
-                    result = resellerShowTaxBool;
-                }
-
-
+                bool resellerShowTaxBool = service.ShowTaxForReseller(resellerId);
+                result = resellerShowTaxBool;
             }
             catch (Exception ex)
             {
-               OrderPageLogger.LogOrderPageException(ex);
+                OrderPageLogger.LogOrderPageException(ex);
             }
 
             return result;
@@ -235,30 +227,54 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             if (!string.IsNullOrEmpty(filterValue))
             {
                 // get all packages from the config
-                    List<ProductItem> packageProducts = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
-                    packages = packages.Where(rr =>
+                List<ProductItem> packageProducts = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
+                packages = packages.Where(rr =>
+                                              {
+                                                  ProductItem item = packageProducts.FirstOrDefault(p => p.ArticalNumber == rr.productId);
+                                                  if (item == null)
                                                   {
-                                                      ProductItem item = packageProducts.FirstOrDefault(p => p.ArticalNumber == rr.productId);
-                                                      if (item == null)
-                                                      {
-                                                          return false;
-                                                      }
-
-                                                      object value;
-                                                      if (item.AllProperties.TryGetValue("groups", out value))
-                                                      {
-                                                          return value
-                                                              .ToString()
-                                                              .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
-                                                              .ToList()
-                                                              .Exists(v => v == filterValue);
-                                                      }
-
                                                       return false;
-                                                  }).ToList();
+                                                  }
+
+                                                  object value;
+                                                  if (item.AllProperties.TryGetValue("groups", out value))
+                                                  {
+                                                      return value
+                                                          .ToString()
+                                                          .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                                                          .ToList()
+                                                          .Exists(v => v == filterValue);
+                                                  }
+
+                                                  return false;
+                                              }).ToList();
             }
 
             return packages;
+        }
+
+        public static AtomiaBillingPublicService GetPublicOrderService(HttpContext context)
+        {
+            if (context.Session != null)
+            {
+                if (context.Session["PublicOrderService"] != null)
+                {
+                    return (AtomiaBillingPublicService)context.Session["PublicOrderService"];
+                }
+            }
+
+            context.Session["PublicOrderService"] = new AtomiaBillingPublicService
+                       {
+                           Url =
+                               context.Application["OrderApplicationPublicServiceURL"].ToString(),
+                           Timeout =
+                               Int32.Parse(
+                                   context.Application["OrderApplicationPublicServiceTimeout"].
+                                       ToString())
+                       };
+
+            return (AtomiaBillingPublicService) context.Session["PublicOrderService"];
+
         }
     }
 }

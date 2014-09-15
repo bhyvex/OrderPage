@@ -154,6 +154,7 @@
     <Compile Include="Controllers\PublicOrderPartialsController.cs" />
     <Compile Include="Filters\LocalizationDataLoader.cs" />
     <Compile Include="Filters\ResellerDataProvider.cs" />
+    <Compile Include="Filters\ServiceProvider.cs" />
     <Compile Include="Filters\UrlManagerAttribute.cs" />
     <Compile Include="GeneralItems\GlobalEventsHandler.cs" />
     <Compile Include="GeneralItems\InternationalizationProvider.cs" />

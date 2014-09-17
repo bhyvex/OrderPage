@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="robots.txt" />
+    <Content Include="Themes\Default\Content\css\ie7.css" />
     <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_hgrid_bg.png" />
     <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_node.png" />
     <Content Include="Themes\Default\Content\img\atomia\server_nodes_history_vgrid_bg.png" />

@@ -52,7 +52,7 @@
     else
     {
 %>
-<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/{0}/style.css", styleTheme)) %>"
+<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/style.css", styleTheme)) %>"
     rel="stylesheet" type="text/css" media="screen, projection" />
 <% 
     }
@@ -70,7 +70,7 @@
     else
     {
 %>
-<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/{0}/vtip.css", styleTheme)) %>"
+<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/vtip.css", styleTheme)) %>"
     rel="stylesheet" type="text/css" media="screen, projection" />
 <% 
     }
@@ -87,7 +87,7 @@
     // end of patch
 
     string ie7Theme = "Default";
-    if (themeHasCssDir && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Content/css/{0}/ie7.css", Session["Theme"]))))
+    if (themeHasCssDir && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Content/css/ie7.css", Session["Theme"]))))
     {
         ie7Theme = (string)Session["Theme"];
     }
@@ -96,19 +96,19 @@
     {
         if (Application["cSSMinifier"] != null && Boolean.Parse(Application["cSSMinifier"].ToString()))
         {
-            Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/{0}/ie7.css", ie7Theme));
+            Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/ie7.css", ie7Theme));
         }
         else
         {
 %>
-<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/{0}/ie7.css", ie7Theme))%>"
+<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/ie7.css", ie7Theme))%>"
     rel="stylesheet" type="text/css" media="screen, projection" />
 <% 
         }
     }
 
     string ieTheme = "Default";
-    if (themeHasCssDir && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Content/css/{0}/ie.css", Session["Theme"]))))
+    if (themeHasCssDir && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Content/css/ie.css", Session["Theme"]))))
     {
         ieTheme = (string)Session["Theme"];
     }
@@ -117,27 +117,27 @@
     {
         if (Application["cSSMinifier"] != null && Boolean.Parse(Application["cSSMinifier"].ToString()))
         {
-            Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/{0}/ie.css", ieTheme));
+            Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/ie.css", ieTheme));
         }
         else
         {
 %>
-<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/{0}/ie.css", ieTheme))%>"
+<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/ie.css", ieTheme))%>"
     rel="stylesheet" type="text/css" media="screen, projection" />
 <% 
         }
     }
 
-    if (themeHasCssDir && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Content/css/{0}/style-custom.css", Session["Theme"]))))
+    if (themeHasCssDir && File.Exists(Server.MapPath(string.Format("~/Themes/{0}/Content/css/style-custom.css", Session["Theme"]))))
     {
         if (Application["cSSMinifier"] != null && Boolean.Parse(Application["cSSMinifier"].ToString()))
         {
-            Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/{0}/style-custom.css", Session["Theme"]));
+            Html.CSS().Add(string.Format("~/Themes/{0}/Content/css/style-custom.css", Session["Theme"]));
         }
         else
         {
 %>
-<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/{0}/style-custom.css", Session["Theme"]))%>"
+<link href="<%= ResolveClientUrl(string.Format("~/Themes/{0}/Content/css/style-custom.css", Session["Theme"]))%>"
     rel="stylesheet" type="text/css" media="screen, projection" />
 <% 
         }

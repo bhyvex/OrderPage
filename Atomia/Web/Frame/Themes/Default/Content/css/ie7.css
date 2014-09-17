@@ -1,0 +1,226 @@
+/* ie.css */
+body {text-align:center;}
+.container {text-align:left;}
+* html .column {overflow-x:hidden;}
+* html legend {margin:-18px -8px 16px 0;padding:0;}
+ol {margin-left:2em;}
+sup {vertical-align:text-top;}
+sub {vertical-align:text-bottom;}
+html>body p code {*white-space:normal;}
+hr {margin:-8px auto 11px;}
+ul { list-style: disc outside; margin-left: 2em; } /* IE can't handle :before and :after */
+ul li { text-indent: 0; margin-left: 0; }
+legend { margin-bottom: 1.6em; } /* IE form margin bug */
+sup, sub { font-size: 100%; } /* IE superscript & subscript bug */
+blockquote p, blockquote ul, blockquote ol, blockquote dl, blockquote pre, blockquote address, 
+blockquote table, blockquote form, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockquote h5, blockquote h6 { margin-top: .8em; margin-bottom: .8em; } /* IE can't handle :first-child */
+* html textarea, * html input { padding: 0; } /* IE < 7 form fix */
+textarea { overflow:hidden; }
+legend+* { margin-top: 0; } /* we already added legend margin */
+a abbr, a acronym { text-decoration: underline; } /* IE 7 bug */
+fieldset legend { margin: 0; } /* IE 6 disappearing legend bug */
+
+dl.status_list dt {
+	margin: 0
+}
+dl.status_list dd {
+	float: none;
+	width: auto;
+	position: relative;
+}
+.iconbox, .settingsbox {
+	min-height: 1px;
+}
+.action-menu ul {
+	z-index: 1000
+}
+.ui-dialog .dataTables_wrapper {
+	width: 99%
+}
+.ui-dialog div.dataTables_info {
+	float: left;
+	margin: 13px 7px 7px;
+	position: static;
+	display: block;
+	line-height: normal
+}
+#header_settings li {
+	z-index: 1
+}
+#header_settings li ul {
+	top: 32px
+}
+.ui-dialog .formrow h5 {
+	padding-top: .7em
+}
+.bulk {
+	margin: 0;
+	padding-bottom: 12px
+}
+.bulk .action-button {
+	position: relative;
+	z-index: 500
+}
+.col2row > .action-button {
+	left: 175px
+}
+/*.col2row > input[type='text'], .col2row > input[type='password'], textarea {
+	margin-left: -15px
+}
+.ui-dialog .col2row > input[type='text'], .ui-dialog .col2row > input[type='password'], .ui-dialog textarea {
+	margin-left: -35px
+}*/
+.ui-dialog {
+	text-align: left;
+}
+.inline-icon-24 {
+	top: 4px
+}
+.dataTables_info {
+	margin-top: -1em
+}
+.breadcrumb li {
+	margin-right: 5px!important
+}
+a {
+	position: static;
+}
+.formrow {
+	overflow: hidden; /* needs testing */
+}
+.testresult {
+	left: 175px
+}
+.notification-overlay {
+	filter: alpha(opacity=80);
+}
+.qg-settingsbox h3 {
+	position: relative;
+}
+.qg-expand {
+	position: absolute;
+	top: 16px;
+	right: 10px;
+	float: none;
+}
+input.short-input {
+	width: 119px
+}
+.currency {
+	margin-top: -1.3em
+}
+dd .currency {
+	position: absolute;
+	margin-top: 0;
+	left: 57%
+}
+.currency span {
+	top: -.15em
+}
+#header_settings #signed li ul {
+	right: 0
+}
+.iconbox {
+	padding-bottom: 1em
+}
+.iconbox div {
+	float: left;
+	height: 80px;
+	display: block;
+	vertical-align: inherit
+}
+.iconbox h4 {
+	clear: both
+}
+.actions {
+	margin-bottom: 0
+}
+.inline-icon-badge {
+	margin-top: -1.3em
+}
+.settingsboxinner > form {
+	margin-bottom: 0
+}
+.action-menu.menu_button {
+	display: inline !important
+}
+input.b_b_create {
+	line-height: 1em;
+}
+.card {
+	float: left;
+}
+.form_dialog_content {
+	overflow: hidden;
+}
+.card_content_title {
+	margin-top: .7em
+}
+.inline-label > strong {
+	margin-top: -2px;
+	margin-bottom: -2px;
+}
+.inline-label > .inline-icon {
+	margin-bottom: -5px;
+	position: static;
+}
+#stats .inline-label > strong {
+	padding-top: 4px;
+	position: static;
+}
+#stats .inline-label .fine-print {
+ margin-bottom: -3px	
+}
+.adv_combo_box > ul {
+	left: 0
+}
+.adv_combo_box {
+	display: inline;
+}
+.progress {
+	top:24px;
+}
+div.fancy-dropdown {
+	z-index: 90;
+	display:inline;
+	width:auto;
+}
+div.fancy-dropdown ul.fancy-menu {
+	z-index: 90;
+}
+div.fancy-dropdown ul.fancy-menu li {
+	z-index:1000;
+}
+.fancy-dropdown {
+	display:inline;
+}
+.vps_add .col2row {
+	position:static;
+}
+.inline-label > strong {
+	padding-top:0px;
+}
+#footer {
+	z-index:10;
+}
+.fancy-dropdown, .adv_combo_box > input {
+	position: relative;
+	display: inline-block;
+}
+.tags > li {
+	display:inline;
+}
+.tags > li  a {
+	margin-bottom:3px;
+}
+.messagebox li {
+	margin-top:0px;
+	margin-bottom:0px;
+	border-top-width:2px;
+	padding-top:0px;
+	padding-bottom:10px;
+}
+
+.ui-sortable-placeholder td {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#26000000', endColorstr='#26000000',GradientType=0 ); /* IE6-8 */
+}

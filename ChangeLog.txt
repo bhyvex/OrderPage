@@ -1,3 +1,7 @@
+Atomia Public Order Page v15.3
+2014-09-17 Oscar Linderholm <oscar@atomia.com>
+	- [FIX] Fixed broken css include paths and added missing ie7.css
+
 Atomia Public Order Page v14.9
 2014-08-22 Daniel Persson <daniel.persson@atomia.com>
 	- [FIX] Updated validation plugin for product category based validation performance changes.

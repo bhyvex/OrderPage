@@ -1128,7 +1128,10 @@
             var submitParams = {};
             submitParams.IsFirstOption = '<%= (bool)ViewData["firstOption"]%>';
             submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
+
             initializeButtons(submitParams);
+
+            addTermValidation('<%= Html.ResourceJavascript("ValidationErrors, ErrorTermNotChecked") %>');
         });
     </script>
 </asp:Content>

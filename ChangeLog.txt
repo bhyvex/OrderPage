@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.3
+2014-09-18 Daniel Persson <daniel@atomia.com>
+	- [FIX] Fixed inadvertently removed terms checkbox validation.
+
 2014-09-17 Oscar Linderholm <oscar@atomia.com>
 	- [FIX] Fixed broken css include paths and added missing ie7.css
 

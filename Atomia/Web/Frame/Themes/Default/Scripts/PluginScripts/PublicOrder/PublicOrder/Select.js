@@ -1,4 +1,19 @@
-﻿function initializeButtons(submitParams) {
+﻿function addTermValidation(errorMessage) {
+    jQuery.validator.addMethod(
+        "ValidateTerm", function(value, element, params) {
+            return ValidateTerm(value, element, params); 
+        }
+    );
+
+    $('#errorTerm').rules("add", {
+        ValidateTerm: true,
+        messages: {
+            ValidateTerm: errorMessage
+        }
+    });
+}
+
+function initializeButtons(submitParams) {
     $('#orderbutton').bind('click', function (submitParams) {
         if (window.formValidator !== null) {
             canSubmit = window.formValidator.valid();

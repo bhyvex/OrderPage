@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.3
+2014-10-20 Daniel Persson <daniel.persson@atomia.com>
+	* [FIX] Fixed Cyprus and Ireland VAT number validation.
+	
 2014-09-18 Daniel Persson <daniel@atomia.com>
 	- [FIX] Fixed inadvertently removed terms checkbox validation.
 

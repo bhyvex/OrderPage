@@ -78,5 +78,28 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         {
             return (from country in countries where country.Tag == "EU" select country.Code).ToList();
         }
+
+        /// <summary>
+        /// Get all countries from Billing API, wrapping with a process cache.
+        /// </summary>
+        /// <param name="httpContextBase">HttpContext to cache in</param>
+        /// <param name="service">Billing API endpoint</param>
+        /// <returns>All countries</returns>
+        public static List<OrderServiceReferences.AtomiaBillingPublicService.Country> GetAllCountries(System.Web.HttpContextBase httpContextBase, OrderServiceReferences.AtomiaBillingPublicService.AtomiaBillingPublicService service)
+        {
+            List<OrderServiceReferences.AtomiaBillingPublicService.Country> countryList = null;
+
+            if (httpContextBase.Application["AllCountries"] == null)
+            {
+                countryList = service.GetCountries().ToList();
+                httpContextBase.Application["AllCountries"] = countryList;
+            }
+            else
+            {
+                countryList = (List<OrderServiceReferences.AtomiaBillingPublicService.Country>) httpContextBase.Application["AllCountries"];
+            }
+
+            return countryList;
+        }
     }
 }

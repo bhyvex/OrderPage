@@ -66,6 +66,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 var service = GeneralHelper.GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
                 AttributeData[] checkedDomains = service.CheckDomains(domains);
 
+                List<string> tldBasedRegexesStrings = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
+
                 for (int i = 0; i < checkedDomains.Length; i++)
                 {
                     if (checkedDomains[i].Value.ToLower() == "taken")
@@ -75,8 +77,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     else
                     {
                         bool passed = false;
-                        List<string> tldBasedRegexesStrings = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
-
                         // if there are no tld-special regexes disregard and continue
                         if (tldBasedRegexesStrings.Count > 0)
                         {

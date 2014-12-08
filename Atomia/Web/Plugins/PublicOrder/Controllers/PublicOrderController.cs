@@ -464,8 +464,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                    countryList = service.GetCountries().ToList();
-                }
+                countryList = CountriesHelper.GetAllCountries(this.HttpContext, service);
+            }
             catch (Exception ex)
             {
                 OrderPageLogger.LogOrderPageException(ex);
@@ -700,7 +700,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 {
                     OrderServiceReferences.AtomiaBillingPublicService.PublicOrder newOrder;
                     OrderServiceReferences.AtomiaBillingPublicService.PublicOrder myOrder = new OrderServiceReferences.AtomiaBillingPublicService.PublicOrder();
-                    countryList = service.GetCountries().ToList();
+                    countryList = CountriesHelper.GetAllCountries(this.HttpContext, service);
 
                     List<PublicOrderCustomData> orderCustomData = new List<PublicOrderCustomData>();
 
@@ -1234,8 +1234,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             // supported countries
             try
             {
-                countryList = service.GetCountries().ToList();
-                
+                countryList = CountriesHelper.GetAllCountries(this.HttpContext, service);
             }
             catch (Exception ex)
             {

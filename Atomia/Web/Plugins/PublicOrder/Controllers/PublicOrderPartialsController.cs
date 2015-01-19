@@ -13,7 +13,6 @@ using System.Web.Mvc;
 using Atomia.Common;
 using Atomia.Web.Base.ActionFilters;
 using Atomia.Web.Plugin.Cart.Models;
-using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 using Atomia.Web.Plugin.PublicOrder.Configurations;
 using Atomia.Web.Plugin.PublicOrder.Filters;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
@@ -38,6 +37,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["multiDomains"] = this.Session["multiDomains"];
 
             ViewData["firstOption"] = (bool)Session["firstOption"];
+            ViewData["ResellerId"] = ResellerHelper.GetResellerId();
 
             string[] domains = (string[])Session["domains"];
             string tmp = string.Empty;
@@ -66,13 +66,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             int allowedDomainLength;
             int numberOfDomainsAllowed;
             int domainSearchTimeout;
-            if (this.HttpContext.Application["DomainSearchAllowedDomainLength"] != null && (string)this.HttpContext.Application["DomainSearchAllowedDomainLength"] != String.Empty
-                && this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != null && (string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != String.Empty
-                && this.HttpContext.Application["DomainSearchTimeout"] != null && (string)this.HttpContext.Application["DomainSearchTimeout"] != String.Empty)
+            if (this.HttpContext.Application["DomainSearchAllowedDomainLength"] != null && (string)this.HttpContext.Application["DomainSearchAllowedDomainLength"] != string.Empty
+                && this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != null && (string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != string.Empty
+                && this.HttpContext.Application["DomainSearchTimeout"] != null && (string)this.HttpContext.Application["DomainSearchTimeout"] != string.Empty)
             {
-                allowedDomainLength = Int32.Parse((string) this.HttpContext.Application["DomainSearchAllowedDomainLength"]);
-                numberOfDomainsAllowed = Int32.Parse((string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"]);
-                domainSearchTimeout = Int32.Parse((string)this.HttpContext.Application["DomainSearchTimeout"]);
+                allowedDomainLength = int.Parse((string)this.HttpContext.Application["DomainSearchAllowedDomainLength"]);
+                numberOfDomainsAllowed = int.Parse((string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"]);
+                domainSearchTimeout = int.Parse((string)this.HttpContext.Application["DomainSearchTimeout"]);
             }
             else
             {
@@ -133,16 +133,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["switchedId"] = switchedId;
 
             PublicOrderConfigurationSection opcs = LocalConfigurationHelper.GetLocalConfigurationSection();
-            bool orderByPostEnabled = Boolean.Parse(opcs.InvoiceByPost.Enabled);
+            bool orderByPostEnabled = bool.Parse(opcs.InvoiceByPost.Enabled);
 
             if (orderByPostEnabled)
             {
-                ViewData["OrderByPostId"] = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                ViewData["OrderByPostId"] = OrderModel.FetchPostOrderId(resellerId, null, Guid.Empty, currencyCode, countryCode);
                 ViewData["OrderByPostEnabled"] = true;
             }
             else
             {
-                ViewData["OrderByPostId"] = String.Empty;
+                ViewData["OrderByPostId"] = string.Empty;
                 ViewData["OrderByPostEnabled"] = false;
             }
             

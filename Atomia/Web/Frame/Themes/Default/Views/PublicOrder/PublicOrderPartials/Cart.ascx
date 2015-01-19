@@ -189,7 +189,7 @@ function firstRenderCart(cartData) {
     for (int i = 0; i < splittedTemp.Length; i += 3)
     {
         tempSwitchedId += splittedTemp[i] + "|" +
-                         Html.ResourceNotEncoded(String.Format("{0}Common, " + splittedTemp[i + 1], Session["Theme"])) +
+                         splittedTemp[i + 1] +
                          '|' + splittedTemp[i + 2];
         if (i < splittedTemp.Length - 3)
         {
@@ -241,12 +241,7 @@ $(document).ready(function() {
 
             for (var i = 0; i < splittedProds.Length; i += 4)
             {
-                var productDesc = Html.ResourceNotEncoded(String.Format("{0}Common, " + splittedProds[i + 1], Session["Theme"]));
-                if (String.IsNullOrEmpty(productDesc))
-                {
-                    // Domains ProductDescription is domain itself
-                    productDesc = splittedProds[i + 1];
-                }
+                var productDesc = splittedProds[i + 1];
 
                 if (i < splittedProds.Length - 4)
                 {

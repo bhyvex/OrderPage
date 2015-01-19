@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+
 using Atomia.Common;
 using Atomia.Web.Base.ActionFilters;
 using Atomia.Web.Base.Helpers.General;
@@ -23,14 +24,15 @@ using Atomia.Web.Plugin.Cart.Helpers;
 using Atomia.Web.Plugin.Cart.Models;
 using Atomia.Web.Plugin.DomainSearch.Helpers;
 using Atomia.Web.Plugin.DomainSearch.Models;
-using Atomia.Web.Plugin.HostingProducts.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+using Atomia.Web.Plugin.ProductsProvider;
 using Atomia.Web.Plugin.PublicOrder.Configurations;
 using Atomia.Web.Plugin.PublicOrder.Filters;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
 using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 using Atomia.Web.Plugin.PublicOrder.Models;
 using Atomia.Web.Plugin.Validation.Helpers;
+
 using DomainDataFromXML = Atomia.Web.Plugin.DomainSearch.Models.DomainDataFromXml;
 
 #endregion Using namespaces
@@ -137,7 +139,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             try
             {
-                tldBasedRegexes = DomainSearchHelper.GetTLDBasedRegexes();
+                tldBasedRegexes = DomainSearchHelper.GetTLDBasedRegexes(ResellerHelper.GetResellerId());
             }
             catch (Exception ex)
             {
@@ -298,7 +300,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             List<string> tldBasedRegexes;
             try
             {
-                tldBasedRegexes = DomainSearchHelper.GetTLDBasedRegexes();
+                tldBasedRegexes = DomainSearchHelper.GetTLDBasedRegexes(ResellerHelper.GetResellerId());
             }
             catch (ConfigurationErrorsException ex)
             {
@@ -508,7 +510,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["AddingSubdomain"] = (bool)this.Session["subdomain"];
             }
 
-                ViewData["OrderByPostId"] = orderByPostEnabled ? OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode) : string.Empty;
+            ViewData["OrderByPostId"] = orderByPostEnabled
+                                            ? OrderModel.FetchPostOrderId(
+                                                resellerId, null, Guid.Empty, currencyCode, countryCode)
+                                            : string.Empty;
 
                 // enabled payment method end
                 ViewData["WasAnError"] = 0;
@@ -516,7 +521,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
                 ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
 
-            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories();
+            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories(resellerId);
 
             this.ViewData["OwnDomain"] = string.Empty;
 
@@ -653,7 +658,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["DefaultPaymentPlugin"] = ControllerContext.HttpContext.Application["DefaultPaymentPlugin"];
 
             string orderByPostId = string.Empty;
-            List<RadioRow> list;
+            IList<RadioRow> list;
             List<ProductDescription> currentCart;
 
             var resellerId = ResellerHelper.GetResellerId();
@@ -667,13 +672,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             if (orderByPostEnabled)
             {
-                orderByPostId = OrderModel.FetchPostOrderIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                orderByPostId = OrderModel.FetchPostOrderId(resellerId, null, Guid.Empty, currencyCode, countryCode);
                 ViewData["OrderByPostId"] = orderByPostId;
                 ViewData["OrderByPostEnabled"] = true;
             }
             else
             {
-                ViewData["OrderByPostId"] = String.Empty;
+                ViewData["OrderByPostId"] = string.Empty;
                 ViewData["OrderByPostEnabled"] = false;
             }
 
@@ -686,7 +691,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["OrderByEmailEnabled"] = false;
             }
 
-            list = OrderModel.FetchPackagesDataFromXml(this, service, Guid.Empty, resellerId, currencyCode, countryCode);
+            list = OrderModel.FetchPackagesData(this, resellerId, null, Guid.Empty, currencyCode, countryCode);
 
             currentCart = SubmitForm.CurrentCart;
 
@@ -744,18 +749,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                     myOrder.Email = GeneralHelper.PrepareForSubmit(SubmitForm.Email);
 
-                    myOrder.Fax = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
-                    myOrder.Mobile = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
+                    myOrder.Fax = GeneralHelper.PrepareForSubmit(FormattingHelper.FormatPhoneNumber(SubmitForm.Fax, SubmitForm.CountryCode));
+                    myOrder.Mobile = GeneralHelper.PrepareForSubmit(FormattingHelper.FormatPhoneNumber(SubmitForm.Mobile, SubmitForm.CountryCode));
 
                     myOrder.FirstName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactName);
                     myOrder.LastName = GeneralHelper.PrepareForSubmit(SubmitForm.ContactLastName);
                     myOrder.LegalNumber = GeneralHelper.PrepareForSubmit(SubmitForm.VATNumber);
 
-                    List<string> allPackagesIds = OrderModel.FetchAllPackagesIdsDataFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-                    List<ProductItem> products = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
+                    List<string> allPackagesIds = OrderModel.FetchAllPackagesIds(resellerId, null, Guid.Empty, currencyCode, countryCode);
+                    IList<Product> products = GeneralHelper.GetProductProvider().GetShopProducts(resellerId, null, Guid.Empty, countryCode);
                     ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
-                    List<ProductItem> freePackageId = OrderModel.FetchFreePackageIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
-                    IList<string> setupFeeIds = OrderModel.FetchSetupFeeIdsFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode);
+                    IList<Product> freePackages = OrderModel.FetchFreePackages(resellerId, null, Guid.Empty, currencyCode, countryCode);
+                    IList<string> setupFeeIds = OrderModel.FetchSetupFeeIds(resellerId, null, Guid.Empty, countryCode, countryCode);
 
                     List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
@@ -765,7 +770,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         SubmitForm.DomainRegCity = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCity);
                         SubmitForm.DomainRegCountryCode = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCountryCode);
                         SubmitForm.DomainRegEmail = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegEmail);
-                        SubmitForm.DomainRegFax = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
+                        SubmitForm.DomainRegFax = FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegFax, SubmitForm.DomainRegCountryCode);
                         SubmitForm.DomainRegContactName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactName);
                         SubmitForm.DomainRegContactLastName = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegContactLastName);
                         SubmitForm.DomainRegCompany = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCompany);
@@ -773,7 +778,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         SubmitForm.DomainRegAddress = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress);
                         SubmitForm.DomainRegAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegAddress2);
                         SubmitForm.DomainRegVATNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegVATNumber);
-                        SubmitForm.DomainRegTelephone = Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
+                        SubmitForm.DomainRegTelephone = FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
                         SubmitForm.DomainRegPostNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegPostNumber);
                         jsonDomainRegContact = new JavaScriptSerializer().Serialize(new DomainRegContact()
                             {
@@ -832,7 +837,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         {
                             // it's domain
                             List<PublicOrderItemProperty> arrayOfCustoms = new List<PublicOrderItemProperty>();
-                            if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
+                            if (freePackages.Any(f => f.ArticleNumber == selectedPackage.productID))
                             {
                                 // if the selected package in the cart is free
                                 string domainValue = SubmitForm.FirstOption ? tmpProduct.productDesc : (SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain);
@@ -840,16 +845,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = domainValue });
 
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = "CsDomainParking" });
-                                ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
+                                Product package = products.FirstOrDefault(p => p.ArticleNumber == selectedPackage.productID);
                                 if (SubmitForm.FirstOption == false)
                                 {
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
-                                    if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                    if (package != null && package.Properties != null && package.Properties.ContainsKey("atomiaserviceextraproperties"))
                                     {
                                         arrayOfCustoms.Add(new PublicOrderItemProperty
                                         {
                                             Name = "AtomiaServiceExtraProperties",
-                                            Value = package.AllProperties["atomiaserviceextraproperties"].
+                                            Value = package.Properties["atomiaserviceextraproperties"].
                                                 ToString()
                                         });
                                     }
@@ -878,8 +883,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             else
                             {
                                 bool websitesAllowed = true;
-                                ProductItem package = products.FirstOrDefault(p => p.ArticalNumber == selectedPackage.productID);
-                                if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("nowebsites") && package.AllProperties["nowebsites"].ToString().ToLowerInvariant() == "true")
+                                Product package = products.FirstOrDefault(p => p.ArticleNumber == selectedPackage.productID);
+                                if (package != null && package.Properties != null && package.Properties.ContainsKey("nowebsites") && package.Properties["nowebsites"].ToLowerInvariant() == "true")
                                 {
                                     websitesAllowed = false;
                                 }
@@ -901,12 +906,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                     if (tmpProduct.productDesc == SubmitForm.MainDomainSelect)
                                     {
                                         arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
-                                        if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                        if (package != null && package.Properties != null && package.Properties.ContainsKey("atomiaserviceextraproperties"))
                                         {
                                             arrayOfCustoms.Add(new PublicOrderItemProperty
                                             {
                                                 Name = "AtomiaServiceExtraProperties",
-                                                Value = package.AllProperties["atomiaserviceextraproperties"].
+                                                Value = package.Properties["atomiaserviceextraproperties"].
                                                     ToString()
                                             });
                                         }
@@ -920,13 +925,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 {
                                     string websiteType = websitesAllowed ? "CsLinuxWebsite" : "CsDomainParking";
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MainDomain", Value = "true" });
-                                    if (package != null && package.AllProperties != null && package.AllProperties.ContainsKey("atomiaserviceextraproperties"))
+                                    if (package != null && package.Properties != null && package.Properties.ContainsKey("atomiaserviceextraproperties"))
                                     {
                                         arrayOfCustoms.Add(new PublicOrderItemProperty
                                         {
                                             Name = "AtomiaServiceExtraProperties",
-                                            Value = package.AllProperties["atomiaserviceextraproperties"].
-                                                ToString()
+                                            Value = package.Properties["atomiaserviceextraproperties"]
                                         });
                                     }
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
@@ -948,7 +952,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         else
                         {
                             // it's package
-                            if (freePackageId.Exists(f => f.ArticalNumber == selectedPackage.productID))
+                            if (freePackages.Any(f => f.ArticleNumber == selectedPackage.productID))
                             {
                                 // if it's free package, just add it
                                 PublicOrderItem tmpItem = new PublicOrderItem
@@ -1306,7 +1310,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             ViewData["ShowPersonalNumber"] = showPersonalNumber;
 
-            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories();
+            ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories(resellerId);
 
             return View(SubmitForm);
         }

@@ -162,30 +162,30 @@
                             if (!filteredExists && i == 0)
                             {
                             %>
-                                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />
+                                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= list[i].productNameDesc %></strong></label><br />
                             <% 
                             }
                             else if ((string)Session["PreselectedPackage"] == list[i].productId)
                             {
                             %>
-                                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />
+                                <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i, @checked = "checked" })%> <label for="radioProducts<%= i%>"><strong><%= list[i].productNameDesc %></strong></label><br />
                             <% 
                             }
                             else
                             {
                             %>
-                                 <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i })%> <label for="radioProducts<%= i%>"><strong><%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %></strong></label><br />                   
+                                 <%= Html.RadioButton("RadioProducts", list[i].productId, new { @id = "radioProducts" + i })%> <label for="radioProducts<%= i%>"><strong><%= list[i].productNameDesc %></strong></label><br />                   
                             <%
                             }
                             %>
-                            <input type="hidden" name="RadioProductsName" value="<%= Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].productNameDesc)) %>" />
+                            <input type="hidden" name="RadioProductsName" value="<%= list[i].productNameDesc %>" />
                             <input type="hidden" name="RadioProductsRenewalPeriod" value="<%= list[i].RenewalPeriodId %>" />
                             <input type="hidden" name="RadioProductsSetupFeeId" value="<%= list[i].SetupFee != null ? list[i].SetupFee.productID : string.Empty  %>" />
-                            <input type="hidden" name="RadioProductsSetupFeeDescription" value="<%= list[i].SetupFee != null ? Html.Resource(string.Format("{0}Common, {1}", this.Session["Theme"], list[i].SetupFee.productDesc)) : string.Empty  %>" />
+                            <input type="hidden" name="RadioProductsSetupFeeDescription" value="<%= list[i].SetupFee != null ? list[i].SetupFee.productDesc : string.Empty  %>" />
                             <input type="hidden" name="RadioProductsSetupFeeRenewalPeriodId" value="<%= list[i].SetupFee != null ? list[i].SetupFee.RenewalPeriodId : string.Empty  %>" />
                         </p>
                         <p class="package-description">
-                            <%= Html.ResourceNotEncoded(string.Format("{0}Common, {1}", Session["Theme"], list[i].info)) %>
+                            <%= list[i].info%>
                         </p>
                     <%
                         }

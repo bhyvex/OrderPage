@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using Atomia.Web.Plugin.Cart.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 using Atomia.Web.Plugin.PublicOrder.Configurations;
 
@@ -32,9 +31,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <returns>Reseller's id.</returns>
         public static Guid GetResellerId()
         {
-            return HttpContext.Current.Session["resellerAccountData"] != null
-                       ? ((AccountData)HttpContext.Current.Session["resellerAccountData"]).Id
-                       : new Guid(OrderModel.FetchResellerGuidFromXml());
+            if (HttpContext.Current.Session["resellerAccountData"] != null)
+            {
+                return ((AccountData)HttpContext.Current.Session["resellerAccountData"]).Id;
+            }
+            
+            throw new ApplicationException("Reseller not found.");
         }
 
         /// <summary>
@@ -43,9 +45,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <returns>Reseller's country code.</returns>
         public static string GetResellerCountryCode()
         {
-            return HttpContext.Current.Session["resellerAccountData"] != null
-                       ? ((AccountData)HttpContext.Current.Session["resellerAccountData"]).DefaultCountry.Code
-                       : CountriesHelper.GetDefaultCountryCodeFromConfig();
+            if (HttpContext.Current.Session["resellerAccountData"] != null)
+            {
+                return ((AccountData)HttpContext.Current.Session["resellerAccountData"]).DefaultCountry.Code;
+            }
+
+            throw new ApplicationException("Reseller not found.");
         }
 
         /// <summary>
@@ -54,9 +59,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <returns>Reseller's currency code.</returns>
         public static string GetResellerCurrencyCode()
         {
-            return HttpContext.Current.Session["resellerAccountData"] != null
-                       ? ((AccountData)HttpContext.Current.Session["resellerAccountData"]).DefaultCurrencyCode
-                       : CountriesHelper.GetDefaultCurrencyCodeFromConfig(CountriesHelper.GetDefaultCountryCodeFromConfig());
+            if (HttpContext.Current.Session["resellerAccountData"] != null)
+            {
+                return ((AccountData)HttpContext.Current.Session["resellerAccountData"]).DefaultCurrencyCode;
+            }
+
+            throw new ApplicationException("Reseller not found.");
         }
 
         /// <summary>
@@ -72,8 +80,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             // If there are defined languages for reseller, use them, if not, fallback to config.
             return resellerAccountData != null && resellerAccountData.Languages != null && resellerAccountData.Languages.Length > 0
                        ? resellerAccountData.Languages.Select(
-                           language =>
-                           new Language { Code = language, IsDefault = language == resellerAccountData.DefaultLanguage }).ToList()
+                           language => new Language { Code = language, IsDefault = language == resellerAccountData.DefaultLanguage }).ToList()
                        : (from Base.Configs.Language languageItem in Base.Configs.AppConfig.Instance.LanguagesList
                           select new Language { Code = languageItem.Name, IsDefault = languageItem.Default }).ToList();
         }
@@ -95,10 +102,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 // Add InvoiceByPost and InvoiceByEmail if they are enabled in config but not in reseller's list of payment methods
                 PublicOrderConfigurationSection config = LocalConfigurationHelper.GetLocalConfigurationSection();
 
-                if ((Boolean.Parse(config.InvoiceByPost.Enabled) && !resellerAccountData.PaymentMethods.Any(p => p.GuiPluginName == "InvoiceByPost")) ||
-                    (Boolean.Parse(config.InvoiceByEmail.Enabled) && !resellerAccountData.PaymentMethods.Any(p => p.GuiPluginName == "InvoiceByEmail")))
+                if ((bool.Parse(config.InvoiceByPost.Enabled) && !resellerAccountData.PaymentMethods.Any(p => p.GuiPluginName == "InvoiceByPost")) ||
+                    (bool.Parse(config.InvoiceByEmail.Enabled) && !resellerAccountData.PaymentMethods.Any(p => p.GuiPluginName == "InvoiceByEmail")))
                 {
-                    if (Boolean.Parse(config.InvoiceByPost.Enabled) && !paymentMethods.Any(p => p.GuiPluginName == "InvoiceByPost"))
+                    if (bool.Parse(config.InvoiceByPost.Enabled) && !paymentMethods.Any(p => p.GuiPluginName == "InvoiceByPost"))
                     {
                         PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByPost" };
                         paymentMethods.Add(paymentMethod);
@@ -108,7 +115,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                         }
                     }
 
-                    if (Boolean.Parse(config.InvoiceByEmail.Enabled) && !paymentMethods.Any(p => p.GuiPluginName == "InvoiceByEmail"))
+                    if (bool.Parse(config.InvoiceByEmail.Enabled) && !paymentMethods.Any(p => p.GuiPluginName == "InvoiceByEmail"))
                     {
                         PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByEmail" };
                         paymentMethods.Add(paymentMethod);
@@ -132,7 +139,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 PaymentMethod defaultMethod = null;
 
                 PublicOrderConfigurationSection config = LocalConfigurationHelper.GetLocalConfigurationSection();
-                if (Boolean.Parse(config.InvoiceByPost.Enabled))
+                if (bool.Parse(config.InvoiceByPost.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByPost" };
                     paymentMethods.Add(paymentMethod);
@@ -142,7 +149,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.InvoiceByEmail.Enabled))
+                if (bool.Parse(config.InvoiceByEmail.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "InvoiceByEmail" };
                     paymentMethods.Add(paymentMethod);
@@ -152,7 +159,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.OnlinePayment.Enabled))
+                if (bool.Parse(config.OnlinePayment.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "CCPayment" };
                     paymentMethods.Add(paymentMethod);
@@ -162,7 +169,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.PayPal.Enabled))
+                if (bool.Parse(config.PayPal.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "PayPal" };
                     paymentMethods.Add(paymentMethod);
@@ -172,7 +179,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.PayexRedirect.Enabled))
+                if (bool.Parse(config.PayexRedirect.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "PayexRedirect" };
                     paymentMethods.Add(paymentMethod);
@@ -182,7 +189,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.WorldPay.Enabled))
+                if (bool.Parse(config.WorldPay.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "WorldPay" };
                     paymentMethods.Add(paymentMethod);
@@ -192,7 +199,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.DibsFlexwin.Enabled))
+                if (bool.Parse(config.DibsFlexwin.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "DibsFlexwin" };
                     paymentMethods.Add(paymentMethod);
@@ -202,7 +209,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.WorldPayXml.Enabled))
+                if (bool.Parse(config.WorldPayXml.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "WorldPayXml" };
                     paymentMethods.Add(paymentMethod);
@@ -212,7 +219,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     }
                 }
 
-                if (Boolean.Parse(config.AdyenHpp.Enabled))
+                if (bool.Parse(config.AdyenHpp.Enabled))
                 {
                     PaymentMethod paymentMethod = new PaymentMethod { GuiPluginName = "AdyenHpp" };
                     paymentMethods.Add(paymentMethod);
@@ -259,6 +266,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                         HttpContext.Current.Session["showContactOptions"] = true;
                     }
                 }
+                else
+                {
+                    throw new ApplicationException(string.Format("Reseller with hash {0} not found.", resellerHash));
+                }
             }
         }
 
@@ -271,8 +282,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             // Load reseller's data only if it's not present in session.
             if (HttpContext.Current.Session["resellerAccountData"] == null)
             {
-                var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
-                AccountData resellerAccountData = service.GetResellerDataByUrl(url);
+                AtomiaBillingPublicService service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
+                AccountData resellerAccountData = service.GetResellerDataByUrl(url) ?? service.GetDefaultResellerData();
                 if (resellerAccountData != null)
                 {
                     if (HttpContext.Current.Session["resellerAccountData"] == null)
@@ -292,6 +303,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     {
                         HttpContext.Current.Session["showContactOptions"] = false;
                     }
+                }
+                else
+                {
+                    throw new ApplicationException(
+                        string.Format("Reseller for url {0} nor default reseller not found.", url));
                 }
             }
         }

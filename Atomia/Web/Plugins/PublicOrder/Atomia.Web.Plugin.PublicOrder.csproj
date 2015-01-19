@@ -80,6 +80,10 @@
     <Reference Include="Atomia.Web.Plugin.PaymentForm">
       <HintPath>..\..\Lib\Atomia.Web.Plugin.PaymentForm.dll</HintPath>
     </Reference>
+    <Reference Include="Atomia.Web.Plugin.ProductsProvider, Version=14.1.5470.21258, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.Web.Plugin.ProductsProvider.dll</HintPath>
+    </Reference>
     <Reference Include="Atomia.Web.Plugin.ServiceReferences, Version=2.0.1.236, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Atomia.Web.Plugin.ServiceReferences.dll</HintPath>
@@ -98,6 +102,7 @@
     <Reference Include="Jurassic">
       <HintPath>..\..\Lib\Jurassic.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

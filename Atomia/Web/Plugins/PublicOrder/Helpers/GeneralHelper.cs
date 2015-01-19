@@ -21,7 +21,10 @@ using Atomia.Web.Base.Helpers.General;
 using Atomia.Web.Plugin.Cart.Models;
 using Atomia.Web.Plugin.HostingProducts.Models;
 using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+using Atomia.Web.Plugin.ProductsProvider;
 using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
+
+using Microsoft.Practices.Unity;
 
 #endregion Using namespaces
 
@@ -63,10 +66,10 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             string result = string.Empty;
             try
             {
-                var service = GeneralHelper.GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
+                var service = GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
                 AttributeData[] checkedDomains = service.CheckDomains(domains);
 
-                List<string> tldBasedRegexesStrings = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes();
+                List<string> tldBasedRegexesStrings = DomainSearch.Helpers.DomainSearchHelper.GetTLDBasedRegexes(ResellerHelper.GetResellerId());
 
                 for (int i = 0; i < checkedDomains.Length; i++)
                 {
@@ -194,13 +197,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             bool result = true;
             try
             {
-
-                Guid resellerId = new Guid(OrderModel.FetchResellerGuidFromXml());
-
-                var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
-
-                bool resellerShowTaxBool = service.ShowTaxForReseller(resellerId);
-                result = resellerShowTaxBool;
+                AtomiaBillingPublicService service = GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
+                result = service.ShowTaxForReseller(ResellerHelper.GetResellerId());
             }
             catch (Exception ex)
             {
@@ -223,21 +221,21 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <returns>Filtered list of packages.</returns>
         public static List<RadioRow> FilterPackages(Controller controller, AtomiaBillingPublicService atomiaBillingPublicService, Guid accountId, Guid resellerId, string currencyCode, string countryCode, string filterValue)
         {
-            List<RadioRow> packages = OrderModel.FetchPackagesDataFromXml(controller, atomiaBillingPublicService, accountId, resellerId, currencyCode, countryCode);
+            List<RadioRow> packages = OrderModel.FetchPackagesData(controller, resellerId, null, accountId, currencyCode, countryCode).ToList();
             if (!string.IsNullOrEmpty(filterValue))
             {
                 // get all packages from the config
-                List<ProductItem> packageProducts = HostingProducts.Helpers.ProductsManager.ListProductsFromConfiguration();
+                IList<Product> packageProducts = GetProductProvider().GetShopProducts(resellerId, null, accountId, countryCode);
                 packages = packages.Where(rr =>
                                               {
-                                                  ProductItem item = packageProducts.FirstOrDefault(p => p.ArticalNumber == rr.productId);
+                                                  Product item = packageProducts.FirstOrDefault(p => p.ArticleNumber == rr.productId);
                                                   if (item == null)
                                                   {
                                                       return false;
                                                   }
 
-                                                  object value;
-                                                  if (item.AllProperties.TryGetValue("groups", out value))
+                                                  string value;
+                                                  if (item.Properties.TryGetValue("groups", out value))
                                                   {
                                                       return value
                                                           .ToString()
@@ -275,6 +273,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
 
             return (AtomiaBillingPublicService) context.Session["PublicOrderService"];
 
+        }
+
+        /// <summary>
+        /// Gets the product provider.
+        /// </summary>
+        /// <returns>Instance of product provider.</returns>
+        public static IProductsProvider GetProductProvider()
+        {
+            return ClassContainer.Instance.UnityContainer.Resolve<IProductsProvider>();
         }
     }
 }

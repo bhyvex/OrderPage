@@ -8,12 +8,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 using Atomia.Common.Validation;
-using Atomia.Web.Plugin.Validation.ValidationAttributes;
 using Atomia.Web.Plugin.Cart.Models;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
-using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
+using Atomia.Web.Plugin.Validation.ValidationAttributes;
 
 namespace Atomia.Web.Plugin.PublicOrder.Models
 {
@@ -58,21 +57,21 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the org number.
         /// </summary>
         /// <value>The org number.</value>
-        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "CountryCode", ProductField = "CurrentCart.productID")]
+        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "CountryCode", ProductField = "CurrentCart.productID", ResellerIdField = "ResellerId")]
         public string OrgNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the invoice org number.
         /// </summary>
         /// <value>The org number.</value>
-        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "InvoiceCountryCode", ProductField = "CurrentCart.productID")]
+        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "InvoiceCountryCode", ProductField = "CurrentCart.productID", ResellerIdField = "ResellerId")]
         public string InvoiceOrgNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the VAT number.
         /// </summary>
         /// <value>The VAT number.</value>
-        [CustomerValidation(CustomerValidationType.VatNumber, "CustomerValidation,VatNumber", CountryField = "CountryCode", ProductField = "CurrentCart.productID")]
+        [CustomerValidation(CustomerValidationType.VatNumber, "CustomerValidation,VatNumber", CountryField = "CountryCode", ProductField = "CurrentCart.productID", ResellerIdField = "ResellerId")]
         public string VATNumber { get; set; }
 
         /// <summary>
@@ -383,14 +382,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the org no.
         /// </summary>
         /// <value>The org no.</value>
-        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "DomainRegCountryCode", ProductField = "CurrentCart.productID")]
+        [CustomerValidation(CustomerValidationType.IdentityNumber, "CustomerValidation,IdentityNumber", CountryField = "DomainRegCountryCode", ProductField = "CurrentCart.productID", ResellerIdField = "ResellerId")]
         public string DomainRegOrgNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the VAT no.
         /// </summary>
         /// <value>The org no.</value>
-        [CustomerValidation(CustomerValidationType.VatNumber, "CustomerValidation,VatNumber", CountryField = "DomainRegCountryCode", ProductField = "CurrentCart.productID")]
+        [CustomerValidation(CustomerValidationType.VatNumber, "CustomerValidation,VatNumber", CountryField = "DomainRegCountryCode", ProductField = "CurrentCart.productID", ResellerIdField = "ResellerId")]
         public string DomainRegVATNumber { get; set; }
 
         /// <summary>
@@ -424,6 +423,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "DomainRegCountryCode")]
         public string DomainRegPostNumber { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reseller identifier.
+        /// </summary>
+        /// <value>The reseller identifier.</value>
+        public Guid ResellerId
+        {
+            get
+            {
+                return ResellerHelper.GetResellerId();
+            }
+            set
+            {
+            }
+        }
 
         public List<ProductDescription> CurrentCart
         {
@@ -446,12 +459,18 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
                 // this includes own and sub domain
                 if (!string.IsNullOrEmpty(this.OwnDomain))
                 {
-                    var service = GeneralHelper.GetPublicOrderService(HttpContext.Current.ApplicationInstance.Context);
-                    var resellerId = ResellerHelper.GetResellerId();
-                    var currencyCode = ResellerHelper.GetResellerCurrencyCode();
-                    var countryCode = ResellerHelper.GetResellerCountryCode();
-
-                    currentCart.Add(new ProductDescription { productID = OrderModel.FetchOwnDomainIdFromXml(service, Guid.Empty, resellerId, currencyCode, countryCode), productDesc = this.OwnDomain });
+                    currentCart.Add(
+                        new ProductDescription
+                            {
+                                productID =
+                                    OrderModel.FetchOwnDomainId(
+                                        ResellerHelper.GetResellerId(),
+                                        null,
+                                        Guid.Empty,
+                                        ResellerHelper.GetResellerCurrencyCode(),
+                                        ResellerHelper.GetResellerCountryCode()),
+                                productDesc = this.OwnDomain
+                            });
                 }
 
                 return currentCart;

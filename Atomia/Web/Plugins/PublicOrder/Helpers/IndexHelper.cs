@@ -44,7 +44,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                 }
             }
 
-            List<string> domains = DomainSearch.Helpers.DomainSearchHelper.GetDomainsForCheck(domainsArray);
+            List<string> domains = DomainSearch.Helpers.DomainSearchHelper.GetDomainsForCheck(domainsArray, ResellerHelper.GetResellerId());
 
             DomainDataFromXml[] unavailableDomains, domainDataFromDs;
 

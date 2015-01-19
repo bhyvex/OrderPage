@@ -1,9 +1,6 @@
 ﻿<%@ Assembly Name="Atomia.Web.Plugin.DomainSearch" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%@ Import Namespace="System.Web.Mvc" %>
-<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="Atomia.Web.Plugin.DomainSearch.Models" %>
-<%@ Import Namespace="System.Collections.Generic"%>
     
 <%
 if ((bool)Session["firstOption"])
@@ -348,8 +345,8 @@ if ((bool)Session["firstOption"])
         var markedDomainsCount = 0;
         ResetDomainSearchIDGenerator();
         
-        var action = "<%=Url.Action("GetDomainsForCheck", new { controller = "DomainSearch", area = "DomainSearch" })%>";
-        $.postJSON(action, { domainsArray: aDomainsArray }, function(preparedData) { 
+        var action = "<%=Url.Action("GetResellerDomainsForCheck", new { controller = "DomainSearch", area = "DomainSearch" })%>";
+        $.postJSON(action, { domainsArray: aDomainsArray, resellerId: "<%=ViewData["resellerId"] %>" }, function(preparedData) { 
             if(preparedData != 'undefined')
             {
                 action = "<%=Url.Action("GetUnavailableDomains", new { controller = "PublicOrder", area = "PublicOrder" })%>";

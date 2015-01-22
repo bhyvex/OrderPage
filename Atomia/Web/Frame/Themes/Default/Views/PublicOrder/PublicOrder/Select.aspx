@@ -151,7 +151,7 @@
                     <%if (ViewData["radioList"] != null)
                     {
                         List<RadioRow> list = (List<RadioRow>)ViewData["radioList"];
-                        bool filteredExists = Session["PreselectedPackage"] == null && string.IsNullOrEmpty((string)Session["PreselectedPackage"])
+                        bool filteredExists = Session["PreselectedPackage"] != null && !string.IsNullOrEmpty((string)Session["PreselectedPackage"])
                             ? list.Exists(p => p.productId == (string)Session["PreselectedPackage"])
                             : false;
                         for (int i = 0; i < list.Count; i++)

@@ -102,6 +102,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             // Throw away any previous submit form (used to re-fill form on canceled payment)
             Session["SavedSubmitForm"] = null;
+            Session["SavedPaymentPlugin"] = null;
 
             // if productGroup set, check which order options are allowed for it
             bool groupExists;
@@ -584,6 +585,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
 
             this.ControllerContext.HttpContext.Application["DefaultPaymentPlugin"] = ViewData["DefaultPaymentPlugin"] = defaultPaymentPlugin;
+            if (Session["SavedPaymentPlugin"] != null && !string.IsNullOrEmpty((string)Session["SavedPaymentPlugin"]))
+            {
+                ViewData["DefaultPaymentPlugin"] = Session["SavedPaymentPlugin"];
+            }
+
             ViewData["RegDomainFront"] = RegularExpression.GetRegularExpression("DomainFront");
             ViewData["RegDomain"] = RegularExpression.GetRegularExpression("Domain");
 
@@ -761,6 +767,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     ProductDescription selectedPackage = currentCart.Find(p => allPackagesIds.Any(x => x == p.productID));
                     IList<Product> freePackages = OrderModel.FetchFreePackages(resellerId, null, Guid.Empty, currencyCode, countryCode);
                     IList<string> setupFeeIds = OrderModel.FetchSetupFeeIds(resellerId, null, Guid.Empty, countryCode, countryCode);
+
+                    Session["PreselectedPackage"] = selectedPackage != null ? selectedPackage.productID : null;
+                    Session["SavedPaymentPlugin"] = SubmitForm.RadioPaymentMethod;
 
                     List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
@@ -1359,6 +1368,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                 // Throw away any previous submit form (used to re-fill form on canceled payment)
                 this.Session["SavedSubmitForm"] = null;
+                this.Session["SavedPaymentPlugin"] = null;
+                this.Session["PreselectedPackage"] = null;
             }
 
             return View();

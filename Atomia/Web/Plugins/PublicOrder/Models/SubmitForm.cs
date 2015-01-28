@@ -427,11 +427,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// Gets or sets the reseller identifier.
         /// </summary>
         /// <value>The reseller identifier.</value>
-        public Guid ResellerId
+        public string ResellerId
         {
             get
             {
-                return ResellerHelper.GetResellerId();
+                return ResellerHelper.GetResellerId().ToString();
             }
             set
             {

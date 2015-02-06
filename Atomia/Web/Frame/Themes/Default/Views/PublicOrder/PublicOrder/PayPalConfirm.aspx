@@ -21,9 +21,10 @@
 			<% Html.BeginForm("PayPalConfirm", "Payment", new { area = "Payment" }, FormMethod.Post, new { @id = "submit_form", autocomplete = "off" }); %>
 				<%= Html.Hidden("token", ViewData["ReferenceNumber"])%>
 				<%= Html.Hidden("PayerID", ViewData["PayerId"]) %>
+				<%= Html.Hidden("action", string.Empty) %>
 				<p class="actions" style="display: block;">
 					<%= Html.Button(Html.Resource("Order"), "javascript:void(0);", "button large green", "submitLink")%>
-					<%= Html.Button(Html.Resource("Cancel"), ViewData["CancelUrl"].ToString(), "button large")%>
+					<%= Html.Button(Html.Resource("Cancel"), "javascript:void(0);", "button large", "cancelLink")%>
 				</p>
 			<% Html.EndForm(); %>
            		 
@@ -36,6 +37,12 @@
          $(document).ready(function () {
 
              $('#submitLink').click(function () {
+                 $("#action").val("confirm");
+                 $('#submit_form').submit();
+             });
+
+             $('#cancelLink').click(function () {
+                 $("#action").val("cancel");
                  $('#submit_form').submit();
              });
 

@@ -1,6 +1,12 @@
 Atomia Public Order Page v15.3
+2015-02-06 Ivan Kustera <ivan@atomia.com>
+	- [FIX] Fixed setting of payment method for new orders.
+	- [FIX] Fixed WorldPay plugin names.
+	- [FIX] Removed PayExConfirmRedirect action from controller since it is not used.
+	- [IMPROVEMENT] Modified PayPal confirmation page and actions to support canceling on both PayPal and our confirmation pages.
+
 2015-01-19 Ivan Kustera <ivan@atomia.com>
-	* [NEW] Added support for shop feature:
+	- [NEW] Added support for shop feature:
 		- Updated Web.Plugin dlls with changes made for product provider
 		- Fixed usages of obsolete methods
 		- Added unity configuration for resolving products provider

@@ -65,9 +65,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             // set the return URL, if redirection outside our application is required
             List<string> tmpList = returnUrl.TrimStart('/').Split('/').ToList();
             var currentUrl = controller.Url.RequestContext.HttpContext.Request.Url;
-            string appUrl = currentUrl == null ? controller.HttpContext.Application["OrderApplicationRawURL"].ToString() : string.Format("{0}://{1}/",
-                                                  currentUrl.Scheme,
-                                                  currentUrl.Authority);
+            string appUrl = currentUrl == null
+                                ? controller.HttpContext.Application["OrderApplicationRawURL"].ToString()
+                                : string.Format("{0}://{1}/", currentUrl.Scheme, currentUrl.Authority);
             
             if (appUrl.EndsWith(tmpList[0]))
             {
@@ -88,11 +88,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
             }
 
             transaction.ReturnUrl = appUrl.TrimEnd(new[] { '/' }) + '/' + returnUrl.TrimStart(new[] { '/' });
-            
-            PublicPaymentTransaction returnedTransaction;
 
             var service = GeneralHelper.GetPublicOrderService(controller.HttpContext.ApplicationInstance.Context);
-            returnedTransaction = service.MakePayment(transaction);
+            PublicPaymentTransaction returnedTransaction = service.MakePayment(transaction);
             
             if (returnedTransaction.Status.ToUpper() == "IN_PROGRESS" && !string.IsNullOrEmpty(returnedTransaction.RedirectUrl))
             {
@@ -101,10 +99,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
 
             if (returnedTransaction.Status.ToUpper() == "OK")
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return returnedTransaction.Status.ToUpper() == "FRAUD_DETECTED"
+                   || returnedTransaction.Status.ToUpper() == "FAILED"
                        ? controller.Url.Action("PaymentFailed")
                        : transaction.ReturnUrl;
         }

@@ -488,9 +488,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool orderByEmailEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "InvoiceByEmail");
             bool payPalEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayPal");
             bool payExRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayexRedirect");
-            bool worldPayRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPay");
+            bool worldPayRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayRedirect");
             bool dibsFlexwinEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "DibsFlexwin");
-            bool worldPayXmlRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayXml");
+            bool worldPayXmlRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayXmlRedirect");
             bool adyenHppEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "AdyenHpp");
 
             ViewData["PaymentEnabled"] = paymentEnabled;
@@ -574,7 +574,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 || (payExRedirectEnabled && defaultPaymentMethod.GuiPluginName == "PayexRedirect")
                 || (worldPayRedirectEnabled && defaultPaymentMethod.GuiPluginName == "WorldPay")
                 || (dibsFlexwinEnabled && defaultPaymentMethod.GuiPluginName == "DibsFlexwin")
-                || (worldPayXmlRedirectEnabled && defaultPaymentMethod.GuiPluginName == "WorldPayXml")
+                || (worldPayXmlRedirectEnabled && defaultPaymentMethod.GuiPluginName == "WorldPayXmlRedirect")
                 || (adyenHppEnabled && defaultPaymentMethod.GuiPluginName == "AdyenHpp"))
             {
                 defaultPaymentPlugin = defaultPaymentMethod.GuiPluginName;
@@ -644,9 +644,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             bool orderByEmailEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "InvoiceByEmail");
             bool payPalEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayPal");
             bool payExRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "PayexRedirect");
-            bool worldPayRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPay");
+            bool worldPayRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayRedirect");
             bool dibsFlexwinEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "DibsFlexwin");
-            bool worldPayXmlRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayXml");
+            bool worldPayXmlRedirectEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "WorldPayXmlRedirect");
             bool adyenHppEnabled = resellerPaymentMethods.Any(m => m.GuiPluginName == "AdyenHpp");
 
             ViewData["PayexRedirectEnabled"] = payExRedirectEnabled;
@@ -725,7 +725,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     myOrder.BillingAddress = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress);
                     myOrder.BillingAddress2 = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceAddress2);
                     myOrder.BillingCity = GeneralHelper.PrepareForSubmit(SubmitForm.InvoiceCity);
-                    myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(String.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
+                    myOrder.BillingCountry = GeneralHelper.PrepareForSubmit(string.IsNullOrEmpty(SubmitForm.InvoiceCountryCode) ? SubmitForm.CountryCode : SubmitForm.InvoiceCountryCode);
                     if (SubmitForm.InvoicePostNumber != null)
                     {
                         myOrder.BillingZip = GeneralHelper.PrepareForSubmit(SubmitForm.InvoicePostNumber.Trim());
@@ -739,7 +739,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     
                     myOrder.City = GeneralHelper.PrepareForSubmit(SubmitForm.City);
                     myOrder.Company = GeneralHelper.PrepareForSubmit(SubmitForm.Company);
-                    if (!String.IsNullOrEmpty(SubmitForm.OrgNumber))
+                    if (!string.IsNullOrEmpty(SubmitForm.OrgNumber))
                     {
                         string tmpString = GeneralHelper.PrepareForSubmit(SubmitForm.OrgNumber);
                         myOrder.CompanyNumber = tmpString;
@@ -748,7 +748,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     myOrder.Country = GeneralHelper.PrepareForSubmit(SubmitForm.CountryCode);
 
                     myOrder.Currency = "SEK";
-                    if (this.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string)this.Session["OrderCurrencyCode"]))
+                    if (this.Session["OrderCurrencyCode"] != null && !string.IsNullOrEmpty((string)this.Session["OrderCurrencyCode"]))
                     {
                         myOrder.Currency = this.Session["OrderCurrencyCode"].ToString();
                     }
@@ -1007,7 +1007,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             }
                             string emailType =
                                 opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
-                            if (!String.IsNullOrEmpty(emailType))
+                            if (!string.IsNullOrEmpty(emailType))
                             {
                                 string cccEmail =
                                 opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).CccEmail;
@@ -1053,7 +1053,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             ItemId = Guid.Empty,
                             ItemNumber = "XSV-APP",
                             Quantity = 1,
-                            CustomData = new PublicOrderItemProperty[2]
+                            CustomData = new[]
                                 {
                                     new PublicOrderItemProperty
                                     {
@@ -1080,12 +1080,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
                     }
 
-                    if (!String.IsNullOrEmpty((string)Session["SpecialPID"]))
+                    if (!string.IsNullOrEmpty((string)Session["SpecialPID"]))
                     {
                         orderCustomData.Add(new PublicOrderCustomData { Name = "SpecialPID", Value = (string)Session["SpecialPID"] });
                     }
 
-                    if (!String.IsNullOrEmpty(SubmitForm.VATValidationMessage))
+                    if (!string.IsNullOrEmpty(SubmitForm.VATValidationMessage))
                     {
                         orderCustomData.Add(new PublicOrderCustomData { Name = "VATValidationMessage", Value = SubmitForm.VATValidationMessage });
                     }
@@ -1101,7 +1101,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     }
 
                     // Add CustommData posted with submit, client added
-                    if (!String.IsNullOrEmpty(SubmitForm.OrderCustomData))
+                    if (!string.IsNullOrEmpty(SubmitForm.OrderCustomData))
                     {
                         try
                         {
@@ -1133,21 +1133,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     if (this.HttpContext.Session["SessionAccountLanguages"] != null)
                     {
                         AtomiaCultureInfo atomiaCultureInfo = (AtomiaCultureInfo)this.HttpContext.Session["SessionAccountLanguages"];
-                        orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = String.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = string.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
                     }
 
                     myOrder.CustomData = orderCustomData.ToArray();
                     myOrder.OrderItems = myOrderItems.ToArray();
-
                     myOrder.ResellerId = ResellerHelper.GetResellerId();
-
-                    myOrder.Phone = GeneralHelper.PrepareForSubmit(Atomia.Common.FormattingHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
-
+                    myOrder.Phone = GeneralHelper.PrepareForSubmit(FormattingHelper.FormatPhoneNumber(SubmitForm.Telephone, SubmitForm.CountryCode));
                     myOrder.Zip = GeneralHelper.PrepareForSubmit(SubmitForm.PostNumber.Trim());
-
-                    myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "card"
-                                                ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard
-                                                : OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice;
+                    myOrder.PaymentMethod = SubmitForm.RadioPaymentMethod == "InvoiceByEmail" || SubmitForm.RadioPaymentMethod == "InvoiceByPost"
+                                                ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice
+                                                : OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard;
 
                     newOrder = service.CreateOrder(myOrder);
 
@@ -1162,11 +1158,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     {
                         if (newOrder.Total > decimal.Zero)
                         {
-                            paymentMethodCc = (SubmitForm.RadioPaymentMethod != "PayPal");
-                            string result = this.CreatePaymentTransaction(this, newOrder, newOrder.Total,
-                                                                          SubmitForm.RadioPaymentMethod);
+                            paymentMethodCc = SubmitForm.RadioPaymentMethod != "PayPal";
+                            string result = this.CreatePaymentTransaction(
+                                this, newOrder, newOrder.Total, SubmitForm.RadioPaymentMethod);
 
-                            if (!String.IsNullOrEmpty(result))
+                            if (!string.IsNullOrEmpty(result))
                             {
                                 return Redirect(result);
                             }
@@ -1276,11 +1272,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             int allowedDomainLength;
             int numberOfDomainsAllowed;
-            if (this.HttpContext.Application["DomainSearchAllowedDomainLength"] != null && (string)this.HttpContext.Application["DomainSearchAllowedDomainLength"] != String.Empty
-                && this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != null && (string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != String.Empty)
+            if (this.HttpContext.Application["DomainSearchAllowedDomainLength"] != null && (string)this.HttpContext.Application["DomainSearchAllowedDomainLength"] != string.Empty
+                && this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != null && (string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"] != string.Empty)
             {
-                allowedDomainLength = Int32.Parse((string)this.HttpContext.Application["DomainSearchAllowedDomainLength"]);
-                numberOfDomainsAllowed = Int32.Parse((string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"]);
+                allowedDomainLength = int.Parse((string)this.HttpContext.Application["DomainSearchAllowedDomainLength"]);
+                numberOfDomainsAllowed = int.Parse((string)this.HttpContext.Application["DomainSearchNumberOfDomainsAllowed"]);
             }
             else
             {
@@ -1291,7 +1287,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["NumberOfDomainsAllowed"] = numberOfDomainsAllowed;
 
             // Check if there is locale setting for country in cookie ad set if there is
-            if (System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"] != null && !String.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"].Value))
+            if (System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"] != null && !string.IsNullOrEmpty(System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"].Value))
             {
                 countryCode = System.Web.HttpContext.Current.Request.Cookies["OrderLocaleCookie"].Value.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries)[1];
             }
@@ -1299,7 +1295,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["defaultCountry"] = countryCode;
 
             // This is supose to be set in InternationalizationProvider
-            System.Globalization.CultureInfo locale = Thread.CurrentThread.CurrentCulture;
+            CultureInfo locale = Thread.CurrentThread.CurrentCulture;
 
             ViewData["decimalSeparator"] = locale.NumberFormat.NumberDecimalSeparator;
             ViewData["groupSeparator"] = locale.NumberFormat.NumberGroupSeparator;
@@ -1428,7 +1424,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         public ActionResult Payment(string amount, string transactionReference, int transactionReferenceType, string status)
         {
             decimal decimalAmount;
-            Decimal.TryParse(amount, out decimalAmount);
+            decimal.TryParse(amount, out decimalAmount);
 
             if (status.ToUpper() == "OK" || status.ToUpper() == "IN_PROGRESS")
             {
@@ -1626,7 +1622,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ShoppingCart result;
 
             string currencyFromCookie = null;
-            if (System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null && !String.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["OrderCurrencyCode"]))
+            if (System.Web.HttpContext.Current.Session["OrderCurrencyCode"] != null && !string.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["OrderCurrencyCode"]))
             {
                 currencyFromCookie = (string)System.Web.HttpContext.Current.Session["OrderCurrencyCode"];
             }
@@ -1670,36 +1666,35 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         public ActionResult PayPalConfirm()
         {
             string token = this.Request.Params["token"];
-            string PayerID = this.Request.Params["PayerID"];
+            string payerId = this.Request.Params["PayerID"];
 
             // get transaction bu id
-
             PublicPaymentTransaction transaction = GetTransationById(token);
             if (transaction == null)
             {
                 throw new ArgumentException("Invalid token");
             }
 
-            var amount = transaction.Amount;
-            ViewData["PayAmount"] = amount.ToString(".00");
+            // Customer clicked cancel so we should mark transaction as FAILED and finish it.
+            // There is no point in showing Confirm page.
+            if (string.IsNullOrEmpty(payerId))
+            {
+                transaction.Status = "FAILED";
+                transaction.StatusCode = "Cancelled";
+                transaction.StatusCodeDescription = "Cancelled on PayPal page";
+                return this.FinishPayment(transaction);
+            }
 
+            ViewData["PayAmount"] = transaction.Amount.ToString(".00");
             ViewData["ReferenceNumber"] = token;
-            ViewData["PayerId"] = PayerID;
-
+            ViewData["PayerId"] = payerId;
             ViewData["currencyFormat"] = CultureHelper.CURRENCY_FORMAT;
             ViewData["numberFormat"] = CultureHelper.NUMBER_FORMAT;
-
             ViewData["Currency"] = transaction.CurrencyCode;
 
-            string cancelUrl;
-            if (!transaction.Attributes.Any(item => item.Name == "CancelUrl"))
-            {
-                cancelUrl = Url.Action("Index", new { controller = "PublicOrder" });
-            }
-            else
-            {
-                cancelUrl = transaction.Attributes.First(item => item.Name == "CancelUrl").Value;
-            }
+            string cancelUrl = !transaction.Attributes.Any(item => item.Name == "CancelUrl")
+                                   ? this.Url.Action("Index", new { controller = "PublicOrder" })
+                                   : transaction.Attributes.First(item => item.Name == "CancelUrl").Value;
 
             ViewData["CancelUrl"] = cancelUrl;
 
@@ -1708,7 +1703,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
         [ResellerDataProvider]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult PayPalConfirm(string token, string PayerID)
+        public ActionResult PayPalConfirm(string token, string PayerID, string action)
         {
             PublicPaymentTransaction transaction = GetTransationById(token);
             if (transaction == null)
@@ -1717,11 +1712,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 throw new ArgumentException("Token is invalid");
             }
 
-            string errorMessage = string.Empty;
-            var amount = transaction.Amount;
-
+            // Update attributes with token and PayerID.
             List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-            if (!attributeDatas.Any(item => item.Name == "token"))
+            if (!transaction.Attributes.Any(item => item.Name == "token"))
             {
                 attributeDatas.Add(new AttributeData { Name = "token", Value = token });
             }
@@ -1739,104 +1732,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 attributeDatas.First(item => item.Name == "payerid").Value = PayerID;
             }
 
-            List<NameValue> nameValues = new List<NameValue>();
+            transaction.Attributes = attributeDatas.ToArray();
 
-            foreach (var item in attributeDatas)
+            if (action == "cancel")
             {
-                nameValues.Add(new NameValue { Name = item.Name, Value = item.Value });
+                transaction.Status = "FAILED";
+                transaction.StatusCode = "Cancelled";
+                transaction.StatusCodeDescription = "Cancelled on confirmation page";
             }
 
-            PublicPaymentTransaction finishedTransaction = null;
-
-            try
-            {
-                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
-                finishedTransaction = service.FinishPayment(transaction.TransactionId);
-            }
-            catch (Exception ex)
-            {
-                OrderPageLogger.LogOrderPageException(ex);
-            }
-
-            if (finishedTransaction == null)
-            {
-                // error: transaction does not exist
-                throw new ArgumentException("Transcation could not be finished.");
-            }
-
-            CultureInfo locale = CultureInfo.CreateSpecificCulture("en-US");
-
-            // we send it as a string to avoid culture issues
-            string amountStr = transaction.Amount.ToString(locale);
-
-            return RedirectToAction(
-                "Payment",
-                "PublicOrder",
-                new
-                {
-                    amount = amountStr,
-                    transactionReference = finishedTransaction.TransactionReference,
-                    transactionReferenceType = 0,
-                    status = finishedTransaction.Status
-                });
-        }
-
-        [ResellerDataProvider]
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult PayExConfirmRedirect()
-        {
-            string orderRef = this.Request.Params["orderRef"];
-
-            PublicPaymentTransaction transaction = GetTransationById(orderRef);
-            if (transaction == null)
-            {
-                // error: transaction does not exist
-                throw new ArgumentException("Token is invalid");
-            }
-
-            List<AttributeData> attributeDatas = transaction.Attributes.ToList();
-            if (!attributeDatas.Any(item => item.Name == "orderRef"))
-            {
-                attributeDatas.Add(new AttributeData { Name = "orderRef", Value = orderRef });
-            }
-            else
-            {
-                attributeDatas.First(item => item.Name == "orderRef").Value = orderRef;
-            }
-
-            PublicPaymentTransaction finishedTransaction = null;
-
-            try
-            {
-                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
-                finishedTransaction = service.FinishPayment(transaction.TransactionId);
-            }
-            catch (Exception ex)
-            {
-                OrderPageLogger.LogOrderPageException(ex);
-            }
-
-            if (finishedTransaction == null)
-            {
-                // error: transaction does not exist
-                throw new ArgumentException("Transcation could not be finished.");
-            }
-
-            CultureInfo locale = CultureInfo.CreateSpecificCulture("en-US");
-
-            // we send it as a string to avoid culture issues
-            string amountStr = transaction.Amount.ToString(locale);
-
-            return RedirectToAction(
-               "Payment",
-               "PublicOrder",
-               new
-               {
-                   amount = amountStr,
-                   transactionReference = finishedTransaction.TransactionReference,
-                   transactionReferenceType = 0,
-                   status = finishedTransaction.Status
-               });
+            return this.FinishPayment(transaction);
         }
 
         /// <summary>
@@ -1851,10 +1756,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         {
             PublicPaymentTransaction transaction = PaymentHelper.FillPaymentTransactionForOrder(order, Request, paidAmount, paymentMethod);
 
-            PaymentMethod defaultPaymentMethod;
-            IList<PaymentMethod> paymentMethods = ResellerHelper.GetResellerPaymentMethods(out defaultPaymentMethod);
-
-            string action = null;
+            string action;
 
             if (paymentMethod == "CCPayment")
             {
@@ -1931,21 +1833,6 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             return result;
         }
-        
-        private PublicPaymentTransaction GetTransationById(string transactionId)
-        {
-
-            try
-            {
-                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
-                return service.GetPaymentTransactionById(transactionId);
-            }
-            catch (Exception ex)
-            {
-                OrderPageLogger.LogOrderPageException(ex);
-                return null;
-            }
-        }
 
         /// <summary>
         /// Gets the payment options for product group.
@@ -1986,7 +1873,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             }
             else
             {
-                string[] ordOptions = group.OrderPageOptions.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] ordOptions = group.OrderPageOptions.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                 ordOptions.ToList().ForEach(oo =>
                                                 {
                                                     if (OrderOptions.GetOrderOption(oo) != null)
@@ -2023,6 +1910,70 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["name"] = name ?? "";
             ViewData["time"] = time ?? "";
             return View();
+        }
+
+        /// <summary>
+        /// Gets the transation by identifier.
+        /// </summary>
+        /// <param name="transactionId">The transaction identifier.</param>
+        /// <returns>Requested transaction.</returns>
+        private PublicPaymentTransaction GetTransationById(string transactionId)
+        {
+
+            try
+            {
+                var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                return service.GetPaymentTransactionById(transactionId);
+            }
+            catch (Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Finishes the payment.
+        /// </summary>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns>Action result.</returns>
+        private ActionResult FinishPayment(PublicPaymentTransaction transaction)
+        {
+            PublicPaymentTransaction finishedTransaction = null;
+
+            try
+            {
+                AtomiaBillingPublicService service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);
+                service.UpdatePaymentTransactionData(
+                    transaction.TransactionId,
+                    transaction.Status,
+                    transaction.StatusCode,
+                    transaction.StatusCodeDescription,
+                    transaction.Attributes.Select(a => new NameValue { Name = a.Name, Value = a.Value }).ToArray());
+                finishedTransaction = service.FinishPayment(transaction.TransactionId);
+            }
+            catch (Exception ex)
+            {
+                OrderPageLogger.LogOrderPageException(ex);
+            }
+
+            if (finishedTransaction == null)
+            {
+                // error: transaction does not exist
+                throw new ArgumentException("Transcation could not be finished.");
+            }
+
+            CultureInfo locale = CultureInfo.CreateSpecificCulture("en-US");
+            return this.RedirectToAction(
+                "Payment",
+                "PublicOrder",
+                new
+                {
+                    amount = transaction.Amount.ToString(locale),
+                    transactionReference = finishedTransaction.TransactionReference,
+                    transactionReferenceType = 0,
+                    status = finishedTransaction.Status
+                });
         }
     }
 }

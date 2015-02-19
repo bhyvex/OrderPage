@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.3
+2015-02-19 Ivan Kustera <ivan@atomia.com>
+	- [IMPROVEMENT] Modified SubmitForm model to enable replacing for ZIP code fields where it is configured in validation configuration.
+
 2015-02-06 Ivan Kustera <ivan@atomia.com>
 	- [FIX] Fixed setting of payment method for new orders.
 	- [FIX] Fixed WorldPay plugin names.

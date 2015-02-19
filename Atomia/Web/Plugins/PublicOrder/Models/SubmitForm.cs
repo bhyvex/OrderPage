@@ -155,7 +155,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         /// <value>The post number.</value>
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
-        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "CountryCode")]
+        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "CountryCode", ApplyReplace = true)]
         public string PostNumber { get; set; }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         /// <value>The invoice post number.</value>
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
-        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "InvoiceCountryCode")]
+        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "InvoiceCountryCode", ApplyReplace = true)]
         public string InvoicePostNumber { get; set; }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         /// <value>The contact's zip.</value>
         [AtomiaRequired("ValidationErrors, ErrorEmptyField")]
-        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "DomainRegCountryCode")]
+        [CustomerValidation(CustomerValidationType.Zip, "CustomerValidation,Zip", CountryField = "DomainRegCountryCode", ApplyReplace = true)]
         public string DomainRegPostNumber { get; set; }
 
         /// <summary>

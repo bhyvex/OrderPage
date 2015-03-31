@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.3
+2015-03-31 Oscar Linderholm <oscar@atomia.com>
+	* [IMPROVEMENT] Updated Atomia.Common to include refactored PhoneCodePair code.
+
 2015-02-19 Ivan Kustera <ivan@atomia.com>
 	- [IMPROVEMENT] Modified SubmitForm model to enable replacing for ZIP code fields where it is configured in validation configuration.
 

@@ -1,3 +1,7 @@
+Atomia Public Order Page v15.9
+2015-05-05 Ivan Kustera <ivan@atomia.com>
+	- [FIX] Fixed package loading to use selected language for names and descriptions.
+
 Atomia Public Order Page v15.3
 2015-03-31 Oscar Linderholm <oscar@atomia.com>
 	* [IMPROVEMENT] Updated Atomia.Common to include refactored PhoneCodePair code.

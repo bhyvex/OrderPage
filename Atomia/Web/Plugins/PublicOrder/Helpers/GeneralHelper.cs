@@ -221,7 +221,16 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
         /// <returns>Filtered list of packages.</returns>
         public static List<RadioRow> FilterPackages(Controller controller, AtomiaBillingPublicService atomiaBillingPublicService, Guid accountId, Guid resellerId, string currencyCode, string countryCode, string filterValue)
         {
-            List<RadioRow> packages = OrderModel.FetchPackagesData(controller, resellerId, null, accountId, currencyCode, countryCode).ToList();
+            string languageCode = null;
+            if (controller.HttpContext.Session != null
+                && controller.HttpContext.Session["SessionAccountLanguages"] != null)
+            {
+                AtomiaCultureInfo atomiaCultureInfo =
+                    (AtomiaCultureInfo)controller.HttpContext.Session["SessionAccountLanguages"];
+                languageCode = atomiaCultureInfo.Language;
+            }
+
+            List<RadioRow> packages = OrderModel.FetchPackagesData(controller, resellerId, null, accountId, currencyCode, countryCode, languageCode).ToList();
             if (!string.IsNullOrEmpty(filterValue))
             {
                 // get all packages from the config

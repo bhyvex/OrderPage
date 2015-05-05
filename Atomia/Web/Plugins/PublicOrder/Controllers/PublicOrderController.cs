@@ -516,11 +516,13 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                                 resellerId, null, Guid.Empty, currencyCode, countryCode)
                                             : string.Empty;
 
-                // enabled payment method end
-                ViewData["WasAnError"] = 0;
+            // enabled payment method end
+            ViewData["WasAnError"] = 0;
 
-                string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
-                ViewData["radioList"] = GeneralHelper.FilterPackages(this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
+            string filterValue = Session["FilterByPackage"] != null ? (string)Session["FilterByPackage"] : null;
+
+            ViewData["radioList"] = GeneralHelper.FilterPackages(
+                this, service, Guid.Empty, resellerId, currencyCode, countryCode, filterValue);
 
             ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories(resellerId);
 
@@ -697,7 +699,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 ViewData["OrderByEmailEnabled"] = false;
             }
 
-            list = OrderModel.FetchPackagesData(this, resellerId, null, Guid.Empty, currencyCode, countryCode);
+            AtomiaCultureInfo atomiaCultureInfo = null;
+            if (this.HttpContext.Session["SessionAccountLanguages"] != null)
+            {
+                atomiaCultureInfo = (AtomiaCultureInfo)this.HttpContext.Session["SessionAccountLanguages"];
+            }
+
+            string languageCode = atomiaCultureInfo != null ? atomiaCultureInfo.Language : null;
+            list = OrderModel.FetchPackagesData(this, resellerId, null, Guid.Empty, currencyCode, countryCode, languageCode);
 
             currentCart = SubmitForm.CurrentCart;
 
@@ -1130,9 +1139,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         orderCustomData.Add(new PublicOrderCustomData { Name = "IpAddress", Value = ip });
                     }
 
-                    if (this.HttpContext.Session["SessionAccountLanguages"] != null)
+                    if (atomiaCultureInfo != null)
                     {
-                        AtomiaCultureInfo atomiaCultureInfo = (AtomiaCultureInfo)this.HttpContext.Session["SessionAccountLanguages"];
                         orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = string.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
                     }
 

@@ -1144,6 +1144,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         orderCustomData.Add(new PublicOrderCustomData { Name = "Language", Value = string.Format("{0}-{1}", atomiaCultureInfo.Language, atomiaCultureInfo.Culture) });
                     }
 
+                    if (this.HttpContext.Application.AllKeys.Contains("ImmediateProvisioning") &&
+                        this.HttpContext.Application["ImmediateProvisioning"].ToString().ToLowerInvariant() == "true")
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "ImmediateProvisioning", Value = "true" });
+                    }
+
+                    if (IndexHelper.IsImmediateLoginEnabled(this))
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "ShowHcpLandingPage", Value = "true" });
+                    }
+
                     myOrder.CustomData = orderCustomData.ToArray();
                     myOrder.OrderItems = myOrderItems.ToArray();
                     myOrder.ResellerId = ResellerHelper.GetResellerId();
@@ -1153,7 +1164,17 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                                 ? OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByInvoice
                                                 : OrderServiceReferences.AtomiaBillingPublicService.PaymentMethodEnum.PayByCard;
 
-                    newOrder = service.CreateOrder(myOrder);
+                    if (IndexHelper.IsImmediateLoginEnabled(this))
+                    {
+                        string resellerRootDomain = UriHelper.GetRootDomain(HttpContext.Request.Url.AbsoluteUri);
+                        string token = string.Empty;
+                        newOrder = service.CreateOrderWithLoginToken(myOrder, resellerRootDomain, out token);
+                        this.Session["ImmediateLoginUrl"] = IndexHelper.GetImmediateLoginUrl(this, myOrder.Email, token);
+                    }
+                    else
+                    {
+                        newOrder = service.CreateOrder(myOrder);
+                    }
 
                     if (newOrder == null)
                     {
@@ -1177,7 +1198,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         }
                     }
 
-                    return this.RedirectToAction("Thankyou");
+                    if (IndexHelper.IsImmediateLoginEnabled(this))
+                    {
+                        Response.Redirect(this.Session["ImmediateLoginUrl"].ToString());
+                    }
+                    else
+                    {
+                        return this.RedirectToAction("Thankyou");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1436,7 +1464,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
             if (status.ToUpper() == "OK" || status.ToUpper() == "IN_PROGRESS")
             {
-                return RedirectToAction("Thankyou");
+                if (IndexHelper.IsImmediateLoginEnabled(this))
+                {
+                    Response.Redirect(this.Session["ImmediateLoginUrl"].ToString());
+                }
+                else
+                {
+                    return this.RedirectToAction("Thankyou");
+                }
             }
 
             if (status.ToUpper() == "FAILED")

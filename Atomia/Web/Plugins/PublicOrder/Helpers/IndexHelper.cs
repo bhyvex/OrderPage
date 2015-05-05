@@ -122,5 +122,39 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
 
             domainData = new DomainDataFromXml { IsDomain = true, ProductName = indexFormDomain, ProductStatus = "success" };
         }
+
+        /// <summary>
+        /// Checks if immediate login is enabled or not.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <returns>True if ImmediateLogin is set to true, otherwise false.</returns>
+        public static bool IsImmediateLoginEnabled(Controller controller)
+        {
+            bool ret = false;
+
+            if (controller.HttpContext.Application.AllKeys.Contains("ImmediateLogin") &&
+                controller.HttpContext.Application["ImmediateLogin"].ToString().ToLowerInvariant() == "true")
+            {
+                ret = true;
+            }
+
+            return ret;
+        }
+
+        public static string GetImmediateLoginUrl(Controller controller, string username, string token)
+        {
+            string url = string.Empty;
+
+            if (!controller.HttpContext.Application.AllKeys.Contains("ImmediageLoginIdentityUrl") ||
+                string.IsNullOrEmpty(controller.HttpContext.Application["ImmediageLoginIdentityUrl"].ToString()))
+            {
+                throw new Exception("You have to set ImmediageLoginIdentityUrl to use the ImmediateLogin feature.");
+            }
+
+            url = controller.HttpContext.Application["ImmediageLoginIdentityUrl"].ToString();
+            url = string.Format("{0}?username={1}&token={2}", url, HttpUtility.UrlEncode(username), token);
+
+            return url;
+        }
     }
 }

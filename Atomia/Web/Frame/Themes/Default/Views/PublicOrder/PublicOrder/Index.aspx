@@ -177,6 +177,21 @@
             );
 
             jQuery.validator.addMethod(
+                "ValidateOwnDomainsBasedOnTLD", function(value, element, params) {
+                    var returnData = false;
+                    if (typeof value !== 'undefined' && value.length > 0) {
+                        var values = { domainName: value };
+                        returnData = ValidateValueServerSide(values, element, params.Url, 'POST');
+                    }
+                    else {
+                        returnData = true;
+                    }
+
+                    return returnData;
+                }
+            );
+
+            jQuery.validator.addMethod(
                 "ValidateOwnDomainBasedOnTLD", function(value, element, params) {
                     var returnData = false;
                     if ($('#' + params.ParentContainer).is(':checked') && (typeof value !== 'undefined') && (value.length > 0)) {
@@ -274,6 +289,16 @@
                 },
                 messages: {
                     ValidateDomainsLength: <%= Html.ResourceJavascript("ValidationErrors, ErrorStringLength") %>
+                }
+            });
+
+            $('#Domains').rules("add", {
+                ValidateOwnDomainsBasedOnTLD: {
+                    Url: '<%= Url.Action("ValidateDomain", new { controller = "PublicOrder" }) %>',
+                    ParentContainer: 'second'
+                },
+                messages: {
+                    ValidateOwnDomainsBasedOnTLD: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidDomains") %>
                 }
             });
 

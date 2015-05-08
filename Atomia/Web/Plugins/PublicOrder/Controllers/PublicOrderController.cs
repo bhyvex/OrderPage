@@ -1489,23 +1489,38 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <returns>The Json with true/false if the domainName is succesfully validated.</returns>
         public ActionResult ValidateDomain(string domainName)
         {
-            if (domainName.Contains("http://") || domainName.Contains("https://") || domainName.Contains("www."))
-            {
-                return Json(false);
-            }
+            bool validated = true;
 
-            bool validated;
+            string[] domainNames = domainName.Split('\n');
 
-            try
+            if (domainNames != null && domainNames.Length > 0)
             {
-                string finalDomainName = SimpleDnsPlus.IDNLib.Encode(domainName);
-                validated = Regex.IsMatch(finalDomainName, RegularExpression.GetRegularExpression("EncodedDomain"));
-            }
-            catch (Exception ex)
-            {
-                OrderPageLogger.LogOrderPageException(new Exception("IDNLIB could not encode the following domain: " + domainName));
-                OrderPageLogger.LogOrderPageException(ex);
-                validated = false;
+                foreach (string domain in domainNames)
+                {
+                    if (domain.Contains("http://") || domain.Contains("https://") || domain.Contains("www."))
+                    {
+                        validated = false;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            string finalDomainName = SimpleDnsPlus.IDNLib.Encode(domain);
+                            validated = Regex.IsMatch(finalDomainName, RegularExpression.GetRegularExpression("EncodedDomain"));
+                        }
+                        catch (Exception ex)
+                        {
+                            OrderPageLogger.LogOrderPageException(new Exception("IDNLIB could not encode the following domain: " + domain));
+                            OrderPageLogger.LogOrderPageException(ex);
+                            validated = false;
+                        }
+                    }
+
+                    if (!validated)
+                    {
+                        break;
+                    }
+                }
             }
 
             return Json(validated);

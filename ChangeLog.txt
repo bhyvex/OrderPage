@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.9
+2015-05-08 OScar Linderholm <oscar@atomia.com>
+	- [FIX] Added domain name validation when registering new domain names.
+
 2015-05-05 Ivan Kustera <ivan@atomia.com>
 	- [FIX] Fixed package loading to use selected language for names and descriptions.
 

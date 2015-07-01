@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.9
+2015-07-01 Daniel Persson<daniel.persson@atomia.com>
+	- [FIX] Fixed parsing of order JSON on thank you page when DomainRegContact is present.
+
 2015-05-08 OScar Linderholm <oscar@atomia.com>
 	- [FIX] Added domain name validation when registering new domain names.
 

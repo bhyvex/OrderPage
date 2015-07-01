@@ -1392,10 +1392,31 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             if (this.Session["CreatedOrder"] != null)
             {
                 JavaScriptSerializer js = new JavaScriptSerializer();
+                var createdOrder = this.Session["CreatedOrder"] as OrderServiceReferences.AtomiaBillingPublicService.PublicOrder;
+                PublicOrderItemProperty domainRegContactAttr = null;
 
-                ViewData["CreatedOrderRaw"] = this.Session["CreatedOrder"];
-                ViewData["CreatedOrderAsJson"] = js.Serialize(this.Session["CreatedOrder"]);
+                if (createdOrder != null)
+                {
+                    foreach (var item in createdOrder.OrderItems)
+                    {
+                        // They are all the same so remove all to avoid JSON errors and use the last one as domainRegContactAttr.
+                        domainRegContactAttr = item.CustomData.FirstOrDefault(cd => cd.Name.ToLower() == "domainregcontact");
 
+                        if (domainRegContactAttr != null)
+                        {
+                            var customData = item.CustomData.ToList();
+                            customData.Remove(domainRegContactAttr);
+                            item.CustomData = customData.ToArray();
+                        }
+                    }
+                }
+
+                ViewData["CreatedOrderAsJson"] = js.Serialize(createdOrder);
+                ViewData["DomainRegContactAsJson"] = domainRegContactAttr != null
+                    ? domainRegContactAttr.Value
+                    : "null";
+                
+                ViewData["CreatedOrderRaw"] = createdOrder;
                 this.Session["CreatedOrder"] = null;
 
                 // Throw away any previous submit form (used to re-fill form on canceled payment)

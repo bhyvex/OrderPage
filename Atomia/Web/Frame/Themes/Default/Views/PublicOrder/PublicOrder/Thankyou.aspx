@@ -21,8 +21,10 @@
 	    </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             var orderJson = JSON.parse('<%= ViewData["CreatedOrderAsJson"]%>');
+            <%-- DomainRegContact is separated out from CustomData on order items. --%>
+            var domainRegContactJson = JSON.parse('<%= ViewData["DomainRegContactAsJson"]%>');
         });
     </script>
 </asp:Content>

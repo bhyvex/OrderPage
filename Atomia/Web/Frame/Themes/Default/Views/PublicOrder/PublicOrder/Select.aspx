@@ -1018,12 +1018,13 @@
 
         var OrderByPostSelected = false;
         var canSubmit = true;
-        var decimalDigits = 2;
+        var decimalDigits = parseInt('<%= ViewData["CurrencyDecimalPlaces"] %>');
 
         var decimalParserParams = {};
         decimalParserParams.DecimalSeparator = '<%= ViewData["decimalSeparator"] %>';
         decimalParserParams.GroupSeparator = '<%= ViewData["groupSeparator"] %>';
         decimalParserParams.Locale = 'se';
+        decimalParserParams.CurrencyDecimalPlacesFormat = '<%= ViewData["CurrencyDecimalPlacesFormat"] %>';
         initializeDecimalParser(decimalParserParams);
 
         var emptyFieldMessage = <%= Html.ResourceJavascript("ValidationErrors, ErrorEmptyField") %>;

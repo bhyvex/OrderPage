@@ -276,7 +276,7 @@ var initializeDecimalParser = function(params) {
     };
 
     jQuery.fn.format.defaults = {
-        format: "#,###.00",
+        format: params.CurrencyDecimalPlacesFormat,
         decimalSep: params.DecimalSeparator,
         groupSep: params.GroupSeparator,
         locale: params.Locale,

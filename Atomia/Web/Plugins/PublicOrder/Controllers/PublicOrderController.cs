@@ -461,6 +461,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["decimalSeparator"] = locale.NumberFormat.NumberDecimalSeparator;
             ViewData["groupSeparator"] = locale.NumberFormat.NumberGroupSeparator;
 
+            // Get currency decimal places from session
+            int currencyDecimalPlaces = Session["CurrencyDecimalPlaces"] != null
+                ? (int)Session["CurrencyDecimalPlaces"]
+                : 2;
+
+            ViewData["CurrencyDecimalPlaces"] = currencyDecimalPlaces;
+            ViewData["CurrencyDecimalPlacesFormat"] = string.Format("#,###.{0}", new string('0', currencyDecimalPlaces));
+
             List<Country> countryList = new List<Country>();
 
             var service = GeneralHelper.GetPublicOrderService(this.HttpContext.ApplicationInstance.Context);

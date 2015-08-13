@@ -265,6 +265,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     {
                         HttpContext.Current.Session["showContactOptions"] = true;
                     }
+
+                    if (HttpContext.Current.Session["CurrencyDecimalPlaces"] == null)
+                    {
+                        HttpContext.Current.Session.Add("CurrencyDecimalPlaces", resellerAccountData.CurrencyDecimalPlaces);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session["CurrencyDecimalPlaces"] = resellerAccountData.CurrencyDecimalPlaces;
+                    }
                 }
                 else
                 {
@@ -302,6 +311,15 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers
                     else
                     {
                         HttpContext.Current.Session["showContactOptions"] = false;
+                    }
+
+                    if (HttpContext.Current.Session["CurrencyDecimalPlaces"] == null)
+                    {
+                        HttpContext.Current.Session.Add("CurrencyDecimalPlaces", resellerAccountData.CurrencyDecimalPlaces);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session["CurrencyDecimalPlaces"] = resellerAccountData.CurrencyDecimalPlaces;
                     }
                 }
                 else

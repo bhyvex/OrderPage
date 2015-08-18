@@ -439,6 +439,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["defaultCountry"] = countryCode;
             string currencyCode = ResellerHelper.GetResellerCurrencyCode();
             var resellerId = ResellerHelper.GetResellerId();
+            ViewData["ResellerId"] = resellerId;
 
             // Show or hide Personal number field
             bool showPersonalNumber = true;
@@ -678,6 +679,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             List<ProductDescription> currentCart;
 
             var resellerId = ResellerHelper.GetResellerId();
+            ViewData["ResellerId"] = resellerId;
             var currencyCode = ResellerHelper.GetResellerCurrencyCode();
             var countryCode = ResellerHelper.GetResellerCountryCode();
 
@@ -791,6 +793,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     List<PublicOrderItem> myOrderItems = new List<PublicOrderItem>();
 
                     string jsonDomainRegContact = string.Empty;
+                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
                     if (SubmitForm.WhoisContact)
                     {
                         SubmitForm.DomainRegCity = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegCity);
@@ -806,7 +809,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         SubmitForm.DomainRegVATNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegVATNumber);
                         SubmitForm.DomainRegTelephone = FormattingHelper.FormatPhoneNumber(SubmitForm.DomainRegTelephone, SubmitForm.DomainRegCountryCode);
                         SubmitForm.DomainRegPostNumber = GeneralHelper.PrepareForSubmit(SubmitForm.DomainRegPostNumber);
-                        jsonDomainRegContact = new JavaScriptSerializer().Serialize(new DomainRegContact()
+                        jsonDomainRegContact = javaScriptSerializer.Serialize(new DomainRegContact
                             {
                                 City = SubmitForm.DomainRegCity,
                                 Country = SubmitForm.DomainRegCountryCode,
@@ -819,7 +822,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 Street2 = SubmitForm.DomainRegAddress2,
                                 VatNo = SubmitForm.DomainRegVATNumber,
                                 Voice = SubmitForm.DomainRegTelephone,
-                                Zip = SubmitForm.DomainRegPostNumber.Trim()
+                                Zip = SubmitForm.DomainRegPostNumber.Trim(),
+                                CustomFields = javaScriptSerializer.Serialize(SubmitForm.CustomFields)
                             });
                     }
 
@@ -1009,7 +1013,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
 
                     PublicOrderConfigurationSection opcss = Helpers.LocalConfigurationHelper.GetLocalConfigurationSection();
                     Dictionary<string, string> emailProps = new Dictionary<string, string>();
-                    JavaScriptSerializer jsemail = new JavaScriptSerializer();
+                    JavaScriptSerializer jsemail = javaScriptSerializer;
                     bool addApplication = false;
 
                     foreach (PublicOrderItem myOrderItem in myOrderItems)
@@ -1117,12 +1121,22 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         orderCustomData.Add(new PublicOrderCustomData { Name = "TechContact", Value = SubmitForm.RadioTechContact });
                     }
 
+                    if (SubmitForm.CustomFields != null && SubmitForm.CustomFields.Keys.Count > 0)
+                    {
+                        orderCustomData.Add(
+                            new PublicOrderCustomData
+                                {
+                                    Name = "DomainContactCustomFields",
+                                    Value = javaScriptSerializer.Serialize(SubmitForm.CustomFields)
+                                });
+                    }
+
                     // Add CustommData posted with submit, client added
                     if (!string.IsNullOrEmpty(SubmitForm.OrderCustomData))
                     {
                         try
                         {
-                            JavaScriptSerializer js = new JavaScriptSerializer();
+                            JavaScriptSerializer js = javaScriptSerializer;
                             orderCustomData.AddRange(js.Deserialize<PublicOrderCustomData[]>(SubmitForm.OrderCustomData));
                         }
                         catch (Exception ex)

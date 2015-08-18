@@ -324,6 +324,9 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// <value><c>true</c> if [whois contact]; otherwise, <c>false</c>.</value>
         public bool WhoisContact { get; set; }
 
+        [CustomFieldsValidation("CustomFields", "CustomerValidation,CustomFields", CountryField = "CountryCode", ProductField = "CurrentCart.productID", ResellerIdField = "ResellerId")]
+        public IDictionary<string, string> CustomFields { get; set; }
+
         /// <summary>
         /// Gets or sets the city.
         /// </summary>

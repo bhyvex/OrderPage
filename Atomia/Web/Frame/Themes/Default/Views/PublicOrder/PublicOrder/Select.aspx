@@ -10,6 +10,7 @@
 <%@ Import Namespace="System.Text" %>
 <%@ Import Namespace="Atomia.Billing.Core.Common.PaymentPlugins" %>
 <%@ Import Namespace="Atomia.Web.Plugin.Validation.HtmlHelpers" %>
+<%@ Import Namespace="Atomia.Web.Plugin.Validation.Models" %>
 
 <asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
   <%= Html.Resource("PageTitle")%>
@@ -41,6 +42,7 @@
             </p>
 
             <% Html.EnableClientValidation(); %>
+
             <% Html.AddCustomerValidationRules(new CustomerValidationOptions {
                 ProductsChangedEvent = "AtomiaOrderForm.productsChangedEvent",
                 ArticleNumberList = "AtomiaOrderForm.getSelectedArticleNumbers()",
@@ -399,6 +401,10 @@
                             <%= Html.ValidationMessage("Email")%>
                         </div>
                         <br class="clear" />
+                    </div>
+                    <div id="CustomFieldsDiv">
+                        <% List<CustomField> customFields = Model.CustomFields != null ? Model.CustomFields.Select(c => new CustomField{Name = c.Key, Value = c.Value}).ToList() : new List<CustomField>(); %>
+                        <% Html.RenderPartial("CustomFields", customFields); %>
                     </div>
                 </div>
                 
@@ -1003,6 +1009,26 @@
         <%= Html.Hidden("dontShowTaxesForThisResellerHidden", Session["dontShowTaxesForThisResellerHidden"])%>
     </div>
     <script type="text/javascript">
+        function RefreshCustomFields() {
+            var selectedArticleNumbers = new Array();                
+            for (var i = 0; i < cartArray.length; i++) {
+                selectedArticleNumbers.push(cartArray[i].id);
+            }
+
+            var data = { 
+                country: $("#CountryCode").val(), 
+                products: selectedArticleNumbers, 
+                resellerId: "<%=ViewData["ResellerId"] %>",
+                keepExistingFields: false };                
+            var customFields = $("input[name^='CustomFields']");
+            for (var i = 0; i < customFields.length; i += 2) {
+                data['existingFields[' + i / 2 + '].Key'] = customFields[i].value;
+                data['existingFields[' + i / 2 + '].Value'] = customFields[i + 1].value;
+            }
+
+            $("#CustomFieldsDiv").load("/Validation/GetCustomFields", data);
+        }
+
         AtomiaValidation.init("AtomiaUsername");
         var formValidator = null;
         var initializeParams = {};
@@ -1051,6 +1077,14 @@
         $(document).ready(function() {
             AtomiaOrderForm.setItemCategories(<%= itemCategoriesJs.ToString() %>);
             AtomiaOrderForm.cartChangeBind($.fn.AtomiaShoppingCart.options.CartUpdatedEventName);
+
+            $("#product_list").on(AtomiaOrderForm.productsChangedEvent, function() {
+                RefreshCustomFields();
+            });
+
+            $("#CountryCode").change(function() {
+                RefreshCustomFields();
+            });
 
             formValidator = $("#submit_form").validate();
 

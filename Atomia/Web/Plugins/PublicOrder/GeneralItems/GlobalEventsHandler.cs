@@ -90,6 +90,7 @@ namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaStringLengthAttribute), typeof(AtomiaStringLengthValidator));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaRangeAttribute), typeof(AtomiaRangeValidator));
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(AtomiaUsernameAttribute), typeof(AtomiaUsernameAttribute.AtomiaUsernameValidator));
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(CustomFieldsValidationAttribute), typeof(CustomFieldsValidationAttribute.CustomFieldsValidator));
         }
     }
 }

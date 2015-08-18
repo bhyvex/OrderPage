@@ -171,6 +171,7 @@
     <Content Include="Themes\Default\Views\PublicOrder\Error\ResourceNotFound.aspx" />
     <Content Include="Themes\Default\Views\PublicOrder\Error\Unknown.aspx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\Cart.ascx" />
+    <Content Include="Themes\Default\Views\Shared\CustomFields.ascx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\DomainSearch.ascx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Index.aspx" />
     <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\Norid.aspx" />
@@ -928,6 +929,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.en-US.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\CustomFields.da-DK.resx" />
+    <Content Include="App_GlobalResources\CustomFields.de-DE.resx" />
+    <Content Include="App_GlobalResources\CustomFields.en-US.resx" />
+    <Content Include="App_GlobalResources\CustomFields.es-ES.resx" />
+    <Content Include="App_GlobalResources\CustomFields.es.resx" />
+    <Content Include="App_GlobalResources\CustomFields.fr-FR.resx" />
+    <Content Include="App_GlobalResources\CustomFields.nb-NO.resx" />
+    <Content Include="App_GlobalResources\CustomFields.nl-NL.resx" />
+    <Content Include="App_GlobalResources\CustomFields.pl-PL.resx" />
+    <Content Include="App_GlobalResources\CustomFields.pt-BR.resx" />
+    <Content Include="App_GlobalResources\CustomFields.pt-PT.resx" />
+    <Content Include="App_GlobalResources\CustomFields.resx" />
+    <Content Include="App_GlobalResources\CustomFields.sv-SE.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -85,5 +85,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         /// </summary>
         /// <value>The contact's zip.</value>
         public string Zip { get; set; }
+
+        /// <summary>
+        /// Gets or sets serialized dictionary of custom fields.
+        /// </summary>
+        /// <value>The custom fields.</value>
+        public string CustomFields { get; set; }
     }
 }

@@ -1,4 +1,7 @@
 Atomia Public Order Page v15.9
+2015-08-18 Ivan Kustera <ivan@atomia.com>
+	- [NEW] Added support for requesting contact custom fields when they are requested by configuration.
+
 2015-08-13 Oscar Linderholm <oscar@atomia.com>
 	* [FIX] Format prices with the resellers currency decimal places value.
 

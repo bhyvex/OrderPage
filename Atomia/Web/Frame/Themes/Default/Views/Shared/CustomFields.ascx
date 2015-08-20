@@ -25,6 +25,7 @@
                         <div class="col2row">
                             <%= Html.Hidden("CustomFields[" + i + "].Key", customField.Name)%>
                             <%= Html.TextBox("CustomFields[" + i + "].Value", customField.Value)%>
+                            <span class="field-validation-valid" id = "CustomFields_<%=i %>__Value_validationMessage"></span>
                         </div>
                         <br class="clear" />
                     </div>
@@ -42,17 +43,13 @@
 {
   %>
     $("input[name='CustomFields[<%= i %>].Value'").rules( "add", {
-        CustomFields_<%=customField.Name %>: true,
-        messages: {
-            CustomFields_<%=customField.Name %>: "Invalid data"
-        }
+        CustomFields_<%=customField.Name %>: true
     });
 
   <%
     i++;
 }
+
 %> 
 
 </script>
-
-   

@@ -46,7 +46,8 @@
             <% Html.AddCustomerValidationRules(new CustomerValidationOptions {
                 ProductsChangedEvent = "AtomiaOrderForm.productsChangedEvent",
                 ArticleNumberList = "AtomiaOrderForm.getSelectedArticleNumbers()",
-                ProductCategoryList = "AtomiaOrderForm.getSelectedProductCategories()"
+                ProductCategoryList = "AtomiaOrderForm.getSelectedProductCategories()",
+                RefreshCustomFieldsFunction = "RefreshCustomFields()"
             }); %>
 
             <% Html.BeginForm("Select", "PublicOrder", new { area }, FormMethod.Post, new { @id = "submit_form", autocomplete = "off" }); %>
@@ -1077,14 +1078,6 @@
         $(document).ready(function() {
             AtomiaOrderForm.setItemCategories(<%= itemCategoriesJs.ToString() %>);
             AtomiaOrderForm.cartChangeBind($.fn.AtomiaShoppingCart.options.CartUpdatedEventName);
-
-            $("#product_list").on(AtomiaOrderForm.productsChangedEvent, function() {
-                RefreshCustomFields();
-            });
-
-            $("#CountryCode").change(function() {
-                RefreshCustomFields();
-            });
 
             formValidator = $("#submit_form").validate();
 

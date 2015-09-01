@@ -120,13 +120,13 @@
   <data name="nexus_app_purpose" xml:space="preserve">
     <value>Application purpose</value>
   </data>
-  <data name="nexus_app_purpose.default.default.dmn-com" xml:space="preserve">
+  <data name="nexus_app_purpose.default.default.dmn-us" xml:space="preserve">
     <value>Application purpose can be P1, P2, P3, P4 or P5</value>
   </data>
   <data name="nexus_category" xml:space="preserve">
     <value>Nexus category</value>
   </data>
-  <data name="nexus_category.default.default.dmn-com" xml:space="preserve">
+  <data name="nexus_category.default.default.dmn-us" xml:space="preserve">
     <value>Nexus category can be C11, C12, C21, C31 or C32</value>
   </data>
 </root>

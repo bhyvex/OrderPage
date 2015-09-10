@@ -16,7 +16,7 @@
 function initializeButtons(submitParams) {
     $('#orderbutton').bind('click', function (submitParams) {
         if (window.formValidator !== null) {
-            canSubmit = window.formValidator.valid();
+            canSubmit = $('#submit_form').valid();
         }
 
         onSubmit(submitParams);

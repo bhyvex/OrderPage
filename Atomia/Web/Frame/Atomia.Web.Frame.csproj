@@ -945,6 +945,144 @@
     <Content Include="App_GlobalResources\CustomFields.resx" />
     <Content Include="App_GlobalResources\CustomFields.sv-SE.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\BreadCrumbItems.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Common.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\CustomerValidation.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\DefaultCommon.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\ValidationErrors.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Norid.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.fi-FI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\BreadCrumbItems.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Common.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\CustomerValidation.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\DefaultCommon.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\ValidationErrors.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Help.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Home\App_LocalResources\Index.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PaymentForm\App_LocalResources\PaymentPluginForm.ascx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotEnoughPrivileges.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\NotFound.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\ResourceNotFound.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\Error\App_LocalResources\Unknown.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Index.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Norid.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PaymentFailed.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\PayPalConfirm.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Select.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Thankyou.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrder\App_LocalResources\Tos.aspx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\Cart.ascx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\PublicOrder\PublicOrderPartials\App_LocalResources\DomainSearch.ascx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LanguagePicker.ascx.it-IT.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Views\Shared\App_LocalResources\LocalePicker.ascx.it-IT.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

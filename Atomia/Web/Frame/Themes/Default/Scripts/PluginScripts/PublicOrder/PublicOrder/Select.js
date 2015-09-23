@@ -16,13 +16,28 @@
 function initializeButtons(submitParams) {
     $('#orderbutton').bind('click', function (submitParams) {
         if (window.formValidator !== null) {
-            canSubmit = $('#submit_form').valid();
+            canSubmit = window.formValidator.valid();
         }
 
         onSubmit(submitParams);
     });
 }
 
+var focusedIn = false;
+function initializeEmailChange() {
+    $("#Email").focusin(function () {
+        focusedIn = true;
+    });
+    $("#Email").focusout(function () {
+        focusedIn = false;
+    });
+    $("#Email").change(function () {
+        if (!focusedIn) {
+            //let's call focus out so that validation is initiated, because browser did the autofill (because input value was changed without getting focus first).
+            $("#Email").focusout();
+        }
+    });
+}
 
 window.productsId = {};
 window.productsKey = [];

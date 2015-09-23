@@ -1158,6 +1158,7 @@
             submitParams.DefaultCountryCode = '<%= (string)ViewData["defaultCountry"]%>';
 
             initializeButtons(submitParams);
+            initializeEmailChange();
 
             addTermValidation('<%= Html.ResourceJavascript("ValidationErrors, ErrorTermNotChecked") %>');
         });

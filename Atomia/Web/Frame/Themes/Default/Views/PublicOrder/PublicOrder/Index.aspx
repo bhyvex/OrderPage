@@ -294,8 +294,8 @@
 
             $('#Domains').rules("add", {
                 ValidateOwnDomainsBasedOnTLD: {
-                    Url: '<%= Url.Action("ValidateDomain", new { controller = "PublicOrder" }) %>',
-                    ParentContainer: 'second'
+                    Url: '<%= Url.Action("ValidateDomains", new { controller = "PublicOrder" }) %>',
+                    ParentContainer: 'first'
                 },
                 messages: {
                     ValidateOwnDomainsBasedOnTLD: <%= Html.ResourceJavascript("ValidationErrors, ErrorInvalidDomains") %>

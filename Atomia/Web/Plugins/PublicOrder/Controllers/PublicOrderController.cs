@@ -1532,6 +1532,21 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         /// <returns>The Json with true/false if the domainName is succesfully validated.</returns>
         public ActionResult ValidateDomain(string domainName)
         {
+            return ValidateDomain(domainName, false);
+        }
+
+        /// <summary>
+        /// Validates the domain.
+        /// </summary>
+        /// <param name="domainName">Name of the domain.</param>
+        /// <returns>The Json with true/false if the domainName is succesfully validated.</returns>
+        public ActionResult ValidateDomains(string domainName)
+        {
+            return ValidateDomain(domainName, true);
+        }
+
+        private ActionResult ValidateDomain(string domainName, bool allowWithoutTLD)
+        {
             bool validated = true;
 
             string[] domainNames = domainName.Split('\n');
@@ -1548,7 +1563,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     {
                         try
                         {
-                            string finalDomainName = SimpleDnsPlus.IDNLib.Encode(domain);
+                            string finalDomainName = SimpleDnsPlus.IDNLib.Encode(allowWithoutTLD && !domainName.Contains(".") ? (domain + ".random") : domain);
                             validated = Regex.IsMatch(finalDomainName, RegularExpression.GetRegularExpression("EncodedDomain"));
                         }
                         catch (Exception ex)

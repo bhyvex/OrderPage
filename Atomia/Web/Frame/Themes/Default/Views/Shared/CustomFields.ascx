@@ -37,19 +37,32 @@
 </div>
            
 <script type="text/javascript">
+    var existingArticleNumbersForFields = [];
 <%
     i = 0;
     foreach (CustomField customField in Model)
-{
-  %>
+    {
+%>
+    if (Object.keys($("input[name='CustomFields[<%= i %>].Value'").rules()).length > 0) {
+        $("input[name='CustomFields[<%= i %>].Value'").rules("remove");
+    }
     $("input[name='CustomFields[<%= i %>].Value'").rules( "add", {
         CustomFields_<%=customField.Name %>: true
     });
 
-  <%
-    i++;
-}
+    <%
+        i++;
+    }
 
+    
 %> 
+<%
+    if (ViewData["existingArticleNumbers"] != null)
+    {
+%>
+     existingArticleNumbersForFields = <%= ViewData["existingArticleNumbers"] as string %>;
+<%  
+    }
+%>
 
 </script>

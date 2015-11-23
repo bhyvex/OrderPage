@@ -129,4 +129,184 @@
   <data name="nexus_category.default.default.dmn-us" xml:space="preserve">
     <value>Nexus category can be C11, C12, C21, C31 or C32</value>
   </data>
+  <data name="aero_ens_id" xml:space="preserve">
+    <value>ENS identifier</value>
+  </data>
+  <data name="aero_ens_password" xml:space="preserve">
+    <value>ENS password</value>
+  </data>
+  <data name="coop_verification_code" xml:space="preserve">
+    <value>Coop verification code</value>
+  </data>
+  <data name="country_of_birth" xml:space="preserve">
+    <value>Birth country code (2-letter)</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-fr" xml:space="preserve">
+    <value>Use ISO3166 two-letter country code</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-pm" xml:space="preserve">
+    <value>Use ISO3166 two-letter country code</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-re" xml:space="preserve">
+    <value>Use ISO3166 two-letter country code</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-tf" xml:space="preserve">
+    <value>Use ISO3166 two-letter country code</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-wf" xml:space="preserve">
+    <value>Use ISO3166 two-letter country code</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-yt" xml:space="preserve">
+    <value>Use ISO3166 two-letter country code</value>
+  </data>
+  <data name="date_of_birth" xml:space="preserve">
+    <value>Date of birth (YYYY-MM-DD)</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-fr" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-hk" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-pm" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-re" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-ru" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-tf" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-wf" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-yt" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="eligibility_id" xml:space="preserve">
+    <value>Eligibility document ID</value>
+  </data>
+  <data name="eligibility_id_type" xml:space="preserve">
+    <value>Eligibility ID type</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-asnau" xml:space="preserve">
+    <value>Values can be: ABN, ACT BN, NSW BN, NT BN, QLD BN, SA BN, TAS BN, VIC BN, WA BN, ACN or OTHER</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-comau" xml:space="preserve">
+    <value>Values can be: ABN, ACN, TM or OTHER</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-netau" xml:space="preserve">
+    <value>Values can be: ABN, ACN, TM or OTHER</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-orgau" xml:space="preserve">
+    <value>Values can be: ABN, ACT BN, NSW BN, NT BN, QLD BN, SA BN, TAS BN, VIC BN, WA BN, ACN or OTHER</value>
+  </data>
+  <data name="eligibility_name" xml:space="preserve">
+    <value>Name on eligibility doc.</value>
+  </data>
+  <data name="eligibility_type" xml:space="preserve">
+    <value>Eligibility type</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-asnau" xml:space="preserve">
+    <value>Values can be: Charity, Club, Incorporated Association, Non-profit Organization or Trade Union</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-comau" xml:space="preserve">
+    <value>Values can be: Company, Partnership, Pending TM Owner, Registered Business or Trademark Owner</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-netau" xml:space="preserve">
+    <value>Values can be: Company, Partnership, Pending TM Owner, Registered Business or Trademark Owner</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-orgau" xml:space="preserve">
+    <value>Values can be: Charity, Club, Incorporated Association, Non-profit Organization or Trade Union</value>
+  </data>
+  <data name="entity_type" xml:space="preserve">
+    <value>Legal entity type of registrant</value>
+  </data>
+  <data name="entity_type.default.default.dmn-it" xml:space="preserve">
+    <value>Values can be: 1(individual), 2(company), 3(freelancers), 4(Non-profit org.), 5(Public org.), 6(other), 7(Non-italian that match 2-6)</value>
+  </data>
+  <data name="id_card_authority" xml:space="preserve">
+    <value>ID card issuer</value>
+  </data>
+  <data name="id_card_issue_date" xml:space="preserve">
+    <value>ID card issue date</value>
+  </data>
+  <data name="id_card_issue_date.default.default.dmn-ru" xml:space="preserve">
+    <value>Use date format: YYYY-MM-DD</value>
+  </data>
+  <data name="id_type" xml:space="preserve">
+    <value>Contact ID type</value>
+  </data>
+  <data name="id_type.default.default.dmn-asia" xml:space="preserve">
+    <value>Values can be: passport, certificate, legislation, societyRegistry or politicalPartyRegistry</value>
+  </data>
+  <data name="jobs_association_member" xml:space="preserve">
+    <value>Member of SHRM(Yes/No)</value>
+  </data>
+  <data name="jobs_association_member.default.default.dmn-jobs" xml:space="preserve">
+    <value>Values can be: Yes or No</value>
+  </data>
+  <data name="jobs_website" xml:space="preserve">
+    <value>Company website</value>
+  </data>
+  <data name="jobs_website.default.default.dmn-jobs" xml:space="preserve">
+    <value>Website link not valid</value>
+  </data>
+  <data name="legal_entity_type" xml:space="preserve">
+    <value>Legal entity type</value>
+  </data>
+  <data name="legal_entity_type.default.default.dmn-asia" xml:space="preserve">
+    <value>Values can be: naturalPerson, corporation, cooperative, partnership, government, politicalParty, society or institution</value>
+  </data>
+  <data name="place_of_birth" xml:space="preserve">
+    <value>City of birth</value>
+  </data>
+  <data name="policy_reason" xml:space="preserve">
+    <value>Reason for a domain</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-asnau" xml:space="preserve">
+    <value>Values can be: 1 (exact match) or 2 (closely connected). Default: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-comau" xml:space="preserve">
+    <value>Values can be: 1 (exact match) or 2 (closely connected). Default: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-idau" xml:space="preserve">
+    <value>Values can be: 1 (exact match) or 2 (closely connected). Default: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-netau" xml:space="preserve">
+    <value>Values can be: 1 (exact match) or 2 (closely connected). Default: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-orgau" xml:space="preserve">
+    <value>Values can be: 1 (exact match) or 2 (closely connected). Default: 2</value>
+  </data>
+  <data name="postal_code_of_birth" xml:space="preserve">
+    <value>Birth place postal code</value>
+  </data>
+  <data name="profession" xml:space="preserve">
+    <value>Profession</value>
+  </data>
+  <data name="province_of_birth" xml:space="preserve">
+    <value>Province of birth</value>
+  </data>
+  <data name="registrant_id_type" xml:space="preserve">
+    <value>Registrant ID type</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-asnau" xml:space="preserve">
+    <value>Values can be: ACN or ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-comau" xml:space="preserve">
+    <value>Values can be: ACN or ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-idau" xml:space="preserve">
+    <value>Values can be: ACN or ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-netau" xml:space="preserve">
+    <value>Values can be: ACN or ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-orgau" xml:space="preserve">
+    <value>Values can be: ACN or ABN</value>
+  </data>
 </root>

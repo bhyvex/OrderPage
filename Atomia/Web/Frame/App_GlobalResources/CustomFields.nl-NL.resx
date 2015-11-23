@@ -123,4 +123,184 @@
   <data name="nexus_category" xml:space="preserve">
     <value>Nexus categorie</value>
   </data>
+  <data name="aero_ens_id" xml:space="preserve">
+    <value>ENS identifier</value>
+  </data>
+  <data name="aero_ens_password" xml:space="preserve">
+    <value>ENS wachtwoord</value>
+  </data>
+  <data name="coop_verification_code" xml:space="preserve">
+    <value>Coop verificatiecode</value>
+  </data>
+  <data name="country_of_birth" xml:space="preserve">
+    <value>Birth landcode (2 letters)</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-fr" xml:space="preserve">
+    <value>Gebruik ISO3166 twee-letterige landcode</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-pm" xml:space="preserve">
+    <value>Gebruik ISO3166 twee-letterige landcode</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-re" xml:space="preserve">
+    <value>Gebruik ISO3166 twee-letterige landcode</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-tf" xml:space="preserve">
+    <value>Gebruik ISO3166 twee-letterige landcode</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-wf" xml:space="preserve">
+    <value>Gebruik ISO3166 twee-letterige landcode</value>
+  </data>
+  <data name="country_of_birth.default.default.dmn-yt" xml:space="preserve">
+    <value>Gebruik ISO3166 twee-letterige landcode</value>
+  </data>
+  <data name="date_of_birth" xml:space="preserve">
+    <value>Geboortedatum (YYYY-MM-DD)</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-fr" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-hk" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-pm" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-re" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-ru" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-tf" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-wf" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="date_of_birth.default.default.dmn-yt" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="eligibility_id" xml:space="preserve">
+    <value>In aanmerking te komen document ID</value>
+  </data>
+  <data name="eligibility_id_type" xml:space="preserve">
+    <value>In aanmerking te komen ID-type</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-asnau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ABN, ACT BN, NSW BN, NT BN, QLD BN, SA BN, TAS BN, VIC BN, WA BN, ACN, OTHER</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-comau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ABN, ACN, TM, OTHER</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-netau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ABN, ACN, TM, OTHER</value>
+  </data>
+  <data name="eligibility_id_type.default.default.dmn-orgau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ABN, ACT BN, NSW BN, NT BN, QLD BN, SA BN, TAS BN, VIC BN, WA BN, ACN, OTHER</value>
+  </data>
+  <data name="eligibility_name" xml:space="preserve">
+    <value>Naam op in aanmerking te komen doc.</value>
+  </data>
+  <data name="eligibility_type" xml:space="preserve">
+    <value>Soort in aanmerking te komen</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-asnau" xml:space="preserve">
+    <value>Waarden kunnen zijn: Charity, Club, Incorporated Association, Non-profit Organization, Trade Union</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-comau" xml:space="preserve">
+    <value>Waarden kunnen zijn: Company, Partnership, Pending TM Owner, Registered Business, Trademark Owner</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-netau" xml:space="preserve">
+    <value>Waarden kunnen zijn: Company, Partnership, Pending TM Owner, Registered Business, Trademark Owner</value>
+  </data>
+  <data name="eligibility_type.default.default.dmn-orgau" xml:space="preserve">
+    <value>Waarden kunnen zijn: Charity, Club, Incorporated Association, Non-profit Organization, Trade Union</value>
+  </data>
+  <data name="entity_type" xml:space="preserve">
+    <value>Juridische entiteit type registrant</value>
+  </data>
+  <data name="entity_type.default.default.dmn-it" xml:space="preserve">
+    <value>Waarden kunnen zijn: 1(individual), 2(company), 3(freelancers), 4(Non-profit org.), 5(Public org.), 6(other), 7(Non-italian that match 2-6)</value>
+  </data>
+  <data name="id_card_authority" xml:space="preserve">
+    <value>ID kaartuitgever</value>
+  </data>
+  <data name="id_card_issue_date" xml:space="preserve">
+    <value>Identiteitskaart uitgiftedatum</value>
+  </data>
+  <data name="id_card_issue_date.default.default.dmn-ru" xml:space="preserve">
+    <value>Gebruik datumweergave: YYYY-MM-DD</value>
+  </data>
+  <data name="id_type" xml:space="preserve">
+    <value>Contact ID type</value>
+  </data>
+  <data name="id_type.default.default.dmn-asia" xml:space="preserve">
+    <value>Waarden kunnen zijn: passport, certificate, legislation, societyRegistry, politicalPartyRegistry</value>
+  </data>
+  <data name="jobs_association_member" xml:space="preserve">
+    <value>Lid van SHRM(Yes/No)</value>
+  </data>
+  <data name="jobs_association_member.default.default.dmn-jobs" xml:space="preserve">
+    <value>Waarden kunnen zijn: Yes, No</value>
+  </data>
+  <data name="jobs_website" xml:space="preserve">
+    <value>Bedrijf website</value>
+  </data>
+  <data name="jobs_website.default.default.dmn-jobs" xml:space="preserve">
+    <value>Website koppeling niet geldig</value>
+  </data>
+  <data name="legal_entity_type" xml:space="preserve">
+    <value>Juridische soort entiteit</value>
+  </data>
+  <data name="legal_entity_type.default.default.dmn-asia" xml:space="preserve">
+    <value>Waarden kunnen zijn: naturalPerson, corporation, cooperative, partnership, government, politicalParty, society, institution</value>
+  </data>
+  <data name="place_of_birth" xml:space="preserve">
+    <value>Stad van de geboorte</value>
+  </data>
+  <data name="policy_reason" xml:space="preserve">
+    <value>Reden voor een domein</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-asnau" xml:space="preserve">
+    <value>Waarden kunnen zijn: 1 (exacte match), 2 (nauw verbonden). Standaard: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-comau" xml:space="preserve">
+    <value>Waarden kunnen zijn: 1 (exacte match), 2 (nauw verbonden). Standaard: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-idau" xml:space="preserve">
+    <value>Waarden kunnen zijn: 1 (exacte match), 2 (nauw verbonden). Standaard: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-netau" xml:space="preserve">
+    <value>Waarden kunnen zijn: 1 (exacte match), 2 (nauw verbonden). Standaard: 2</value>
+  </data>
+  <data name="policy_reason.default.default.dmn-orgau" xml:space="preserve">
+    <value>Waarden kunnen zijn: 1 (exacte match), 2 (nauw verbonden). Standaard: 2</value>
+  </data>
+  <data name="postal_code_of_birth" xml:space="preserve">
+    <value>Geboorteplaats postcode</value>
+  </data>
+  <data name="profession" xml:space="preserve">
+    <value>Beroep</value>
+  </data>
+  <data name="province_of_birth" xml:space="preserve">
+    <value>Provincie geboorte</value>
+  </data>
+  <data name="registrant_id_type" xml:space="preserve">
+    <value>Registrant ID type</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-asnau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ACN, ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-comau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ACN, ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-idau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ACN, ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-netau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ACN, ABN</value>
+  </data>
+  <data name="registrant_id_type.default.default.dmn-orgau" xml:space="preserve">
+    <value>Waarden kunnen zijn: ACN, ABN</value>
+  </data>
 </root>

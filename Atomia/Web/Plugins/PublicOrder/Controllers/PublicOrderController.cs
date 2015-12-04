@@ -1101,6 +1101,12 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         orderCustomData.Add(new PublicOrderCustomData { Name = "PayByInvoice", Value = "true" });
                     }
 
+                    string paymentMethod = SubmitForm.RadioPaymentMethod;
+                    if (paymentMethod == "InvoiceByEmail" || paymentMethod == "InvoiceByPost") {
+                        paymentMethod = "PayWithInvoice";
+                    }
+                    orderCustomData.Add(new PublicOrderCustomData { Name = "PaymentMethod", Value = paymentMethod });
+
                     if (!string.IsNullOrEmpty((string)Session["SpecialPID"]))
                     {
                         orderCustomData.Add(new PublicOrderCustomData { Name = "SpecialPID", Value = (string)Session["SpecialPID"] });

@@ -1010,6 +1010,8 @@
         <%= Html.Hidden("dontShowTaxesForThisResellerHidden", Session["dontShowTaxesForThisResellerHidden"])%>
     </div>
     <script type="text/javascript">
+        var paymentMethodSelector = 'input[name=RadioPaymentMethod]:checked';
+
         function RefreshCustomFields() {
             var selectedArticleNumbers = new Array();                
             for (var i = 0; i < cartArray.length; i++) {

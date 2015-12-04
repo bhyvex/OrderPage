@@ -223,6 +223,20 @@ $.postJSON = function(url, data, callback) {
             $.fn.AtomiaShoppingCart.options.OrderCustomAttributes = tmpArray;
         }
     };
+    $.fn.AtomiaShoppingCart.AddUpdateOrderCustomAttribute = function(name, value) {
+        if (typeof (name) != 'undefined' && name != '' && typeof (value) != 'undefined' && value != '') {
+            var updated = false;
+            for (var i = 0; i < $.fn.AtomiaShoppingCart.options.OrderCustomAttributes.length; i++) {
+                if (JSON.parse($.fn.AtomiaShoppingCart.options.OrderCustomAttributes[i]).Name == name) {
+                    $.fn.AtomiaShoppingCart.options.OrderCustomAttributes[i] ='{"Name":"' + name + '","Value":"' + value + '"}';
+                    updated = true;
+                }
+            }
+            if (!updated) {
+                $.fn.AtomiaShoppingCart.options.OrderCustomAttributes[$.fn.AtomiaShoppingCart.options.OrderCustomAttributes.length] = '{"Name":"' + name + '","Value":"' + value + '"}';
+            }
+        }
+    };
     $.fn.AtomiaShoppingCart.GetCustomAttributesAsJson = function() {
         return '[' + $.fn.AtomiaShoppingCart.options.OrderCustomAttributes + ']';
     };
@@ -313,6 +327,14 @@ $.postJSON = function(url, data, callback) {
         if ($(htmlElement).next().length == 0 || $(htmlElement).next().attr('id') != 'processingImageDiv') {
             $(htmlElement).after('<div id="processingImageDiv" class="dataTables_processing" id="domainlist_processing" style="position: absolute">Processing...</div>');
         } 
+
+        if ($(paymentMethodSelector).length > 0) {
+            var paymentMethod = $(paymentMethodSelector).attr('value');
+            if (paymentMethod == 'InvoiceByEmail' || paymentMethod == 'InvoiceByPost') {
+                paymentMethod = 'PayWithInvoice';
+            }
+            $.fn.AtomiaShoppingCart.AddUpdateOrderCustomAttribute('PaymentMethod', paymentMethod);
+        }
 
         $.postJSON(
             $.fn.AtomiaShoppingCart.options.ServerURL,

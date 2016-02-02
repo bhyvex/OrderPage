@@ -459,4 +459,7 @@
   <data name="SubdomainAltInfo" xml:space="preserve">
     <value>Subdomein toevoegen</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
 </root>

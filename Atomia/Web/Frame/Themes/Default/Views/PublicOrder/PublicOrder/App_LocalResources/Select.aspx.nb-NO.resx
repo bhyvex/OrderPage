@@ -507,5 +507,7 @@
   <data name="NoridLink" xml:space="preserve">
     <value>Vis egenerklæring (åpnes i nytt vindu)</value>
   </data>
-  
+  <data name="Username" xml:space="preserve">
+    <value>Brukernavn</value>
+  </data>
 </root>

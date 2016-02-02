@@ -427,6 +427,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Models
         public string DomainRegPostNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        /// <value>The username.</value>
+        [AtomiaUsernameRequired("ValidationErrors, ErrorEmptyField")]
+        [AtomiaUsername("BillingResources,ErrorUsernameNotAvailable", AtomiaUsernameAttributeType.Username)]
+        public string Username { get; set; }
+
+        /// <summary>
         /// Gets or sets the reseller identifier.
         /// </summary>
         /// <value>The reseller identifier.</value>

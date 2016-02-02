@@ -17,6 +17,7 @@
 </asp:Content>
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     <% var area = Url.RequestContext.RouteData.DataTokens["area"].ToString();%>
+    <% bool separateUsernameAndEmail = (bool)ViewData["SeparateUsernameAndEmail"]; %>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#submit_form").validate();
@@ -403,6 +404,21 @@
                         </div>
                         <br class="clear" />
                     </div>
+
+                    <div class="formrow username" style="display:none">
+                        <h5>
+                            <label class="required" for="Username"><span>*</span><%= Html.Resource("Username") %>:</label>
+                        </h5>
+                        <div class="col2row">
+                            <%= Html.TextBox("Username") %>
+                            <p id="infotipUsername" class="infotip" style="display: none;">
+                                <%= Html.Resource("UsernameInfo")%>
+                            </p>
+                            <%= Html.ValidationMessage("Username") %>
+                        </div>
+                        <br class="clear" />
+                    </div>
+
                     <div id="CustomFieldsDiv">
                         <% List<CustomField> customFields = Model.CustomFields != null ? Model.CustomFields.Select(c => new CustomField{Name = c.Key, Value = c.Value}).ToList() : new List<CustomField>(); %>
                         <% Html.RenderPartial("CustomFields", customFields); %>
@@ -1032,7 +1048,7 @@
             $("#CustomFieldsDiv").load("/Validation/GetCustomFields", data);
         }
 
-        AtomiaValidation.init("AtomiaUsername");
+        AtomiaValidation.init("AtomiaUsername", "AtomiaUsernameRequired");
         var formValidator = null;
         var initializeParams = {};
         initializeParams.ResourcePersonalNumber = <%= Html.ResourceJavascript("PersonalNumber") %>;
@@ -1163,6 +1179,10 @@
             initializeEmailChange();
 
             addTermValidation('<%= Html.ResourceJavascript("ValidationErrors, ErrorTermNotChecked") %>');
+
+            if ('<%= separateUsernameAndEmail %>' === 'True') {
+                $('.username').show();
+            }
         });
     </script>
 </asp:Content>

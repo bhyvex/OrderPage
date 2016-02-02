@@ -516,4 +516,7 @@
   <data name="NoridLink" xml:space="preserve">
     <value>Se egendeklarationen (öppnas i eget fönster)</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Användarnamn</value>
+  </data>
 </root>

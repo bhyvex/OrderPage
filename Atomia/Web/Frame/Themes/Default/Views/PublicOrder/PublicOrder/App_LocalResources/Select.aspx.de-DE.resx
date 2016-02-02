@@ -516,4 +516,7 @@
   <data name="NoridLink" xml:space="preserve">
     <value>Aufstellung ansehen (in neuem Fenster)</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
 </root>

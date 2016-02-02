@@ -519,4 +519,7 @@
   <data name="WhoisContact" xml:space="preserve">
     <value>Whois-yhteyshenkilö</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Käyttäjätunnus</value>
+  </data>
 </root>

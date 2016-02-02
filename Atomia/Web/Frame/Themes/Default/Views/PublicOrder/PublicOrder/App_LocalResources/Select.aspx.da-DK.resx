@@ -459,4 +459,7 @@
   <data name="SubdomainAltInfo" xml:space="preserve">
     <value>Tilføj underdomæne</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Brugernavn</value>
+  </data>
 </root>

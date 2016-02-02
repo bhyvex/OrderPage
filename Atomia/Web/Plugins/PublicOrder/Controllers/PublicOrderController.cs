@@ -628,6 +628,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                 submitForm = (SubmitForm)Session["SavedSubmitForm"];
             }
 
+            ViewData["SeparateUsernameAndEmail"] = Atomia.Common.Configuration.AtomiaCommon.Instance.SeparateUsernameAndEmail;
+
             return View(submitForm);
         }
 
@@ -642,6 +644,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [PluginStuffLoader(PartialItems = true, PluginCssJsFiles = true)]
         public ActionResult Select(SubmitForm SubmitForm)
         {
+            bool useSeparateUsernameAndEmail = Atomia.Common.Configuration.AtomiaCommon.Instance.SeparateUsernameAndEmail;
             List<Country> countryList = new List<Country>();
 
             bool paymentMethodCc = false; // finish payment method CC
@@ -1183,6 +1186,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                         orderCustomData.Add(new PublicOrderCustomData { Name = "ShowHcpLandingPage", Value = "true" });
                     }
 
+                    if (useSeparateUsernameAndEmail)
+                    {
+                        orderCustomData.Add(new PublicOrderCustomData { Name = "Username", Value = SubmitForm.Username });
+                    }
+
                     myOrder.CustomData = orderCustomData.ToArray();
                     myOrder.OrderItems = myOrderItems.ToArray();
                     myOrder.ResellerId = ResellerHelper.GetResellerId();
@@ -1380,6 +1388,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
             ViewData["ShowPersonalNumber"] = showPersonalNumber;
 
             ViewData["ItemCategories"] = CustomerValidationHelper.GetItemCategories(resellerId);
+            ViewData["SeparateUsernameAndEmail"] = useSeparateUsernameAndEmail;
 
             return View(SubmitForm);
         }

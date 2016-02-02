@@ -519,4 +519,7 @@
   <data name="WhoisContact" xml:space="preserve">
     <value>Whois contact</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
 </root>

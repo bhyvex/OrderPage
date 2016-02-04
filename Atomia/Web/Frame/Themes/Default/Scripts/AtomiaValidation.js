@@ -23,12 +23,33 @@ var AtomiaValidation = (function (jQuery) {
         switch (element.nodeName.toLowerCase()) {
             case 'select':
                 var options = $("option:selected", element);
-                return options.length > 0 && (element.type == "select-multiple" || ($.browser.msie && !(options[0].attributes['value'].specified) ? options[0].text : options[0].value).length > 0);
+                return options.length > 0 && (element.type == "select-multiple" || (!(options[0].attributes['value'].specified) ? options[0].text : options[0].value).length > 0);
             case 'input':
                 if (formValidator.checkable(element))
                     return formValidator.getLength(value, element) > 0;
             default:
                 return $.trim(value).length > 0;
+        }
+    }
+
+    // Client validation for model properties annotated with AtomiaUsernameRequiredAttribute.
+    function AtomiaUsernameRequired(value, element, params) {
+        var formValidator = this;
+        var skipValidation = false;
+
+        // Skip validation if we don't have separated username and email.
+        if (params !== undefined &&
+            params.separateUsernameAndEmail !== undefined &&
+            params.separateUsernameAndEmail === 'false') {
+            skipValidation = true;
+        }
+
+        if (skipValidation) {
+            return true;
+        } else if (formValidator.checkable(element)) {
+            return formValidator.getLength(value, element) > 0;
+        } else {
+            return $.trim(value).length > 0;
         }
     }
 
@@ -44,6 +65,27 @@ var AtomiaValidation = (function (jQuery) {
         return !AtomiaRequired.call(formValidator, value, element, params) || (value >= params.minimum && value <= params.maximum);
     }
 
+    // Client validation for model properties annotated with the AtomiaLoginAttribute.
+    function AtomiaLogin(value, element, params) {
+        var remoteParams = {
+            url: params.validateLoginUrl,
+            type: 'post',
+            data: {
+                username: $('#' + params.usernameField).val(),
+                password: $('#' + params.passwordField).val(),
+                errorMessage: params.errorMessage
+            }
+        };
+
+        if ($("#ResellerRootDomain").length > 0 && $("#ResellerRootDomain").val() != "") {
+            remoteParams.data.resellerRootDomain = $("#ResellerRootDomain").val();
+        }
+
+        var formValidator = this;
+
+        return jQuery.validator.methods.remote.call(formValidator, value, element, remoteParams);
+    }
+
     /* Client validation for model properties annotated with AtomiaUsernameAttribute.
     * URL is either the default /Validation/CheckUsername, or set on the AtomiaUsername attribute for the property,
     * or it is possible to set it with a call to AtomiaValidation.extendUrls, e.g. during view rendering.
@@ -53,13 +95,32 @@ var AtomiaValidation = (function (jQuery) {
             formValidator = this, // jQuery Validation binds this to the form's validator object
             remoteParams,
             errorMessage = '',
-            url = '';
+            url = '',
+            skipValidation = false;
 
         if (params !== undefined && params.oldUsernameField !== undefined) {
             $oldUsername = jQuery('#' + params.oldUsernameField).first();
             if ($oldUsername.length > 0 && $oldUsername.val() === value) {
                 return true;
             }
+        }
+
+        // Skip validation for the Email field if we separate username and email
+        if (params !== undefined &&
+            params.type !== undefined &&
+            params.type === 'Email' &&
+            params.separateUsernameAndEmail !== undefined &&
+            params.separateUsernameAndEmail === 'true') {
+            skipValidation = true;
+        }
+
+        // Skip validation for the Username field if we don't separate username and email
+        if (params !== undefined &&
+            params.type !== undefined &&
+            params.type === 'Username' &&
+            params.separateUsernameAndEmail !== undefined &&
+            params.separateUsernameAndEmail === 'false') {
+            skipValidation = true;
         }
 
         if (params !== undefined && params.errorMessage !== undefined) {
@@ -82,20 +143,60 @@ var AtomiaValidation = (function (jQuery) {
             }
         };
 
+        if ($("#ResellerRootDomain").length > 0 && $("#ResellerRootDomain").val() != "") {
+            remoteParams.data.resellerRootDomain = $("#ResellerRootDomain").val();
+        }
+
+        if (skipValidation) {
+            return true;
+        } else {
+            return jQuery.validator.methods.remote.call(formValidator, value, element, remoteParams);
+        }
+    }
+
+    function AtomiaUsernameExists(value, element, params) {
+        var formValidator = this, // jQuery Validation binds this to the form's validator object
+            remoteParams,
+            errorMessage = '',
+            url = '';
+
+        if (params !== undefined && params.errorMessage !== undefined) {
+            errorMessage = params.errorMessage
+        }
+
+        if (urls.checkUsername !== undefined) {
+            url = urls.checkUsername;
+        }
+        else if (params !== undefined && params.checkUsernameUrl !== undefined) {
+            url = params.checkUsernameUrl;
+        }
+
+        remoteParams = {
+            url: url,
+            type: "post",
+            data: {
+                username: value,
+                errorMessage: errorMessage
+            }
+        };
+
+        if ($("#ResellerRootDomain").length > 0 && $("#ResellerRootDomain").val() != "") {
+            remoteParams.data.resellerRootDomain = $("#ResellerRootDomain").val();
+        }
+
         return jQuery.validator.methods.remote.call(formValidator, value, element, remoteParams);
     }
 
     // Client validation for model properties annotated with AtomiaPassword.
     function AtomiaPassword(value, element, params) {
         var $usernameField = $('#' + params.usernameField),
-            username = $usernameField.length > 0 ? $usernameField.val() : null,
-            placeholder = params.placeholder || null;
+            username = $usernameField.length > 0 ? $usernameField.val() : null;
 
         if (username !== null && username !== '' && username === value) {
             return false;
         }
 
-        if (placeholder != null && placeholder === value) {
+        if (params.placeholder === value) {
             return true;
         }
 
@@ -153,11 +254,20 @@ var AtomiaValidation = (function (jQuery) {
                 case "AtomiaUsername":
                     validationFunction = AtomiaUsername;
                     break;
+                case "AtomiaUsernameExists":
+                    validationFunction = AtomiaUsernameExists;
+                    break;
                 case "AtomiaPassword":
                     validationFunction = AtomiaPassword;
                     break;
                 case "AtomiaRepeatPassword":
                     validationFunction = AtomiaRepeatPassword;
+                    break;
+                case "AtomiaLogin":
+                    validationFunction = AtomiaLogin;
+                    break;
+                case "AtomiaUsernameRequired":
+                    validationFunction = AtomiaUsernameRequired;
                     break;
                 default:
                     validationFunction = null;
@@ -202,10 +312,17 @@ var AtomiaValidation = (function (jQuery) {
         });
     }
 
+    // initializes handler for the event triggered when form validation fails
+    function initOnValidationFailed(formId, funcOnValidationFailed) {
+        var $form = $('#' + formId);
+        $form.bind("invalid-form.validate", funcOnValidationFailed);
+    }
+
     return {
         init: init,
         extendUrls: extendUrls,
         validateImmediately: validateImmediately,
-        initValidationTrigger: initValidationTrigger
+        initValidationTrigger: initValidationTrigger,
+        initOnValidationFailed: initOnValidationFailed
     };
 })(jQuery);

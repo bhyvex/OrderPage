@@ -232,7 +232,7 @@ $(document).ready(function() {
     var cartHtmlToAppend = $("#CartPartialDiv").html();
     $("#CartContainer").append(cartHtmlToAppend);
     $("#CartPartialDiv").remove();
-    
+
     <%
     if(ViewData["CartProducts"] != null)
     {
@@ -289,6 +289,17 @@ $(document).ready(function() {
             );
         }
     );
+
+    $("input[name=RadioBillingContact]").each(function(i) {
+        $(this).bind('click', function() {
+            var value = $(this).val();
+            $.fn.AtomiaShoppingCart.AddUpdateOrderCustomAttribute('BillingContact', value);
+            globalCounter++;
+		    $.fn.AtomiaShoppingCart.RecalculateCart(globalCounter);
+        });
+    });
+
+    $('input[name="RadioBillingContact"]:checked').trigger('click');
     
     $("#InvoiceByPost").click(function() {
         OrderByPostSelected = true;

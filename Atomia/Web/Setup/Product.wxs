@@ -26,7 +26,7 @@
             <Shortcut Id="MakeConfig" Target="[XMLTRANS]" Arguments="&quot;[FProduct]\&quot; &quot;[INIFILE]&quot;" Name="Recreate config files" Description="Recreates the config files using the Atomia Transformation Engine"/>
           </Component>
           <Component Id="CRegister" Guid="{0B0E44DF-3F83-4A2A-AD90-957D270249A0}">
-            <RegistryKey Action="create" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Atomia.Web.Plugin.PublicOrder.dll">
+            <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Atomia.Web.Plugin.PublicOrder.dll">
               <RegistryValue Type="string" Value="[FProduct]bin\Atomia.Web.Plugin.PublicOrder.dll"/>
               <RegistryValue Type="string" Value="[FProduct]" Name="Path" />
             </RegistryKey>
@@ -86,7 +86,6 @@
       <ComponentRef Id="CLogFolder"/>
       <ComponentRef Id="CStartStop"/>
       <ComponentRef Id="CMakeConfig"/>
-	    <ComponentRef Id="CRegisterGuiApp"/>
       <ComponentRef Id="COrgWeb"/>
       <ComponentRef Id="CWeb"/>
       <ComponentRef Id="CTransFolder"/>

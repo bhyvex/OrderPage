@@ -31,3 +31,4 @@ _ReSharper*/
 *.zip
 *.[Pp]ublish.xml
 publish/
+.vs/

@@ -14,7 +14,7 @@
 }
 
 function initializeButtons(submitParams) {
-    $('#orderbutton').bind('click', function (submitParams) {
+    $('#orderbutton').bind('click', function (e) {
         if (window.formValidator !== null) {
             canSubmit = window.formValidator.valid();
         }
@@ -474,6 +474,9 @@ var onSubmit = function (params) {
         $('#ArrayOfProducts').val(ids);
         $('#SearchDomains').val(domains);
     }
+
+    //Retrigger validation
+    canSubmit = $('#submit_form').valid();
 
     if (typeof ($('#PostNumber')) != 'undefined' && $('#PostNumber').val() !== null) {
         $('#PostNumber').val($('#PostNumber').val().toUpperCase());

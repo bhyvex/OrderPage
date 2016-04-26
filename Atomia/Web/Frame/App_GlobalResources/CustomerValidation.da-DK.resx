@@ -118,63 +118,63 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="Address" xml:space="preserve">
-    <value>Osoite on virheellinen</value>
-  </data>
+		<value>Adressen er ikke gyldig</value>
+	</data>
 	<data name="City" xml:space="preserve">
-    <value>Kaupunki on virheellinen</value>
-  </data>
+		<value>Byen er ikke gyldigt</value>
+	</data>
 	<data name="CompanyName" xml:space="preserve">
-    <value>Yrityksen nimi on virheellinen</value>
-  </data>
+		<value>Virksomhedens navn er ikke gyldigt</value>
+	</data>
 	<data name="Country" xml:space="preserve">
-    <value>Maa on virheellinen</value>
-  </data>
+		<value>Landet er ikke gyldigt</value>
+	</data>
 	<data name="vat_number.default.default.dmn-nu" xml:space="preserve">
-    <value>.nu-verkkotunnustilaukset edellyttävät voimassa olevan ALV-tunnuksen</value>
-  </data>
+		<value>.nu domæne ordrer kræver et gyldigt momsnummer</value>
+	</data>
 	<data name="vat_number.default.default.dmn-se" xml:space="preserve">
-    <value>.se-verkkotunnustilaukset edellyttävät voimassa olevan ALV-tunnuksen</value>
-  </data>
+		<value>.Se domæne ordrer kræver et gyldigt momsnummer</value>
+	</data>
 	<data name="Email" xml:space="preserve">
-    <value>Sähköpostiosoite on virheellinen</value>
-  </data>
+		<value>E-mail-adressen er ikke gyldig</value>
+	</data>
 	<data name="Fax" xml:space="preserve">
-    <value>Faksinumero on virheellinen valitulle maalle</value>
-  </data>
+		<value>Faxnummeret er ikke gyldigt for det valgte land</value>
+	</data>
 	<data name="FirstName" xml:space="preserve">
-    <value>Etunimi on virheellinen</value>
-  </data>
+		<value>Fornavnet er ikke gyldigt</value>
+	</data>
 	<data name="IdentityNumber" xml:space="preserve">
-    <value>Y-tunnus/henkilötunnus on virheellinen</value>
-  </data>
+		<value>Corporate/personlige id-nummer er ikke gyldigt</value>
+	</data>
 	<data name="identity_number.no.default.default" xml:space="preserve">
-    <value>Virheellinen norjalainen tunnus (YYMMDD-XXXXX)</value>
-  </data>
+		<value>Ikke en gyldig norske id-nummer (ÅÅMMDD-XXXXX)</value>
+	</data>
 	<data name="identity_number.se.default.default" xml:space="preserve">
-    <value>Virheellinen ruotsalainen tunnus (YYMMDD-XXXX)</value>
-  </data>
+		<value>Ikke en gyldig svenske id-nummer (ÅÅMMDD-XXXX)</value>
+	</data>
 	<data name="LastName" xml:space="preserve">
-    <value>Sukunimi on virheellinen</value>
-  </data>
+		<value>Det sidste navn er ikke gyldigt</value>
+	</data>
 	<data name="Mobile" xml:space="preserve">
-    <value>Matkapuhelinnumero on virheellinen valitulle maalle</value>
-  </data>
+		<value>Mobil-nummer er ikke gyldigt for det valgte land</value>
+	</data>
 	<data name="Phone" xml:space="preserve">
-    <value>Puhelinnumero on virheellinen valitulle maalle</value>
-  </data>
+		<value>Telefonnummeret er ikke gyldigt for det valgte land</value>
+	</data>
 	<data name="identity_number.se.default.dmn-nu" xml:space="preserve">
-    <value>.nu-verkkotunnustilaus edellyttää ruotsalaisen y-tunnuksen/henkilötunnuksen.</value>
-  </data>
+		<value>.nu domæne ordrer kræver et svensk corporate/personlige id-nummer.</value>
+	</data>
 	<data name="identity_number.se.default.dmn-se" xml:space="preserve">
-    <value>.se-verkkotunnustilaus edellyttää ruotsalaisen y-tunnuksen/henkilötunnuksen.</value>
-  </data>
+		<value>.Se domæne ordrer kræver et svensk corporate/personlige id-nummer.</value>
+	</data>
 	<data name="VatNumber" xml:space="preserve">
-    <value>ALV-tunnus on virheellinen valitulle maalle</value>
-  </data>
+		<value>CVR-nummeret er ikke gyldig for den valgte land</value>
+	</data>
 	<data name="Zip" xml:space="preserve">
-    <value>Postinumero on virheellinen valitulle maalle</value>
-  </data>
+		<value>Zip-koden er ikke gyldigt for det valgte land</value>
+	</data>
 	<data name="FullName" xml:space="preserve">
-		<value>Nimi ei kelpaa</value>
+		<value>Navnet er ikke gyldigt</value>
 	</data>
 </root>

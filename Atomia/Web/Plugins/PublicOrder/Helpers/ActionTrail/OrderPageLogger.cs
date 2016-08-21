@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Web;
 using Atomia.Web.Base.ActionTrail;
+using Atomia.Web.Base.AuditLog;
 
 namespace Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail
 {
@@ -64,6 +65,41 @@ namespace Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail
             if (elmahPowerSwitch)
             {
                 WebBaseLogger.CreateElmahExceptionLog(ex);
+            }
+        }
+
+        /// <summary>
+        /// Logs the audit.
+        /// </summary>
+        /// <param name="actionType">Type of the action.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="accountId">The account identifier.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="objectId">The object identifier.</param>
+        /// <param name="details">The details.</param>
+        public static void LogAudit(
+            string actionType,
+            string message,
+            string accountId,
+            string username,
+            string objectId,
+            Dictionary<string, object> details)
+        {
+            if (HttpContext.Current == null)
+            {
+                return;
+            }
+
+            if (HttpContext.Current.Application["AuditLogPowerSwitch"] != null)
+            {
+                bool auditLogPowerSwitch;
+                if (bool.TryParse(HttpContext.Current.Application["AuditLogPowerSwitch"].ToString().ToLower(), out auditLogPowerSwitch))
+                {
+                    if (auditLogPowerSwitch)
+                    {
+                        WebBaseAuditLogger.CreateAuditLog("Atomia Order Page", actionType, message, accountId, username, objectId, details);
+                    }
+                }
             }
         }
     }

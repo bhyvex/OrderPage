@@ -16,6 +16,7 @@ using System.Threading;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
+using Atomia.ActionTrail.Base;
 using Atomia.Common;
 using Atomia.Web.Base.ActionFilters;
 using Atomia.Web.Base.Helpers.General;
@@ -921,9 +922,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 {
                                     websitesAllowed = false;
                                 }
-
-
-
+                                
                                 // if the selected package in the cart is not free)
                                 if (SubmitForm.FirstOption)
                                 {
@@ -966,6 +965,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                             Value = package.Properties["atomiaserviceextraproperties"]
                                         });
                                     }
+
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainName", Value = SubmitForm.OwnDomain.StartsWith("www") ? SubmitForm.OwnDomain.Remove(0, 4) : SubmitForm.OwnDomain });
                                     arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "AtomiaService", Value = websiteType });
                                 }
@@ -1029,8 +1029,8 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                             {
                                 throw new Exception("Order could not be created. DomainRegistrySpecificAttributes missing for " + myOrderItem.ItemNumber + " domain");
                             }
-                            string emailType =
-                                opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
+
+                            string emailType = opcss.DomainRegistrySpecificProducts.GetItemByKey(myOrderItem.ItemNumber).Email;
                             if (!string.IsNullOrEmpty(emailType))
                             {
                                 string cccEmail =
@@ -1038,19 +1038,20 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                                 emailProps.Add("Type", emailType);
                                 if (myOrderItem.CustomData.Any(v => v.Name == "DomainName"))
                                 {
-                                    emailProps.Add("Domain", myOrderItem.CustomData.FirstOrDefault(v => v.Name == "DomainName").Value ?? "");
+                                    emailProps.Add("Domain", myOrderItem.CustomData.FirstOrDefault(v => v.Name == "DomainName").Value ?? string.Empty);
                                 }
+
                                 Dictionary<string, string> domainSpecific = new Dictionary<string, string>();
-                                domainSpecific =
-                                    jsemail.Deserialize<Dictionary<string, string>>(SubmitForm.DomainSpeciffic);
-                                emailProps.Add("Name", domainSpecific.FirstOrDefault(v => v.Key == "AcceptName").Value ?? "");
-                                emailProps.Add("Time", domainSpecific.FirstOrDefault(v => v.Key == "AcceptDate").Value ?? "");
+                                domainSpecific = jsemail.Deserialize<Dictionary<string, string>>(SubmitForm.DomainSpeciffic);
+                                emailProps.Add("Name", domainSpecific.FirstOrDefault(v => v.Key == "AcceptName").Value ?? string.Empty);
+                                emailProps.Add("Time", domainSpecific.FirstOrDefault(v => v.Key == "AcceptDate").Value ?? string.Empty);
                                 emailProps.Add("Orgnum", myOrder.CompanyNumber);
                                 emailProps.Add("Company", myOrder.Company);
-                                emailProps.Add("Version", domainSpecific.FirstOrDefault(v => v.Key == "AcceptVersion").Value ?? "");
+                                emailProps.Add("Version", domainSpecific.FirstOrDefault(v => v.Key == "AcceptVersion").Value ?? string.Empty);
                                 emailProps.Add("Ccc", cccEmail);
                                 arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "MailOnOrder", Value = jsemail.Serialize(emailProps) });
                             }
+
                             arrayOfCustoms.Add(new PublicOrderItemProperty { Name = "DomainRegistrySpecificAttributes", Value = SubmitForm.DomainSpeciffic });
                             myOrderItem.CustomData = arrayOfCustoms.ToArray();
                         }
@@ -1203,7 +1204,7 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     if (IndexHelper.IsImmediateLoginEnabled(this))
                     {
                         string resellerRootDomain = UriHelper.GetRootDomain(HttpContext.Request.Url.AbsoluteUri);
-                        string token = string.Empty;
+                        string token;
                         newOrder = service.CreateOrderWithLoginToken(myOrder, resellerRootDomain, out token);
                         this.Session["ImmediateLoginUrl"] = IndexHelper.GetImmediateLoginUrl(this, myOrder.Email, token);
                     }
@@ -1218,6 +1219,14 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
                     }
 
                     this.Session["CreatedOrder"] = newOrder;
+
+                    OrderPageLogger.LogAudit(
+                        AuditActionTypes.OrderCreated,
+                        string.Empty,
+                        newOrder.CustomerId.ToString(),
+                        newOrder.Email,
+                        newOrder.Id.ToString(),
+                        null);
                     
                     if (SubmitForm.RadioPaymentMethod != "InvoiceByPost" && SubmitForm.RadioPaymentMethod != "InvoiceByEmail")
                     {
@@ -2035,11 +2044,11 @@ namespace Atomia.Web.Plugin.PublicOrder.Controllers
         [UrlManagerAttribute]
         public ActionResult Norid(string domains, string company, string orgid, string name, string time)
         {
-            ViewData["domains"] = domains ?? "";
-            ViewData["company"] = company ?? "";
-            ViewData["orgid"] = orgid ?? "";
-            ViewData["name"] = name ?? "";
-            ViewData["time"] = time ?? "";
+            ViewData["domains"] = domains ?? string.Empty;
+            ViewData["company"] = company ?? string.Empty;
+            ViewData["orgid"] = orgid ?? string.Empty;
+            ViewData["name"] = name ?? string.Empty;
+            ViewData["time"] = time ?? string.Empty;
             return View();
         }
 

@@ -11,15 +11,14 @@ using System.Web;
 using System.Web.Mvc;
 using Atomia.Web.Base.Configs;
 using Atomia.Web.Base.Helpers.General;
-using Atomia.Web.Plugin.OrderServiceReferences.AtomiaBillingPublicService;
 using Atomia.Web.Plugin.PublicOrder.Helpers;
+using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
 using Atomia.Web.Plugin.Validation.ValidationAttributes;
-using Elmah;
+
+using ResellerHelper = Atomia.Web.Plugin.PublicOrder.Helpers.ResellerHelper;
 
 namespace Atomia.Web.Plugin.PublicOrder.GeneralItems
 {
-    using Atomia.Web.Plugin.PublicOrder.Helpers.ActionTrail;
-
     /// <summary>
     /// Implemets Global.asax methods
     /// </summary>

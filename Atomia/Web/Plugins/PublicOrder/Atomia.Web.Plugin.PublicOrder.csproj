@@ -55,6 +55,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Atomia.ActionTrail.Base, Version=16.3.6092.19973, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Atomia.ActionTrail.Base.dll</HintPath>
+    </Reference>
     <Reference Include="Atomia.Billing.Core.Common, Version=1.0.10.1363, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Atomia.Billing.Core.Common.dll</HintPath>
@@ -63,7 +67,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Atomia.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Atomia.Web.Base, Version=2.0.1.123, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Atomia.Web.Base, Version=13.10.5269.16306, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Atomia.Web.Base.dll</HintPath>
     </Reference>
@@ -106,6 +110,10 @@
       <HintPath>..\..\Lib\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
